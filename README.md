@@ -18,7 +18,7 @@
 | 💻 **计算机母语之路**（5 篇） | 《计算机系统要素》《C Primer Plus》《思考快与慢》《编译原理》《高级编译器》五书共生学习体系（24 个月路线） | [`docs/cs-mastery/`](docs/cs-mastery/) |
 | 🗺 **知识体系**（12 章） | Linux / 网络 / 企业服务 / OpenStack / AWS / 容器 / IaC / 可观测 / 安全 / 前沿 / 竞赛 / 认证 | [`docs/knowledge/`](docs/knowledge/) |
 | 🏆 **韩国赛题中文库**（59 份） | 2021–2025 韩国技能竞赛云计算真题：题面 + 评分标准（全中文翻译，评分命令可直接照用） | [`exam/korea-zh/`](exam/korea-zh/) |
-| 🫧 **离线学习中心** | 单文件 `study.html`：3200+ 篇资料全文检索、阅读进度记忆、液态玻璃界面、完全离线 | [`app/study.html`](app/study.html) |
+| 🫧 **离线学习中心** | 单文件 `study.html`：3200+ 篇资料全文检索、阅读进度记忆、液态玻璃界面、完全离线 | [Releases 下载](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) |
 | 📱 **安卓 App** | WebView 套壳，安装即用（2.9 MB，纯离线） | [`app/CloudStudy-v1.0.apk`](app/CloudStudy-v1.0.apk) |
 
 ## 🚀 三种使用方式
@@ -28,7 +28,7 @@
 > 安装时系统提示"未知来源/风险应用"属正常侧载提示，本 App 无任何联网权限。
 
 **② 浏览器打开学习中心**
-下载 [`app/study.html`](app/study.html)（12 MB 单文件）→ 任意浏览器直接打开。全部内容离线可用。
+从 [**Releases 页面**](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) 下载 `study.html`（14 MB 单文件）→ 任意浏览器直接打开。全部内容离线可用。
 
 **③ 直接读文档**
 从 [`docs/tutorial/00-开始之前`](docs/tutorial/00-开始之前-零基础先读我.md) 开始，按顺序阅读。
@@ -37,7 +37,7 @@
 
 ```
 worldskills-cloud/
-├── app/                 # 学习中心（单文件网页）+ 安卓 App
+├── app/                 # 安卓 App（网页版 study.html 从 Releases 下载）
 ├── docs/                # 教程与知识体系（Markdown 源）
 │   ├── tutorial/        #   16 章保姆级教程
 │   ├── mastery/         #   精通之路 7 篇
