@@ -1,0 +1,602 @@
+2023年地方技能竞赛评分标准
+1. 评分注意事项
+
+职业名称
+
+云计算
+
+※ 评分时请注意以下事项。
+1) AWS区域使用ap-northeast-2。
+2) 网页访问使用Chrome或Firefox。
+3) 网页中根据语言不同，显示的文字可能不同。
+4) shell中命令的输出可能因版本而略有不同。
+5) 评分进行前，为进行环境设置，需确认以下事项。
+- 确认能否通过SSH访问Bastion。
+- 确认Bastion中是否安装了curl、jq、awscli。
+- 确认Bastion中是否映射了IAM Role，从而可通过awscli访问AWS所有资源。
+- 通过aws sts get-caller-identity命令确认是否在访问选手账号以外的其他账号。如果是其他账号，可怀疑存在作弊行为。
+6) 试题和评分表中的<>是变量。需更改该部分后输入。
+7) 评分必须按题目顺序进行。
+8) 已删除的内容无法恢复，请务必注意后进行评分。
+9) 异议申请结束后，删除选手创建的云资源。
+10) 有部分分数的题目，在评分项中标注了部分分数。
+11) 没有单独部分分数的题目，必须全部答对才计入分数。
+12) 评分前，为配置评分环境，需在~/.aws/config中添加以下内容。
+aws configure
+/////
+[default]
+region = ap-northeast-2
+output = json
+/////
+
+云计算第2题 1 - 8
+
+2. 评分标准表
+1) 主要项目分值
+
+题
+
+序号
+
+编号
+
+职业名称
+
+云计算
+
+评分方法
+
+主要项目
+
+分值
+独立
+
+合议
+
+评分时间
+比赛
+
+比赛
+
+进行中 结束后
+
+1
+
+API Gateway
+
+9
+
+○
+
+○
+
+2
+
+EC2
+
+3
+
+○
+
+○
+
+3
+
+S3
+
+2
+
+○
+
+○
+
+2
+
+○
+
+○
+
+5
+
+○
+
+○
+
+5
+
+○
+
+○
+
+Kinesis Data
+
+4
+
+Streams
+Kinesis Data
+
+第2题
+5
+6
+
+Firehose
+Glue Crawler
+
+7
+
+Glue Studio作业
+
+7
+
+○
+
+○
+
+8
+
+Glue工作流
+
+7
+
+○
+
+○
+
+合计
+
+40
+
+总
+
+云计算第2题 2 - 8
+
+备注
+
+2) 评分方法及标准
+题
+
+序号
+
+编号
+
+1
+
+第2题
+
+细项（评分方法）
+
+分值
+
+1
+
+确认API Gateway创建
+
+1
+
+2
+
+确认资源
+
+2
+
+3
+
+确认方法
+
+2
+
+4
+
+确认部署阶段
+
+2
+
+5
+
+确认Kinesis传递
+
+2
+
+1
+
+确认实例
+
+1.5
+
+2
+
+确认Public IP
+
+1.5
+
+1
+
+确认S3存储桶创建
+
+1
+
+2
+
+确认文件上传
+
+1
+
+Kinesis Data
+
+1
+
+确认Data Stream创建
+
+1
+
+Streams
+
+2
+
+确认分片数量
+
+1
+
+1
+
+确认Delivery Stream创建
+
+1
+
+2
+
+确认源
+
+2
+
+3
+
+确认存储设置
+
+2
+
+1
+
+确认爬网程序创建
+
+1
+
+2
+
+确认数据目录创建
+
+2
+
+3
+
+确认表结构
+
+2
+
+1
+
+确认作业创建
+
+1
+
+2
+
+确认数据转换及存储
+
+2
+
+3
+
+确认数据目录更新
+
+2
+
+4
+
+确认表结构
+
+2
+
+1
+
+确认工作流创建
+
+1
+
+2
+
+确认Glue Crawler运行
+
+3
+
+3
+
+确认Glue Studio作业运行
+
+3
+
+EC2
+
+3
+
+S3
+
+5
+
+6
+
+7
+
+8
+
+编号
+
+API Gateway
+
+2
+
+4
+
+序号
+
+主要项目
+
+Kinesis Data
+Firehose
+
+Glue Crawler
+
+Glue Studio作业
+
+Glue工作流
+总分
+
+40
+
+云计算第2题 3 - 8
+
+3) 评分内容
+序号
+
+评分项
+1) 通过SSH访问Bastion服务器。
+
+1-1
+
+2) 输入以下命令后，确认是否输出"wsi-api"。（0.5分）
+aws apigateway get-rest-apis --query "items[?name=='wsi-api'].name"
+
+1) 通过SSH访问Bastion服务器。
+2) 输入以下命令。
+
+1-2
+
+api=$(aws apigateway get-rest-apis --query "items[?name=='wsi-api'].id" --output text)
+3) 输入以下命令后，确认是否输出"/api"。
+aws apigateway get-resources --rest-api-id $api --query "items[?path=='/api'].path"
+
+1) 通过SSH访问Bastion服务器。
+2) 输入以下命令。
+api=$(aws apigateway get-rest-apis --query "items[?name=='wsi-api'].id" --output text)
+resource=$(aws apigateway get-resources --rest-api-id $api --query "items[?path=='/api'].id"
+
+1-3
+
+--output text)
+3) 输入以下命令后，确认是否输出"arn:aws:apigateway:ap-northeast-2:kinesis:action/PutRecord"。
+aws apigateway get-method --rest-api-id $api --resource-id $resource --http-method POST \
+--query "methodIntegration.uri"
+
+1) 通过SSH访问Bastion服务器。
+2) 输入以下命令。
+
+1-4
+
+api=$(aws apigateway get-rest-apis --query "items[?name=='wsi-api'].id" --output text)
+3) 输入以下命令后，确认是否输出"prod"。
+aws apigateway get-stages --rest-api-id $api --query "item[?stageName=='prod'].stageName"
+
+云计算第2题 4 - 8
+
+序号
+
+评分项
+1) 通过SSH访问Bastion服务器。
+2) 输入以下命令。
+aws s3 rm --recursive s3://<选手创建的S3存储桶>/data/raw/
+api=$(aws apigateway get-rest-apis --query "items[?name=='wsi-api'].id" --output text)
+uri=https://$api.execute-api.ap-northeast-2.amazonaws.com/prod/api
+
+1-5
+
+echo "{\"testkey\":\"testvalue\"}" > post
+curl -X POST -H "Content-Type: application/json" -d @post $uri
+3) 约5分钟后，输入以下命令。
+aws s3 mv --recursive s3://<选手创建的S3存储桶>/data/raw/ ./raw
+4) 输入以下命令后，确认是否输出{"testkey":"testvalue"}。
+cat raw/*/*/*/*/*
+1) 通过SSH访问Bastion服务器。
+
+2-1
+
+2) 输入以下命令，确认是否获取到以"i-"开头的文字。
+aws ec2 describe-instances --filter Name=tag:Name,Values=wsi-bastion-ec2 \
+--query "Reservations[].Instances[].InstanceId"
+1) 通过SSH访问Bastion服务器。
+2) 输入以下命令，记录输出的IP。
+
+2-2
+
+aws ec2 describe-instances --filter Name=tag:Name,Values=wsi-bastion-ec2 \
+--query "Reservations[].Instances[].PublicIpAddress"
+3) 输入以下命令后，确认在输出的IP列表中是否存在2)中输出的IP。
+aws ec2 describe-addresses --query "Addresses[].PublicIp"
+1) 通过SSH访问Bastion服务器。
+
+3-1
+
+2) 输入以下命令，确认是否输出"wsi-<考号>-<4位随机英文>-etl"格式的文字。
+aws s3api list-buckets --query "Buckets[].Name"
+
+1) 通过SSH访问Bastion服务器。
+
+3-2
+
+2) 输入以下命令，确认输出中是否包含titles.json。
+aws s3 ls s3://<选手创建的S3存储桶>/data/ref/
+
+云计算第2题 5 - 8
+
+序号
+
+评分项
+1) 通过SSH访问Bastion服务器。
+
+4-1
+
+2) 输入以下命令后，确认是否输出"wsi-data-stream"。
+aws kinesis describe-stream --stream-name wsi-data-stream \
+--query "StreamDescription.StreamName"
+1) 通过SSH访问Bastion服务器。
+
+4-2
+
+2) 输入以下命令后，确认是否输出"1"。
+aws kinesis list-shards
+
+--stream-name wsi-data-stream --query "Shard[].SharId" | wc -l
+
+1) 通过SSH访问Bastion服务器。
+
+5-1
+
+2) 输入以下命令后，确认是否输出"wsi-delivery-stream"。
+aws firehose describe-delivery-stream --delivery-stream-name wsi-delivery-stream \
+--query "DeliveryStreamDescription.DeliveryStreamName"
+1) 通过SSH访问Bastion服务器。
+
+5-2
+
+2) 输入以下命令后，确认是否输出"KinesisStreamAsSource"。
+aws firehose describe-delivery-stream --delivery-stream-name wsi-delivery-stream \
+--query "DeliveryStreamDescription.DeliveryStreamType"
+1) 通过SSH访问Bastion服务器。
+2) 输入以下命令后，确认是否输出"arn:aws:s3:::<选手创建的S3存储桶>"。
+aws firehose describe-delivery-stream --delivery-stream-name wsi-delivery-stream \
+
+5-3
+
+--query "DeliveryStreamDescription.Destinations[].S3DestinationDescription.BucketARN"
+
+3) 输入以下命令后，确认是否输出 "/data/raw/"。
+aws firehose describe-delivery-stream --delivery-stream-name wsi-delivery-stream \
+--query "DeliveryStreamDescription.Destinations[].S3DestinationDescription.Prefix"
+1) 通过 SSH 访问 Bastion 服务器。
+
+6-1
+
+2) 输入以下命令后，确认是否输出 "wsi-glue-crawler"。
+aws glue get-crawler --name wsi-glue-crawler --query "Crawler.Name"
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出 "wsi-glue-database"。
+aws glue get-database --name wsi-glue-database --query "Database.Name"
+
+6-2
+
+3) 输入以下命令后，确认是否输出 "ref"。
+aws glue get-table --database-name wsi-glue-database --name ref --query "Table.Name"
+3) 输入以下命令后，确认是否输出 "raw"。
+aws glue get-table --database-name wsi-glue-database --name raw --query "Table.Name"
+
+云计算第2次作业 6 - 8
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出 "title_id"、"title"。
+aws glue get-table --database-name wsi-glue-database --name ref \
+
+6-3
+
+--query "Table.StorageDescriptor.Columns[].Name"
+3) 输入以下命令后，确认 "uuid"、"device_ts"、
+
+"device_id"、"title_id"、"device_type" 是否包含在输出中。
+aws glue get-table --database-name wsi-glue-database --name raw \
+--query "Table.StorageDescriptor.Columns[].Name"
+1) 通过 SSH 访问 Bastion 服务器。
+
+7-1
+
+2) 输入以下命令后，确认是否输出 "wsi-glue-job"。
+aws glue get-job --job-name wsi-glue-job --query "Job.Name"
+1) 通过 SSH 访问 Bastion 服务器。
+2) 将评分用提供的 SampleLogData.json 文件复制到 Bastion 服务器 /home/ec2-user/。
+3) 输入以下命令。
+aws s3 rm --recursive s3://<选手创建的 S3 存储桶>/result/
+aws s3 rm --recursive s3://<选手创建的 S3 存储桶>/data/raw/
+aws s3 cp ./SampleLogData.json s3://<选手创建的 S3 存储桶>/data/raw/2022/
+
+7-2
+
+aws glue start-job-run --job-name wsi-glue-job
+4) 经过一段时间后，输入以下命令。
+aws s3 cp --recursive s3://<选手创建的 S3 存储桶>/result/ ./result
+5) 输入以下命令后，确认是否输出 2990 ~ 3010 之间的值。
+cat ./result/* | wc -l
+6) 输入以下命令后，确认是否输出 device_id、device_ts、device_type、title、title_id、uuid。
+cat ./result/* | jq -r 'keys[]' | sort -u
+1) 通过 SSH 访问 Bastion 服务器。
+
+7-3
+
+2) 输入以下命令后，确认是否输出 "result"。
+aws glue get-table --database-name wsi-glue-database --name result --query "Table.Name"
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出中是否包含 "title_id"、"title"、"uuid"、"device_ts"、"device_id"、"device_type"。
+
+7-4
+
+aws glue get-table --database-name wsi-glue-database --name result \
+--query "Table.StorageDescriptor.Columns[].Name"
+
+云计算第2次作业 7 - 8
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+
+8-1 2) 输入以下命令后，确认是否输出 "wsi-glue-workflow"。
+aws glue get-workflow --name wsi-glue-workflow --query "Workflow.Name"
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws glue delete-table --database-name wsi-glue-database --name ref
+aws glue delete-table --database-name wsi-glue-database --name raw
+aws glue start-workflow-run --name wsi-glue-workflow
+经过一段时间后进行评分。
+
+8-2
+
+3) 输入以下命令后，确认是否输出 "title_id"、"title"。
+aws glue get-table --database-name wsi-glue-database --name ref \
+--query "Table.StorageDescriptor.Columns[].Name"
+4) 输入以下命令后，确认 "uuid"、"device_ts"、
+
+"device_id"、"title_id"、"device_type" 是否包含在输出中。
+aws glue get-table --database-name wsi-glue-database --name raw \
+--query "Table.StorageDescriptor.Columns[].Name"
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws glue delete-table --database-name wsi-glue-database --name result
+aws glue start-workflow-run --name wsi-glue-workflow
+
+8-3
+
+经过一段时间后进行评分。
+3) 输入以下命令后，确认输出中是否包含 "title_id"、"title"、"uuid"、"device_ts"、"device_id"、"device_type"。
+aws glue get-table --database-name wsi-glue-database --name result \
+--query "Table.StorageDescriptor.Columns[].Name"
+
+云计算第2次作业 8 - 8

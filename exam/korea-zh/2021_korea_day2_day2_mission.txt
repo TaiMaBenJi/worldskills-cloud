@@ -1,0 +1,123 @@
+2021年大田广域市第56届全国技能大赛试题
+工种名称：云计算
+任务名称：Automation
+比赛时间：4小时
+保密编号：
+试题编号：第2题
+评委确认：(印)
+
+1. 需求
+为了提高开发效率，拟构建 CI/CD 流水线。由于是在 AWS 环境中进行开发，因此计划全部利用 AWS 解决方案来构建流水线。源代码提交时能够自动化部署到 EC2，并且根据情况，能够创建 Docker 镜像并上传到 ECR。
+示意图
+
+软件栈
+- AWS
+- VPC
+- 开发语言
+- Python / Flask
+- EC2
+- Code Commit
+- Code Build
+- Code Deploy
+- Code Pipeline
+- ECR
+
+云计算 第2题 1 - 5
+
+2. 选手注意事项
+1) 使用机械及工具等时请注意安全，必要时请佩戴安全装备及穿着防护服等，以预防事故。
+2) 作业中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请佩戴安全防护用具，遵守安全守则。
+3) 作业中请注意工具的使用，遵守安全守则，预防事故。
+4) 比赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+5) 选手的账户存在费用限制，如果计费超过该限制，可能无法使用账户。
+6) 题目中给出的尖括号 <> 表示变量，选手应适当更改后使用。
+7) 为提高题目效率，Security Group 的 80/443 出站可设置为 any open 使用。
+8) Bastion EC2 在评分时会使用，因此请注意不要将其关闭，以免受到不利影响。
+
+3. 网络
+VPC 信息
+- VPC CIDR：10.1.0.0/16
+- VPC Tag：Name=wsi-vpc
+Private A 子网信息
+- CIDR：10.1.0.0/24
+- Tag：Name=wsi-private-a
+- 外部通信：配置 NAT G/W，使其能够访问互联网
+- Route table Tag：Name=wsi-private-a-rt
+Private B 子网信息
+- CIDR：10.1.1.0/24
+- Tag：Name=wsi-private-b
+- 外部通信：配置 NAT G/W，使其能够访问互联网
+- Route table Tag：Name=wsi-private-b-rt
+
+云计算 第2题 2 - 5
+
+Public A 子网信息
+- CIDR：10.1.2.0/24
+- Tag：Name=wsi-public-a
+- 外部通信：配置 Internet G/W 以访问互联网
+- Route table Tag：Name=wsi-public-rt
+Public B 子网信息
+- CIDR：10.1.3.0/24
+- Tag：Name=wsi-public-b
+- 外部通信：配置 Internet G/W 以访问互联网
+- Route table Tag：Name=wsi-public-rt
+
+4. 应用程序
+提供的 app.py 是通过 Python Flask 开发的应用程序。评分时会调用 GET /health API 并检查响应值，以判断是否正确。如果修改该 API 的逻辑，可能会在评分中受到不利影响。
+
+5. EC2
+在 Private subnet 中创建用于运行 Python 应用程序的 EC2。即使服务器上未安装 Flask 等库，在 Continuous Delivery 之后也必须自动安装包和库，并下载并运行应用程序。EC2 不是通过 Auto Scaling 组创建，而是创建普通 EC2。授予 Code Deploy 访问 EC2 的权限。权限通过创建 IAM Role，并将其分配给实例来实现。应用程序日志无需单独保留。
+共创建 2 台 EC2，其中一台名称为 wsi-api-1。另一台 EC2 的名称创建为 wsi-api-2。这里所说的名称指 EC2 Tag 的 Name。
+- 镜像：Amazon Linux2
+- EC2 Type：t3.small
+- IAM role name：wsi-api
+- Tag 信息
+- wsi:deploy:group=dev-api
+- 一台服务器分配 Name=wsi-api-1，另一台服务器分配 Name=wsi-api-2
+
+云计算 第2题 3 - 5
+
+6. Code Commit
+为了管理应用程序的源代码，使用 Code Commit。创建一个 Code Commit 仓库，并上传提供的 app.py 文件。该仓库具有 main 和 release 两个分支。在任务结束前，最终将 main 和 release 分支的文件内容设置为相同。这并不意味着自动同步，而是在结束前仅同步一次。将提供的 app.py 放到仓库中创建的 src 目录下。
+用于 deploy 的 appspec 文件位于最上层。
+- 仓库名称：wsi-api-repo
+- default branch：main
+- app.py 位置：src/app.py
+- appspec.yml 位置：appspec.yml
+
+7. Code Build
+为了构建应用程序源代码，使用 Code Build。将用 Python 编写的代码编译并输出为 app.pyc 文件。启用 CloudWatch Log，以便在构建开始后查看进度日志。创建两个 Code Build：一个用于 main 分支，一个用于 release 分支。
+- 用于 main branch 的名称：wsi-api-build
+- 用于 release branch 的名称：wsi-api-release
+
+8. Code Deploy
+将构建好的产物复制到服务器并进行部署。利用 appspec.yml 文件编写部署所需内容。使用 in-place 部署，以新的二进制文件进行部署。将 EC2 的 Name 标签中带有 "wsi:deploy:group"="dev-api" 的所有 EC2 作为部署目标。即使创建了未安装任何内容的新 EC2，只要执行 deploy，也应部署构建产物并运行进程。部署过程中还必须自动附加到 ALB 的目标组。
+- application name：wsi-api
+- deployment group name：dev-api
+- 部署类型：In-place deployment
+- 部署目标：EC2 Tag 中带有 "wsi:deploy:group"="dev-api" 的全部 EC2
+
+云计算 第2题 4 - 5
+
+9. Code Pipeline
+创建以 wsi-api-repo 为 Source、以 wsi-api-build 为 Build、以 wsi-api 的 dev-api 为 Deploy 的流水线。各阶段名称分别设置为 Source、Build、Deploy。当 wsi-api-repo 的 main 分支中的源代码发生变更时，即使不另行点击构建或部署，也必须自动构建并部署到服务器。Code Commit 之后，必须在最多 15 分钟内完成到服务器部署的全部过程。
+- pipeline 名称：wsi-api-pipeline
+- Source stage：wsi-api-repo Code Commit 的 main 分支
+- Build stage：wsi-api-build
+- Deploy stage：wsi-api 的 dev-api
+
+10. EC2 scripting
+创建用于创建 EC2 的脚本。将其放置在 bastion EC2 的 /opt/ec2_launch.sh，如果输入 /opt/ec2_launch.sh wsi-api-3，则接收 wsi-api-3 作为参数，创建具有该 Name 标签的实例。子网、AMI、其他 Tag 等其他信息与第 5 项 EC2 中相同。
+- 脚本作用：接收参数并创建新 EC2 的脚本
+- 脚本位置：Bastion EC2 的 /opt/ec2_launch.sh
+- 执行方法：/opt/ec2_launch.sh <名称标签>（例 /opt/ec2_launch.sh api3）
+
+11. ECR
+当 wsi-api-repo Code Commit 的 release 分支内容发生变更时，自动将 app.py 文件编译为 app.pyc，并创建 Docker 镜像上传到 ECR。通过 docker run 命令运行构建好的 Docker 镜像时，即使不输入单独的 app.pyc 应用程序启动命令，也应使 app.pyc 进程能够运行。评分将在 bastion ec2 中下载并运行 Docker 镜像，因此必须安装 docker 命令。比赛结束前，必须使 main 分支代码与 release 分支代码一致。Docker 的镜像标签应根据构建执行的日期设置。不是由选手预先硬编码，而是在构建发生时自动使用当前日期作为标签。Code Commit 之后，必须在最多 5 分钟内完成 ECR 上传。
+- ECR 名称：wsi-api-ecr
+- 镜像标签：以韩国时间为准的当前日期 – 2 位年份、月、日、时、分、秒格式
+（如果是 21 年 7 月 1 日 13 时 1 分 2 秒，则为 210701130102）
+- 最终 ECR 镜像示例：
+xxxxxx.dkr.ecr.ap-northeast-2.amazonaws.com/wsi-api-ecr:210702161539
+
+云计算 第2题 5 - 5

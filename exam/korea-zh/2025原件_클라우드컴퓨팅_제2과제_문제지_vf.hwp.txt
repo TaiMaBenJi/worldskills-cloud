@@ -1,0 +1,229 @@
+----- BodyText/Section0 -----
+2025年全国技能竞赛
+
+职业名称
+云计算
+任务名称
+Small Challenge
+任务编号
+第2任务
+比赛时间
+4小时
+秘密编号
+评审委员
+确认
+（印）
+
+1. 要求事项
+
+1) NoSQL
+
+2) CDN
+
+3) Monitoring
+
+4) WAF
+
+2. 选手注意事项
+
+云计算第1任务  - 
+
+  ※ 请考虑以下注意事项，完成要求事项。
+
+  1) 使用机械及工具等时请注意安全，必要时请穿戴安全装备及服装等，预防事故。
+
+  2) 作业中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请遵守佩戴安全防护用品等安全守则。
+
+  3) 作业中注意工具使用，遵守安全守则，预防事故。
+
+  4) 比赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+
+  5) 题目中给出的尖括号 <> 表示变量，选手应适当更改后使用。
+
+  6) Security Group 的 80/443 outbound 设置为 anyopen 以便使用。
+
+  7) Bastion EC2 用于评分。请确保不要因服务器连接问题而在评分中受到不利影响。
+
+  8) 各 Module 对应的选手自行配置用于评分的 Bastion。如果 Module 中存在 Bastion 配置，则将从已创建的 Bastion 进行评分，请注意。
+
+  8) 在任务结束前，应停止正在运行的测试及负载，确保服务器没有问题。
+
+  9) 注意不要因 Tag 信息不正确或权限问题导致无法评分。
+
+ 10) 所有资源的名称、标签、变量均区分大小写。
+
+ 11) 比赛开始前删除所有默认服务。
+
+3. NoSQL DataBase
+
+Module: 2) NoSQL
+
+该 Module 在 ap-northeast-2 中进行。使用 DynamoDB、Lambda 构建实时全球交易账户系统。详细事项请参考以下内容进行配置。
+
+NoSQL 配置
+
+利用 DynamoDB 构建实时全球账户汇款系统。PK 设置为 account_id。表配置为 Global Table，使 ap-northeast-2 和 eu-central-1 两个区域实时同步。
+
+Python 应用程序部署到 EC2，并提供账户创建(/create_account)、汇款(/transfer) API。处理汇款时使用 TransactWriteItems，从发送账户的余额中扣减金额，并向接收账户存入金额。当 balance >= amount 条件不满足时，事务必须失败并返回错误。
+
+发生同步冲突时，使用 Conflict Resolution Lambda 自动恢复为最新数据。配置为在事务失败率及冲突发生时通过 Lambda 恢复问题。
+
+为应对数据丢失，启用 PITR，使表可随时恢复到之前的时间点。
+
+- DynamoDB Table Name: account-table
+
+- Lambda Function Name: account-conflict-resolver
+
+EC2 Instance Name: account-app-ec2
+
+EC2 Instance Type: t3.micro
+
+事务配置
+
+Python 应用程序在汇款请求时使用 TransactWriteItems 防止并发问题，并在条件失败时返回适当错误。发生同步冲突时，Lambda 执行自动恢复逻辑。发生冲突事件时，通过 Lambda 自动解决问题。
+
+Application
+
+提供由 Flask 构成的应用程序 app.py。该应用程序使用 TCP 8080 绑定，详细事项请参考以下内容。
+
+| Path | Method | Request Body |
+| --- | --- | --- |
+| /create_account | POST | { "account_id": "cloud", "balance": 1000, "currency": "USD" } |
+| /transfer | POST | { "from_account": "cloud", "to_account": "it", "amount": 500 } |
+| /healthcheck | GET | - |
+
+4. Edge DRM
+
+Module: 6) CDN
+
+该 Module 在 us-east-1 中进行。使用 CloudFront、Function 及 Lambda 实现 Edge DRM。详细事项请参考以下内容进行配置。
+
+Edge DRM 配置
+
+利用 Lambda 及 Cloud Function 实现 Edge DRM 功能。S3 Bucket 配置为 web-drm-bucket-<任意3位数字>。将 *.mp4 上传到 S3 Bucket 的 media/。用户通过 CloudFront Domain 请求应用了 DRM 的视频，请求时必须通过 Query String 参数包含 DRM Token。利用 Function 在 Viewer Request 阶段读取 Query String 中的 DRM Token 值，并将该值插入为 X-DRM-Token Header。
+
+当请求传递到 Origin 时，利用 Lambda@Edge 在 Origin Request 阶段验证 X-DRM-Token Header 值。仅当 Token 有效时，才从 S3 获取原始媒体文件并输出；当 Token 不存在或无效时，配置为 Lambda@Edge 立即返回 403 Forbidden 响应。
+
+DRM Token 值必须包含在 Cache Key 中，以便按用户分离缓存，Cache TTL 设置为 60 秒。请注意设置 Cache Policy，以免用户 Token 混入其他用户的缓存结果。
+
+DRM Token: drm-cloud
+
+CDN 配置
+
+配置以 CloudFront 为 Origin 的 CDN。当用户通过 CloudFront Domain 请求应用了 DRM 的媒体时，在 Viewer Request 阶段使用 CloudFront Function 从请求 URL 的 Query String 中提取 DRM Token 值，然后将 X-DRM-Token 值插入请求 Header。之后由 CloudFront Cache Server 管理包含 DRM Token 值的缓存；当请求传递到 Origin 时，利用 Lambda@Edge 验证 DRM Token，如果不合适则必须返回 403 响应。
+
+当 CloudFront 向 Origin 发送请求时，如果请求的文件存在于 S3，则原样返回；如果不存在，则返回 404 Not Found。将 DRM Token 设置为较短的 TTL 以提高安全性，DRM Token 的有效性验证逻辑使用 Lambda Runtime 的 Python3.13 实现。使用 CloudFront Function 时使用 cloudfront-js-2.0。
+
+CloudFront Name: web-cdn
+
+CloudFront Function Name: web-cdn-function
+
+Lambda Function Name: web-drm-function
+
+5. CloudWatch Monitoring
+
+Module: 11) Monitoring
+
+该 Module 在 ap-southeast-1 中进行。使用 ECS 和 CloudWatch 实现用于掌握 Application 状态并采取措施的 Monitoring 系统。Application 记录 HTTP 请求日志，并提供随机延迟响应测试及延迟时间统计。此外，配置 Load Balancer 以充当应用程序的端点。详细事项请参考以下内容进行配置。
+
+Application
+
+提供由 Flask 构成的应用程序 app.py。该应用程序使用 TCP 5000 端口绑定，详细事项请参考以下内容。
+
+| Path | Method | Response |
+| --- | --- | --- |
+| /hello | GET | { “msg”: “Hello Worldskills”, “random”: “lUxzBpXf...” } |
+| /healthcheck | GET | { “status”: “OK” } |
+| /test_latency | GET | { “delay_sec”: “0.3727” “message” : “Latency test completed” } |
+| /latency_stats | GET | { “avg”: “0.4233” “count” : “3” “max” : “0.923“ “min” : “0.1719” “p90” : “0.923” “p95” : “0.923” “p99” : “0.923” } |
+
+以 STDOUT 形式记录的日志格式如下。
+
+2025/05/23 13:33:26 127.0.0.1 192.168.100.18 GET /healthcheck 200 2 0 0.0003s
+
+VPC 配置
+
+| Name | CIDR | Route Table |
+| --- | --- | --- |
+| wsi-vpc | 10.0.0.0/16 | - |
+| wsi-pub-sn-a | 10.0.10.0/24 | wsi-pub-rt |
+| wsi-pub-sn-c | 10.0.11.0/24 | wsi-pub-rt |
+| wsi-priv-sn-a | 10.0.20.0/24 | wsi-priv-rt-a |
+| wsi-priv-sn-c | 10.0.21.0/24 | wsi-priv-rt-c |
+
+ECS 配置
+
+为将提供的 Application 部署到 Container 环境，配置基于 Fargate 的 Cluster。将 ALB 创建为 External。使用 CloudWatch 指标收集配置日志记录。Container 必须位于 Private Subnet。
+
+ECS Cluster Name : wsi-app-cluster
+
+Task Definition Name: wsi-app-fargate-task
+
+Service Name: wsi-app-service
+
+Container name: wsi-app-cnt
+
+Monitoring 配置
+
+使用 CloudWatch 控制面板实现监控。参考以下说明，添加 CloudWatch 控制面板的 Widget 并实现告警。使用名为 wsi-query 的 Logs Insights 进行配置。
+
+CloudWatch 控制面板名称：wsi-dashboard
+
+Widget
+
+- Widget 名称：wsi-success
+
+- 该 Widget 用于确认应用程序的成功。
+
+Widget 名称：wsi-fail
+
+该 Widget 对访问应用程序或 Endpoint 时发生的错误进行计数。
+
+Widget 名称：wsi-sli
+
+创建用于显示请求处理成功率的 Widget。配置使用 Gauge。
+
+Widget 名称：wsi-p90-p96-p99
+
+创建用于确认 SLO 的 Widget。
+该 Widget 同时查看 p90、p95、p99 三项。
+Widget 配置使用行。
+
+5. WAF
+
+模块：13) WAF
+
+该模块在 us-west-1 中进行。使用 AWS WAF 进行配置，以防御 XXE 攻击方式。
+
+应用程序
+
+| Path | Method | Query Paramater |
+| --- | --- | --- |
+| / | GET | - |
+| /parse | POST | ex) xml=<note><msg>Hi</msg></note> |
+
+EC2 配置
+
+使用 EC2 运行给定的应用程序。VPC 使用 Default VPC。
+
+EC2 实例名称：xxe-server
+
+EC2 实例类型：t3.micro
+
+ELB 配置
+
+使用 ELB 通过 Endpoint 向用户提供运行了应用程序的 EC2。将 ELB 配置为可从互联网访问。
+
+ELB 类型：Application
+
+ELB 名称：xxe-alb
+
+WAF
+
+使用 WAF 防御给定应用程序的 XXE 攻击方式。配置为当攻击进入时返回 403 错误并输出消息“403 Forbidden error”，且考虑成本，WAF 的 Rule 只创建一个。
+
+WAF 名称：xxe-waf
+
+攻击方法
+
+应用程序允许 XML 解析器解析外部实体，因此攻击者可以利用这一点执行各种攻击。首先，利用 file:// 协议尝试读取并窃取服务器内部敏感文件的本地文件包含攻击。接着，可以通过外部实体强制发起 HTTP 请求，执行访问 AWS 元数据服务等受保护的内部网络资源的 SSRF 攻击。此外，通过反复扩展嵌套实体的“Billion Laughs”攻击耗尽 XML 解析器的资源，引发拒绝服务（DoS）状态。将依次组合这些攻击技术，进行使应用程序失效或泄露内部信息的攻击。

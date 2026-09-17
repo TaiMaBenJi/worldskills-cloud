@@ -1,0 +1,1256 @@
+2023 忠清南道第58届全国技能大赛评分标准
+1. 评分注意事项
+
+职业名称
+
+云计算
+
+※ 请注意以下事项进行评分。
+1) AWS的区域使用 ap-northeast-2。
+2) 网页访问使用 Chrome 或 Firefox。
+3) 网页中根据语言不同，显示的文字可能不同。
+4) shell 中命令的输出可能因版本而略有不同。
+5) 试题和评分表中的 <> 是变量。请更改相应部分后输入。
+6) 评分必须按题目顺序进行。
+7) 已删除的评分资料无法恢复，请务必注意；在异议申请完成之后，将删除选手创建的云资源。
+8) 有部分分数的题目，评分项中标注了部分分数。
+9) 没有单独部分分数的题目，必须全部正确才被认定为得分。
+10) 读取资源信息的评分项基本上通过脚本结果进行评分；如果选手有异议，可以直接输入命令进行确认。
+11) [ ] 符号不影响评分。
+12) 评分内容中的 $ 符号不是命令的一部分，而是表示 shell。
+
+云计算 第2题 评分标准 17 - 1
+
+2. 评分标准表
+1) 主要项目分值
+
+课题
+
+序号
+
+编号
+
+职业名称
+
+云计算
+
+评分方法
+主要项目
+
+分值
+独立
+
+合议
+
+评分时间
+比赛进行中
+
+比赛结束后
+
+1
+
+网络配置
+
+2.5
+
+○
+
+○
+
+2
+
+Bastion 服务器
+
+4.5
+
+○
+
+○
+
+3
+
+Web 应用程序
+
+3
+
+○
+
+○
+
+4
+
+S3
+
+4.5
+
+○
+
+○
+
+5
+
+Cloudfront
+
+6
+
+○
+
+○
+
+6
+
+Kinesis
+
+7.5
+
+○
+
+○
+
+7
+
+Athena
+
+3
+
+○
+
+○
+
+8
+
+日志备份
+
+4.5
+
+○
+
+○
+
+9
+
+安全响应自动化
+
+4.5
+
+○
+
+○
+
+合计
+
+40
+
+备注
+
+云计算 第2题 评分标准 17 - 2
+
+2) 评分方法及标准
+课题
+
+序号
+
+编号
+1
+
+2
+
+3
+
+4
+
+5
+
+主要项目
+
+网络配置
+
+Bastion 服务器
+
+Web 应用程序
+
+S3
+
+CloudFront
+
+第2题
+
+6
+
+7
+
+8
+
+9
+
+Kinesis
+
+Athena
+
+日志备份
+
+安全响应自动化
+
+序号
+
+细项(评分方法)
+
+分值
+
+1
+
+VPC, Subnet
+
+1
+
+2
+
+Routing
+
+1.5
+
+1
+
+Bastion configuration
+
+1.5
+
+2
+
+Bastion SG ingress rule
+
+1.5
+
+3
+
+Bastion login notification
+
+1.5
+
+1
+
+wsi-app configuration
+
+1.5
+
+2
+
+foo/bar perform
+
+1.5
+
+1
+
+S3 Bucket configuration
+
+1.5
+
+2
+
+S3 Bucket encryption
+
+1.5
+
+3
+
+S3 server log
+
+1.5
+
+1
+
+Cloudfront to S3
+
+1.5
+
+2
+
+Cloudfront redirect
+
+1.5
+
+3
+
+S3 object updated
+
+1.5
+
+4
+
+image resizing
+
+1.5
+
+1
+
+wsi-log-stream
+
+1.5
+
+2
+
+wsi-log-firehose
+
+1.5
+
+3
+
+application access log stored
+
+1.5
+
+4
+
+application access log transformed
+
+1.5
+
+5
+
+without /healthcheck
+
+1.5
+
+1
+
+Athena Partitioning
+
+1.5
+
+2
+
+Athena Query
+
+1.5
+
+1
+
+log backup interval 1 minute
+
+1.5
+
+2
+
+log backup ec2 shutdown
+
+1.5
+
+3
+
+application restart
+
+1.5
+
+1
+
+控制台登录告警
+
+1.5
+
+2
+
+Bastion 用户锁定
+
+1.5
+
+3
+
+Bastion 隔离
+
+1.5
+
+编号
+
+总分
+
+云计算 第2题 评分标准 17 - 3
+
+40
+
+3) 评分内容
+序号
+
+事前准备
+1) 通过 SSH 访问 Bastion 服务器。（除非另有说明，所有评分均在 Bastion 服务器上进行。）
+2) 确认 Bastion 命令和权限。（awscli permission, jq, curl, awscli region）
+3) 将以下文件复制到 Bastion 服务器的 /root/marking 目录。
+- worldskills-europe.png
+- marking_script.sh
+4) 在 /root/marking 路径下执行脚本。基于执行结果进行评分，但如果选手提出异议，可以手动进行评分。
+5) 在首次启动进行评分的 Bastion 服务器的 shell 时，执行以下命令以初始化环境变量。（使用评分脚本时省略）
+export DISTRIBUTION_ID="E16LB217EE4LQN" # cloudfront distribution id
+
+0
+
+export STATIC_BUCKET="wsi-static-qwer"
+export LOG_BUCKET="wsi-logs-qwer“
+export CF_DOMAIN=$(aws cloudfront get-distribution --id ${DISTRIBUTION_ID} --query
+"Distribution.DomainName" | sed s/\"//g)
+6) 在进行评分之前，执行以下命令以进行评分前的准备工作。（使用评分脚本时省略）
+# set default region of aws cli
+aws configure set default.region ap-northeast-2
+# clear CDN cache (perform CloudFront invalidation)
+export INVALIDATION_ID=$(aws cloudfront create-invalidation --distribution-id
+${DISTRIBUTION_ID} --paths "/*" --query "Invalidation.Id" | sed s/\"//g)
+aws cloudfront wait invalidation-completed --distribution-id ${DISTRIBUTION_ID} --id
+${INVALIDATION_ID}
+
+云计算 第2题 评分标准 17 - 4
+
+序号
+
+评分项
+aws ec2 describe-vpcs --filter Name=tag:Name,Values=wsi-vpc --query
+"Vpcs[0].CidrBlock" \
+1-1-A
+(命令输入)
+
+; aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-app-a --query
+"Subnets[0].CidrBlock" \
+; aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-public-a --query
+
+1-1
+
+"Subnets[0].CidrBlock"
+
+1-1-A
+"10.1.0.0/16"
+(预期输出)
+"10.1.0.0/24"
+完全一致
+"10.1.2.0/24"
+顺序重要
+
+aws ec2 describe-route-tables --filter Name=tag:Name,Values=wsi-app-a-rt
+1-2-A
+(命令输入)
+
+--query "RouteTables[].Routes[].NatGatewayId" | grep "nat-" | wc -l \
+; aws ec2 describe-route-tables --filter Name=tag:Name,Values=wsi-public-rt
+--query "RouteTables[].Routes[]" | grep "igw-" | wc -l
+
+1-2
+1-2-A
+(预期输出)
+
+1
+
+完全一致
+
+1
+
+顺序重要
+
+2-1-A
+(命令输入)
+
+2-1
+
+aws ec2 describe-instances --filter Name=tag:Name,Values=wsi-bastion --query
+"Reservations[0].Instances[0].InstanceType"
+
+2-1-A
+(预期输出)
+"t3.small"
+完全一致
+顺序重要
+
+云计算 第2题 评分标准 17 - 5
+
+序号
+
+评分项
+export SGID=$(aws ec2 describe-security-groups --filter
+Name=group-name,Values=wsi-bastion-sg --query "SecurityGroups[0].GroupId" |
+2-2-A
+(命令输入)
+
+sed s/\"//g) \
+; aws ec2 describe-security-groups --filter
+Name=group-name,Values=wsi-bastion-sg --query
+"SecurityGroups[0].IpPermissions[].{FromPort:FromPort,ToPort:ToPort,IpRanges:IpRan
+ges}"
+[
+{
+
+2-2
+
+"ToPort": 4272,
+2-2-A
+
+"FromPort": 4272,
+
+(预期输出)
+
+"IpRanges": [
+
+4272 端口
+
+{
+
+仅存在
+
+"CidrIp": "0.0.0.0/0" → 也可能仅允许单个 IP
+
+确认
+}
+]
+}
+]
+
+2-3-A
+
+确认我的 PC 的 Public IP。
+
+(IP 确认)
+
+- 可以在浏览器中访问 ifconfig.me 进行确认。
+
+2-3-A
+
+(使用 Putty、ssh 命令等工具)
+
+(SSH 连接)
+
+通过 SSH 协议以 ec2-user 用户登录 wsi-bastion 服务器。
+等待 1 分钟后输入以下命令。
+export QUERY_ID=$(aws logs start-query --log-group-name
+
+2-3
+
+/wsi/security/bastion-ssh --start-time $(date -d '2 minute ago' "+%s"000)
+2-3-A
+--end-time $(date "+%s"000) --query-string 'fields @message' | jq -r '.queryId')
+(命令输入)
+\
+; sleep 10 \
+; aws logs get-query-results --query-id $QUERY_ID --query "results[].value"
+2-2-A
+8.8.8.8 ec2-user
+(预期输出)
+(将 8.8.8.8 视为我的 IP 进行评分。)
+包含内容
+
+云计算 第2题 评分标准 17 - 6
+
+序号
+
+评分项
+
+3-1-A
+(命令输入)
+
+aws ec2 describe-instances --filter Name=tag:Name,Values=wsi-app --query
+"Reservations[0].Instances[0].InstanceType"
+
+3-1
+3-1-A
+"t3.small“
+(预期输出)
+
+export APP_IP=$(aws ec2 describe-instances --filter
+Name=tag:Name,Values=wsi-app --query
+
+"Reservations[0].Instances[0].PrivateIpAddress" | jq -r .) \
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" http://${APP_IP}:8080/v1/foo
+3-2-A
+\
+(输入命令)
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" http://${APP_IP}:8080/v1/bar
+\
+
+3-2
+
+; curl -X GET --max-time 5 -w "\n%{http_code}\n"
+http://${APP_IP}:8080/healthcheck
+{"application":"foo"}
+3-2-A
+(预期输出)
+完全匹配
+顺序重要
+
+200
+{"application":"bar"}
+200
+{"status":"ok."}
+200
+
+4-1-A
+aws s3 ls | grep -E "wsi-static-|wsi-logs-"
+(输入命令)
+
+4-1
+
+4-1-A
+(预期输出)
+
+2023-10-15 02:21:55 wsi-static-<英文4位>
+
+下划线部分匹配
+
+2023-10-15 01:43:43 wsi-logs-<英文4位>
+
+日期、时间无关
+
+云计算第2次作业评分标准 17 - 7
+
+序号
+
+评分项目
+
+4-2-A
+aws s3api get-bucket-encryption --bucket $STATIC_BUCKET --query
+(输入命令)
+ServerSideEncryptionConfiguration.Rules[0].ApplyServerSideEncryptionByDefault.SS
+<英文4位>
+EAlgorithm
+修改后输入
+
+4-2
+4-2-A
+(预期输出)
+"aws:kms"
+aws:kms
+包含字符串
+rm -rf output/ \
+; mkdir -p output/ \
+4-3-A
+; aws s3 cp --quiet --recursive s3://${LOG_BUCKET}/s3-accesslog/ output/ \
+(输入命令)
+; find output/ -type f -exec cat {} + | grep "${STATIC_BUCKET}" | grep "GET
+/${STATIC_BUCKET}" | wc -l
+
+4-3
+4-3-A
+(预期输出)
+
+101
+输出1及以上的数
+则允许
+
+cat << EOF >> testobject2.txt
+5-1-A
+This is testobject for CDN perform.
+(输入命令)
+EOF
+
+aws s3 cp --quiet testobject2.txt s3://${STATIC_BUCKET}/ \
+
+5-1
+
+5-1-A
+; curl --silent -i -X GET --max-time 5 -w "\n%{http_code}\n"
+(输入命令)
+https://${CF_DOMAIN}/testobject2.txt | grep -iE "x-cache:|^200$"
+
+5-1-A
+x-cache: Miss from cloudfront
+(预期输出)
+200
+完全匹配
+
+云计算第2次作业评分标准 17 - 8
+
+序号
+
+评分项目
+sleep 30 \
+5-1-B
+; curl --silent -i -X GET --max-time 5 -w "\n%{http_code}\n"
+(输入命令)
+https://${CF_DOMAIN}/testobject2.txt | grep -iE "x-cache:|^200$"
+
+5-1
+5-1-B
+x-cache: Hit from cloudfront
+(预期输出)
+200
+完全匹配
+
+cat << EOF >> testobject3.txt
+5-2-A
+This is testobject for CDN perform.
+(输入命令)
+EOF
+
+aws s3 cp --quiet testobject3.txt s3://${STATIC_BUCKET}/ \
+5-2-A
+; curl --silent -i -X GET --max-time 5 -w "\n%{http_code}\n"
+
+5-2
+
+(输入命令)
+http://${CF_DOMAIN}/testobject3.txt | grep -iE "x-cache:|location:|^301$"
+5-2-A
+
+Location: https://d3mduxaweh9m02.cloudfront.net/testobject3.txt
+
+(预期输出)
+
+X-Cache: Redirect from cloudfront
+
+下划线部分
+
+301
+
+不同也允许
+
+(在Location中确认协议为https)
+
+其余匹配
+
+(302响应码也视为正确答案)
+cat << EOF >> testobject4.txt
+
+5-3-A
+This is testobject for CDN perform (v1.0).
+(输入命令)
+EOF
+
+aws s3 cp --quiet testobject4.txt s3://${STATIC_BUCKET}/ \
+
+5-3
+
+5-3-A
+; curl --silent -X GET --max-time 5 -w "\n%{http_code}\n"
+(输入命令)
+https://${CF_DOMAIN}/testobject4.txt
+
+5-3-A
+This is testobject for CDN perform (v1.0).
+(预期输出)
+200
+完全匹配
+
+云计算第2次作业评分标准 17 - 9
+
+序号
+
+评分项目
+cat << EOF > testobject4.txt
+5-3-B
+This is testobject for CDN perform (v2.0).
+(输入命令)
+EOF
+
+aws s3 cp --quiet testobject4.txt s3://${STATIC_BUCKET}}/ \
+
+5-3
+
+5-3-B
+(输入命令)
+
+; sleep 60 \
+; curl --silent -X GET --max-time 5 -w "\n%{http_code}\n"
+https://${CF_DOMAIN}/testobject4.txt
+
+5-3-B
+This is testobject for CDN perform (v2.0).
+(预期输出)
+200
+完全匹配
+5-4-A
+file worldskills-europe.png | grep -Eo "[[:digit:]]+ *x *[[:digit:]]+"
+(输入命令)
+5-4-A
+(预期输出)
+
+225 x 225
+
+完全匹配
+rm -rf output/ \
+
+5-4
+
+; mkdir -p output/ \
+5-4-B
+(输入命令)
+
+; aws s3 cp --quiet worldskills-europe.png s3://${STATIC_BUCKET}/ \
+; curl --silent https://${CF_DOMAIN}/worldskills-europe.png -o
+output/worldskills-europe.png \
+; file output/worldskills-europe.png | grep -Eo "[[:digit:]]+ *x *[[:digit:]]+"
+
+5-4-B
+(预期输出)
+
+128 x 128
+
+完全匹配
+6-1-A
+(输入命令)
+
+aws kinesis describe-stream --stream-name wsi-log-stream --query
+"StreamDescription.StreamStatus"
+
+6-1
+6-1-A
+(预期输出)
+
+"ACTIVE"
+
+完全匹配
+
+云计算第2次作业评分标准 17 - 10
+
+序号
+
+评分项目
+6-2-A
+(输入命令)
+
+6-2
+
+aws firehose describe-delivery-stream --delivery-stream-name wsi-log-firehose \
+--query "DeliveryStreamDescription.DeliveryStreamStatus"
+
+6-2-A
+(预期输出)
+
+"ACTIVE"
+
+完全匹配
+aws s3 rm --quiet --recursive s3://${LOG_BUCKET}/accesslog/ \
+; export APP_IP=$(aws ec2 describe-instances --filter
+Name=tag:Name,Values=wsi-app --query
+"Reservations[0].Instances[0].PrivateIpAddress" | jq -r .) \
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" http://${APP_IP}:8080/v1/foo
+6-3-A
+\
+(输入命令)
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" http://${APP_IP}:8080/v1/foo
+\
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" http://${APP_IP}:8080/v1/bar
+\
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" http://${APP_IP}:8080/v1/bar
+{"application":"foo"}
+200
+
+6-3
+
+{"application":"foo"}
+6-3-A
+200
+(预期输出)
+{"application":"bar"}
+完全匹配
+200
+{"application":"bar"}
+200
+sleep 60 \
+; rm -rf output/ \
+6-3-B
+; mkdir -p output/ \
+(输入命令)
+; aws s3 cp --quiet --recursive s3://${LOG_BUCKET}/accesslog/ output/ \
+; find output/ -type f –exec cat {} + | wc -l
+6-3-B
+(预期输出)
+
+4
+
+完全匹配
+
+云计算第2次作业评分标准 17 - 11
+
+序号
+
+评分项目
+aws s3 rm --quiet --recursive s3://${LOG_BUCKET}/accesslog/ \
+; export APP_IP=$(aws ec2 describe-instances --filter
+Name=tag:Name,Values=wsi-app --query
+"Reservations[0].Instances[0].PrivateIpAddress" | jq -r .) \
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" http://${APP_IP}:8080/v1/foo
+6-4-A
+\
+(输入命令)
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" http://${APP_IP}:8080/v1/foo
+\
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" http://${APP_IP}:8080/v1/bar
+\
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" http://${APP_IP}:8080/v1/bar
+{"application":"foo"}
+200
+{"application":"foo"}
+6-4-A
+(预期输出)
+
+6-4
+
+200
+{"application":"bar"}
+200
+{"application":"bar"}
+200
+sleep 60 \
+; rm -rf output/ \
+
+6-4-B
+; mkdir -p output/ \
+(输入命令)
+
+; aws s3 cp --quiet --recursive s3://${LOG_BUCKET}/accesslog/ output/ \
+; parquet-tools show output/
+
+- 必须包含以下所有列。
+clientip, year, month, day, hour, minute, second, method, path, protocol,
+6-4-B
+responsecode, processingtime, useragent
+(预期输出)
+- 总共必须输出 4 个 Record(Row)。
+满足所有条件
+- 总共 4 个 Record(Row) 中，必须包含 2 个路径为 /v1/foo 的 Record(Row)。
+- 总共 4 个 Record(Row) 中，必须包含 2 个路径为 /v1/bar 的 Record(Row)。
+
+云计算第2次作业评分标准 17 - 12
+
+序号
+
+评分项
+aws s3 rm --quiet --recursive s3://${LOG_BUCKET}/accesslog/ \
+; export APP_IP=$(aws ec2 describe-instances --filter
+Name=tag:Name,Values=wsi-app --query
+"Reservations[0].Instances[0].PrivateIpAddress" | jq -r .) \
+6-5-A
+(命令输入)
+
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" http://${APP_IP}:8080/v1/foo
+\
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" http://${APP_IP}:8080/v1/bar
+\
+; curl -X GET --max-time 5 –w "\n%{http_code}\n" \
+http://${APP_IP}:8080/v1/healthcheck
+{"application":"foo"}
+200
+
+6-5-A
+{"application":"bar"}
+
+6-5
+
+(预期输出)
+200
+完全一致
+{"status":"ok."}
+200
+sleep 60 \
+; rm -rf output/ \
+6-5-B
+; mkdir -p output/ \
+(命令输入)
+; aws s3 cp --quiet --recursive s3://${LOG_BUCKET}/accesslog/ output/ \
+; parquet-tools show output/
+- 总共必须输出 2 个 Record(Row)。
+6-5-B
+- 总共 2 个 Record(Row) 中，必须包含 1 个路径为 /v1/foo 的 Record(Row)。
+(预期输出)
+- 总共 2 个 Record(Row) 中，必须包含 1 个路径为 /v1/bar 的 Record(Row)。
+完全一致
+- 总共 2 个 Record(Row) 中，不能有路径为 /healthcheck 的 Record(Row)。
+
+云计算第2次作业评分标准 17 - 13
+
+序号
+
+评分项
+7-1-A
+7-1
+(命令输入)
+
+在 Athena Query Editor 中输入如下命令。
+DESCRIBE accesslog;
+
+续下页...
+
+云计算第2次作业评分标准 17 - 13
+
+序号
+
+评分项
+7-1-A
+
+7-1
+
+# Partition Information
+
+(预期输出)
+
+# col_name
+
+data_type
+
+包含内容
+
+year
+
+string
+
+data_type 无关
+
+month
+
+string
+
+comment 无关
+
+day
+
+string
+
+comment
+
+aws s3 rm --quiet --recursive s3://${LOG_BUCKET}/accesslog/ \
+; export APP_IP=$(aws ec2 describe-instances --filter
+Name=tag:Name,Values=wsi-app --query
+"Reservations[0].Instances[0].PrivateIpAddress" | jq -r .) \
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" http://${APP_IP}:8080/v1/foo
+7-2-A
+\
+(执行 Query)
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" http://${APP_IP}:8080/v1/foo
+\
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" http://${APP_IP}:8080/v1/bar
+\
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" http://${APP_IP}:8080/v1/bar
+{"application":"foo"}
+200
+
+7-2
+
+{"application":"foo"}
+7-2-A
+(预期输出)
+
+200
+{"application":"bar"}
+200
+{"application":"bar"}
+200
+等待 1 分钟后执行以下查询
+
+7-2-B
+在 Athena Query Editor 中执行 TrafficPatternQuery 查询。
+(执行 Query)
+如果没有已保存的查询，则按错误处理。
+7-2-B
+
+| year | month | day | hour | minute | path
+
+| statuscode | count |
+
+(预期输出)
+
+| 2023 | 10
+
+| 12
+
+| 16
+
+| 18
+
+| /v1/foo | 200
+
+| 2
+
+|
+
+时间无关
+
+| 2023 | 10
+
+| 12
+
+| 16
+
+| 18
+
+| /v1/bar | 200
+
+| 2
+
+|
+
+path、statuscode
+必须一致。
+
+(如果 count 不是 2，可以重试 3 次)
+
+云计算第2次作业评分标准 17 - 14
+
+序号
+
+评分项
+; aws s3 rm --quiet --recursive s3://${LOG_BUCKET}/accesslog-backup/interval/ \
+; curl -X GET --max-time 5 -w "\n%{http_code}\n"
+8-1-A
+http://${APP_IP}:8080/v1/usalion1 \
+(命令输入)
+; curl -X GET --max-time 5 -w "\n%{http_code}\n"
+http://${APP_IP}:8080/v1/usalion2
+
+<body 无关>
+8-1-A
+404
+(预期输出)
+
+8-1
+
+<body 无关>
+404 code 一致
+404
+sleep 60 \
+; rm -rf output/ \
+8-1-B
+; mkdir -p output/ \
+(命令输入)
+; aws s3 cp --recursive s3://${LOG_BUCKET}/accesslog-backup/interval/ output/ \
+; find output/ -type f –exec cat {} + | grep “usalion” | wc -l
+8-1-B
+(预期输出)
+
+2
+
+完全一致
+aws s3 rm --quiet --recursive s3://${LOG_BUCKET}/accesslog-backup/
+8-2-A
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" \
+(命令输入)
+http://${APP_IP}:8080/v1/shtest5
+对其他评分有
+export APP_INSTANCE_ID=$(aws ec2 describe-instances --filter
+影响，因此
+Name=tag:Name,Values=wsi-app --query "Reservations[0].Instances[0].InstanceId" |
+执行前需与讲师
+jq -r .)
+
+8-2
+
+确认
+aws ec2 reboot-instances --instance-ids $APP_INSTANCE_ID
+sleep 60 # wait for backup time
+rm -rf output/
+8-2-A
+(命令输入)
+
+mkdir -p output/
+aws s3 cp --quiet --recursive s3://${LOG_BUCKET}/accesslog-backup/shutdown/
+output/
+find output/ -type f -exec cat {} + | grep shtest | wc -l
+
+云计算第2次作业评分标准 17 - 15
+
+序号
+
+评分项
+8-2-A
+
+8-2
+
+(预期输出)
+1
+5 以下的数
+必须输出
+8-3-A
+export APP_INSTANCE_ID=$(aws ec2 describe-instances --filter
+(命令输入)
+Name=tag:Name,Values=wsi-app --query "Reservations[0].Instances[0].InstanceId"
+如果在 8-2 中已重启
+| jq -r .)
+则 reboot
+aws ec2 reboot-instances --instance-ids $APP_INSTANCE_ID
+过程可以省略
+8-3-A
+
+8-3
+
+export APP_IP=$(aws ec2 describe-instances --filter
+
+(命令输入)
+
+Name=tag:Name,Values=wsi-app --query
+
+对其他评分有
+
+"Reservations[0].Instances[0].PrivateIpAddress" | jq -r .) \
+
+影响，因此
+
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" http://${APP_IP}:8080/v1/foo
+
+执行前需与讲师
+确认
+
+\
+; curl -X GET --max-time 5 -w "\n%{http_code}\n" http://${APP_IP}:8080/v1/bar
+{"application":"foo"}
+
+8-3-A
+200
+(预期输出)
+{"application":"bar"}
+完全一致
+200
+9-1-A
+(Alarm 状态确认)
+确认名为 loginAlarm 的 CloudWatch Alarm 状态为 OK。
+Insufficient
+状态也允许
+
+9-1
+
+9-1-A
+(consoleuser) 使 IAM 账户访问失败 5 次以上。
+(登录失败)
+
+9-1-A
+(Alarm 状态确认)
+
+确认名为 loginAlarm 的 CloudWatch Alarm 状态为 ALARM 状态
+。
+
+云计算第2次作业评分标准 17 - 16
+
+序号
+
+评分项
+使用 ec2-user 通过 SSH 访问 Bastion 服务器。
+9-2-A
+(登录失败)
+
+使用以下命令使 user01 账户登录失败 5 次。
+ec2-user@localhost$ su user01
+(密码尝试使用 111。)
+
+9-2-A
+(账户锁定确认)
+
+使用正确密码 Pass@@12 登录 user01 时，确认访问是否被阻止
+。
+
+9-2
+9-2-B
+
+等待 120 秒。
+
+(等待)
+
+9-2-B
+(账户访问确认)
+
+9-3-A
+(SSH 访问尝试)
+
+再次尝试登录 user01，确认是否能正常登录。
+$ su user01
+
+使用 ec2-user 连续尝试 SSH 访问 Bastion 服务器 10 次。
+(登录成功或失败均可)
+
+9-3
+9-3-A
+(SG 确认)
+
+确认 (wsi-bastion-sg) Security Group，确认其中没有任何规则。
+（最多等待 1 分钟。）
+
+云计算第2次作业评分标准 17 - 17

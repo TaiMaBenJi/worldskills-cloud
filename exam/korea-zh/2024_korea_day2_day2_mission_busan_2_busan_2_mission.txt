@@ -1,0 +1,89 @@
+2024年度全国技能大赛
+工种名称
+
+云计算
+
+任务名称
+
+比赛时间
+
+4 小时
+
+编号
+
+Small Challenge
+
+任务编号
+评委
+确认
+
+1. 要求
+构建一个简单基础设施：当以 IAM 用户登录时，保存登录记录。
+图
+
+Software Stack
+AWS
+- CloudTrail
+- CloudWatch
+- Lambda
+- EC2
+- VPC
+- IAM
+
+云计算 第1任务 1 - 3
+
+第 2 任务
+(印)
+
+2. 选手注意事项
+1) 使用机器及工具等时请注意安全，必要时请穿戴安全装备及服装等，以预防事故。
+2) 工作中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请遵守佩戴安全防护用具等安全规则。
+3) 工作中请注意工具的使用，遵守安全规则，预防事故。
+4) 比赛开始前请通过轻微拉伸等放松紧张，使用作业工具时请注意安全。
+5) 选手账户存在费用限制，如果费用超过此限制，账户可能无法使用。
+6) 题目中给出的尖括号方框 <> 表示变量，选手应适当更改后使用。
+7) 将 EC2 实例的 TCP 80/443 出站设为 anyopen，以便可以使用。
+8) 由于大部分评分在任务的 Bastion 服务器上进行，如果未创建实例或实例处于已终止状态，则无法评分，请特别注意。
+9) 任务结束时，请终止所有正在进行的测试，以免服务器产生负载。
+10) 如无另行说明，请在 eu-central-1 区域创建资源。
+11) 第 1 页的图是抽象表示架构的图，详细配置应满足以下要求。（例如：子网可以有 2 个以上。）
+12) 所有资源的名称、标签、变量和变量均区分大小写。
+13) 对于题目中未给出的值，应基于 AWS Well-Architected Framework 6 pillars 设置适当的值。
+14) 如果创建了不必要的资源，可能会成为扣分因素。（例如额外创建 VPC）
+15) 通过 ssh 连接 Bastion 服务器时，请使用 22 号端口以外的其他端口。
+16) 设置 Bastion 密码时，将密码设置为 Skills2024**。
+
+云计算 第1任务 2 - 3
+
+3. EC2
+使用 EC2 配置 Bastion 服务器。为了访问 Bastion 服务器，使用 TCP 2220。
+- Instance 名称: wsi-bastion-ec2
+- 子网：公有子网
+- 安装包：AWS CLI v2, jq, curl
+- Instance Type: t3.small
+- EC2 IAM Role：创建一个对所有资源具有 full access 的 role，并将其附加。
+
+4. IAM
+创建 IAM 用户后，配置为登录账户时自动将登录日志保存到 CloudWatch。将管理员权限关联到 IAM 用户，使其可以使用所有服务。
+- IAM 用户名：wsi-project-user
+- IAM 权限：AdministratorAccess Policy
+- 允许访问 AWS Management Console
+
+5. CloudTrail
+创建 CloudTrail，这是一个能够监控账户活动的服务，以便 IAM 用户通过控制台登录时能够将登录日志保存到 CloudWatch。
+- 标签：Name=wsi-project-trail
+
+6. CloudWatch
+CloudWatch 参考以下要求创建日志组。
+CloudWatch 日志流中不得存在除登录日志以外的其他日志。
+登录日志必须在登录后 4 分钟内保存到日志流中。
+- 标签：Name=wsi-project-login
+- 日志流名称：wsi-project-login-stream
+- 日志格式：{ USER: “<登录的 IAM 用户名> has logged in!” }
+- 示例）：{ USER: “wsi-project-user has logged in!” }
+
+7. Lambda
+使用 Lambda 配置为：当 CloudTrail 中发生登录触发时，自动将日志保存到 CloudWatch。
+- 标签：Name=wsi-project-log-function
+
+云计算 第1任务 3 - 3

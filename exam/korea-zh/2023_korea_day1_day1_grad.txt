@@ -1,0 +1,984 @@
+2023 忠清南道第58届全国技能竞赛评分标准
+1. 评分注意事项
+
+工种名称
+
+云计算
+
+※ 请注意以下事项进行评分。
+1) AWS 区域使用 ap-northeast-2。
+2) 网页访问使用 Chrome 或 Firefox。
+3) 网页中根据语言不同，显示的文案可能不同。
+4) shell 中命令的输出可能因版本不同而略有差异。
+5) 试题和评分表中的 <> 是变量。需修改该部分后输入。
+6) 评分必须按题目顺序进行。
+7) 已删除的评分资料无法恢复，请务必注意；在异议申请也完成后，删除选手创建的云资源。
+8) 有部分分的题目，在评分项中标注了部分分数。
+9) 未单独标注部分分的题目，必须全部正确才计分。
+10) 读取资源信息的评分项原则上通过脚本结果进行评分；如果选手有异议，可以直接输入命令进行确认。
+11) [ ] 符号不影响评分。
+12) “命令输入”框中的命令行是一行命令。若无另行说明，无需修改，直接复制框中的全部内容并粘贴到 shell 中执行命令。
+13) （预期输出）表示紧接其前的（命令输入）的预期输出。
+
+云计算 第1任务 评分标准 18 - 1
+
+2. 评分标准表
+1) 各主要项分配分
+
+| 任务 | 序号 | 主要项 | 分值 | 评分方法-独立 | 评分方法-合议 | 评分时间-比赛进行中 | 评分时间-比赛结束后 | 备注 |
+|---|---|---|---|---|---|---|---|---|
+| 第1任务 | 1 | 网络配置 | 4 | ○ |  | ○ |  |  |
+|  | 2 | Bastion 服务器 | 4.5 | ○ |  | ○ |  |  |
+|  | 3 | 关系型数据库 | 1.5 | ○ |  | ○ |  |  |
+|  | 4 | Web 应用程序 | 3 | ○ |  | ○ |  |  |
+|  | 5 | 容器编排 | 4.5 | ○ |  | ○ |  |  |
+|  | 6 | 负载均衡器 | 3 | ○ |  | ○ |  |  |
+|  | 7 | S3 | 4.5 | ○ |  | ○ |  |  |
+|  | 8 | Cloudfront | 6 | ○ |  | ○ |  |  |
+|  | 9 | 日志 | 4.5 | ○ |  | ○ |  |  |
+|  | 10 | 负载测试 | 1.5 | ○ |  | ○ |  |  |
+|  | 11 | CI/CD 流水线 | 3 | ○ |  | ○ |  |  |
+|  |  | 合计 | 40 |  |  |  |  |  |
+
+云计算 第1任务 评分标准 18 - 2
+
+2) 评分方法及标准
+
+| 任务 | 序号 | 主要项 | 细项序号 | 细项(评分方法) | 分值 | 总分 |
+|---|---|---|---|---|---|---|
+| 第1任务 | 1 | 网络配置 | 1 | VPC, Subnet | 1.0 |  |
+|  |  |  | 2 | Routing | 1.5 |  |
+|  |  |  | 3 | VPC Endpoint | 1.5 |  |
+|  | 2 | Bastion 服务器 | 1 | Bastion configuration | 1.5 |  |
+|  |  |  | 2 | Bastion SG ingress rule | 1.5 |  |
+|  |  |  | 3 | Bastion SG ingress rule auto revoke | 1.5 |  |
+|  | 3 | 关系型数据库 | 1 | RDS configuration | 1.5 |  |
+|  | 4 | Web 应用程序 | 1 | Stress perform | 1.5 |  |
+|  |  |  | 2 | Product performcon0 | 1.5 |  |
+|  | 5 | 容器编排 | 1 | Stress service | 1.5 |  |
+|  |  |  | 2 | Product service | 1.5 |  |
+|  |  |  | 3 | Product environment | 1.5 |  |
+|  | 6 | 负载均衡器 | 1 | ALB rules | 1.5 |  |
+|  |  |  | 2 | ALB allow from only Cloudfront | 1.5 |  |
+|  | 7 | S3 | 1 | S3 Bucket configuration | 1.5 |  |
+|  |  |  | 2 | S3 Bucket replication | 1.5 |  |
+|  |  |  | 3 | S3 Bucket encryption | 1.5 |  |
+|  | 8 | Cloudfront | 1 | Cloudfront to ALB | 1.5 |  |
+|  |  |  | 2 | Cloudfront to S3 | 1.5 |  |
+|  |  |  | 3 | Cloudfront redirect | 1.5 |  |
+|  |  |  | 4 | Cloudfront origin group | 1.5 |  |
+|  | 9 | 日志 | 1 | Stress 应用程序日志 | 1.5 |  |
+|  |  |  | 2 | Product 应用程序日志 | 1.5 |  |
+|  |  |  | 3 | without /healthcheck | 1.5 |  |
+|  | 10 | 负载测试 | 1 | Stress 服务伸缩确认 | 1.5 |  |
+|  | 11 | CI/CD 流水线 | 1 | 正常部署确认 | 1.5 |  |
+|  |  |  | 2 | ECR Scan 运行确认 | 1.5 |  |
+|  |  | 合计 |  |  | 40 | 40 |
+
+云计算 第1任务 评分标准 18 - 3
+
+3) 评分内容
+
+**序号 0：事前准备**
+1) 通过 SSH 访问 Bastion 服务器。（除非另有说明，所有评分均在 Bastion 服务器上进行。）
+2) 确认 Bastion 命令及权限。（awscli permission, jq, curl, awscli region）
+3) 将 marking 脚本下载到 /root/marking。
+4) 在 /root/marking 路径下执行脚本。基于执行结果进行评分，但如果选手提出异议，则可以手动进行评分。
+5) 初次运行用于评分的 Bastion 服务器 shell 时，执行以下命令初始化环境变量。（使用评分脚本进行时省略）
+
+```
+export DistributionID="<Cloudfront_Distribution_ID>"
+export AP_BUCKET="ap-wsi-static-<4words>"
+export US_BUCKET="us-wsi-static-<4words>“
+export CF_DOMAIN=$(aws cloudfront get-distribution --id ${DistributionID} --query
+"Distribution.DomainName" | sed s/\"//g)
+export LB_DOMAIN=$(aws elbv2 describe-load-balancers --names "wsi-alb" --query
+"LoadBalancers[0].DNSName" | sed s/\"//g)
+```
+
+6) 在进行评分之前，执行以下命令，完成评分所需的准备工作。（使用评分脚本进行时省略）
+
+```
+# set default region of aws cli
+aws configure set default.region ap-northeast-2
+# clear CDN cache (perform CloudFront invalidation)
+export InvalidationID=$(aws cloudfront create-invalidation --distribution-id ${DistributionID}
+--paths "/*" --query "Invalidation.Id" | sed s/\"//g)
+aws cloudfront wait invalidation-completed --distribution-id ${DistributionID} --id
+${InvalidationID}
+# clear S3 bucket objects
+aws s3 rm --quiet --recursive s3://$AP_BUCKET/
+aws s3 rm --quiet --recursive s3://$US_BUCKET/
+```
+
+云计算 第1任务 评分标准 18 - 4
+
+**序号 1-1**
+- **1-1-A（命令输入）**
+```
+aws ec2 describe-vpcs --filter Name=tag:Name,Values=wsi-vpc --query
+"Vpcs[0].CidrBlock" \
+; aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-app-a --query
+"Subnets[0].CidrBlock" \
+; aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-app-b --query
+"Subnets[0].CidrBlock" \
+; aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-public-a --query
+"Subnets[0].CidrBlock" \
+; aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-public-b --query
+"Subnets[0].CidrBlock" \
+; aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-data-a --query
+"Subnets[0].CidrBlock" \
+; aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-data-b --query
+"Subnets[0].CidrBlock"
+```
+- **1-1-A（预期输出）**
+```
+"10.1.0.0/16"
+"10.1.0.0/24"
+"10.1.1.0/24"
+"10.1.2.0/24"
+"10.1.3.0/24"
+"10.1.4.0/24"
+"10.1.5.0/24“
+```
+- 评分标准：完全匹配，顺序重要
+
+**序号 1-2**
+- **1-2-A（命令输入）**
+```
+aws ec2 describe-route-tables --filter Name=tag:Name,Values=wsi-app-a-rt
+--query "RouteTables[].Routes[].NatGatewayId" | grep "nat-" | wc -l \
+; aws ec2 describe-route-tables --filter Name=tag:Name,Values=wsi-app-b-rt
+--query "RouteTables[].Routes[].NatGatewayId" | grep "nat-" | wc -l \
+; aws ec2 describe-route-tables --filter Name=tag:Name,Values=wsi-public-rt
+--query "RouteTables[].Routes[]" | grep "igw-" | wc -l \
+; aws ec2 describe-route-tables --filter Name=tag:Name,Values=wsi-data-rt
+--query "RouteTables[].Routes[]" | grep -E "igw-|nat-" | wc -l
+```
+- **1-2-A（预期输出）**
+```
+1
+1
+1
+0
+```
+- 评分标准：完全匹配，顺序重要
+
+云计算 第1任务 评分标准 18 - 5
+
+**序号 1-3**
+- **1-3-A（命令输入）**
+```
+aws ec2 describe-vpc-endpoints --query "VpcEndpoints[].ServiceName"
+```
+- **1-3-A（预期输出）**
+```
+[
+"com.amazonaws.ap-northeast-2.s3",
+"com.amazonaws.ap-northeast-2.ecr.api",
+"com.amazonaws.ap-northeast-2.ecr.dkr"
+]
+```
+- 评分标准：最少_内容包含，顺序无关
+
+**序号 2-1**
+- **2-1-A（命令输入）**
+```
+aws ec2 describe-instances --filter Name=tag:Name,Values=wsi-bastion --query
+"Reservations[0].Instances[0].InstanceType"
+```
+- **2-1-A（预期输出）**
+```
+"t3.small"
+```
+- 评分标准：完全匹配
+
+```
+aws ec2 describe-instances --filter Name=tag:Name,Values=wsi-bastion --query
+```
+
+"Reservations[0].Instances[0].SecurityGroups[0].GroupName" \
+2-2-A
+(命令输入)
+
+; aws ec2 describe-security-groups --filter
+Name=group-name,Values=wsi-bastion-sg --query
+"SecurityGroups[0].IpPermissions[].{FromPort:FromPort,ToPort:ToPort,IpRanges:IpRan
+ges}"
+"wsi-bastion-sg"
+[
+{
+
+2-2
+
+"ToPort": 4272,
+2-2-A
+
+"FromPort": 4272,
+
+(预期输出)
+
+"IpRanges": [
+
+完全一致
+
+{
+
+忽略 Description
+
+"CidrIp": "0.0.0.0/0" → 可能只允许单个 IP
+}
+]
+}
+]
+
+云计算第1次作业评分标准 18 - 6
+
+序号
+
+评分项
+export SGID=$(aws ec2 describe-security-groups --filter
+Name=group-name,Values=wsi-bastion-sg --query "SecurityGroups[0].GroupId" |
+sed s/\"//g) \
+; aws ec2 authorize-security-group-ingress --group-id $SGID --protocol tcp
+2-3-A
+(命令输入)
+
+--port 22 --cidr 0.0.0.0/0 \
+; sleep 60 \
+; aws ec2 describe-security-groups --filter
+Name=group-name,Values=wsi-bastion-sg --query
+"SecurityGroups[0].IpPermissions[].{FromPort:FromPort,ToPort:ToPort,IpRanges:IpRan
+ges}"
+
+2-3
+
+[
+{
+"ToPort": 4272,
+"FromPort": 4272,
+2-3-A
+"IpRanges": [
+(预期输出)
+{
+完全一致
+"CidrIp": "0.0.0.0/0" → 可能只允许单个 IP
+顺序重要
+}
+]
+}
+]
+aws rds describe-db-instances --db-instance-identifier wsi-rds-instance --query
+3-1-A
+"DBInstances[0].{Engine:Engine,MultiAZ:MultiAZ,DBInstanceStatus:DBInstanceStatus,
+(命令输入)
+DBInstanceClass:DBInstanceClass,StorageEncrypted:StorageEncrypted}"
+{
+
+3-1
+
+"Engine": "mysql",
+3-1-A
+"MultiAZ": true,
+(预期输出)
+"DBInstanceClass": "db.t3.medium",
+完全一致
+"DBInstanceStatus": "available",
+顺序无关
+"StorageEncrypted": true
+}
+
+云计算第1次作业评分标准 18 - 7
+
+序号
+
+评分项
+4-1-A
+(命令输入)
+
+4-1
+
+curl -X GET --max-time 5 -w "\n%{http_code}\n"
+https://${CF_DOMAIN}/v1/product?name=p-H8ds73vW4liO
+
+4-1-A
+(预期输出)
+
+{"message":"The product is well in database"}
+
+完全一致
+
+200
+
+顺序重要
+curl -X GET --max-time 5 -w "\n%{http_code}\n"
+4-2-A
+(命令输入)
+
+https://${CF_DOMAIN}/v1/stress \
+; curl -X POST -H "Content-Type: application/json" -d '{"iterator": 1}' --max-time
+5 -w "\n%{http_code}\n" https://${CF_DOMAIN}/v1/stress
+
+4-2
+4-2-A
+
+{"version":"v1.0"}
+
+(预期输出)
+
+200
+
+完全一致
+
+{"message":"The cpu is loaded"}
+
+顺序重要
+
+201
+
+5-1-A
+(命令输入)
+
+aws ecs describe-services --cluster wsi-ecs-cluster --services "stress" --query
+"services[0].capacityProviderStrategy[].capacityProvider"
+
+5-1-A
+(预期输出)
+
+[
+
+内容包含
+输出 2 个以上
+
+"FARGATE"
+]
+
+允许
+export TaskDefinition=$(aws ecs describe-services --cluster wsi-ecs-cluster
+
+5-1
+
+--services "stress" --query "services[0].deployments[0].taskDefinition" | sed
+5-1-B
+s/\"//g) \
+(命令输入)
+; aws ecs describe-task-definition --task-definition $TaskDefinition --query
+"taskDefinition.{memory:memory,cpu:cpu}"
+{
+5-1-B
+"cpu": "512",
+(预期输出)
+"memory": "1024"
+完全一致
+}
+
+云计算第1次作业评分标准 18 - 8
+
+序号
+
+评分项
+5-2-A
+(命令输入)
+
+aws ecs describe-services --cluster wsi-ecs-cluster --services "product" --query
+"services[0].capacityProviderStrategy[].capacityProvider"
+
+5-2-A
+(预期输出)
+
+[
+
+内容包含
+输出 2 个以上
+
+"FARGATE"
+]
+
+允许
+export TaskDefinition=$(aws ecs describe-services --cluster wsi-ecs-cluster
+
+5-2
+
+--services "product" --query "services[0].deployments[0].taskDefinition" | sed
+5-2-B
+s/\"//g) \
+(命令输入)
+; aws ecs describe-task-definition --task-definition $TaskDefinition --query
+"taskDefinition.{memory:memory,cpu:cpu}"
+5-2-B
+
+{
+
+(预期输出)
+
+"cpu": "512",
+
+完全一致
+
+"memory": "1024"
+
+顺序重要
+
+}
+export TaskDefinition=$(aws ecs describe-services --cluster wsi-ecs-cluster
+--services "product" --query "services[0].deployments[0].taskDefinition" | sed
+s/\"//g) \
+
+5-3-A
+; aws ecs describe-task-definition --task-definition $TaskDefinition --query
+(命令输入)
+"taskDefinition.containerDefinitions[].environment" | grep dbinfo | wc -l \
+
+5-3
+
+; aws ecs describe-task-definition --task-definition $TaskDefinition --query
+"taskDefinition.containerDefinitions[].secrets" | grep dbinfo | wc -l
+5-3-A
+(预期输出)
+
+0
+
+完全一致
+
+1
+
+顺序重要
+
+云计算第1次作业评分标准 18 - 9
+
+序号
+
+评分项
+export LoadBalancerArn=$(aws elbv2 describe-load-balancers --names "wsi-alb"
+6-1-A
+(命令输入)
+
+--query "LoadBalancers[0].LoadBalancerArn" | sed s/\"//g) \
+; aws elbv2 describe-listeners --load-balancer-arn $LoadBalancerArn --query
+"Listeners[0].DefaultActions"
+[
+{
+"Type": "fixed-response",
+"Order": 1,
+
+6-1-A
+
+"FixedResponseConfig": {
+
+(预期输出)
+
+"MessageBody": "Contents Not Found",
+完全一致
+
+"StatusCode": "404",
+
+顺序无关
+
+"ContentType": "text/plain"
+}
+}
+]
+
+export LoadBalancerArn=$(aws elbv2 describe-load-balancers --names "wsi-alb"
+--query "LoadBalancers[0].LoadBalancerArn" | sed s/\"//g) \
+
+6-1
+
+6-1-B
+
+; export ListenerArn=$(aws elbv2 describe-listeners --load-balancer-arn
+
+(命令输入)
+
+$LoadBalancerArn --query "Listeners[0].ListenerArn" | sed s/\"//g) \
+; aws elbv2 describe-rules --listener-arn $ListenerArn --query
+"Rules[].Conditions[].{Field:Field, Values:Values}"
+
+[
+{
+"Field": "path-pattern",
+"Values": [
+"/v1/stress"
+]
+
+6-1-B
+},
+
+(预期输出)
+
+{
+
+完全一致
+
+"Field": "path-pattern",
+"Values": [
+"/v1/product"
+]
+}
+]
+
+云计算第1次作业评分标准 18 - 10
+
+序号
+
+评分项
+6-2-A
+curl http://${LB_DOMAIN}/v1/stress -w \\n%{http_code}\\n --max-time 5
+(命令输入)
+6-2-A
+curl: (28) Connection timed out after 5000 milliseconds
+(预期输出)
+000
+
+6-2
+
+完全一致
+6-2-B
+curl https://${CF_DOMAIN}/v1/stress -w \\n%{http_code}\\n --max-time 5
+(命令输入)
+6-2-B
+{"version":"v1.0"}
+(预期输出)
+200
+完全一致
+7-1-A
+aws s3 ls | grep -E "ap-wsi-static|us-wsi-static"
+(命令输入)
+
+7-1
+
+7-1-A
+(预期输出)
+
+2023-10-14 06:47:27 ap-wsi-static-<英文 4 位>
+
+下划线部分匹配
+
+2023-10-14 06:47:03 us-wsi-static-<英文 4 位>
+
+日期、时间无关
+cat << EOF >> testobject-ap.txt
+This is testobject for marking that uploaded to AP-NORHTEAST-2.
+EOF
+cat << EOF >> testobject-us.txt
+
+这是用于标记已上传至 US-EAST-1 的测试对象。
+7-2-A
+EOF
+（输入命令）
+aws s3 cp --quiet testobject-ap.txt s3://$AP_BUCKET/static/ \
+
+7-2
+
+; aws s3 cp --quiet testobject-us.txt s3://$US_BUCKET/static/ \
+; sleep 60 \
+; aws s3 ls s3://$AP_BUCKET/static/ | grep 'testobject-us.txt' \
+; aws s3 ls s3://$US_BUCKET/static/ | grep 'testobject-ap.txt'
+7-2-A
+（预期输出）
+
+2023-07-26 05:41:04
+
+59 testobject-us.txt
+
+下划线部分匹配
+
+2023-07-26 06:23:51
+
+128 testobject-ap.txt
+
+日期、时间无关
+
+云计算第1次作业评分标准 18 - 11
+
+序号
+
+评分项
+
+aws s3api get-bucket-encryption --bucket $AP_BUCKET --query
+7-3-A
+
+7-3
+
+ServerSideEncryptionConfiguration.Rules[0].ApplyServerSideEncryptionByDefault.SS
+
+（输入命令）
+
+EAlgorithm \
+
+<英文字母 4 位>
+
+; aws s3api get-bucket-encryption --bucket $US_BUCKET --query
+
+修改后输入
+
+ServerSideEncryptionConfiguration.Rules[0].ApplyServerSideEncryptionByDefault.SS
+EAlgorithm
+
+7-3-A
+"aws:kms"
+（预期输出）
+"aws:kms"
+完全匹配
+
+8-1-A
+
+curl --silent -i -X GET --max-time 5 -w "\n%{http_code}\n"
+
+（输入命令）
+
+https://${CF_DOMAIN}/v1/stress | grep -iE "x-cache:|^200$"
+
+8-1-A
+x-cache: Miss from cloudfront
+
+8-1
+
+（预期输出）
+200
+完全匹配
+
+sleep 30 \
+8-1-B
+; curl --silent -i -X GET --max-time 5 -w "\n%{http_code}\n"
+（输入命令）
+https://${CF_DOMAIN}/v1/stress | grep -iE "x-cache:|^200$"
+
+8-1-B
+x-cache: Miss from cloudfront
+（预期输出）
+200
+完全匹配
+
+云计算第1次作业评分标准 18 - 12
+
+序号
+
+评分项
+cat << EOF >> testobject-cdn.txt
+8-2-A
+这是用于标记 CDN 执行情况的测试对象。
+（输入命令）
+EOF
+aws s3 cp --quiet testobject-cdn.txt s3://$AP_BUCKET/static/ \
+8-2-A
+; curl --silent -i -X GET --max-time 5 -w "\n%{http_code}\n"
+（输入命令）
+https://${CF_DOMAIN}/static/testobject-cdn.txt | grep -iE "x-cache:|^200$"
+
+8-2-A
+
+8-2
+
+（预期输出）
+
+x-cache: Miss from cloudfront
+200
+
+sleep 30 \
+8-2-B
+; curl --silent -i -X GET --max-time 5 -w "\n%{http_code}\n"
+（输入命令）
+https://${CF_DOMAIN}/static/testobject-cdn.txt | grep -iE "x-cache:|^200$"
+
+8-2-B
+x-cache: Hit from cloudfront
+（预期输出）
+200
+完全匹配
+
+cat << EOF >> testobject-cdn2.txt
+8-3-A
+这是用于标记 CDN 执行情况的测试对象。
+（输入命令）
+EOF
+aws s3 cp --quiet testobject-cdn2.txt s3://$AP_BUCKET/static/ \
+8-3-A
+（输入命令）
+
+8-3
+
+; curl --silent -i -X GET --max-time 5 -w "\n%{http_code}\n"
+http://${CF_DOMAIN}/static/testobject-cdn2.txt | grep -iE
+"x-cache:|location:|^301$"
+
+8-3-A
+（预期输出）
+
+Location: https://d3499uzxrak3w3.cloudfront.net/static/testobject2.txt
+
+下划线部分
+
+X-Cache: Redirect from cloudfront
+
+即使不同也允许
+
+301
+
+其余匹配
+
+云计算第1次作业评分标准 18 - 13
+
+序号
+
+评分项
+cat << EOF >> testobject-cdn-us.txt
+这是用于标记在 US-EAST-1 存储桶中执行 CDN 的测试对象。
+8-4-A
+（输入命令）
+
+EOF
+cat << EOF >> testobject-cdn-ap.txt
+这是用于标记在 AP-NORTHEAST-2 存储桶中执行 CDN 的测试对象。
+EOF
+
+8-4-A
+
+aws s3 cp --quiet testobject-cdn-ap.txt s3://$AP_BUCKET/static/ \
+
+（输入命令）
+
+; aws s3 cp --quiet testobject-cdn-us.txt s3://$US_BUCKET/static/
+
+sleep 60 \
+
+8-4
+
+; aws s3 rm --quiet s3://$AP_BUCKET/static/testobject-cdn-us.txt \
+; aws s3 rm --quiet s3://$US_BUCKET/static/testobject-cdn-ap.txt \
+8-4-A
+; curl --silent -i -X GET --max-time 5 -w "\n%{http_code}\n"
+（输入命令）
+https://${CF_DOMAIN}/static/testobject-cdn-ap.txt | grep -iE "x-cache:|^200$" \
+; curl --silent -i -X GET --max-time 5 -w "\n%{http_code}\n"
+https://${CF_DOMAIN}/static/testobject-cdn-us.txt | grep -iE "x-cache:|^200$"
+
+x-cache: Miss from cloudfront
+8-4-A
+200
+（预期输出）
+x-cache: Miss from cloudfront
+完全匹配
+200
+
+云计算第1次作业评分标准 18 - 14
+
+序号
+
+评分项
+curl --silent -i -X GET --max-time 5 -w "\n%{http_code}\n"
+https://${CF_DOMAIN}/v1/stress > /dev/null 2>&1 \
+9-1-A
+; curl --silent -i -X POST --max-time 5 -w "\n%{http_code}\n" -H
+（输入命令①）
+"Content-Type: application/json" -d '{"iterator":1}' https://${CF_DOMAIN}/v1/stress
+> /dev/null 2>&1
+sleep 60 \
+; QUERY_ID=$(aws logs start-query --log-group-name /wsi/webapp/stress
+--start-time $(date -d '3 minute ago' "+%s") --end-time $(date "+%s")
+
+9-1
+
+--query-string 'fields @message' | jq -r '.queryId') \
+9-1-A
+; sleep 5 \
+（输入命令②）
+; aws logs get-query-results --query-id $QUERY_ID --query "results[].value" |
+grep "GET /v1/stress" | wc -l \
+; aws logs get-query-results --query-id $QUERY_ID --query "results[].value" |
+grep "POST /v1/stress" | wc -l
+9-1-A
+（预期输出）
+
+1
+
+如果输出大于等于 1
+
+1
+
+则允许
+9-2-A
+（输入命令）
+
+curl --silent -i -X GET --max-time 5 -w "\n%{http_code}\n"
+https://${CF_DOMAIN}/v1/product > /dev/null 2>&1
+sleep 60 \
+; QUERY_ID=$(aws logs start-query --log-group-name /wsi/webapp/product
+--start-time $(date -d '3 minute ago' "+%s") --end-time $(date "+%s")
+
+9-2-A
+--query-string 'fields @message | limit 20' | jq -r '.queryId') \
+（输入命令）
+
+9-2
+
+; sleep 5 \
+; aws logs get-query-results --query-id $QUERY_ID --query "results[].value" |
+grep "GET /v1/product" | wc -l
+9-2-A
+（预期输出）
+1
+如果输出大于等于 1
+则允许
+
+云计算第1次作业评分标准 18 - 15
+
+序号
+
+评分项
+QUERY_ID=$(aws logs start-query --log-group-name /wsi/webapp/stress
+--start-time $(date -d '24 hours ago' "+%s") --end-time $(date "+%s")
+9-3-A
+（输入命令）
+
+--query-string 'fields @message | limit 20' | jq -r '.queryId')
+sleep 5
+aws logs get-query-results --query-id $QUERY_ID --query "results[].value" | grep
+"GET /healthcheck" | wc -l
+
+9-3-A
+（预期输出）
+
+0
+
+完全匹配
+
+9-3
+QUERY_ID=$(aws logs start-query --log-group-name /wsi/webapp/product
+--start-time $(date -d '24 hours ago' "+%s") --end-time $(date "+%s")
+9-3-B
+（输入命令）
+
+--query-string 'fields @message | limit 20' | jq -r '.queryId')
+sleep 5
+aws logs get-query-results --query-id $QUERY_ID --query "results[].value" | grep
+"GET /healthcheck" | wc -l
+
+9-3-B
+（预期输出）
+
+0
+
+完全匹配
+
+云计算第一项作业评分标准 18 - 16
+
+序号
+
+评分项
+10-1-A
+(命令输入)
+
+aws ecs describe-services --cluster wsi-ecs-cluster --services stress --query
+"services[0].deployments[0].desiredCount"
+
+10-1-A
+(预期输出)
+小于等于2的数
+
+2
+
+若输出则允许
+(0 除外)
+
+for i in $(seq 1000000)
+do
+10-1-B
+(命令输入)
+
+10-1
+
+curl --silent -i -X POST --max-time 5 -w "\n%{http_code}\n" -H
+"Content-Type: application/json" -d '{"iterator":99999999999}'
+https://${CF_DOMAIN}/v1/stress > /dev/null 2>&1
+done
+
+10-1-B
+等待5分钟后，按 Ctrl + C 中断命令。
+(等待)
+
+10-1-B
+(命令输入)
+
+aws ecs describe-services --cluster wsi-ecs-cluster --services stress —query
+"services[0].deployments[0].desiredCount“
+
+10-1-B
+(预期输出)
+5
+大于等于3的数
+若输出则允许
+
+云计算第一项作业评分标准 18 - 17
+
+序号
+
+评分项
+11-1-A
+(文件复制)
+
+将评分用文件复制到 /home/ec2-user/stress 路径。
+- stress-amd64
+
+（stress-v1.1 文件夹下）
+
+11-1-A
+/home/ec2-user/push.sh "deploy new version binary without vulnerability"
+(命令输入)
+11-1-A
+等待5分钟。
+
+11-1
+
+(等待)
+
+11-1-A
+(命令输入)
+
+curl --silent -X GET --max-time 5 -w "\n%{http_code}\n"
+https://${CF_DOMAIN}/v1/stress
+
+11-1-A
+(预期输出)
+
+{"version":"v1.1"}
+200
+
+如果 11-1 不工作，则 11-2 也不评分。
+11-2-A
+(文件复制)
+
+将评分用文件复制到 /home/ec2-user/stress 路径。
+- Dockerfile
+- stress-amd64
+
+（stress-v1.0 文件夹下）
+
+11-2-A
+(命令输入)
+
+cd /home/ec2-user/stress
+/home/ec2-user/push.sh "deploy new version binary with vulnerability"
+
+11-2-A
+
+11-2
+
+等待5分钟。
+(等待)
+
+11-2-A
+(命令输入)
+
+curl --silent -X GET --max-time 5 -w "\n%{http_code}\n"
+https://${CF_DOMAIN}/v1/stress
+
+11-2-A
+(预期输出)
+
+{"version":"v1.1"}
+200
+
+确认是否输出为1.1
+
+云计算第一项作业评分标准 18 - 18

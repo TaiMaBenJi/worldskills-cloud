@@ -1,0 +1,351 @@
+2023 忠清南道第58届全国技能竞赛评分标准
+1. 评分注意事项
+
+职 种 名
+
+云计算
+
+※ 请注意以下事项进行评分。
+1) AWS 区域使用 ap-northeast-2。
+2) 网页访问使用 Chrome 或 Firefox。
+3) 网页中根据语言不同，显示的文句可能不同。
+4) shell 中命令的输出可能因版本而略有不同。
+5) 试题和评分表中的 <> 是变量。请更改该部分并输入。
+6) 评分必须按题目顺序进行。
+7) 已删除的评分资料无法恢复，请务必注意，在异议申请完成之后，
+删除选手创建的云资源。
+8) 有部分分数的题目在评分项中标注了部分分数。
+9) 没有单独标注部分分数的题目，必须全部答对才计入分数。
+10) 读取资源信息的评分项基本通过脚本结果进行评分，
+如果选手有异议，可以直接输入命令进行确认。
+11) [ ] 符号不影响评分。
+12) 评分内容中的 $ 符号不是包含在命令中，而是表示 shell。
+
+云计算第3课题评分标准 6 - 1
+
+2. 评分标准表
+1) 主要项별 配分
+
+课题
+
+序号
+
+编号
+
+第3课题
+
+职 种 名
+
+云计算
+
+评分方法
+主要项
+
+配分
+独立
+
+合议
+
+评分时机
+竞赛
+
+竞赛
+
+进行中 结束后
+
+1
+
+容器镜像构建
+
+5
+
+○
+
+○
+
+2
+
+S3 Data Protect
+
+5
+
+○
+
+○
+
+3
+
+IAM Permission
+
+5
+
+○
+
+○
+
+4
+
+IaC
+
+5
+
+○
+
+○
+
+合
+
+计
+
+20
+
+云计算第3课题评分标准 6 - 2
+
+备注
+
+2) 评分方法及标准
+课题
+
+序号
+
+编号
+
+1
+
+2
+
+主要项
+
+细项（评分方法）
+
+配分
+
+1
+
+foo repository 确认
+
+0.5
+
+容器镜像
+
+2
+
+推送脚本确认
+
+1.5
+
+构建
+
+3
+
+容器镜像构建/运行确认
+
+1.5
+
+4
+
+容器镜像漏洞确认
+
+1.5
+
+1
+
+S3 存储桶确认
+
+0.5
+
+2
+
+现有数据确认
+
+1.5
+
+3
+
+Macie Job 确认
+
+1.5
+
+4
+
+变更数据确认
+
+1.5
+
+1
+
+red-user 登录确认
+
+1
+
+2
+
+red-user 普通权限确认
+
+1
+
+3
+
+red-user RunInstance 权限确认（失败）
+
+1.5
+
+4
+
+red-user RunInstance 权限确认（成功）
+
+1.5
+
+1
+
+Cloudformation stack 创建确认
+
+0.5
+
+2
+
+S3 存储桶确认
+
+1.5
+
+3
+
+S3 存储桶构成确认
+
+1.5
+
+4
+
+KMS Key 确认
+
+1.5
+
+S3 Data Protect
+
+第3课题
+3
+
+4
+
+序号
+
+IAM Permission
+
+IaC
+
+编号
+
+总分
+
+云计算第3课题评分标准 6 - 3
+
+20
+
+3) 评分内容
+序号
+0
+
+事前准备
+1) bastion 命令及权限确认（awscli permission, jq, curl, awscli region）
+2) 将 marking 脚本下载到 /root/marking。
+
+云计算第3课题评分标准 6 - 4
+
+序号
+
+评分项
+- 在 AWS 控制台访问 ECR，确认是否存在名为 foo 的 repository。
+
+1-1
+
+- 在 AWS 控制台访问 ECR，确认名为 foo 的 repository 是否开启了 scan-on-push 功能。
+- 通过 ssh 以 ec2-user 账户访问 Bastion 服务器后，切换到 root 账户。
+- 移动到 /home/ec2-user/container 路径。
+$ cd /home/ec2-user/container
+
+1-2
+
+- 输入 ./build.sh 命令执行脚本。
+$ ./build.sh
+- 在 AWS 控制台访问 ECR，确认名为 foo 的 repository 中是否上传了带有当前时间段标签的镜像。
+最多可等待 5 分钟。
+- 通过 ssh 以 ec2-user 账户访问 Bastion 服务器后，切换到 root 账户。
+- 执行以下命令运行容器。（<time>部分替换为 1-2 的镜像标签）
+$ docker run -d -p 8080:8080 foo:<time>
+
+1-3
+
+curl -X GET -w "\n%{http_code}\n" http://localhost:8080/v1/foo
+- 确认如下输出。
+{"application":"foo"}
+200
+
+1-4
+
+- 在 AWS 控制台访问 ECR，确认名为 foo 的 repository 中带有当前时间段标签的镜像
+漏洞为 0 个。
+- 在 AWS 控制台访问 S3，确认创建了 2 个 S3 存储桶。
+
+2-1
+
+wsi-day3-private-<任意4位英文字母>
+wsi-day3-public-<任意4位英文字母>
+
+2-2
+
+- 从 wsi-day3-private-<任意4位英文字母> 存储桶下载 employee024.csv 文件。
+- 确认存在 birthday, name, licensenumber, gender, epid 列。
+
+2-3
+2-4
+
+- 在 AWS 控制台访问 Macie，确认运行了一个以上的 Job。
+- 从 wsi-day3-public-<任意4位英文字母> 存储桶下载 employee024.csv 文件。
+- 确认仅存在 birthday, name, gender 列。
+
+3-1
+
+- 在 AWS 控制台以 red-user 用户正常登录。
+- 确认是否正常登录。
+
+3-2
+
+- 在 AWS 控制台访问 ec2，确认 wsi-bastion 实例是否显示在列表中。
+- 在 AWS 控制台访问 ec2，确认是否显示 wsi-bastion 实例的实例类型。
+
+云计算第3课题评分标准 6 - 5
+
+序号
+
+3-3
+
+评分项
+- 在 AWS 控制台尝试创建任意 ec2 实例。（标签信息设置为 key=project, value=blue。）
+-> 确认实例未创建并发生错误。
+
+3-4
+
+- 在 AWS 控制台尝试创建任意 ec2 实例。（标签信息设置为 key=project, value=red。）
+-> 实例应正常创建。
+
+4-1
+
+- 在 AWS 控制台访问 Cloudformation，确认 day3-wsi-s3-bucket-stack 堆栈的状态
+为 CREATE_COMPLETE 或 UPDATED_COMPLETE 状态。
+
+4-2
+
+- 在 AWS 控制台访问 S3，确认 S3 存储桶。
+day3-wsi-temp-bucket-<任意4位英文字母>
+
+4-3
+
+- 在 AWS 控制台访问 S3，确认 S3 属性。
+- 确认 Default encryption 项的 Encryption Type 设置为 SSE-KMS。
+
+4-4
+
+- 在 AWS 控制台访问 KMS，确认 Customer managed key。
+- 确认存在带有 day3-wsi-temp-bucket-<任意4位英文字母> Alias 的 CMK。
+
+云计算第3课题评分标准 6 - 6

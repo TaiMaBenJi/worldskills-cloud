@@ -1,0 +1,345 @@
+# Source: /var/minis/shared/worldskills-cloud/github-repos/wsc2025-15-days-ago-task1-main/광주/과제지&배포파일/1과제-문제_vf.hwpx
+
+### Contents/section0.xml
+2025年度全国技能竞赛任务
+<hp:sz width="50460" widthRelTo="ABSOLUTE" height="6804" heightRelTo="ABSOLUTE" protect="0"/><hp:pos treatAsChar="1" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="COLUMN" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/><hp:outMargin left="140" right="140" top="140" bottom="140"/><hp:inMargin left="510" right="510" top="141" bottom="141"/><hp:tr><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="5"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="8"><hp:t>职种名称
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="8"><hp:t>云计算
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="8"><hp:t>任务名称
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="8"><hp:t>Solution Architecture
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="8"><hp:t>任务编号
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="8"><hp:t>第1任务
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="9"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="8"><hp:t>竞赛时间
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="8"><hp:t>4小时
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="8"><hp:t>匿名编号
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="8"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="0" vertsize="1200" textheight="1200" baseline="1020" spacing="720" horzpos="0" horzsize="11916" flags="393216"/></hp:linesegarray></hp:p></hp:subList><hp:cellAddr colAddr="3" rowAddr="1"/><hp:cellSpan colSpan="1" rowSpan="1"/><hp:cellSz width="12938" height="3402"/><hp:cellMargin left="510" right="510" top="141" bottom="141"/></hp:tc><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="10"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="8"><hp:t>评委
+确   认
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="8"><hp:t>     （印）
+</hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="3200" vertsize="7084" textheight="7084" baseline="6021" spacing="1200" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="31" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="10"><hp:t>1. 需求事项
+云计算 第1任务 
+ -
+
+</hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="0" vertsize="1200" textheight="1200" baseline="1020" spacing="720" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p></hp:subList></hp:footer></hp:ctrl><hp:t>您在Wordskills负责利用云解决方案构建应用程序能够运行的IT基础设施。需要充分考虑下图与给定需求，以及云的设计原则——高可用性、可扩展性、成本、安全性等，来构建基础设施。
+图表
+</hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="25644" vertsize="1200" textheight="1200" baseline="1020" spacing="720" horzpos="0" horzsize="0" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="21" styleIDRef="0" pageBreak="1" columnBreak="0" merged="0"><hp:run charPrIDRef="13"><hp:t>Software Stack
+云计算第一课题 
+ - 
+</hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="0" vertsize="1200" textheight="1200" baseline="1020" spacing="720" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p></hp:subList></hp:footer></hp:ctrl><hp:t/></hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="0" vertsize="1200" textheight="1200" baseline="1020" spacing="720" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="14"><hp:t>  
+<hp:sz width="35750" widthRelTo="ABSOLUTE" height="25764" heightRelTo="ABSOLUTE" protect="0"/><hp:pos treatAsChar="1" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="PARA" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/><hp:outMargin left="0" right="0" top="0" bottom="0"/><hp:inMargin left="1417" right="0" top="0" bottom="0"/><hp:tr><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="13"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="22" styleIDRef="21" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="15"><hp:t>AWS
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="22" styleIDRef="21" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="15"><hp:t>开发语言/CNCF/Tools
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="15"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="TOP" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="14"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="14"><hp:t>- VPC
+- EC2
+EKS
+ECR
+Code series
+Secrets Manager
+RDS
+- ALB/NLB
+IAM
+KMS
+- Network Firewall
+- Cloud Watch
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="TOP" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="14"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="14"><hp:t>- Python
+- Bash
+- Helm
+- ArgoCD
+- Fluentbit
+GitHub
+</hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="1920" vertsize="25764" textheight="25764" baseline="21899" spacing="720" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="21" styleIDRef="0" pageBreak="1" columnBreak="0" merged="0"><hp:run charPrIDRef="10"><hp:t>2. 选手注意事项
+  ※ 请考虑以下注意事项完成需求。
+  1) 
+使用机械及工具等时请注意安全，必要时请佩戴安全装备及服装等，以预防事故。
+  2) 作业中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请遵守佩戴安全防护用品等安全守则。
+  3) 
+作业中请注意工具的使用，遵守安全守则以预防事故。
+  4) 比赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+  5) 
+题目中给出的尖括号 
+< > 
+表示变量，选手应适当变更后使用。
+  6) 
+为提高题目解答和评分的效率，Security Group的80/443 Outbound可Anyopen使用。
+  7) 
+Bastion EC2在评分时会使用，请注意不要因关闭或连接问题、权限问题等而遭受不利。
+  8) 所有资源均配置在首尔(ap-northeast-2)区域。
+  9) 提供的资料不做修改直接使用。修改提供的资料使用可能会受到不利影响。
+  10) 
+题目中未给出的值应基于AWS Well-Architected Framework 6 pillars设置适当的值。
+  11) 创建不必要的资源可能会成为扣分因素。（例如：额外创建VPC）
+  12) 所有资源的名称、标签、变量和变量区分大小写。
+  13) 
+第1页的图表是对构成的抽象表示，具体构成应能够满足以下需求。（例：子网可以有2个以上。）
+3. 网络配置
+- 参考Reference01的表创建2个VPC。
+- Hub VPC中有与IGW连接的Public subnet和Network Firewall所在的Firewall subnet。
+- Application VPC中存在与NAT G/W连接的Private Subnet和无法进行互联网通信的Data Subnet。
+4. Transit Gateway
+- 为便于Hub VPC和Application VPC相互通信，使用Transit Gateway。
+- Transit Gateway Name指定为gj2025-tgw。
+hub-tgw-attachment Name: gj2025-hub-tgw-attach
+app-tgw-attachment Name: gj2025-app-tgw-attach
+hub-tgw-rtb Name: gj2025-hub-tgw-rtb
+app-tgw-rtb Name: gj2025-app-tgw-rtb
+5. Bastion
+- 为评分使用AWS EC2创建Bastion Server。
+- 为使评分过程中ip不会突然变更，即使重启也应配置为ip不变更。
+
+- 通过 SSH 访问时，出于安全考虑，必须将端口号改为 2222。
+- 必须在 gj2025-hub-public-subnet-a 子网中运行。
+- Bastion Server 用于评分，必须配置为不存在任何权限问题。
+实例名称标签：gj2025-bastion
+机器镜像：Amazon Linux 2023
+实例类型：t3.medium
+必需软件包：awscliv2、curl、eksctl、kubectl、jq、argo rollouts CLI（kubectl plugin）
+6. 应用程序
+- Red、Green 共存在 2 个应用程序。
+- Red、Green 应用有 2 个 API，并且根据版本，GET API 会提供不同的响应。（应用程序详细信息请参考 Reference02）
+- 应用的健康检查通过 /health 进行。
+- 每个应用通过 Linux 环境变量接收与 DB 相关的配置。
+环境变量值不得直接指定在 Pod 中，必须使用 External Secrets 读取存储在 Secrets Manager 中的值。
+- 需要 DB_USER、DB_PASSWORD、DB_URL，使用 -h 选项运行二进制文件即可查看帮助。
+7. Security
+- 使用 AWS Network Firewall 进行流量检查。
+- Network Firewall 必须检查所有进入和离开的流量。
+- 为了评分，配置 Network Firewall 以允许 Bastion 的所有连接。
+必须阻止 gj2025-app-vpc 中的系统发往外部 ifconfig.io 的 HTTP/HTTPS 请求。
+启用 Network Firewall 的日志记录。
+仅收集 FLOW 类型的日志，并必须发送到 Amazon CloudWatch Logs。
+规则必须配置为 Stateful 形式的 Suricata rule。
+Network Firewall 名称：gj2025-firewall
+Network Firewall 策略：gj2025-firewall-policy
+Network Firewall 规则组：gj2025-firewall-rule
+8. RDBMS
+- 使用 MySQL 作为 Green、Red 应用使用的 RDBMS 引擎，数据库名称为 day1。
+- 使用附件 day1_table_v1.sql 创建表。
+- 数据库必须部署在无法访问互联网的子网中。
+- 出于安全考虑，数据库必须配置为使用端口号 3309。
+- 必须启用常规日志、错误日志、审计日志收集。
+- 数据库必须配置使用客户管理密钥（CMK）进行加密。
+数据库必须防止被意外删除。
+- 数据库实例必须仅通过 RDS 代理接收流量。
+DB 实例名称：gj2025-db-instance
+主用户名：admin
+主密码：Skills53#$%
+DB 实例类：db.t3.medium
+RDS Proxy 名称：gj2025-rds-proxy
+9. Container Registry
+- 使用 ECR 存储 Registry 容器镜像。
+使用两个 ECR repo 存储镜像。
+- 仓库必须配置为通过 AWS 提供的托管密钥服务进行加密。
+Red 仓库名称：red
+Green 仓库名称：green
+10. Container
+- 使用 AWS EKS 将提供的应用程序部署到 Container 环境。
+- 必须考虑高可用性，并且应用程序必须在 Private 环境中运行。
+必须收集控制平面中的所有日志。
+= 给定的应用程序必须使用名为 skills 的 Namespace，在 EKS Cluster 内进行逻辑隔离。
+- 必须配置为考虑零停机部署。
+- 除 Daemonset 外，所有 Addon 都必须部署到 Addon NodeGroup。
+ExternalSecret 对象名称必须设置为 db-secret，并部署到 skills namespace。
+用于 ExternalSecret 的 IRSA 必须仅用于 ExternalSecret 的权限认证。
+EKS Cluster 名称：gj2025-eks-cluster
+EKS Cluster 版本：1.32
+Addon Nodegroup
+- 除应用程序外，所有 Addon 都必须在 Addon Nodegroup 中运行。
+- 必须至少运行 2 个。
+Nodegroup 名称：gj2025-eks-addon-nodegroup
+Node EC2 实例标签：Name=gj2025-eks-addon-node
+Node EC2 实例类型：t3.medium
+App Nodegroup
+- App Nodegroup 中必须运行应用程序。
+- 除应用程序外，其他资源不得存在于 App Nodegroup 中。
+- 必须至少运行 2 个。
+Nodegroup 名称：gj2025-eks-app-nodegroup
+Node EC2 实例标签：Name=gj2025-eks-app-node
+Node EC2 实例类型：t3.medium
+Red App Rollout 名称：red-rollout
+Green App Rollout 名称：green-rollout
+11. Secret management
+- 用于运行应用程序的所有环境变量都必须使用 Secrets Manager 保存。
+- 此外，Secrets Manager 访问必须在 IAM 策略层面遵循最小安全合规原则。
+GitHub AccessToken 必须使用 Secrets Manager 保存。
+External Secrets 必须使用 IRSA（IAM Roles for Service Accounts）作为访问 Secrets Manager 的权限认证。
+必须使用 Secret Store CSI Driver 挂载 Secrets Manager 中的值。
+应用程序 Secrets Manger 名称：gj2025-eks-cluster-catalog-secret
+GitHub AccessToken Secrets Manager 名称：gj2025-github-token
+12. Logging
+- 必须使用 FluentBit 配置应用程序日志记录。
+Fluent-bit 必须部署为 Daemonset。
+Fluent-bit 必须将收集的日志发送到 CloudWatch Log Group。
+必须能够在 CloudWatch Logs 中于 3 秒内确认 Fluent-bit 发送的日志。
+在应用程序日志中，只有包含 HTTP Method 的日志才必须发送到 CloudWatch Log Group。
+但是，包含 /health 路径的日志必须排除。
+Daemonset 的名称分别配置为 red-fluent-bit、green-fluent-bit。
+Fluent-bit 必须配置在 amazon-cloudwatch Namespace 中。
+Network Firewall 日志组名称：/gj2025/firewall
+Green 应用程序日志组名称：/gj2025/app/green
+Green 应用程序日志流名称：app-green-logs
+Red 应用程序日志组名称：/gj2025/app/red
+Red 应用程序日志流名称：app-red-logs
+CodeBuild Red 日志组名称：/gj2025/build/red
+CodeBuild Green 日志组名称：/gj2025/build/green
+13. Load Balancing
+- Green、Red 应用通过位于 Application VPC 中的 Internal ALB 进行负载均衡。
+- 外部用户访问 API 时，通过位于 Hub VPC 中的 External NLB 访问。
+- 使用 PrivateLink 实现 External NLB 与 Internal ALB 之间的通信。
+Internal NLB 名称：gj2025-app-internal-nlb
+External NLB 名称：gj2025-app-external-nlb
+Internal ALB 名称：gj2025-app-alb
+14. Version Control
+- 使用 GitHub public repository 进行版本管理和 CI/CD。
+创建一个仓库，并为每个应用程序分别创建 app、gitops 分支。
+每个 app 分支中必须只存在除版本外的二进制文件（例如：red、green）、Dockerfile、buildspec.yaml 这 3 项。
+除 CodePipeline 源操作外，所有操作都必须通过使用 GitHub AccessToken 进行凭证认证的方式执行。
+gj2025-repository GithubRepository 必须位于 /home/ec2-user/ 路径。
+必须能够使用 ec2-user 向 GithubRepository 执行 git push。
+仓库名称：gj2025-repository
+Red 应用程序 app 分支：app-red
+Red 应用程序 gitops 分支：gitops-red
+Green 应用程序 app 分支：app-green
+Green 应用程序 gitops 分支：gitops-green
+15. 持续集成
+- 使用 CodeBuild 和 CodePipeline 配置 CI。
+构建两个基于 Golang 的 red、green 应用程序。
+必须启用日志记录。
+收集的日志必须发送到 Amazon CloudWatch Logs。
+为了 CodePipeline 的源设置，使用 GitHub OAuth 进行凭证认证。
+Red 构建项目名称：gj2025-app-red-build
+Green 构建项目名称：gj2025-app-green-build
+
+Red Pipeline 名称：gj2025-app-red-pipeline
+Green Pipeline 名称：gj2025-app-green-pipeline
+16. 持续交付
+- 必须为新版本部署配置流水线。
+- 必须使用 ArgoCD 进行配置。
+ArgoCD 必须部署在 App VPC 中。
+- 仪表板必须配置为通过 Hub VPC 中的 External NLB 访问。
+必须使用 admin User 登录，并且必须使用 Skills53 Password。
+- 必须检测到新提交被推送到 gitops 分支，并以 Blue/Green 方式发布。
+- 当新提交被 push 时，新应用程序必须在 Green Stage 中通过 /health 路径执行 Health Check。
+- Health Check 后，如果应用程序没有问题，则必须部署到 Blue Stage。
+CI/CD 必须在 3 分钟内完成任务。
+External NLB 名称：gj2025-argo-external-nlb
+Internal NLB 名称：gj2025-argo-internal-nlb
+参考01
+VPC
+-
+| 名称 | CIDR |
+| --- | --- |
+| gj2025-hub-vpc | 10.0.0.0/16 |
+| gj2025-app-vpc | 192.168.0.0/16 |
+
+子网
+-
+| 名称 | CIDR | VPC |
+| --- | --- | --- |
+| gj2025-hub-public-subnet-a |  |  |
+
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>10.0.0.0/24
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-hub-vpc
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-hub-public-subnet-b
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>10.0.1.0/24
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-hub-vpc
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-hub-private-subnet-a
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>10.0.2.0/24
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-hub-vpc
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-hub-private-subnet-b
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>10.0.3.0/24
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-hub-vpc
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-hub-firewall-subnet
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>10.0.4.0/24
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-hub-vpc
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-app-private-subnet-a
+
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>192.168.0.0/24
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-app-vpc
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-app-private-subnet-b
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>192.168.1.0/24
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-app-vpc
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-app-data-subnet-a
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>192.168.2.0/24
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-app-vpc
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-app-data-subnet-b
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>192.168.3.0/24
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-app-vpc
+</hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="12977" vertsize="24345" textheight="24345" baseline="20693" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="2147483648" paraPrIDRef="32" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="23"><hp:t>路由表 -
+<hp:sz width="50747" widthRelTo="ABSOLUTE" height="25201" heightRelTo="ABSOLUTE" protect="0"/><hp:pos treatAsChar="1" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="PARA" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/><hp:outMargin left="0" right="0" top="0" bottom="0"/><hp:inMargin left="510" right="510" top="141" bottom="141"/><hp:tr><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="17"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>名称
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>子网
+
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>网关
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-hub-public-rtb
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-hub-public-subnet-a
+gj2025-hub-public-subnet-b
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>互联网网关
+(gj2025-hub-igw)
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-hub-private-rtb-a
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-hub-private-subnet-a
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>中转网关
+(gj2025-tgw)
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-hub-private-rtb-b
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-hub-private-subnet-b
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>中转网关
+(gj2025-tgw)
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-hub-firewall-rtb
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-firewall-subnet
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>NAT 网关
+(gj2025-hub-ngw)
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-app-private-rtb-a
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-app-private-subnet-a
+
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>Transit Gatway
+(gj2025-tgw)
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-app-private-rtb-b
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-app-private-subnet-a
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>Transit Gateway
+(gj2025-tgw)
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-app-data-rtb-a
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-app-data-subnet-b
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>X
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-app-data-rtb-b
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>gj2025-app-data-subnet-b
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>X
+</hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="39082" vertsize="25201" textheight="25201" baseline="21421" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="31" styleIDRef="0" pageBreak="1" columnBreak="0" merged="0"><hp:run charPrIDRef="28"><hp:t>Reference02
+客户 -
+<hp:sz width="50799" widthRelTo="ABSOLUTE" height="22860" heightRelTo="ABSOLUTE" protect="0"/><hp:pos treatAsChar="1" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="COLUMN" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/><hp:outMargin left="141" right="141" top="141" bottom="141"/><hp:inMargin left="510" right="510" top="141" bottom="141"/><hp:tr><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="36" styleIDRef="21" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="29"><hp:t>Verbm, 路径
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>请求
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>响应 (v1.0.0)
+
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>响应 (v1.0.1)
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>GET /health
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>‘{”x”: “abcd”, “y”: 21}’
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>‘{”status”: “inserted”, “id”: “xx11abcd”}’
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="0" vertsize="1000" textheight="1000" baseline="850" spacing="600" horzpos="0" horzsize="11680" flags="393216"/></hp:linesegarray></hp:p></hp:subList><hp:cellAddr colAddr="3" rowAddr="1"/><hp:cellSpan colSpan="1" rowSpan="1"/><hp:cellSz width="12702" height="4572"/><hp:cellMargin left="510" right="510" top="141" bottom="141"/></hp:tc></hp:tr><hp:tr><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>POST /green
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>?id=xx11abcd
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>‘{”x”: “abcd”, “y”: 21, “version”: “1.0.0”}’
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>‘{”x”, “abcd”, “y”: 21, “version”: “1.0.1”}’
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>GET /green
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>‘{”name”: “kim”}’
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>‘{”status”: “inserted”, “id”: “yy11abcd”}’
+
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="0" vertsize="1000" textheight="1000" baseline="850" spacing="600" horzpos="0" horzsize="11680" flags="393216"/></hp:linesegarray></hp:p></hp:subList><hp:cellAddr colAddr="3" rowAddr="3"/><hp:cellSpan colSpan="1" rowSpan="1"/><hp:cellSz width="12702" height="4572"/><hp:cellMargin left="510" right="510" top="141" bottom="141"/></hp:tc></hp:tr><hp:tr><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>GET /red
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>?id=yy11abcd
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>‘{”name”: “kim”, “version”: “1.0.0”}’
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>‘{”name”: “kim”, “version”: “1.0.1”}’
+
+
+### :: 预览文本 ::
+2025年度全国技能大赛赛题
+<职种名><云计算><课题名><Solution Architecture><课题编号><第1课题>
+<比赛时间><4小时><编号><><评委确   认><     (印)>
+1. 需求事项
+你在 Wordskills 中负责利用云解决方案构建能够使应用程序运行的 IT 基础设施的工作。应充分考虑下图与给定的需求事项，以及云的设计原则——高可用性、可扩展性、成本、安全性等，来构建基础设施。
+
+示意图
+
+Software Stack
+  <AWS><开发语言/CNCF/Tools>
+<- VPC - EC2 EKS ECR Code series Secrets Manager RDS - ALB/NLB IAM KMS - Network Firewall - Cloud Watch><- Python - Bash - Helm - ArgoCD - Fluentbit GitHub>
+2. 选手注意事项
+  ※ 请考虑以下注意事项，完成需求事项。
+  1) 使用机械及工具等时请注意安全，必要时请佩戴安全装备及穿着防护服等，以预防事故。
+  2) 作业中请注意预防烫伤、触电、擦伤等安全事故，使用工具或作业器具时请遵守佩戴安全防护用具等安全守则。
+  3) 作业中请注意工具的使用，遵守安全守则，预防事故。
+  4) 比赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+  5) 题目中给出的尖括号 < > 表示变量，选手应适当更改后使用。
+  6) 为便于解题与评分，Security Group 的 80/443 Outbound 可使用 Anyopen。
+  7) Bastion EC2 在评分时会被使用，因此请注意不要因关闭或连接问题、权限问题等而遭受不利。

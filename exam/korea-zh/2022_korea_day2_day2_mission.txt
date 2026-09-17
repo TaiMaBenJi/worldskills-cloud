@@ -1,0 +1,120 @@
+2022 庆尚南道 第57届全国技能大赛
+| 职业名称 | 云计算 | 任务名称 | Automation |
+| 比赛时间 | 4小时 | 密号 | |
+| 任务编号 | 第2题 | 评委确认 | (印) |
+
+1. 需求
+构建用于应用程序稳定部署的 CI/CD pipeline。利用 AWS Code 系列构建 pipeline，并且必须能够以容器形式部署到 ECS。
+
+软件栈
+- AWS
+- Application
+- codecommit
+- ecr
+- ec2
+- codebuild
+- ecs
+- load balancer
+- codedeploy
+- vpc
+- codepipeline
+- route53
+云计算 第2题 5 - 1
+
+- golang
+
+2. 选手注意事项
+※ 请考虑以下注意事项并完成需求。
+1) 使用机械及工具等时请注意安全，必要时请穿戴安全装备及服装等，以预防事故。
+2) 作业中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请佩戴安全防护用品，遵守安全规则。
+3) 作业中请注意工具的使用，遵守安全规则，预防事故。
+4) 比赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+5) 选手的账户存在费用限制。若使用超过费用限制，账户可能无法使用。
+6) 题目中给出的括号表示变量，选手可适当更改后使用。
+7) 为提高题目效率，Security Group 的 80/443 outbound 请设置为 anyopen 使用。
+8) 评分时将使用 Bastion EC2，请不要将其关闭，以免受到不利影响。
+9) 任务结束时，请终止所有正在进行的测试，以免服务器产生额外负载。
+10) 需要指定 Region 的服务请全部配置在 ap-northeast-2 区域。
+11) 对于可进行高可用性配置的服务，请利用已创建的所有 AZ 进行配置。
+12) 评分将在通过 SSH 访问 Bastion 服务器后，使用系统的 root 账户进行。如有访问问题或权限问题，可能会对评分造成不利影响。
+13) 对于 ECS 的 EC2 host，不会评分 AMI type、Instance Type 是什么值，但需要考虑费用和部署时间，找到合适的 Instance Type。也就是说，可自由选择 c5.large 或 m5.xlarge 等 Type，但部署测试时若因 Instance Type 问题导致超时，将无法得分。
+14) 在 Code Deploy 中进行部署失败测试时，通过更改端口，或使用非成功的 HTTP 响应代码、/health API 不存在等，确认 health check 是否失败，并据此进行评分。按评分表标准，如果相应信息不正确，则确认是否到 Build 阶段为止成功，而在 Deploy 阶段未完成部署。
+15) 使用 Code Deploy 进行部署评分时，若正常部署完成，Deploy status 的 Step1 ~ Step4 必须全部为 Succeeded，Traffic shifting progress 必须为 Original 0%、Replacement 100%。
+16) 回滚部署测试时，应在 Deploy 的 Install 阶段通过重试等等待 3 分钟以上后，再执行回滚。即整个部署必须在 7 分钟内完成，因此如果 Build 阶段耗时 4 分钟以上，即为失败。
+17) 比赛结束前，部署到 ECS 的应用程序也必须以原始代码完成部署。
+云计算 第2题 5 - 2
+
+3. 网络配置
+创建 VPC 以配置云网络。使用 10.10.0.0/16 网络。
+VPC 名称为 skills-vpc。考虑 HA，设计 VPC 时至少包含 3 个 AZ。
+下表中的 Name 是子网的 Tag(Name)。表中的 route table 是 Route table 的 Tag(Name)。请利用表信息，以 Key 为 Name、Value 为相应值进行配置。
+
+| Name | 互联网访问 | 路由表 | 子网掩码 |
+| skills-priv-a | NAT 网关 | skills-priv-a-rt | 10.10.0.0/24 |
+| skills-priv-b | NAT 网关 | skills-priv-b-rt | 10.10.1.0/24 |
+| skills-priv-c | NAT 网关 | skills-priv-c-rt | 10.10.2.0/24 |
+| skills-pub-a | Internet 网关 | skills-pub-rt | 10.10.10.0/24 |
+| skills-pub-b | Internet 网关 | skills-pub-rt | 10.10.11.0/24 |
+| skills-pub-c | Internet 网关 | skills-pub-rt | 10.10.12.0/24 |
+
+4. 应用程序
+提供用 Golang 实现的简单应用程序。提供 /health API 和 /v1/dummy API。
+提供的代码可在任务进行中修改，但为了评分，必须在比赛结束前上传提供的原始版本。
+
+| API | Response |
+| /health | code : 200, body : OK |
+| /v1/dummy | code : 200, body : BLUE |
+
+5. ECS
+配置 ECS，使容器以 EC2 base 运行。
+- cluster name : skills-cluster
+- Task definition : skills-td
+- Security Group : skills-ecs-sg
+- Service : skills-svc
+
+6. 负载均衡
+通过 ALB 进行负载均衡。
+- ALB 名称 : skills-alb
+- 目标组名称 : skills-tg1, skills-tg2
+- ALB main listen port : 80
+云计算 第2题 5 - 3
+
+其他
+
+7. Code commit
+将提供的代码上传到 CodeCommit。创建 repository 名称为 skills-commit，并将默认分支名称设置为 upstream。
+
+8. Code Build
+通过提供的 golang app 生成容器镜像。当代码提交到 upstream branch 时，自动生成 Docker image 并上传到 skills-ecr。上传时，镜像标签名称采用韩国时间，以当前日期为基准的 年-月-日.时.分.秒 格式。例 (2022-06-26.09.01.59)
+- Code build name : skills-build
+- ECR name : skills-ecr(private)
+
+9. Code Deploy
+通过 Build 中生成的镜像，使新版本的应用程序能够部署。
+必须能够利用 Code Deploy 的 Blue/Green 功能进行 Blue/Green 部署，并且当达到 health 状态时，必须一次性切换到新版本。如果 health check API 调用失败，则不得部署新版本。利用 ECS 的容器健康检查进行配置，使失败的版本不会被部署。若存在问题，应如下方图片所示，在 Deployment 的 Step1 即 Install 阶段不再继续。
+
+- Application : skills-app
+- Deployment Group : skills-dg
+- Blue/Green 使用的 ALB target groups : skills-tg1, skills-tg2
+- Cluster Name : skills-cluster
+- Service : skills-svc
+
+10. Code Pipeline
+配置为当 Code commit 的 upstream branch 发生变更时自动部署。将上面创建的 Code commit、Code build、Code deploy 分别用作 Source、Build、Deploy。评分时，确认整个配置是否无需另行审批流程即可自动完成部署或回滚。评分时，不会等待 pipeline 完成超过 7 分钟。
+- Pipeline name : skills-pipeline
+云计算 第2题 5 - 4
+
+11. DNS
+配置 Route53 private zone。还要创建一个指向 ALB 值的记录。
+在 Bastion 服务器中，通过该 DNS 调用 ALB。
+- DNS 名称 : skills.local (Private zone)
+- 记录名称 : app.skills.local (ALB 地址)
+
+12. Bastion
+为服务器访问和评分配置 Bastion 服务器。若无法访问该服务器，则无法评分，因此必须确保通过 SSH 的连接和权限没有问题。Bastion 在输入 awscli 时，必须具有与 Admin Policy 相对应的权限。必须能够从 Bastion 服务器访问题目中配置的 ALB。即使重启，IP 也不得更改。
+- EC2 type : t3.small
+- 镜像 : Amazon Linux2
+- 安装包 : awscli, jq, curl
+- Tag : Name=skills-bastion2
+
+云计算 第2题 5 - 5

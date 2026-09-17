@@ -1,0 +1,204 @@
+2025年度地方技能竞赛任务
+
+工种名称
+
+云计算
+
+任务名称
+
+比赛时间
+
+4小时
+
+编号
+
+Small Challenge
+
+任务编号
+
+第 2 任务
+
+评委
+确
+
+认
+
+(签章)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. 需求
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1) Secure Access via VPN（通过 VPN 的安全访问）
+2) Event-driven Autoscaling（事件驱动的自动伸缩）
+3) Infrastructure as Code（基础设施即代码）
+4) EC2 Automation（EC2 自动化）
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. 选手注意事项
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+※ 请在完成需求时注意以下事项。
+1) 使用机械及工具等时请注意安全，必要时请佩戴安全装备和服装，预防事故。
+2) 作业中请注意预防烧伤、触电、擦伤等安全事故，使用工具时请佩戴安全防护用具，遵守安全守则。
+3) 作业中请注意工具的使用，遵守安全守则，预防事故。
+4) 比赛开始前请通过轻度拉伸等放松紧张，使用作业工具时请注意安全。
+5) 题目中的尖括号 <> 表示变量，选手须适当更改后使用。
+6) Security Group 的 80/443 outbound 请设置为 anyopen 使用。
+7) Bastion EC2 用于评分，请确保服务器连接没有问题，以免评分时受到不利影响。
+8) 任务结束前请停止所有运行中的测试和负载，确保服务器没有问题。
+9) 请注意 Tag 信息正确、权限正常，避免无法评分。
+10) 如无另行说明，资源全部配置在 ap-northeast-2 地区。
+
+云计算 第2任务 5 - 1
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. Secure Access via VPN（通过 VPN 的安全访问）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+通过 AWS Client VPN 实现从本地 PC 访问 AWS VPC。VPC 的 Name(tag) 为 ws-vpn-vpc，
+CIDR 使用 10.99.0.0/16。
+
+【VPC 构成】
+| 子网名称 (tag) | CIDR | 互联网访问 | 可用区 |
+|----------------|------|-----------|--------|
+| ws-public-subnet-a | 10.99.0.0/24 | IGW | ap-northeast-2a |
+| ws-public-subnet-b | 10.99.1.0/24 | IGW | ap-northeast-2b |
+| ws-private-subnet-a | 10.99.10.0/24 | NAT GW | ap-northeast-2a |
+| ws-private-subnet-b | 10.99.11.0/24 | NAT GW | ap-northeast-2b |
+
+【EC2 构成】
+创建用于部署 Web 服务的 EC2。在 Private subnet 按可用区各创建 1 台，共 2 台实例。
+评分时必须能通过 SSM Session Manager 连接到实例。
+使用以下信息创建后，生成内容为 "Welcome to the ws portal" 的 index.html 文件，
+并配置 Web 服务器展示它。最终在实例中执行 curl http://localhost/index.html 时
+必须能输出 HTML 文件内容。
+
+- EC2 名称 (tag)：ws-web-a, ws-web-b
+- AMI：Amazon Linux 2023
+- 实例类型：t3.micro
+- IAM role：创建拥有 AmazonSSMManagedInstanceCore 权限的 IAM role
+
+【AWS Client VPN】
+为从本地 PC 与 VPC 内部的 EC2 实例通信，配置 AWS Client VPN。
+全部配置完成后，用浏览器访问 ws-web-a 和 ws-web-b 实例的 IP 时，应能正常显示 index.html 的内容。
+VPN 配置文件（profile）已预先提供。
+- Client VPN 名称 (tag)：ws-client-vpn
+- Client CIDR：10.254.0.0/16
+- 认证选项：启用 mutual authentication（双向认证）
+- 目标网络子网：ws-private-subnet-a, ws-private-subnet-b
+- 授权规则：仅允许 VPC CIDR
+
+云计算 第2任务 5 - 2
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. Event-driven Autoscaling（事件驱动自动伸缩）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+使用 KEDA 实现 Pod 自动伸缩。订单/配送服务（order-v1.py）需要根据订单量实现
+Pod 数量增减的伸缩。
+
+【EKS 构成】
+创建用于部署 Web 应用的 EKS cluster。EKS cluster 可以使用 Default VPC，
+也可以新建单独的 VPC。
+EKS cluster 上需要部署处理订单的应用。提供的二进制已在 Amazon Linux 2023 上验证运行。
+应用运行方法可参考以下内容。
+
+- Cluster 名称：order-cluster
+- Cluster 版本：1.31
+- K8s Namespace 名称：order
+- K8s Deployment 名称：order-processor
+- K8s Deployment 最小 Pod 数量：1
+- 环境变量：
+  - QUEUE_URL：<< 下方创建的 SQS URL >>
+  - REGION_NAME：<< 部署应用的 region >>
+
+【Bastion 构成】
+需要创建用于评分的 Bastion 实例。实例可以创建在任意 VPC 中，但必须能访问 EKS cluster
+且拥有 AdministratorAccess 权限。如果无法访问 Bastion 实例或无法访问 EKS cluster，
+评分时会受到不利影响。
+
+- EC2 名称 (tag)：order-bastion
+- AMI：Amazon Linux 2023
+- 实例规格：t3.micro
+
+【SQS 构成】
+创建用于接收和处理订单的 SQS queue。题目未明确指定的值全部使用默认值。
+
+- SQS 名称：order-queue
+
+【自动伸缩构成】
+Pod 数量必须根据 SQS 中堆积的消息数进行调整。在 EKS cluster 上安装并使用 KEDA operator。
+安装方法参考 https://keda.sh/docs/2.15/deploy。Operator Pod 的名称必须包含 keda-operator。
+任务结束前须移除所有负载，运行中的 Order Pod 只允许保留 1 台。超出将无法评分。
+注入负载后等待 5 分钟观察 Pod 扩容；扩容后同样等待 5 分钟观察 Pod 缩容。
+
+- KEDA 伸缩消息数（建议）：5
+
+云计算 第2任务 5 - 3
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. Infrastructure as Code（基础设施即代码）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+使用 Terraform 创建 VPC、EC2 等云基础设施。编写 Terraform 代码。
+
+【Bastion 构成】
+创建用于评分的 Bastion 实例。Bastion 实例部署在 Default VPC 中，必须拥有
+AdministratorAccess 权限。所有 Terraform 代码必须位于 /home/ec2-user/korea/ 路径下。
+评分前会在该路径执行 terraform init、terraform destroy、terraform apply 命令，
+删除已创建的资源后再进行评分。
+
+- EC2 名称：korea-bastion
+- AMI：Amazon Linux 2023
+- EC2 类型：t3.micro
+
+【Terraform 构成】
+编写 Terraform 代码，创建以下给定的 VPC、EC2、IAM 资源。
+如果存在预先创建的资源，资源名称重复可能导致 Terraform 命令报错，
+因此评分前请删除除 Default VPC 和 Bastion 之外的所有资源。
+所有由 Terraform 创建的资源必须带有 Project=KoreaSkills 标签。
+
+- VPC 名称 (tag)：korea-vpc
+- VPC CIDR：10.0.0.0/16
+- Public subnet 名称 (tag)：korea-public-subnet-a（使用 ap-northeast-2a 区）
+- Public subnet CIDR：10.0.0.0/24
+- EC2 名称 (tag)：korea-instance
+- EC2 AMI：Amazon Linux 2023
+- EC2 类型：t3.micro
+- EC2 子网：korea-public-subnet-a
+- EC2 EBS 加密：启用
+- EC2 IAM role：配置 AmazonSSMManagedInstanceCore 权限（可通过 SSM Session Manager 连接）
+
+云计算 第2任务 5 - 4
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6. EC2 Automation（EC2 自动化）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+配置 EC2 删除自动化。本题需在 ap-northeast-1（东京）地区创建资源。
+已指定 Default VPC，使执行 "aws ec2 run-instances" 命令创建 EC2 时，
+即使不指定 VPC ID 也能创建 EC2。
+
+【Bastion 构成】
+创建用于评分的 Bastion 实例。必须部署在 Default VPC 中，必须拥有 AdministratorAccess 权限。
+另外，必须采取保护措施，避免在执行自动化脚本时被误删。
+注意：如果 Bastion 实例被删除，后续将无法评分。
+
+- EC2 名称 (tag)：automation-bastion
+- EC2 termination protection（终止保护）：启用
+- EC2 AMI：Amazon Linux 2023
+- EC2 类型：t3.micro
+
+【自动化构成】
+需要编写 2 个用于删除不必要 EC2 实例的自动化脚本。
+编写的脚本必须位于 /home/ec2-user/ec2-automation/ 路径下，
+其他路径下存在的脚本不予评分。
+
+- delete_old_instance.sh 脚本
+  - 删除所有带 Project=skills2022 标签的实例。
+  - 如果删除了不符合条件的其他实例，将会扣分。
+- delete_all_instance.sh 脚本
+  - 删除账户中除 Bastion 之外的所有实例。
+  - 脚本执行后，如果除 Bastion 外还存在运行或停止的实例，将会扣分。
+
+云计算 第2任务 5 - 5
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+【中文翻译说明】本文由 AI 从韩文原文翻译，术语保留英文原名以便对照评分标准。
+原文件：2025_jibang_day2_day2_mission.txt
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

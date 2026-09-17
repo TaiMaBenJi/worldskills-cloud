@@ -1,0 +1,88 @@
+2023 地方技能竞赛 任务
+| 职业名称 | 云计算 |
+| 任务名称 | Automation |
+| 比赛时间 | 4小时 |
+| 编号 | |
+| 任务编号 | 第2任务 |
+| 评委确认 | (印) |
+
+1. 需求
+为了提高开发效率，计划构建 ETL 管道。由于是在 AWS 环境中开发，因此将全部利用 AWS 解决方案来构建管道。通过 API Gateway 接收日志，并通过 Kinesis 存储到 S3。必须能够使用 Glue 转换日志。
+图表
+
+软件栈
+AWS
+- VPC
+- EC2
+- Kinesis Data Streams
+- Kinesis Data Firehose
+- S3
+- Glue
+
+云计算 第2任务 1 - 4
+
+2. 选手注意事项
+1) 使用机械及工具等时请注意安全，必要时请佩戴安全装备及服装等，以预防事故。
+2) 作业中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请佩戴安全防护用品等，遵守安全守则。
+3) 作业中使用工具时请注意，遵守安全守则，预防事故。
+4) 比赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+5) 选手账户存在费用限制，如果计费高于该限制，可能无法使用账户。
+6) 题目中给出的尖括号 <> 表示变量，选手必须适当更改后使用。
+7) 为提高题目效率，Security Group 的 80/443 outbound 可以 anyopen 使用。
+8) Bastion EC2 在评分时会被使用，因此请注意不要让其被终止而受到不利影响。
+9) 所有资源都在首尔(ap-northeast-2)区域中配置。
+
+云计算 第2任务 2 - 4
+
+3. Bastion 服务器
+使用 EC2 配置 Bastion 服务器。该服务器位于公有区，并且即使停止后重新启动，public IP 也不能更改。配置为可从外部通过 SSH 连接到 Bastion 服务器。评分时也会使用，因此不要让实例被终止而受到不利影响。必须设置为：在 Bastion 服务器内，无论从哪个用户调用 awscli 命令，都具有 PowerUserAccess policy 权限。按照以下需求配置 Bastion 服务器。
+- EC2 type : t3.small
+- 镜像 : Amazon Linux2
+- VPC : 默认 VPC
+- Subnet : Public Subnet
+- 权限 : AWS PowerUser policy
+- 安装包 : awscli, curl, jq
+- Tag : Name=wsi-bastion-ec2
+
+4. S3
+按照以下需求创建 S3 存储桶。创建存储桶后，将提供的 titles.json 文件上传到 <S3存储桶>/data/ref/titles.json。将提供的 samplelog.json 文件上传到 <S3存储桶>/data/raw/2022/01/01/samplelog.json。以下所有服务只能使用该存储桶。
+- 存储桶名称 : wsi-<编号>-<4位随机英文字母>-etl
+
+5. API Gateway
+当收到包含 "Content-Type: application/json" 头、JSON 格式数据(Body)的 POST 请求时，将 Body 中的单条数据记录写入 Kinesis Data Streams。确保数据完整传递。按照以下需求配置并部署 API Gateway。
+- API 名称(类型) : wsi-api(REST API)
+- 资源 : /api
+- 部署阶段名称 : prod
+例如，如果请求包含类似 {"uuid":"1234", "device_ts":"2022-01-01 09:10:25"} 等 JSON 格式数据的 Body，则必须传递到 Kinesis Data Streams。
+
+云计算 第2任务 3 - 4
+
+6. Kinesis Data Streams
+收集从 API Gateway 接收的数据，并将信息发送到 Kinesis Data Firehose。按照以下需求配置 Data Stream。
+- Data Stream 名称 : wsi-data-stream
+- 容量模式 : 预置
+- 预置的分片 : 1
+
+7. Kinesis Data Firehose
+使用 Kinesis Data Stream 作为数据源，存储到第 4 项中创建的 S3。禁用动态分区，并且不使用压缩或加密。按照以下需求配置 Delivery Stream。
+- Delivery Stream 名称 : wsi-delivery-stream
+- 存储位置 : <第4项中创建的 S3 存储桶>/data/raw/<YYYY>/<MM>/<dd>/<HH>/
+
+8. Glue 爬网程序
+创建一个爬网程序，用于爬取 <第4项中创建的 S3 存储桶>/data 文件夹下的所有文件夹及文件。至少运行一次爬网程序，以配置数据目录表。按照以下需求配置爬网程序及数据目录。
+- 爬网程序名称 : wsi-glue-crawler
+- 数据库名称 : wsi-glue-database
+- 表名称 : data 文件夹下的子文件夹名称(ref, raw)
+
+8. Glue Studio 作业
+使用通过爬网程序创建的数据目录表作为源，配置数据按如下方式转换。参考 samplelog.json 文件和 titles.json 文件。转换后的数据必须以 JSON 格式保存到 <第4项中创建的 S3 存储桶>/result/ 文件夹，并更新到下面指定的数据目录表。作业名称设置为 wsi-glue-job。
+- 转换后的数据 : {"title_id":66,"title":"Start-Up","uuid":"00003c25-40bc-43c5-a8a7-b64e40f25b32",
+"device_ts":"2022-06-11 09:10:25.013","device_id":4,"device_type":"IPhone"}
+- 数据库名称 : wsi-glue-database
+- 表名称 : result
+
+9. Glue Studio 工作流
+配置一个在爬取后执行作业的工作流。运行工作流时，必须执行 wsi-glue-crawler，并且如果爬取成功，则必须执行 wsi-glue-job。
+- 工作流名称 : wsi-glue-workflow
+
+云计算 第2任务 4 - 4

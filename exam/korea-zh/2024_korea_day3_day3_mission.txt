@@ -1,0 +1,125 @@
+2024年度全国技能大赛
+职业名
+
+云计算
+
+课题名
+
+System operation
+
+比赛时间
+
+3小时
+
+备编号
+
+课题编号
+
+第 3 课题
+
+评委
+确认
+
+(印)
+
+1. 需求
+部署已开发的应用程序，构建向用户提供服务的系统，并构建用于运维的监控系统。必须处理流量以满足设定的目标服务水平，并快速检测所构建系统可能发生的故障和错误，通过系统运维提供最佳用户体验。同时，应尽可能以低成本运维系统。
+图
+
+云计算 第3课题 1 - 5
+
+必备 Software Stack
+| AWS | 开发语言/框架 |
+|---|---|
+| - VPC<br>- EC2<br>- RDS | - Golang / Gin |
+
+可用 Software Stack
+| AWS | 开发语言/框架 |
+|---|---|
+| - ECS, EKS, ECR<br>- ELB, API Gateway<br>- CloudFront<br>- S3<br>- Cloudwatch<br>- RDS<br>- WAF | - Docker |
+
+2. 选手注意事项
+1) 使用机器及工具等时请注意安全，必要时请穿戴安全装备及服装等，以预防事故。
+2) 作业中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请遵守佩戴安全防护用品等安全规则。
+3) 作业中请注意工具的使用，遵守安全规则，预防事故。
+4) 比赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+5) 选手账户存在费用限制，如果计费超过该限制，账户可能无法使用。
+6) 题目中给出的尖括号 <> 表示变量，选手必须适当更改后使用。
+7) EC2 实例的 TCP 80/443 出站应设置为 anyopen，以便可以使用。
+8) 课题结束时，应终止所有正在进行的测试，避免服务器产生负载。
+9) 如无另行说明，应在 ap-northeast-2 区域创建资源。
+10) 第 1 页的图是对配置的抽象表示，具体配置应满足以下需求。（例如：子网可以有 2 个以上。）
+11) 所有资源的名称、标签、变量区分大小写。
+12) 题目中未给出的值，必须基于 AWS Well-Architected Framework 6 pillars 设置适当的值。
+13) 创建不必要的资源可能成为扣分因素。
+（例如：未使用的 EC2、额外 VPC、在其他区域创建资源等）
+14) 对于 DB 及所有 EC2 服务器，如果不遵守规定的实例类型和数量，可能会受到不利影响。（包括未使用的所有实例）
+云计算 第3课题 2 - 5
+
+3. 关系型数据库
+Employee 应用程序使用关系型数据库，必须同时支持读、写操作。该应用程序支持 MySQL Community 引擎。DB 实例以最小规模运行。
+- DB identifier : apdev-rds-instance
+- Deployment options: Multi-AZ DB instance
+- DB instance class: db.t3.micro
+- Storage type: General Purpose SSD (gp3)
+- Engine : MySQL Community 8.0
+可以参考以下命令创建表。
+
+```sql
+CREATE TABLE employees (
+emp_no        INT          NOT NULL,
+birth_date    DATE         NOT NULL,
+first_name    VARCHAR(14)  NOT NULL,
+last_name     VARCHAR(16)  NOT NULL,
+gender        ENUM ('M','F') NOT NULL,
+hire_date     DATE         NOT NULL,
+PRIMARY KEY (emp_no)
+);
+```
+
+为了正常运行，必须使用 load_employees.dump 文件插入数据，且不得随意修改或删除已插入的数据。除产生的流量外，插入任意数据可能导致性能下降，请注意。可能需要根据应用程序行为和流量模式重新设计表结构。
+
+云计算 第3课题 3 - 5
+
+4. Web 应用程序
+有 Token、Employee 两个应用程序。提供的 binary 已在基于 x86 的 EC2 的 Amazon Linux 2023 上构建并确认可运行。go version 为 go1.22.2 linux/amd64。应用程序运行时绑定的端口为 TCP/8080。所有应用程序将 access log 输出到 stdout、stderr。所有应用程序为防止篡改，会在 Request 请求中添加 id、uuid 查询字符串。不得对正常请求的 Request 及 Response 进行篡改，以免受到不利影响。评分时使用的响应时间及代码均以客户端到达为基准。
+- Token
+提供签发任意令牌的 API。应用程序的行为参考以下内容。
+Token API 为保证最低可用性，旨在保证 5 秒以下的响应时间，并将 1 秒以下的响应时间设置为服务水平目标。应基于该标准测量服务水平并运维应用程序。
+| 路径 | 方法 | 请求（示例） | 响应代码 |
+|---|---|---|---|
+| /v1/token | POST | {"length": 256} | 201 |
+| /healthcheck | GET | - | 200 |
+
+- Employee
+提供管理员工信息的 API。应用程序的行为参考以下内容。
+Employee API 为保证最低可用性，旨在保证 5 秒以下的响应时间，并将 0.2 秒以下的响应时间设置为服务水平目标。应基于该标准测量服务水平并运维应用程序。
+| 路径 | 方法 | 请求（示例） | 响应代码 |
+|---|---|---|---|
+| /v1/employee | POST | {<br>"emp_no":500001,<br>"birth_date":"1957-05-02",<br>"first_name":"dbdump",<br>"last_name":"dbdump",<br>"gender":"M",<br>"hire_date":"1997-11-30"<br>} | 201 |
+| /v1/employee | GET | ?first_name=dump1&last_name=dump1 | 200 |
+| /healthcheck | GET | - | 200 |
+
+Employee 应用程序在运行时读取以下 Linux 环境变量，并连接到关系型数据库。
+
+云计算 第3课题 4 - 5
+
+| 环境变量键 | 数据类型 | 值 |
+|---|---|---|
+| MYSQL_USER | string | 具有 db 访问权限的用户名 |
+| MYSQL_PASSWORD | string | 具有 db 访问权限的用户密码 |
+| MYSQL_HOST | string | 可进行 db 读/写的地址<br>（IP 或 DNS，禁止插入引擎名） |
+| MYSQL_PORT | integer | 可进行 db 读/写的地址的端口号 |
+| MYSQL_DBNAME | string | 逻辑数据库名称（dev） |
+
+5. 流量处理
+构建系统以部署应用程序并向外部用户提供服务。为部署应用程序，可以使用 EC2 计算资源，且必须使用按需 t3.small 实例类型。可以使用其他 AWS 服务进行编排，但不得使用 Fargate、Lambda 等 EC2 以外的计算资源。为处理流量，应仅使用最少的资源。使用过多资源可能导致扣分。
+为处理流量，应将提供给用户的端点统一为一个。比赛开始 1 小时后开始产生流量，并注入到选手在评分平台输入的端点。应处理比赛期间产生的流量，使其满足目标服务水平。应构建监控环境和日志解决方案，执行日志分析、流量模式分析、系统改进、系统故障/错误检测及应对。不得将自己的端点暴露给他人，以免受到不利影响。在评分平台输入的格式为协议及地址（IP/DNS），不得写入路径。
+（非正常示例：amazon.com/v1/employee）
+应确保可用性，以便无服务中断地稳定提供服务。应考虑这一点来设计、构建并运维系统。
+对提供给用户的端点的非正常请求应予以 Block，并返回 403 响应代码。但除提供的 API 之外的请求应返回 404 响应代码。
+示例）
+- 对 /v1/token 的非正常请求：403 响应代码
+- 对 /v1/none 的非正常请求：404 响应代码
+
+云计算 第3课题 5 - 5

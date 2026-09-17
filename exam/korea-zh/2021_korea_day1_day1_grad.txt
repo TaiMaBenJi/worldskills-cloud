@@ -1,0 +1,804 @@
+2021 大田广域市 第56届全国技能竞赛大会 评分标准
+1. 评分注意事项
+
+职业名
+
+云计算
+
+※ 请注意以下事项进行评分。
+1) AWS 区域使用 ap-northeast-2。
+2) 网页访问使用 Chrome 或 Firefox。
+3) 网页中根据语言不同，显示的文字可能不同。
+4) shell 中命令的输出可能因版本而略有不同。
+5) 评分进行前，为环境设置需确认以下事项。
+- 确认能否通过 SSH 访问 Bastion。
+- 确认 Bastion 中是否安装了 curl、jq、awscli。
+- 确认 Bastion 中是否映射了 IAM Role，并能通过 awscli 访问 AWS 所有资源。
+- 通过 aws sts get-caller-identity 命令确认是否访问了选手账户以外的其他账户。如果是其他账户，可以怀疑有作弊行为。
+6) 题目和评分表中的 <> 是变量。请更改该部分后输入。
+7) 评分必须按题目顺序进行。
+8) 已删除的内容无法恢复，请注意进行评分。
+9) 异议申请结束后，删除选手创建的云资源。
+10) 有部分分数的题目，在评分项目中写有部分分数。
+11) 没有单独部分分数的题目，必须全部正确才能计入分数。
+12) 评分前，为配置评分环境，在 ~/.aws/config 中添加以下内容。
+/////
+[default]
+region = ap-northeast-2
+output = json
+/////
+
+云计算 第1课题 1 - 15
+
+2. 评分标准表
+1) 主要项目别配分
+
+课题
+
+序号
+
+编号
+
+第1课题
+
+职业名
+
+云计算
+
+评分方法
+主要项目
+
+配分
+独立
+
+合议
+
+评分时间
+竞赛
+
+竞赛
+
+进行中 结束后
+
+1
+
+网络
+
+8.5
+
+○
+
+○
+
+2
+
+S3
+
+3.4
+
+○
+
+○
+
+3
+
+Bastion
+
+1.6
+
+○
+
+○
+
+4
+
+CloudFront
+
+5
+
+○
+
+○
+
+5
+
+App
+
+4.5
+
+○
+
+○
+
+6
+
+Load Balancer
+
+3.9
+
+○
+
+○
+
+7
+
+Auto Scaling 组
+
+5.9
+
+○
+
+○
+
+8
+
+日志记录
+
+3.7
+
+○
+
+○
+
+9
+
+监控
+
+3.5
+
+○
+
+○
+
+合
+
+计
+
+40
+
+云计算 第1课题 2 - 15
+
+备注
+
+2) 评分方法及标准
+课题
+
+序号
+
+编号
+
+1
+
+2
+
+3
+
+4
+
+5
+
+序号
+
+主要项目
+
+网络
+
+S3
+
+Bastion
+
+CloudFront
+
+App
+
+第1课题
+6
+
+7
+
+8
+
+9
+
+Load Balancer
+
+Auto Scaling 组
+
+日志记录
+
+监控
+
+细项（评分方法）
+
+配分
+
+1
+
+VPC
+
+1.5
+
+2
+
+子网
+
+2
+
+3
+
+HA 配置
+
+2
+
+4
+
+网关
+
+3
+
+1
+
+hosting 文件确认
+
+1
+
+2
+
+artifact 确认
+
+1
+
+3
+
+下载权限确认
+
+1.4
+
+1
+
+实例创建确认
+
+0.7
+
+2
+
+Public IP 确认
+
+0.9
+
+1
+
+CloudFront 创建确认
+
+0.9
+
+2
+
+S3 origin
+
+1.5
+
+3
+
+LB Origin
+
+1.5
+
+4
+
+Edge Type 确认
+
+1.1
+
+1
+
+Request 确认
+
+1.5
+
+2
+
+Response 确认
+
+1.5
+
+3
+
+Default Response 确认
+
+1.5
+
+1
+
+负载均衡器创建确认
+
+0.9
+
+2
+
+Request 确认
+
+1.5
+
+3
+
+安全设置确认
+
+1.5
+
+1
+
+Auto Scaling 组创建确认
+
+0.8
+
+2
+
+HA 确认
+
+1.1
+
+3
+
+auto scaling 策略确认
+
+1.1
+
+4
+
+scale up 确认
+
+1.5
+
+5
+
+自动化确认
+
+1.4
+
+1
+
+日志组创建确认
+
+1.1
+
+2
+
+日志记录确认
+
+1.5
+
+3
+
+日志流确认
+
+1.1
+
+1
+
+Dashboard 创建确认
+
+0.7
+
+2
+
+服务器错误指标确认
+
+1.5
+
+3
+
+Auto Scaling 组指标确认
+
+1.3
+
+编号
+
+总分
+
+40
+
+云计算 第1课题 3 - 15
+
+3) 评分内容
+序号
+
+评分项目
+1) 通过 SSH 访问 Bastion 服务器。
+
+1.1
+
+2) 输入以下命令。
+aws ec2 describe-vpcs --filter Name=tag:Name,Values=wsi-vpc --query "Vpcs[].CidrBlock"
+3) 确认是否输出 10.1.0.0/16。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出 10.1.2.0/24。输出时得 1 分
+aws ec2 describe-subnets —filter Name=tag:Name,Values=wsi-public-a --query \
+
+1-2
+
+"Subnets[].CidrBlock"
+3) 输入以下命令后，确认是否输出 10.1.0.0/24。输出时得 1 分
+aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-private-a --query \
+"Subnets[].CidrBlock"
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出 ap-northeast-2a。输出时得 1 分
+aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-public-a --query \
+
+1-3
+
+"Subnets[].AvailabilityZone"
+3) 输入以下命令后，确认是否输出 ap-northeast-2b。输出时得 1 分
+aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-private-b --query \
+"Subnets[].AvailabilityZone"
+
+云计算 第1课题 4 - 15
+
+序号
+
+评分项目
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令
+aws ec2 describe-route-tables --filter Name=tag:Name,Values=wsi-private-a-rt \
+--query "RouteTables[].Routes[].NatGatewayId"
+3) 确认是否输出以 "nat-" 开头的文字。输出时得 1 分
+
+1-4
+
+4) 输入以下命令
+aws ec2 describe-route-tables --filter Name=tag:Name,Values=wsi-private-b-rt \
+--query "RouteTables[].Routes[].NatGatewayId"
+5) 确认是否输出以 "nat-" 开头的文字，并确认是否具有与 3) 结果不同的 ID。1 分
+
+4) 输入以下命令后，确认是否有以 "igw-" 开头的文字。输出时得 1 分
+aws ec2 describe-route-tables --filter Name=tag:Name,Values=wsi-public-rt \
+--query "RouteTables[].Routes[].GatewayId"
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入 aws s3 ls s3://wsi-<비번호>-<4位英文>-web-static。（第4题存储桶名称）
+
+2-1
+
+3) 如下所示，确认 index.html 的文件名和大小是否一致。
+1476 部分为大小，index.html 部分为文件名。
+2021-06-09 01:52:54
+
+1476 index.html
+
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入 aws s3 ls s3://wsi-<비번호>-<4位任意值>-artifactory。（第6题存储桶名称）
+
+2-2
+
+3) 如下所示，确认 app.py 的文件名和大小是否一致。
+1043 部分为大小，app.py 部分为文件名。
+2021-06-09 01:52:54
+
+1043 app.py
+
+云计算 第1课题 5 - 15
+
+序号
+
+评分项目
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，记录输出的一个 IP。
+aws ec2 describe-instances —filter Name=tag:Name,Values=wsi-web-api-asg --query \
+"Reservations[].Instances[].PrivateIpAddress"
+3) 使用 ssh ec2-user@< 2) 输出 IP> 命令访问服务器，并通过 “sudo su“ 切换到 root。
+(SSH 连接时也可以用 -i 选项指定密钥。)
+4) 输入 mkdir /opt/tmp/ 命令。
+5) 输入 aws s3 cp s3://wsi-<비번호>-<4位任意值>-artifactory/app.py /opt/tmp/app-zxzc39 命令
+
+2-3
+
+输入
+6) 确认执行 5) 号命令时，错误是否未输出到屏幕上。
+7) 用 ls /opt/tmp/app-zxzc39 命令确认文件是否已下载。
+8) 输入 echo "hellow cloud" > /opt/app-yzkz-39.txt 命令。
+9) 执行 aws s3 cp /opt/app-yzkz-39.txt s3://wsi-<비번호>-<4位任意值>-artifactory/ 命令。
+10) 确认执行 9) 命令时，是否输出类似 PutObject operation: Access Denied 的权限错误消息。
+
+必须全部正确才能计入分数，没有部分分数。
+1) 通过 SSH 访问 Bastion 服务器。
+
+3-1
+
+2) 输入以下命令，确认是否获取到以 “i-” 开头的文字。
+aws ec2 describe-instances --filter Name=tag:Name,Values=wsi-bastion-ec2 \
+--query 'Reservations[].Instances[].InstanceId'
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，记录输出的 IP。
+
+3-2
+
+aws ec2 describe-instances --filter Name=tag:Name,Values=wsi-bastion-ec2 \
+--query "Reservations[].Instances[].PublicIpAddress"
+3) 输入以下命令后，确认输出的 IP 列表中是否有 2) 中输出的 IP。
+aws ec2 describe-addresses --query "Addresses[].PublicIp“
+1) 通过 SSH 访问 Bastion 服务器。
+
+4-1
+
+2) 输入以下命令。
+aws cloudfront list-distributions --query "DistributionList.Items[].Id"
+3) 确认是否输出约 14 位英文字母和数字混合的 ID。
+
+云计算第1次作业 6 - 15
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+4-2
+
+aws cloudfront list-distributions --query "DistributionList.Items[].Origins.Items[]" \
+| jq ".[].DomainName" | grep s3
+3) 确认是否输出 wsi-<B编号>-<4位英文>-web-static.s3.amazonaws.com。
+（或者通过其他方法确认是否将 web-static 存储桶连接到 CloudFront）
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+4-3
+
+aws cloudfront list-distributions --query "DistributionList.Items[].Origins.Items[]" \
+| jq ".[].DomainName" | grep elb
+3) 确认是否输出 wsi-web-api-alb-<任意数字>-ap-northeast-2.elb.amazonaws.com。
+（或者通过其他方法确认是否将 api-alb 连接到 CloudFront）
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，并记录输出的 ID。
+
+4-4
+
+aws cloudfront list-distributions --query "DistributionList.Items[].Id"
+3) 使用 2) 中得到的 ID 输入以下命令。
+aws cloudfront get-distribution-config --id <2号 ID> --query "DistributionConfig.PriceClass"
+4) 确认是否输出 "PriceClass_All"。
+
+云计算第1次作业 7 - 15
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 通过以下命令记录 CloudFront 的 DNS。
+aws cloudfront list-distributions --query "DistributionList.Items[].DomainName"
+3) 打开一个 Chrome 浏览器窗口，如下所示，在 2) 中得到的地址后输入 index.html。
+https://xxxxxxxxxx.cloudfront.net/index.html
+4) 确认浏览器是否接收到如下页面。
+
+5-1
+
+1) 在 5-1 评分项的网页中，在 color name 中输入 "red"，在 hash 中输入 "ab12"，然后点击 submit 按钮
+
+5-2
+
+点击。
+2) 确认页面跳转，并接收到字符串 {"code":"f34a07","name":"orange"}。
+1) 返回 5-1 评分项的页面 index.html。
+
+5-3
+
+2) 在 color name 中输入 "diamond"，在 hash 中输入 "aaaa"，然后点击 submit 按钮。
+3) 确认页面跳转，并接收到字符串 {"code":"ff00ff","name":"pink"}。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，确认是否显示为 "internet-facing"。
+
+6-1
+
+aws elbv2 describe-load-balancers --names "wsi-web-api-alb" --query "LoadBalancers[].Scheme"
+3) 输入以下命令，确认是否显示为 "application"。
+aws elbv2 describe-load-balancers --names "wsi-web-api-alb" --query "LoadBalancers[].Type"
+
+云计算第1次作业 8 - 15
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 使用以下命令记录输出的 LB 的 DNS。
+
+6-2
+
+aws elbv2 describe-load-balancers --names "wsi-web-api-alb" --query
+"LoadBalancers[].DNSName"
+3) 输入以下命令，确认是否显示 {"status":"ok"}。
+curl http://< 2) 中得到的
+
+DNS>/health
+
+1) 通过 SSH 访问 Bastion 服务器。
+2) 使用以下命令记录输出的 EC2 的 IP 之一。
+
+6-3
+
+aws ec2 describe-instances --filter Name=tag:Name,Values=wsi-web-api-asg \
+--query "Reservations[].Instances[].PrivateIpAddress"
+3) 使用以下命令确认调用失败。这是安全设置评分项，因此调用不成功才算成功。
+timeout 10 curl http://<2) 中得到的 IP 之一>:8080/health
+1) 通过 SSH 访问 Bastion 服务器。
+
+7-1
+
+2) 输入以下命令，确认是否全部显示为 Healthy。
+aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names wsi-web-api-asg \
+--query "AutoScalingGroups[].Instances[].HealthStatus"
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，确认 "ap-northeast-2a", "ap-northeast-2b" 两个是否都出现。
+aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names wsi-web-api-asg \
+
+7-2
+
+--query "AutoScalingGroups[].AvailabilityZones"
+3) 输入以下命令，确认是否具有 2 或以上的数字。
+aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names wsi-web-api-asg \
+--query "AutoScalingGroups[].MinSize"
+1) 通过 SSH 访问 Bastion 服务器。
+
+7-3
+
+2) 输入以下命令，确认是否获取到 "wsi-web-api-asg" 这个值。
+aws autoscaling describe-policies --auto-scaling-group-name wsi-web-api-asg \
+--query "ScalingPolicies[].AutoScalingGroupName"
+
+云计算第1次作业 9 - 15
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 使用以下命令修改为当前运行 2 台实例。
+aws autoscaling update-auto-scaling-group --auto-scaling-group-name wsi-web-api-asg \
+--min-size 2 --max-size 5 --desired-capacity 2
+3) 上述 2) 操作完成且 EC2 整理为 2 台后，使用以下命令记录 EC2 的 IP 之一。
+（如果 IP 为 1 个，或出现 3 个以上，则持续输入直到出现 2 个为止。）
+aws ec2 describe-instances --filter Name=tag:Name,Values=wsi-web-api-asg \
+--query "Reservations[].Instances[].PrivateIpAddress"
+
+7-4
+
+4) 使用以下命令访问 wsi-web-api-asg EC2。使用 -i 选项也没有关系。
+ssh ec2-user@< 2) 中得到的 IP >
+5) 使用以下命令安装 stress 包。
+sudo amazon-linux-extras install -y epel;
+6) 使用 stress -c 2
+
+sudo yum install -y stress
+
+命令对服务器产生负载。
+
+7) 打开新终端，通过 SSH 访问 bastion。
+8) 使用以下命令确认是否变为 3 或以上的值。
+使用上述 6) 命令产生负载后，必须在 7 分钟内变为 3 台或以上。
+aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names wsi-web-api-asg \
+--query "AutoScalingGroups[].DesiredCapacity"
+
+云计算第1次作业 10 - 15
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 使用以下命令修改为当前所有实例都终止。
+aws autoscaling update-auto-scaling-group --auto-scaling-group-name wsi-web-api-asg \
+--min-size 0 --max-size 0 --desired-capacity 0
+3) 使用以下命令获取空值，确认正在运行的实例是否已全部终止。
+aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names wsi-web-api-asg \
+--query "AutoScalingGroups[].Instances[].InstanceId"
+
+7-5
+
+4) 全部终止后，使用以下命令创建 1 台实例。
+aws autoscaling update-auto-scaling-group --auto-scaling-group-name wsi-web-api-asg \
+--min-size 1 --max-size 1 --desired-capacity 1
+5) 使用以下命令记录输出的 LB 的 DNS。
+aws elbv2 describe-load-balancers --names "wsi-web-api-alb" --query
+"LoadBalancers[].DNSName"
+6) 输入以下命令，确认是否显示 {"status":"ok"}。
+最多等待 7 分钟，之后仍未接收到则视为错误。
+curl http://< 5) 中得到的
+
+DNS >/health
+
+1) 通过 SSH 访问 Bastion 服务器。
+
+8-1
+
+2) 通过以下命令确认是否获取到 1 或以上的数字。
+aws logs describe-log-groups --log-group-name-prefix /aws/ec2/wsi \
+--query "logGroups[].storedBytes"
+1) 通过 SSH 访问 Bastion 服务器。
+2) 使用以下命令记录输出的 LB 的 DNS。
+aws elbv2 describe-load-balancers --names "wsi-web-api-alb" --query
+
+"LoadBalancers[].DNSName"
+
+8-2
+
+3) 使用以下命令调用 API。
+curl http://< 2) 的 LB DNS >/v1/color\?name\=blue\&hash\=999wsi2021abcd
+4) 使用以下命令确认日志是否已发送到 CloudWatch logs。最多可等待 3 分钟。
+aws logs tail '/aws/ec2/wsi' --since 5m | grep 999wsi2021abcd
+5) 确认上述 4) 的结果是否输出包含当前日期和 GET /v1/color?name=blue&hash=999wsi2021abcd 的语句。
+
+云计算第1次作业 11 - 15
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 使用以下命令记录一个实例 ID。
+aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names wsi-web-api-asg \
+--query "AutoScalingGroups[].Instances[].InstanceId"
+
+8-3
+
+3) 输入以下命令获取 log stream。
+aws logs describe-log-streams --log-group-name '/aws/ec2/wsi' \
+--query "logStreams[].logStreamName"
+4) 确认上述 3) 输出的列表中是否有以 api_< 2) 的实例 ID> 形式输出的值。如果仅存在不带 api_ 的 i-xxxx 等单纯的实例 ID，则视为错误。
+
+云计算第1次作业 12 - 15
+
+序号
+
+评分项
+1) 通过 Chrome 浏览器访问 AWS 控制台并转到 CloudWatch 页面。
+2) 转到页面左上角的 Dashboards。
+
+3) 单击 WSI_APP dashboard。
+
+4) 确认 dashboard 是否具有如下 4 个图表。
+HTTP_ERROR 图表 = 具有 Target_5xx_Count、ELB_5XX_Count 图例。
+
+9-1
+
+HTTP_COUNT 图表 = 具有 RequestCount 图例。
+API_CPU = 具有 CPUUtilization 图例。
+RESPONSE_TIME = 具有 TargetResponseTime。
+
+云计算第1次作业 13 - 15
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后记录负载均衡器 DNS。
+aws elbv2 describe-load-balancers --names "wsi-web-api-alb" --query
+"LoadBalancers[].DNSName"
+3) 输入以下命令持续在服务器上生成 500 错误。
+while true; do curl --silent http://< 3) 的 LB DNS>/v1/color > /dev/null; done
+4) 参考 9-1 的评分项，转到 CloudWatch 的 WSI_APP dashboard。
+5) 如下所示，将鼠标悬停在 HTTP_ERROR 图表的最新指标上确认值。
+HTTPCode_Target_5XX_Count 必须为 200 以上，HTTPCode_ELB_5XX_Count 的值应保持在最大低于 50、几乎不存在的水平。
+
+9-2
+
+云计算第1次作业 14 - 15
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 通过以下命令更改为仅一台服务器运行。
+aws autoscaling update-auto-scaling-group --auto-scaling-group-name wsi-web-api-asg \
+--min-size 1 --max-size 1 --desired-capacity 1
+3) 输入以下命令后记录剩下的一台 EC2 的 IP。
+aws ec2 describe-instances --filter Name=tag:Name,Values=wsi-web-api-asg --query \
+"Reservations[].Instances[].PrivateIpAddress"
+4) 使用 ssh ec2-user@< 2) 的 EC2 IP> 访问服务器。必要时使用 key 访问。
+5) 使用以下命令安装 stress 包。
+sudo amazon-linux-extras install -y epel;
+6) stress -c 2
+
+sudo yum install -y stress
+
+使用命令在服务器上施加负载。
+
+7) 参考 9-1 的评分项，转到 CloudWatch 的 WSI_APP dashboard。
+8) 输入 stress 命令后 5 分钟以内确认 CPU 使用量是否急剧上升约 30% 以上。
+
+9-3
+
+云计算第1次作业 15 - 15

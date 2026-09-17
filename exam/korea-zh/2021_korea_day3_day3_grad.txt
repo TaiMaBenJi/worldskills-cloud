@@ -1,0 +1,294 @@
+2021 大田广域市 第56届全国技能大赛评分标准
+
+1. 评分注意事项
+
+工种名称：云计算
+
+※ 评分时请注意以下事项。
+1) AWS 区域使用 ap-northeast-2。
+2) 网页访问使用 Chrome 或 Firefox。
+3) 网页中根据语言不同，显示的文字可能不同。
+4) shell 中命令的输出可能因版本而略有不同。
+5) 评分进行前，为进行环境设置，必须确认以下事项。
+- 确认能否通过 SSH 访问各 1、2、3、4 评分项所使用的 VM（以下简称 VM）。
+- 确认 VM 中是否已安装 curl、jq、awscli。
+- 确认 VM 中是否已映射 IAM Role，从而可通过 awscli 访问 AWS 所有资源。
+- 通过 aws sts get-caller-identity 命令确认是否正在访问选手账户以外的其他账户。如果是其他账户，则可能怀疑存在作弊行为。
+6) 试题和评分表中的 <> 是变量。请修改该部分后输入。
+7) 评分必须按题目顺序进行。
+8) 已删除的内容无法恢复，因此评分时请务必注意。
+9) 异议申请结束后，删除选手创建的云资源。
+10) 评分内容以英文为基准，因此开始前将语言更改为英语，可以更容易看到与评分内容一致的结果。
+
+云计算 第3任务 1 - 18
+
+2. 评分标准表
+1) 各主要项目分值
+
+课题：第3任务  
+工种名称：云计算
+
+| 序号 | 编号 | 主要项目 | 分值 | 评分方法-独立 | 评分方法-协商 | 评分时机-比赛进行中 | 评分时机-比赛结束后 | 备注 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 |  | IAM Policy | 5 | ○ |  |  | ○ |  |
+| 2 |  | Lambda | 5 | ○ |  |  | ○ |  |
+| 3 |  | Docker | 5 | ○ |  |  | ○ |  |
+| 4 |  | Log data | 5 | ○ |  |  | ○ |  |
+| 合计 |  |  | 20 |  |  |  |  |  |
+
+云计算 第3任务 2 - 18
+
+2) 评分方法及标准
+
+| 课题 | 序号 | 编号 | 主要项目 | 详细项目（评分方法） | 分值 |
+| --- | --- | --- | --- | --- | --- |
+| 第3任务 | 1 | 1 | IAM Policy | IAM 拦截确认 | 0.7 |
+| 第3任务 | 1 | 2 | IAM Policy | Access Key 修改确认 | 1.2 |
+| 第3任务 | 1 | 3 | IAM Policy | EC2 修改确认 | 0.9 |
+| 第3任务 | 1 | 4 | IAM Policy | EC2 拦截确认 | 1.1 |
+| 第3任务 | 1 | 5 | IAM Policy | Access Key 拦截确认 | 1.1 |
+| 第3任务 | 2 | 1 | Lambda | Lambda 创建确认 | 0.8 |
+| 第3任务 | 2 | 2 | Lambda | 存储桶创建动作确认 | 1.3 |
+| 第3任务 | 2 | 3 | Lambda | 文件创建确认 | 1.4 |
+| 第3任务 | 2 | 4 | Lambda | 文件内容确认 | 1.5 |
+| 第3任务 | 3 | 1 | Docker | ECR 创建确认 | 0.9 |
+| 第3任务 | 3 | 2 | Docker | Docker 镜像上传确认 | 1.1 |
+| 第3任务 | 3 | 3 | Docker | API 调用确认 | 1.5 |
+| 第3任务 | 3 | 4 | Docker | Docker 进程运行确认 | 1.5 |
+| 第3任务 | 4 | 1 | Log data | 第1题确认 | 0.9 |
+| 第3任务 | 4 | 2 | Log data | 第2题确认 | 1.2 |
+| 第3任务 | 4 | 3 | Log data | 第3题确认 | 1.4 |
+| 第3任务 | 4 | 4 | Log data | 第4题确认 | 1.5 |
+| 总分 |  |  |  |  | 20 |
+
+云计算 第3任务 3 - 18
+
+3) 评分内容
+
+| 序号 | 评分项 |
+| --- | --- |
+| 事前准备 IAM 账户创建 | 1) 使用 root 账户登录 AWS Web Console，并访问 AWS IAM 页面。<br>2) 访问 IAM 页面左侧 Access management - Users。<br>3) 点击右侧的 Add users。<br>4) 按如下方式创建账户。<br>账户名 = student99ffac / AWS 控制台访问 / 下次登录时不更改密码<br>完成该设置后，为分配权限点击“下一步”按钮。<br>5) 按如下方式分配名为 koreaStudent 的 Policy 权限。这是非常重要的操作。<br>如果错误地分配 admin 等 policy，可能会影响 1-4、1-5 评分项。<br>如果因选手未添加而不存在该 Policy，则不分配 Policy，直接进入下一步。 |
+
+下页继续
+
+云计算 第3任务 4 - 18
+
+| 序号 | 评分项 |
+| --- | --- |
+| 事前准备 IAM 账户创建 | 6) Tag 部分保持空值并继续。<br>7) 最终创建时可以看到如下 Success 消息。 |
+
+云计算 第3任务 5 - 18
+
+| 序号 | 评分项 |
+| --- | --- |
+| 1-1 | 1) 使用 student01 IAM 账户访问 AWS 网页。<br>2) 访问 AWS IAM 页面。<br>3) 点击网页左侧 Access management 功能下的 Users 页面。<br>4) 进入 Users 页面后，搜索并点击 student01 用户。<br>5) 进入 Permissions 选项卡时，确认是否因权限错误而什么都看不到，如下所示。<br>这是对权限拦截的评分，因此必须只输出访问不可用、无权限等错误消息。 |
+
+云计算 第3任务 6 - 18
+
+| 序号 | 评分项 |
+| --- | --- |
+| 1-2 | 1) 参考 1-1 评分，使用 student01 用户登录后，访问该用户的 IAM 页面。<br>2) 点击 student01 用户的 Security credentials 选项卡。<br>3) 如果账户中已创建 Access Key，则全部删除，使其处于如下状态。<br>4) 点击 Create access key 按钮，创建一个新密钥。<br>5) 确认如下所示新密钥是否正常创建。这是对本人账户 Key 创建的测试，因此必须重新创建，并确认 Key 是否能正常生成。 |
+
+云计算 第3任务 7 - 18
+
+| 序号 | 评分项 |
+| --- | --- |
+| 1-3 | 1) 参考 1-1 评分，使用 student01 用户登录后，移动到 AWS EC2 页面。<br>2) 进入 EC2 页面后，点击页面左侧 Instances 下的 Instances。<br>3) 搜索 day3-1-1 EC2，并点击 "Instance state" 按钮。<br>如果 EC2 正在运行，则 Stop；如果 EC2 已停止，则 Start。<br>4) 确认是否能正常启动或停止。<br>5) 点击 day3-1-1 EC2 的 "Manage tags" 按钮。<br>6) 将 owner Tag 值修改为 student99ffac。<br>确认是否能从 student01 正常修改为 student99ffac。 |
+
+下页继续 1-3 评分
+
+云计算 第3任务 8 - 18
+
+| 序号 | 评分项 |
+| --- | --- |
+| 1-3 | 7) 再次修改 day3-1-1 EC2 的状态。<br>如果 EC2 正在运行，则 Stop；如果 EC2 已停止，则 Start。<br>8) 确认在修改 owner 信息后，启动/停止该实例时是否出现权限错误。 |
+
+云计算 第3任务 9 - 18
+
+| 序号 | 评分项 |
+| --- | --- |
+| 1-4 | 1) 使用 student99ffac IAM 账户访问 AWS 网页后，移动到 EC2 页面。<br>2) 点击左侧 Instances 中的 Instances。<br>3) 搜索 day3-1-1 EC2，并点击 "Instance state" 按钮。<br>如果 EC2 正在运行，则 Stop；如果 EC2 已停止，则 Start。<br>4) 确认是否能正常启动或停止。<br>5) 点击 day3-1-1 EC2 的 "Manage tags" 按钮。 |
+
+下页继续 1-4 评分
+
+云计算 第3任务 10 - 18
+
+| 序号 | 评分项 |
+| --- | --- |
+| 1-4 | 6) 将 owner Tag 值修改为 student02。<br>确认是否能从 student99ffac 正常修改为 student02。<br>7) 再次修改 day3-1-1 EC2 的状态。<br>如果 EC2 正在运行，则 Stop；如果 EC2 已停止，则 Start。<br>8) 确认在修改 owner 信息后，启动/停止该实例时是否出现权限错误。 |
+
+云计算 第3任务 11 - 18
+
+| 序号 | 评分项 |
+| --- | --- |
+| 1-5 | 1) 参考 1-4 评分，使用 student99ffac IAM 账户访问 AWS 网页。<br>2) 访问 AWS IAM 页面。<br>3) 点击左侧 Access management 功能下的 Users 页面。<br>4) 搜索 student01 用户并点击该用户。<br>5) 点击 student01 用户的 Security credentials 选项卡。<br>6) 确认如下所示 Access keys 部分不显示 Key 列表，而是显示错误。<br>这是对权限拦截的评分，如果显示 Key 列表，则视为错误。 |
+
+云计算 第3任务 12 - 18
+
+| 序号 | 评分项 |
+| --- | --- |
+| 2-1 | 1) 使用非 IAM 用户的 root 账户登录 AWS Web Console。<br>2) 移动到 AWS Lambda 页面，搜索 day3-2-lambda。<br>确认该 lambda 函数是否存在。 |
+
+| 序号 | 评分项 |
+| --- | --- |
+| 2-2 | 1) 使用非 IAM 用户的 root 账户登录 AWS Web Console。<br>2) 指定一个格式为 skills-korea-day3-2-<选手编号>-<随机8位字符> 的存储桶名称。<br>这不是对选手已完成操作的评分，而是确定一个要创建的存储桶名称的操作。<br>其他账户中也可能存在，因此为避免存在同名存储桶，随机 8 位请设置得复杂一些。<br>移动到 S3 页面后，指定一个要创建的存储桶名称，并确认当前不存在该名称。<br>将指定的存储桶名称记下来。<br>3) 移动到 AWS Lambda 页面，点击 day3-2-lambda 函数。 |
+
+下页继续 2-2 评分
+
+云计算 第3任务 13 - 18
+
+| 序号 | 评分项 |
+| --- | --- |
+| 2-2 | 4) 点击 Test 选项卡。<br>5) 按如下方式输入信息。<br>在最下方 box 中的 "bucket" 处输入的值，改为在 2) 中记下的存储桶名称后输入。<br>输入完成后，点击右上角的橙色 "Test" 按钮。<br>6) 移动到 AWS S3 页面，搜索存储桶名称，并确认已创建该名称的存储桶。 |
+
+云计算 第3任务 14 - 18
+
+| 序号 | 评分项 |
+| --- | --- |
+| 2-3 | 1) 使用非 IAM 用户的 root 账户登录 AWS Web Console。<br>2) 移动到 AWS S3 页面，选择在 2-2 评分中创建的存储桶。<br>3) 确认存储桶内存在的文件名是否为执行 2-2 评分的时间。<br>名称必须为 <年月日>_<时分秒>_log.txt 格式。<br>下图中的文件是于 2021 年 07 月 01 日 01 时 44 分 02 秒创建的文件。<br>题目中以韩国时间标明，因此必须与当前时间一致，而不是以 UTC 时间为基准。 |
+
+| 序号 | 评分项 |
+| --- | --- |
+| 2-4 | 1) 使用非 IAM 用户的 root 账户登录 AWS Web Console。<br>2) 选择并下载 2-3 评分项中确认的文件。<br>3) 确认下载的文件内容是否为 Final day, cloud computing 2021 day3!。 |
+
+云计算 第3任务 15 - 18
+
+| 序号 | 评分项 |
+| --- | --- |
+
+1) 使用根账户（而非 IAM 用户）登录 AWS Web 控制台。
+
+2) 转到 AWS ECR 页面后，点击页面左侧的 Amazon ECR - Repositories。
+
+3) 找到并点击 day3 repository。
+
+3-1
+
+4) 确认该 repository 中是否存在如下名为 latest 的镜像。
+
+云计算第3次作业 16 - 18
+
+序号
+
+评分项
+1) 通过 SSH 连接到选手 AWS 账户中名为 day3-3-ec2 的 EC2。
+
+2) 依次输入以下命令，删除所有 Docker 容器及镜像。
+$ docker ps -a | grep -v CONTAINER | awk '{print "docker rm
+
+"
+
+$ docker images | grep -v IMAGE | awk '{print "docker rmi
+
+$3}' | sh -x
+
+"
+
+$1}' | sh -x
+
+3) 确认版本后，通过以下命令之一登录 AWS ECR。
+（基于 AWSCLI v2 的命令）
+$ aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS \
+--password-stdin < 选手 AWS 账号编号 >.dkr.ecr.ap-northeast-2.amazonaws.com
+
+（基于 AWSCLI v1 的命令）
+$ aws ecr get-login --region ap-northeast-2 --no-include-email | sh
+
+3-2
+4) 输入以下命令下载镜像。
+$ docker pull < 选手 AWS 账号编号>.dkr.ecr.ap-northeast-2.amazonaws.com/day3:latest
+
+5) 输入以下命令运行容器。
+$ docker run -d -p 18888:8080 < AWS账号编号
+>.dkr.ecr.ap-northeast-2.amazonaws.com/day3:latest
+
+6) 通过以下命令确认刚刚运行的容器是否已启动。
+输入命令后，如果包含选手 AWS 账号的镜像容器的 STATUS 为 Up，则表示正在运行。
+$ docker ps
+
+CONTAINER ID
+
+IMAGE
+
+COMMAND
+
+5b6b5bbbb647
+
+<选手账号>/day:latest
+
+"/bin/sh
+
+CREATED
+3 minutes ago
+
+1) 通过 SSH 连接到选手 AWS 账户中名为 day3-3-ec2 的 EC2。
+
+2) 输入以下命令，向容器服务器发起 HTTP 请求。
+
+3-3
+
+$ curl http://localhost:18888/health
+
+3) 确认是否得到如下结果。
+{"code":200,"msg":"ok"}
+
+云计算第3次作业 17 - 18
+
+STATUS
+Up 3 minutes
+
+序号
+
+评分项
+1) 通过 SSH 连接到选手 AWS 账户中名为 day3-3-ec2 的 EC2。
+
+2) 输入以下命令，记录输出的 Docker container id。
+$ docker ps | grep 'day3:latest' | awk '{print $1}'
+
+3) 通过以下命令连接到容器。
+$ docker exec -it < 在 2) 中确认的 container id> sh
+
+4) 输入以下命令，确认结果值中是否包含 NAME="Alpine Linux"。
+$ cat /etc/os-release
+
+3-4
+
+NAME="Alpine Linux"
+ID=alpine
+...
+
+5) 输入以下命令，确认是否为 Python 3.7.x 版本。
+$ python3 -V
+
+6) 输入以下命令，确认是否具有 LISTEN 状态的 8080 端口。
+$ netstat -an | grep 8080
+tcp
+
+0
+
+0 0.0.0.0:8080
+
+4-1
+
+5,685 个
+
+4-2
+
+1,291 个
+
+4-3
+
+IP：10.0.11.123，次数：682 个
+
+0.0.0.0:*
+
+第1位 IP：10.0.20.127，次数：2,388 个
+
+4-4
+
+第2位 IP：10.0.1.122，次数：1418 个
+第3位 IP：10.0.21.161，次数：1002 个
+
+云计算第3次作业 18 - 18
+
+LISTEN

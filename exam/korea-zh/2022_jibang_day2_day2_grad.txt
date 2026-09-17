@@ -1,0 +1,272 @@
+2022年度地方技能大赛评分标准
+1. 评分注意事项
+
+工种名称
+
+云计算
+
+※ 请注意以下事项进行评分。
+1) 评分必须按照题目顺序进行。
+2) 已删除的内容无法恢复，请务必注意进行评分。
+3) 异议申请结束后，删除选手创建的云资源。
+4) 有部分分数的题目，在评分项中已注明部分分数。
+5) 没有单独部分分数的题目，必须全部答对才能得分。
+6) 评分进行前，为环境设置，必须确认以下事项。
+- 标有红色方框的图片，只确认红色方框部分。
+- 评分结束后，选手为防止额外费用消耗，需删除所有资源。
+- Region使用us-east-1。
+- Console的设计可能与评分内容不同。
+
+云计算 第2课题 1 - 5
+
+2. 评分标准表
+1) 主要项目配分
+
+课题
+
+序号
+
+编号
+
+编号
+
+1
+
+第1课题
+
+工种名称
+
+云计算
+
+评分方法
+主要项目
+
+配分
+独立
+
+基本
+AWS Resource 创建
+Kinesis data
+
+2
+
+analytics 设置
+
+合意
+
+评分时机
+比赛
+
+比赛
+
+进行中 结束后
+
+19
+
+○
+
+○
+
+9
+
+○
+
+○
+
+12
+
+○
+
+○
+
+Kinesis data
+3
+
+analytics 动作
+确认
+合
+
+计
+
+40
+
+云计算 第2课题 2 - 5
+
+备注
+
+2) 评分方法及标准
+课题
+
+序号
+
+编号
+
+编号
+
+1
+
+序号
+
+主要项目
+
+详细项目(评分方法)
+
+配分
+
+1
+
+Kinesis data analytics 创建
+
+3
+
+2
+
+S3 bucket 创建
+
+3
+
+3
+
+IAM 创建
+
+10
+
+4
+
+Kinesis data stream 创建
+
+3
+
+5
+
+S3 bucket 设置
+
+4
+
+6
+
+Runtime Properties 设置
+
+3
+
+7
+
+KDA application 执行
+
+2
+
+8
+
+CloudWatch Log 确认
+
+3
+
+9
+
+Data 保存确认
+
+9
+
+编号
+
+基本
+AWS Resource 创建
+
+第2课题
+2
+
+Kinesis data
+analytics 设置
+
+Kinesis data
+3
+
+analytics 动作
+确认
+
+总分
+
+40
+
+云计算 第2课题 3 - 5
+
+3) 评分内容
+序号
+
+评分项目
+Kinesis data analytics
+
+1
+
+https://console.aws.amazon.com/kinesisanalytics
+访问 Kinesis analytics dashboard，确认 Kinesis data analytics 是否已创建。
+S3
+
+2
+
+https://s3.console.aws.amazon.com/s3/
+确认已创建的 S3 bucket。（与提交的 bucket name 比较）
+IAM
+https://console.aws.amazon.com/iamv2
+确认已创建的 IAM role。（kda_flink_role）（2分）
+
+3
+
+IAM policy 确认
+拥有已创建的 S3 bucket access 权限（2分）
+拥有 Kinesis 访问权限（2分）
+Cloud watch log 权限（2分）
+Cloud watch 权限（确认是否与附件 flink_iam_policy_cloudwatch.json 文件权限相同）（2分）
+Kinesis data stream
+
+4
+
+https://console.aws.amazon.com/kinesis
+确认 Kinesis data stream 创建。（kda_flink_kinesis_stream）
+KDA configure
+Bucket 设置：与提交的 bucket name 相同（2分）
+对象设置：/kda_flink_jar/kinesis-data-analytics-flink.jar（2分）
+
+5
+
+云计算 第2课题 4 - 5
+
+序号
+
+评分项目
+KDA runtime properties
+1. Group ID：设置为 “FlinkAppProperties”
+2. Key：“s3_output_path”
+3. Value: s3a://<bucket_name>/kda_flink_starter_kit_output（bucket_name 参考提交的值）
+
+6
+
+KDA application 执行信息
+
+7
+
+Application 详细信息
+状态(status)：确认是否为执行中(Running)
+Cloud Watch log 确认
+访问该 log stream，确认是否有新的 log 累积
+
+8
+
+Data 保存确认
+- 确认通过 Kinesis data stream 进入的 data 是否通过 kinesis data analytics 保存到 s3
+准备用于发送到 Kinesis data stream 的 Data producer
+- Ubuntu linux - EC2 instance 准备 (t3.medium)
+
+9
+
+- 将附件 jar 文件复制到 ec2 的 ~/setup
+- 使用附件手册设置 file 进行 EC2 设置
+- 执行附件 setup.sh
+向 Kinesis data stream 发送 data
+- 发送到 Kinesis data stream 的 data 会传送到 Kinesis data analytic 并保存到 S3
+确认 s3a://<bucket_name>/kda_flink_starter_kit_output s3 bucket path 中是否保存了新的 data
+
+附件：kinesis-data-analytics-flink-producer.jar
+setup.sh
+
+云计算 第2课题 5 - 5

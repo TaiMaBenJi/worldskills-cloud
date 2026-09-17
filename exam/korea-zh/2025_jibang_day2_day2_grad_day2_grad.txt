@@ -1,0 +1,313 @@
+地方技能竞赛评分标准
+1. 评分注意事项
+
+职业名称
+
+云计算
+
+※ 评分时请注意以下事项。
+确认用于评分的服务器是否为选手的服务器。
+评分时，命令输入可如下方图片所示使用 CloudShell。
+
+※ 评分标准表格必须按照格式填写。（录入评分网站时需要）
+
+云计算 第2任务 10 - 1
+
+2. 评分标准表
+1) 主要项目分值
+
+| 任务 | 序号 | 主要项目 | 分值 | 评分方法 |  | 评分时间 |  | 备注 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  |  |  |  | 独立 | 合议 | 比赛进行中 | 比赛结束后 |  |
+| 第2任务 | 1 | VPN | 12.5 | ○ | ○ |  |  |  |
+| 第2任务 | 2 | Keda | 12.5 | ○ | ○ |  |  |  |
+| 第2任务 | 3 | Terraform | 12.5 | ○ | ○ |  |  |  |
+| 第2任务 | 4 | EC2 | 12.5 | ○ | ○ |  |  |  |
+|  |  | 合计 | 50 |  |  |  |  |  |
+
+云计算 第2任务 10 - 2
+
+备注
+
+2) 评分方法及标准
+
+| 任务 | 主要项目序号 | 主要项目 | 详细项目序号 | 详细项目(评分方法) | 分值 |
+| --- | --- | --- | --- | --- | --- |
+| 第2任务 | 1 | VPN | 1 | VPC 创建 | 1.5 |
+| 第2任务 | 1 | VPN | 2 | Public Subnet CIDR | 1 |
+| 第2任务 | 1 | VPN | 3 | Private Subnet CIDR | 1 |
+| 第2任务 | 1 | VPN | 4 | NAT GW | 1.5 |
+| 第2任务 | 1 | VPN | 5 | Client VPN CIDR | 1.5 |
+| 第2任务 | 1 | VPN | 6 | Client VPN HA | 1.5 |
+| 第2任务 | 1 | VPN | 7 | Client VPN ACL | 1.5 |
+| 第2任务 | 1 | VPN | 8 | Client VPN 连接确认 | 1.5 |
+| 第2任务 | 1 | VPN | 9 | Client VPN 服务器接入 | 1.5 |
+| 第2任务 | 2 | Evnet-driven Autoscaling | 1 | EKS cluster 创建 | 1 |
+| 第2任务 | 2 | Evnet-driven Autoscaling | 2 | Deployment 创建 | 1.5 |
+| 第2任务 | 2 | Evnet-driven Autoscaling | 3 | Deployment 最小数量 | 1.5 |
+| 第2任务 | 2 | Evnet-driven Autoscaling | 4 | Deployment 环境变量 | 1.5 |
+| 第2任务 | 2 | Evnet-driven Autoscaling | 5 | SQS queue 创建 | 1 |
+| 第2任务 | 2 | Evnet-driven Autoscaling | 6 | Keda 创建 | 1.5 |
+| 第2任务 | 2 | Evnet-driven Autoscaling | 7 | Scaled Object | 1.5 |
+| 第2任务 | 2 | Evnet-driven Autoscaling | 8 | 容器扩展 | 1.5 |
+| 第2任务 | 2 | Evnet-driven Autoscaling | 9 | 容器缩减 | 1.5 |
+| 第2任务 | 3 | Infrastructure as Code | 1 | 前期工作 | 1 |
+| 第2任务 | 3 | Infrastructure as Code | 2 | EC2 创建 | 1 |
+| 第2任务 | 3 | Infrastructure as Code | 3 | VPC 创建 | 1.5 |
+| 第2任务 | 3 | Infrastructure as Code | 4 | Public subnet 创建 | 1.5 |
+| 第2任务 | 3 | Infrastructure as Code | 5 | IGW 创建 | 1.5 |
+| 第2任务 | 3 | Infrastructure as Code | 6 | EC2 类型 | 1.5 |
+| 第2任务 | 3 | Infrastructure as Code | 7 | EC2 子网 | 1.5 |
+| 第2任务 | 3 | Infrastructure as Code | 8 | EBS 加密 | 1.5 |
+| 第2任务 | 3 | Infrastructure as Code | 9 | IAM role | 1.5 |
+| 第2任务 | 4 | EC2 Automation | 1 | SSM 连接 | 1 |
+| 第2任务 | 4 | EC2 Automation | 2 | 测试实例创建 | 1.5 |
+| 第2任务 | 4 | EC2 Automation | 3 | old 脚本确认及执行 | 1.5 |
+| 第2任务 | 4 | EC2 Automation | 4 | 实例1 删除 | 1.5 |
+| 第2任务 | 4 | EC2 Automation | 5 | 实例2 删除 | 1.5 |
+| 第2任务 | 4 | EC2 Automation | 6 | 实例3,4 未删除 | 1 |
+| 第2任务 | 4 | EC2 Automation | 7 | all 脚本确认及执行 | 1.5 |
+| 第2任务 | 4 | EC2 Automation | 8 | 实例3 删除 | 1.5 |
+| 第2任务 | 4 | EC2 Automation | 9 | 实例4 删除 | 1.5 |
+| 第2任务 | 4 | EC2 Automation | 10 | Bastion 运行确认 |  |
+|  |  | 合计 |  |  | 50 |
+
+云计算 第2任务 10 - 3
+
+| 序号 | 评分项目 |
+| --- | --- |
+| 1-1 | 1) 使用网页浏览器登录选手的 AWS 账户后，执行 CloudShell。<br>2) 输入以下命令。<br>$ export VPC_ID=$(aws ec2 describe-vpcs --filters \\<br>Name=tag:Name,Values=[ws-vpn-vpc] --query Vpcs[].VpcId --output text)<br>$ aws ec2 describe-vpcs --filters Name=tag:Name,Values=[ws-vpn-vpc] \\<br>--query Vpcs[].CidrBlock<br>3) 确认输出结果为 "10.99.0.0/16"。 |
+| 1-2 | 1) 使用网页浏览器登录选手的 AWS 账户后，执行 CloudShell。<br>2) 输入以下命令。<br>$ aws ec2 describe-subnets --filters \\<br>Name=tag:Name,Values=[ws-public-subnet-a] --query Subnets[].CidrBlock<br>3) 确认输出结果为 "10.99.0.0/24"。 |
+| 1-3 | 1) 使用网页浏览器登录选手的 AWS 账户后，执行 CloudShell。<br>2) 输入以下命令。<br>$ aws ec2 describe-subnets --filters \\<br>Name=tag:Name,Values=[ws-private-subnet-b] --query Subnets[].CidrBlock<br>3) 确认输出结果为 "10.99.11.0/24"。 |
+| 1-4 | 1) 使用网页浏览器登录选手的 AWS 账户后，执行 CloudShell。<br>2) 输入以下命令。<br>$ export PUBLIC_SUBNET_IDS=$(aws ec2 describe-nat-gateways --filter \\<br>Name=state,Values=[available] --query NatGateways[].SubnetId --output text)<br>$ aws ec2 describe-subnets --subnet-ids $PUBLIC_SUBNET_IDS --query \\<br>Subnets[].AvailabilityZone<br>3) 确认输出结果中是否包含 "ap-northeast-2a" 和 "ap-northeast-2b"。 |
+| 1-5 | 1) 使用网页浏览器登录选手的 AWS 账户后，执行 CloudShell。<br>2) 输入以下命令。<br>$ export CVPN_ID=$(aws ec2 describe-client-vpn-endpoints --filters \\<br>Name=tag:Name,Values=[ws-client-vpn] --query \\<br>ClientVpnEndpoints[].ClientVpnEndpointId --output text)<br>$ aws ec2 describe-client-vpn-endpoints --client-vpn-endpoint-id $CVPN_ID \\<br>--query ClientVpnEndpoints[].ClientCidrBlock<br>3) 确认输出结果为 "10.254.0.0/16"。 |
+
+云计算 第2任务 10 - 4
+
+| 序号 | 评分项目 |
+| --- | --- |
+| 1-6 | 1) 使用网页浏览器登录选手的 AWS 账户后，执行 CloudShell。<br>2) 输入以下命令。<br>$ aws ec2 describe-client-vpn-target-networks --client-vpn-endpoint-id \\<br>$CVPN_ID --query ClientVpnTargetNetworks[].TargetNetworkId --output text<br>$ aws ec2 describe-instances --filters \\ Name=tag:Name,Values=[ws-web-a,ws-web-b] \\<br>--query Reservations[].Instances[].SubnetId --output text<br>3) 确认上述输入的两条命令的输出结果是否相同。<br>* 若结果值相同，仅顺序不同，也视为正确答案。 |
+| 1-7 | 1) 使用网页浏览器登录选手的 AWS 账户后，执行 CloudShell。<br>2) 输入以下命令。<br>$ aws ec2 describe-client-vpn-authorization-rules --client-vpn-endpoint-id \\<br>$CVPN_ID --query AuthorizationRules[].DestinationCidr<br>3) 确认输出结果为 "10.99.0.0/16"。 |
+| 1-8 | 1) 在选手的 Windows PC 上运行 AWS VPN Client，选择选手预先配置的配置文件并尝试连接（Connect）。<br>2) 确认是否如下方图片所示成功连接，状态变为 "Conntected."。 |
+| 1-9 | 1) 在 1-8 项中 VPN 连接成功并与 VPC 连接的状态下进行。<br>2) 记录在 VPC 中创建的 Web 服务器的 Private IP 地址。<br>3) 在浏览器中输入 http://<EC2 Web 服务器地址>。<br>4) 确认是否显示 "Welcome to the ws portal"。 |
+
+云计算 第2任务 10 - 5
+
+| 序号 | 评分项目 |
+| --- | --- |
+| 2-1 | 1) 访问 Bastion 的 shell。<br>2) 输入以下命令。<br>$ aws eks describe-cluster --name order-cluster --query cluster.version<br>3) 确认是否输出 1.31。 |
+| 2-2 | 1) 访问 Bastion 的 shell。<br>2) 输入以下命令。<br>$ aws eks update-kubeconfig --name order-cluster<br>$ kubectl get deployment --namespace order \| grep order-processor<br>3) 确认是否输出 order-processor。 |
+| 2-3 | 1) 访问 Bastion 的 shell。<br>2) 输入以下命令。<br>$ kubectl get po -n order \| grep order-processor<br>3) 确认是否仅输出一个 order-processor Pod。 |
+| 2-4 | 1) 访问 Bastion 的 shell。<br>2) 输入以下命令。<br>$ kubectl describe deployment -n order \| grep -E "QUEUE_URL\|REGION_NAME"<br>3) 确认是否输出 QUEUE_URL 和 REGION_NAME 环境变量。 |
+| 2-5 | 1) 访问 Bastion 的 shell。<br>2) 输入以下命令。<br>$ aws sqs get-queue-url --queue-name order-queue --query QueueUrl \\<br>--output text<br>3) 确认是否输出 SQS 的 URL。 |
+| 2-6 | 1) 访问 Bastion 的 shell。<br>2) 输入以下命令。<br>$ kubectl get po -A \| grep keda-operator<br>3) 确认是否输出包含 keda-operator 的结果。 |
+| 2-7 | 1) 访问 Bastion 的 shell。<br>2) 输入以下命令。<br>$ kubectl get scaledobjects.keda.sh -A<br>3) 确认是否输出 1 个以上的结果（ScaledObjects）。<br>由于必须只有一台 Pod 才能实现，若 2-3 错误，则 2-8 也视为错误。 |
+| 2-8 | 1) 访问 Bastion 的 shell。<br>2) 输入以下命令以制造负载。<br>$ for i {1..20}; do aws sqs send-message --queue-url <<选手 Q>> \\<br>--message-body $i; done;<br>3) 每隔约 5 秒持续输入以下命令，确认 Pod 是否增加。<br>$ kubectl get po -n order \| grep order-processor<br>（最多可等待 5 分钟，直到增加 1 台以上） |
+
+云计算 第2任务 10 - 6
+
+| 序号 | 评分项目 |
+| --- | --- |
+| 2-9 | 由于是 Pod 减少测试，若 2-8 错误，则 2-9 也视为错误。<br>1) 访问 Bastion 的 shell。<br>2) 每隔约 5 秒持续输入以下命令，确认 Pod 是否减少。<br>$ kubectl get po -n order \| grep order-processor<br>（最多可等待 5 分钟，直到 Pod 减少） |
+
+这是前置操作步骤，执行相应命令以删除并重新创建资源。
+1) 通过 CLI 访问部署在 Default VPC 中的 Bastion 的 /home/ec2-user/korea。
+2) 输入以下命令，删除已创建的资源，并基于 Terraform 代码
+3-0
+
+重新创建基础设施。
+$ cd /home/ec2-user/korea
+$ terraform init && terraform destroy -auto-approve
+$ terraform apply -auto-approve
+
+1) 访问部署在 Default VPC 中的 Bastion 的 shell。
+3-1
+
+2) 输入以下命令，确认是否输出以 i- 开头的实例 ID。
+$ aws ec2 describe-instances --filters Name=tag:Name,Values=[korea-instance] \
+--query Reservations[].Instances[].InstanceId --output text
+
+1) 访问部署在 Default VPC 中的 Bastion 的 shell。
+3-2
+
+2) 输入以下命令，确认是否输出 10.0.0.0/16。
+$ aws ec2 describe-vpcs --filters Name=tag:Name,Values=[korea-vpc] \
+--query Vpcs[].CidrBlock
+
+1) 访问部署在 Default VPC 中的 Bastion 的 shell。
+3-3
+
+2) 输入以下命令，确认是否输出 ap-northeast-2a。
+$ aws ec2 describe-subnets --filters Name=tag:Name,Values=[korea-public-subnet-a] \
+--query Subnets[].AvailabilityZone
+
+1) 访问部署在 Default VPC 中的 Bastion 的 shell。
+2) 输入以下命令，确认是否输出以 igw- 开头的 IGW ID。
+$ export VPC_ID=$(aws ec2 describe-vpcs --filters \
+
+3-4
+
+Name=tag:Name,Values=[korea-vpc] --query Vpcs[].VpcId --output text)
+$ aws ec2 describe-internet-gateways --filters \
+Name=attachment.vpc-id,Values=[$VPC_ID] --query \
+InternetGateways[].InternetGatewayId
+
+1) 访问部署在 Default VPC 中的 Bastion 的 shell。
+3-5
+
+2) 输入以下命令，确认是否输出 t3.micro。
+$ aws ec2 describe-instances --filters Name=tag:Name,Values=[korea-instance] \
+--query Reservations[].Instances[].InstanceType
+
+云计算第2次作业 10 - 7
+
+序号
+
+评分项
+1) 访问部署在 Default VPC 中的 Bastion 的 shell。
+2) 输入以下命令，确认是否输出 korea-public-subnet-a。
+$ export SUBNET_ID=$(aws ec2 describe-instances --filters
+
+3-6
+
+Name=tag:Name,Values=[korea-instance] \
+--query Reservations[].Instances[].SubnetId)
+$ aws ec2 describe-subnets --subnet-ids $SUBNET_ID --query
+Subnets[].Tags[?Key==\`Name\`].Value
+
+1) 访问部署在 Default VPC 中的 Bastion 的 shell。
+2) 输入以下命令，确认是否输出 true。
+3-7
+
+$ export VOLUME_ID=$(aws ec2 describe-instances --filters \
+Name=tag:Name,Values=[korea-instance] --query \
+Reservations[].Instances[].BlockDeviceMappings[].Ebs.VolumeId --output text)
+$ aws ec2 describe-volumes --volume-ids $VOLUME_ID --query Volumes[].Encrypted
+
+1) 访问部署在 Default VPC 中的 Bastion 的 shell。
+3-8
+
+2) 输入以下命令，确认是否输出 IAM role 的 ARN。
+$ aws ec2 describe-instances --filters Name=tag:Name,Values=[korea-instance] \
+--query Reservations[].Instances[].IamInstanceProfile | grep -i Arn
+
+1) 访问部署在 Default VPC 中的 Bastion 的 shell。
+2) 输入以下命令，确认是否输出 Online。
+$ export INSTANCE_ID=$(aws ec2 describe-instances --filters \
+
+3-9
+
+Name=tag:Name,Values=[korea-instance] --query \
+Reservations[].Instances[].InstanceId --output text)
+$ aws ssm describe-instance-information --filters \
+Key=InstanceIds,Values=[$INSTANCE_ID] --query InstanceInformationList[].PingStatus
+
+云计算第2次作业 10 - 8
+
+序号
+
+评分项
+1) 访问部署在 Tokyo 中的 Bastion 的 shell。
+2) 输入以下命令，确认执行是否没有报错。
+$ aws ec2 run-instances --image-id "ami-03f584e50b2d32776" --instance-type "t3.micro" \
+--tag-specifications \
+'{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"instance-1-2025x2gj"}, \
+{"Key":"Project","Value":"skills2022"}]}' --count "1" --no-cli-pager > /dev/null
+$ aws ec2 run-instances --image-id "ami-03f584e50b2d32776" --instance-type "t3.micro" \
+--tag-specifications \
+
+4-1
+
+'{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"instance-2-2025x2gj"}, \
+{"Key":"Project","Value":"skills2022"}]}' --count "1" --no-cli-pager > /dev/null
+$ aws ec2 run-instances --image-id "ami-03f584e50b2d32776" --instance-type "t3.micro" \
+--tag-specifications \
+'{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"instance-3-2025x2gj"}, \
+{"Key":"Project","Value":"skills2023"}]}' --count "1" --no-cli-pager > /dev/null
+$ aws ec2 run-instances --image-id "ami-03f584e50b2d32776" --instance-type "t3.micro" \
+--tag-specifications \
+'{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"instance-4-2025x2gj"}, \
+{"Key":"Project","Value":"skills2024"}]}' --count "1" --no-cli-pager > /dev/null
+
+1) 访问部署在 Tokyo 中的 Bastion 的 shell。
+2) 使用以下命令确认是否存在 delete_old_instance.sh。（存在则得分）
+$ cd /home/ec2-user/ec2-automation/
+
+4-2
+
+$ ls -l | grep delete_old_instance
+
+3) 如果存在，则使用以下命令执行 delete_old_instance。
+$ chmod +x delete_old_instance.sh
+$ ./delete_old_instance.sh
+
+（等待约 30 秒后开始 4-3 评分。）
+1) 访问部署在 Default VPC 中的 Bastion 的 shell。
+2) 输入以下命令，确认 instance-1 的状态是否输出为 "Shutting-down" 或
+4-3
+
+"Terminated"。
+$ aws ec2 describe-instances --filters Name=tag:Name,Values=[instance-1-2025x2gj] \
+--query Reservations[].Instances[].State
+
+1) 访问部署在 Default VPC 中的 Bastion 的 shell。
+2) 输入以下命令，确认 instance-2 的状态是否输出为 "Shutting-down" 或
+4-4
+
+"Terminated"。
+$ aws ec2 describe-instances --filters Name=tag:Name,Values=[instance-2-2025x2gj] \
+--query Reservations[].Instances[].State
+
+云计算第2次作业 10 - 9
+
+序号
+
+评分项
+1) 访问部署在 Default VPC 中的 Bastion 的 shell。
+2) 输入以下命令，确认 instance-3 和 4 的状态是否为 "Running"。
+
+4-5
+
+$ aws ec2 describe-instances --filters \
+Name=tag:Name,Values=[instance-3-2025x2gj] --query Reservations[].Instances[].State
+$ aws ec2 describe-instances --filters \
+Name=tag:Name,Values=[instance-4-2025x2gj] --query Reservations[].Instances[].State
+
+1) 访问部署在 Default VPC 中的 Bastion 的 shell。
+2) 使用以下命令确认是否存在 delete_all_instance.sh。（存在则得分）
+$ cd /home/ec2-user/ec2-automation/
+
+4-6
+
+$ ls -l | grep delete_all_instance
+
+3) 如果存在，则使用以下命令执行 delete_all_instance。
+
+$ chmod +x delete_all_instance.sh
+$ ./delete_all_instance.sh
+
+（等待约 30 秒后，开始 4-7 评分。）
+1) 访问部署在 Default VPC 中的 Bastion 的 shell。
+2) 输入以下命令，确认 instance-3 的状态是否输出为 "Shutting-down" 或
+4-7
+
+"Terminated"。
+$ aws ec2 describe-instances --filters Name=tag:Name,Values=[instance-3-2025x2gj] \
+--query Reservations[].Instances[].State
+
+1) 访问部署在 Default VPC 中的 Bastion 的 shell。
+2) 输入以下命令，确认 instance-4 的状态是否输出为 "Shutting-down" 或
+4-8
+
+"Terminated"。
+$ aws ec2 describe-instances --filters Name=tag:Name,Values=[instance-4-2025x2gj] \
+--query Reservations[].Instances[].State
+
+1) 访问部署在 Default VPC 中的 Bastion 的 shell。
+4-9
+
+2) 输入以下命令，确认 bastion 服务器的状态是否为 "Running"。
+$ aws ec2 describe-instances --filters Name=tag:Name,Values=[automation-bastion] \
+--query Reservations[].Instances[].State
+
+云计算第2次作业 10 - 10

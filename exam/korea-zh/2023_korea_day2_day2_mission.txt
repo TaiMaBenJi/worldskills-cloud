@@ -1,0 +1,183 @@
+2023年全国技能大赛
+| 职业名称 | 云计算 |
+| 课题名称 | Automation |
+| 比赛时间 | 4小时 |
+| 编号 | |
+| 课题编号 | 第 2 题 |
+| 评审委员确认 | (印) |
+
+1. 需求
+收集并处理来自多个资源产生的日志，保存到云存储，并基于保存的日志执行查询，以用作改善系统运营的依据。同时，存储并提供静态内容，自动化内容控制操作，并为应对安全事件，自动化安全事件响应流程。参考详细需求，必须配置日志收集/处理/查询操作、静态内容提供服务的运营、安全事件响应自动化。
+示意图
+
+云计算 第2题 1 - 7
+
+Software Stack
+AWS
+- VPC
+
+开发语言/框架
+- Golang / Gin
+
+- EC2
+- CloudFront
+- S3
+- Kinesis Series
+- Athena
+- Lambda
+
+2. 选手注意事项
+1) 使用机械及工具等时请注意安全，必要时请穿戴安全装备和服装等，以预防事故。
+2) 作业中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请遵守佩戴安全防护用品等安全守则。
+3) 作业中请注意工具的使用，遵守安全守则，预防事故。
+4) 比赛开始前请通过轻度拉伸等放松紧张，使用作业工具时请注意安全。
+5) 选手账户存在费用限制，如果产生更高费用，账户可能无法使用。
+6) 题目中给出的尖括号 <> 表示变量，选手必须适当更改后使用。
+7) EC2 实例的 TCP 80/443 outbound 应配置为 anyopen 以供使用。
+8) 大部分评分在任务的 Bastion 服务器上进行，如果未创建实例或实例处于已终止状态，则无法评分，请特别留意。
+9) 任务结束时，请终止所有正在进行的测试，以免给服务器造成负载。
+10) 如无特别说明，请在 ap-northeast-2 区域创建资源。
+11) 第1页的示意图是抽象表示架构的图，详细配置应满足以下需求。（例如，子网可能存在2个以上。）
+12) 所有资源的名称、标签、变量和变量都区分大小写。
+13) 题目中未给出的值必须基于 AWS Well-Architected Framework 6 pillars 设置适当的值。
+14) 如果创建了不必要的资源，可能会成为扣分因素。（例如，额外创建 VPC）
+15) 如果不遵循题目要求的标签策略，可能会成为扣分因素。
+16) 所有资源的时间均按 UTC+9 (KST) 时区设置。
+
+云计算 第2题 2 - 7
+
+3. 网络配置
+为能够对云基础设施进行网络级别的隔离和分离，参考以下需求配置 VPC。子网名称后面的字母表示 Availability Zone。
+VPC 信息
+- VPC CIDR : 10.1.0.0/16
+- VPC Tag : Name=wsi-vpc
+- Internet G/W Tag : Name=wsi-igw
+App subnet A 信息
+- CIDR : 10.1.0.0/24
+- Tag : Name=wsi-app-a
+- 外部通信：配置 NAT G/W，使其能够访问互联网。
+- Route table Tag : Name=wsi-app-a-rt
+- NAT G/W Tag : Name=wsi-natgw-a
+Public subnet A 信息
+- CIDR : 10.1.2.0/24
+- Tag : Name=wsi-public-a
+- 外部通信：配置 Internet G/W 以访问互联网。
+- Route table Tag : Name=wsi-public-rt
+
+4. Bastion 服务器
+使用 EC2 配置 Bastion 服务器。为访问 bastion 服务器，使用 TCP 4272(SSH)。配置 Security Group，使 bastion 服务器仅允许来自外部的 SSH 协议。通过 SSH 协议访问时，将访问日志保存到 CloudWatch Logs。日志中必须包含用户名、访问 IP（Client IP）。访问日志必须在 1 分钟内保存到 CloudWatch Logs。
+在 Bastion 服务器上创建 user01、user02、user03 Linux 账户，并将密码设置为 pAss@@12。此外，这些用户必须能够使用密码通过 SSH 访问 Bastion 服务器。
+- Instance type : t3.small
+- AMI : Amazon Linux2
+- Subnet : Public subnet A
+- 安装包：awscli, jq, curl, parquet-tools
+- Tag : Name=wsi-bastion
+- Security group name: wsi-bastion-sg（*仅使用指定的一个 Security Group。）
+云计算 第2题 3 - 7
+
+- EC2 IAM Role：创建一个对所有资源具有 full access 的 role 并附加。role 名称设置为 wsi-bastion-role。
+- CloudWatch Logs group: /wsi/security/bastion-ssh
+- CloudWatch Logs stream: login
+
+5. Web 应用程序
+部署 foo/bar 应用程序。提供的 binary 已在基于 x86 的 EC2 的 Amazon Linux2 上构建并确认可运行。go version 为 go1.18.9 linux/amd64。应用程序运行时绑定的端口为 TCP/8080。应用程序将 access log 保存到 log/app.log 文件（相对路径）。不对 app.log 文件进行单独的 log rotation 设置。所有 API 必须在 5 秒内响应。
+- foo/bar
+用于生成访问日志的临时 API。输出简单字符串。
+| Path | Method | Request body | Response body |
+| /v1/foo | GET | - | {"application": "foo"} |
+| /v1/bar | GET | - | {"application": "bar"} |
+| /healthcheck | GET | - | {"status": "ok"} |
+
+foo/bar 应用程序无需考虑可用性/扩展性。创建 EC2 实例，部署应用程序并以守护进程运行。为应对突发错误，应用程序在重启时也必须能够重新启动。
+- Instance type: t3.small
+- Subnet: App subnet A
+- Tag: Name=wsi-app
+foo/bar 应用程序从 wsi-bastion 服务器直接访问，不暴露给外部用户。配置为仅允许最小权限。
+
+6. S3
+创建2个 S3 桶，并根据各自用途设置桶。一个桶用于存储和提供静态内容。存储在 S3 的静态内容不得直接暴露给用户，必须仅能通过 CloudFront 访问。如果更新 S3 桶中的现有内容，通过 CloudFront 访问的用户必须能在 1 分钟内收到更新后的内容。提供静态内容的桶使用任意 CMK 进行服务器端加密。评分时，先删除静态内容存储桶中的所有 object，然后开始评分。此外，访问静态内容 S3 桶的服务器日志必须保存到日志存储桶的 s3-accesslog/ 路径。比赛结束前，s3-accesslog/ 路径下必须存在至少 2 条 S3 服务器访问记录（日志），才能进行评分。另一个桶用于存储日志数据。该桶是
+
+云计算 第2题 4 - 7
+
+用于存储所有日志数据。
+- 桶名称（静态内容）：wsi-static-<任意 4 位英文字母>
+- 桶名称（日志存储）：wsi-logs-<任意 4 位英文字母>
+
+7. CloudFront
+通过 CloudFront 使静态内容可被访问。配置为可缓存上传到 S3 的静态内容。配置为用户即使通过 HTTP 访问 CloudFront，也会重定向到 HTTPS，从而只能通过 HTTPS 访问。配置为提供的 images 文件在提供给用户之前更改为 128x128 大小，然后提供给用户。但现有内容（图像）不得被更改。
+- Origin : S3 Bucket（静态内容）
+- Edge：配置为不仅韩国，全球用户都能快速访问
+- Tag : Name=wsi-cdn
+- 其他：为防止评分时出现异常，禁用 IPv6，并且仅创建一个 CloudFront
+
+8. Kinesis
+通过 Kinesis 收集/处理 foo/bar 应用程序产生的 access log，然后保存到日志收集桶（S3）。分析应用程序产生的 access log 模式，为便于分析，按如下方式执行转换操作。转换操作后，配置为以 parquet 格式保存到“6. S3”中创建的日志存储桶的 accesslog/ 下。/healthcheck 路径的日志数据不得保存到 S3。
+- 应用程序日志格式
+clientIP - [ Timestamp ] "Method Path Protocol ResponseCode ProcessingTime " UserAgent "
+例如 8.8.8.8 - [2023-10-13T04:00:00Z] "GET /v1/foo HTTP/1.1 200 40.1us "curl/x.x.x" "
+
+- 数据转换规则
+| Source | Transformed Data (columns) |
+| clientip | 不转换 |
+| timestamp | 转换为年、月、日、时、分、秒 (year, month, day, hour, minute, second)<br>例如将 2023-10-13T04:02:42Z 转换时如下：<br>year: 2023, month: 10, day: 13,<br>hour: 04, minute: 02, second: 42 |
+| method | 不转换 |
+| path | 不转换 |
+| protocol | 不转换 |
+| responsecode | 不转换 |
+| processingtime | 不转换 |
+| useragent | 不转换 |
+
+以毫秒为基准转换（仅用数字表示，不带单位）
+无转换
+云计算第二次作业 5 - 7
+
+- 转换为parquet格式后，数据列名称如下。
+clientip, year, month, day, hour, minute, second, method, path, protocol,
+responsecode, processingtime, useragent
+- Kinesis Stream 名称: wsi-log-stream
+- Kinesis Firehose 名称: wsi-log-firehose
+
+9. Athena
+为了分析存储在S3桶中的日志数据，使用Athena。基于存储在S3桶中的应用程序日志数据分析流量模式。以1分钟为间隔汇总比赛当天产生的日志数据。此时，基于path和status code的组合进行计数。/v1/foo + 200和/v1/foo + 201是不同的组合，因此必须区分并汇总。/v1/foo + 200和/v1/bar + 200也是不同的组合，因此必须区分并汇总。只有path和status code完全相同时，才汇总为同一组合。查询名称命名为TrafficPatternQuery。Athena Table的名称指定为accesslog。创建表时，为了高效的查询，配置按日分区。在评分表结构时，使用Athena query的describe query来评分表结构。
+查询名称
+TrafficPatternQuery
+
+描述（示例）
+| year | month | day | hour | minute | path | statuscode | count |
+| 2023 | 10 | 12 | 16 | 18 | /v1/foo | 200 | 3 |
+| 2023 | 10 | 12 | 16 | 18 | /v1/foo | 201 | 2 |
+| 2023 | 10 | 12 | 16 | 18 | /v1/bar | 200 | 5 |
+
+10. 日志备份
+为了应对wsi-app实例突然终止的情况，每分钟将保存access log的文件（app.log文件）备份到用于日志存储的S3桶中。
+- 存储位置: accesslog-backup/interval/<year>/<month>/<day>/<hour>/<minute>/app.log
+配置脚本，使得在实例终止或重启时，能够将access log文件上传到S3并终止。
+- 存储位置: accesslog-backup/shutdown/<year>/<month>/<day>/<hour>/<minute>/app.log
+
+11. 安全响应自动化
+- Bastion 安全配置
+如果对Bastion的SSH访问（登录）在5分钟内发生10次以上，则判断为异常访问，隔离Bastion。（撤销Bastion服务器的所有Security Group Ingress / Egress Rule。）
+
+云计算第二次作业 6 - 7
+
+在Bastion中，如果在5分钟内登录尝试失败5次，则判断为异常登录尝试，配置为锁定Linux用户120秒。
+- Console login 安全配置
+创建consoleuser IAM账户，并且当该账户在5分钟内Console登录失败5次以上时
+
+cloudwatch
+
+Alarm的
+
+Alert
+
+发生
+
+配置。
+
+loginAlarm设置为。
+
+云计算第二次作业 7 - 7
+
+cloudwatch
+
+Alarm名称是

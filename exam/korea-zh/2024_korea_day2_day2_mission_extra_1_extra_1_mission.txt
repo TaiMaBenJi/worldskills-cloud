@@ -1,0 +1,59 @@
+2024年全国技能大赛
+职业名称
+
+云计算
+
+课题名称
+
+比赛时间
+
+4小时
+
+编号
+
+Small Challenge
+
+课题编号
+
+第2课题
+
+评委
+确
+认
+
+（签章）
+
+1. 选手注意事项
+1) 使用机械及工具等时请注意安全，必要时请佩戴安全装备及着装等，以预防事故。
+2) 作业过程中请注意预防烫伤、触电、擦伤等安全事故，使用工具或作业工具时请佩戴安全防护用具，遵守安全守则。
+3) 作业中注意工具的使用，遵守安全守则，预防事故。
+4) 比赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+5) 选手的账户存在费用限制，若产生高于该限额的费用，账户可能无法使用。
+6) 题目中给出的尖括号 <> 表示变量，选手需适当修改后使用。
+7) EC2 实例的 TCP 80/443 出站需允许 any open 以便使用。
+8) 课题的大部分评分在 Bastion 服务器上进行，若未创建实例或实例处于已终止状态，将无法评分，请务必特别注意。
+9) 课题结束时，请终止所有正在进行的测试，以免服务器产生负载。
+10) 如无另行说明，请在 us-east-1 区域创建资源。
+11) 所有资源的名称、标签、变量均区分大小写。
+12) 课题结束时，请删除部署或存储桶等所有不必要的资源。
+
+2-1
+
+AWS Client VPN
+
+VPC 配置
+创建 VPC 并配置 Public subnet 与 DB subnet。各子网需在 A、B 两个可用区分别创建，并采用图中所示的 CIDR，同时为 VPC 添加 “Name=day2-my” 标签。
+Public 子网通过 IGW 连接。DB 子网必须无法访问互联网，因此其路由表中不得存在 NAT G/W、IGW 等网关。
+
+DB 配置
+在 DB 子网中配置 Aurora PostgreSQL。DB identifier 使用 day2-my-pg，端口使用默认端口，根账户名称设置为 day2_root。备份等其他 DB 设置可自由配置。但使用 psql client 以 day2_root 账户访问 DB 时不得出现问题。RDBMS 配置完成后，在其中创建名为 “day2” 的数据库。
+
+DNS 配置
+在 Route53 中创建与课题 VPC 关联的 Private Hosted Zone。Hosted Zone 名称使用 “day2.local”。然后创建名为 db.day2.local 的 CNAME 记录，并关联所创建的 Aurora Endpoint。nslookup 时应返回 DB 的 Private IP 地址。使用该记录访问 DB。
+
+Client VPN 配置
+配置 AWS Client VPN。从 Local PC 通过 VPN 连接时，必须能够通过 psql 访问 day2-my-pg。此外，还必须能够查询 day2.local hosted zone 中的 DNS 记录。认证类型可使用选手希望的方式，其他值使用适当的值。
+在 Local PC 上安装 AWS Client VPN 客户端，并如图所示预先设置用于连接 VPC 的 ws-day2 配置文件。连接成功后，必须能够查询 db.day2.local 记录，并成功连接到 VPC 中的 Aurora Postgres。
+在 Local PC 上安装 Postgres 服务器以引导连接、篡改 host 文件、使用非 day2-my VPC 中 day2.local 的其他 DNS 区域等，若评委判断为题目所述之外的其他方法，则视为错误。
+
+2-2

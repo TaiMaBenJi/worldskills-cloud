@@ -1,0 +1,647 @@
+2024年度地方技能竞赛大会 评分标准
+1. 评分注意事项
+
+工种名称
+
+云计算
+
+※ 评分时请注意以下事项。
+1) AWS 区域使用 ap-northeast-2。
+2) 网页访问使用 Chrome 或 Firefox。
+3) 网页中根据语言不同，显示的文案可能不同。
+4) Shell 中命令的输出可能因版本不同而略有差异。
+5) 试题和评分表中的 <> 是变量。请修改相应部分后输入。
+6) 评分必须按题目顺序进行。
+7) 删除评分不可撤销，请谨慎进行。
+8) 异议申请全部结束后，删除选手创建的云资源。
+9) 有部分分数的题目，评分项中已写明部分分数。
+10) 没有单独部分分数的题目，必须全部答对才计分。
+11) 评分开始前，为进行环境设置，必须确认以下事项。
+- 确认能否通过 SSH 访问 Bastion。
+- 确认 Bastion 上是否安装了 AWS CLI v2、cURL、jq、kubectl。
+- 确认 Bastion 上是否映射了 IAM Role，从而可通过 AWS CLI 访问 AWS 的所有资源。
+- 通过 aws sts get-caller-identity 命令确认是否访问的不是选手的账户，而是其他账户。如果为其他账户，则可怀疑存在作弊行为。
+12) 评分前，为配置评分环境，请在 ~/.aws/config 中添加以下内容。
+[default]
+region = ap-northeast-2
+output = json
+13) 评分时，可以执行单独提供的评分脚本(mark.sh)进行评分。但若选手希望直接输入，则可以按照评分标准表中写明的命令原样输入进行评分。
+
+云计算 第1课题 16 - 1
+
+2. 评分标准表
+1) 主要项目分值
+
+| 任务 | 序号 | 编号 | 主要项目 | 分值 | 评分方法 | | 评分时机 | | 备注 |
+| | | | | | 独立 | 合议 | 比赛进行中 | 比赛结束后 | |
+| 第1课题 | 1 | | Networking | 4.5 | ○ | ○ | | | |
+| | 2 | | Bastion Server | 3.0 | ○ | ○ | | | |
+| | 3 | | NoSQL Database | 12.0 | ○ | ○ | | | |
+| | 4 | | In-Memory Database | 13.5 | ○ | ○ | | | |
+| | 5 | | Image Repository | 6.0 | ○ | ○ | | | |
+| | 6 | | Container Orchestration | 6.0 | ○ | ○ | | | |
+| | 7 | | Load Balancing | 1.5 | ○ | ○ | | | |
+| | 8 | | Application | 4.5 | ○ | ○ | | | |
+| | 9 | | Logging | 3.0 | ○ | ○ | | | |
+| | 10 | | Auto Scaling | 6.0 | ○ | ○ | | | |
+| | | | 合计 | 60 | | | | | |
+
+云计算 第1课题 16 - 2
+
+2) 评分方法及标准
+
+| 任务 | 主要项目 | 序号 | 详细项目（评分方法） | 分值 |
+| 第1课题 | Networking | 1 | VPC 确认 | 1.5 |
+| | | 2 | Subnets 确认 | 1.5 |
+| | | 3 | Route Tables 确认 | 1.5 |
+| | Bastion Server | 1 | 实例类型确认 | 1.0 |
+| | | 2 | Public IP 确认 | 1.0 |
+| | | 3 | OS 确认 | 1.0 |
+| | NoSQL Database | 1 | DocumentDB Subnets 确认 | 1.5 |
+| | | 2 | DocumentDB 高可用性确认 | 1.5 |
+| | | 3 | DocumentDB 加密确认 | 1.5 |
+| | | 4 | DocumentDB 日志记录确认 | 1.5 |
+| | | 5 | DocumentDB 备份确认 | 1.5 |
+| | | 6 | DocumentDB 端口确认 | 1.5 |
+| | | 7 | DocumentDB 版本确认 | 1.5 |
+| | | 8 | DocumentDB 实例类型确认 | 1.5 |
+| | In-Memory Database | 1 | ElastiCache Subnets 确认 | 1.5 |
+| | | 2 | ElastiCache Redis Cluster 确认 | 1.5 |
+| | | 3 | ElastiCache 高可用性确认 | 1.5 |
+| | | 4 | ElastiCache 加密确认 | 1.5 |
+| | | 5 | ElastiCache 日志记录确认 | 1.5 |
+| | | 6 | ElastiCache 备份确认 | 1.5 |
+| | | 7 | ElastiCache 端口确认 | 1.5 |
+| | | 8 | ElastiCache 版本确认 | 1.5 |
+| | | 9 | ElastiCache 实例类型确认 | 1.5 |
+| | Image Repository | 1 | ECR Repository 创建确认 | 1.5 |
+| | | 2 | ECR Repository 加密确认 | 1.5 |
+| | | 3 | ECR Repository Scanning 确认 | 1.5 |
+| | | 4 | ECR Repository Immutable 确认 | 1.5 |
+| | Container Orchestration | 1 | EKS Cluster 配置确认 | 1.5 |
+| | | 2 | EKS Addon Nodegroup 配置确认 | 1.5 |
+| | | 3 | EKS App Nodegroup 配置确认 | 1.5 |
+| | | 4 | EKS App Fargate Profile 配置确认 | 1.5 |
+| | Load Balancing | 1 | ALB 配置确认 | 1.5 |
+| | Application | 1 | user Pod 配置确认 | 1.5 |
+| | | 2 | token Pod 配置确认 | 1.5 |
+| | | 3 | Application 运行确认 | 1.5 |
+| | Logging | 1 | user 应用程序日志记录确认 | 1.5 |
+| | | 2 | token 应用程序日志记录确认 | 1.5 |
+| | Auto Scaling | 1 | user Scaling Out | 1.5 |
+| | | 2 | user Scaling In | 1.5 |
+| | | 3 | token Scaling Out | 1.5 |
+| | | 4 | token Scaling In | 1.5 |
+| | 总分 | | | 60 |
+
+云计算 第1课题 16 - 3
+
+3) 评分内容
+
+| 序号 | 评分项目 |
+| 1-1 | 1) 通过 SSH 访问 Bastion 服务器。<br>2) 输入以下命令。<br>`aws ec2 describe-vpcs --filter Name=tag:Name,Values=skills-vpc \`<br>`--query "Vpcs[].CidrBlock"`<br>3) 确认输出 10.100.0.0/16。 |
+| 1-2 | 1) 通过 SSH 访问 Bastion 服务器。<br>2) 输入以下命令。<br>`aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-public-subnet-a \`<br>`--query "Subnets[].[AvailabilityZone, CidrBlock][]"`<br>3) 确认输出 ap-northeast-2a 和 10.100.1.0/24。<br>4) 输入以下命令。<br>`aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-public-subnet-b \`<br>`--query "Subnets[].[AvailabilityZone, CidrBlock][]"`<br>5) 确认输出 ap-northeast-2b 和 10.100.2.0/24。<br>6) 输入以下命令。<br>`aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-private-subnet-a \`<br>`--query "Subnets[].[AvailabilityZone, CidrBlock][]"`<br>7) 确认输出 ap-northeast-2a 和 10.100.11.0/24。<br>8) 输入以下命令。<br>`aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-private-subnet-b \`<br>`--query "Subnets[].[AvailabilityZone, CidrBlock][]"`<br>9) 确认输出 ap-northeast-2b 和 10.100.12.0/24。<br>10) 输入以下命令。<br>`aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-protected-subnet-a \`<br>`--query "Subnets[].[AvailabilityZone, CidrBlock][]"`<br>11) 确认输出 ap-northeast-2a 和 10.100.21.0/24。<br>12) 输入以下命令。<br>`aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-protected-subnet-b \`<br>`--query "Subnets[].[AvailabilityZone, CidrBlock][]"`<br>13) 确认输出 ap-northeast-2b 和 10.100.22.0/24。 |
+
+云计算 第1课题 16 - 4
+
+| 序号 | 评分项目 |
+| 1-3 | 1) 通过 SSH 访问 Bastion 服务器。<br>2) 输入以下命令。<br>`aws ec2 describe-route-tables --filter Name=tag:Name,Values=skills-public-rtb \`<br>`--query "RouteTables[].Routes[].GatewayId"`<br>3) 确认输出以 igw- 开头的字符串。<br>4) 输入以下命令。<br>`aws ec2 describe-internet-gateways --filter Name=tag:Name,Values=skills-igw \`<br>`--query "InternetGateways[].InternetGatewayId"`<br>5) 确认以 igw- 开头的字符串与 2) 中输出的字符串相同。0.5 分。<br>6) 输入以下命令。<br>`aws ec2 describe-route-tables --filter Name=tag:Name,Values=skills-private-rtb-a \`<br>`--query "RouteTables[].Routes[].NatGatewayId"`<br>7) 确认输出以 nat- 开头的字符串。<br>8) 输入以下命令。<br>`aws ec2 describe-nat-gateways --filter Name=tag:Name,Values=skills-nat-a \`<br>`--query "NatGateways[].NatGatewayId"`<br>9) 确认以 nat- 开头的字符串与 6) 中输出的字符串相同。<br>10) 输入以下命令。<br>`aws ec2 describe-route-tables --filter Name=tag:Name,Values=skills-private-rtb-b \`<br>`--query "RouteTables[].Routes[].NatGatewayId"`<br>11) 确认输出以 nat- 开头的字符串。<br>12) 输入以下命令。<br>`aws ec2 describe-nat-gateways --filter Name=tag:Name,Values=skills-nat-b \`<br>`--query "NatGateways[].NatGatewayId"`<br>13) 确认以 nat- 开头的字符串与 10) 中输出的字符串相同。0.5 分。<br>14) 输入以下命令。<br>`aws ec2 describe-route-tables --filter Name=tag:Name,Values=skills-protected-rtb \`<br>`--query "RouteTables[0].Routes[*].DestinationCidrBlock"`<br>15) 确认仅输出 10.100.0.0/16。0.5 分。 |
+
+云计算第1次作业 16 - 5
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+2-1
+
+aws ec2 describe-instances --filter Name=tag:Name,Values=skills-bastion-ec2 \
+--query "Reservations[].Instances[].InstanceType"
+
+3) 确认输出 t4g.small。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws ec2 describe-instances --filter Name=tag:Name,Values=skills-bastion-ec2 \
+
+2-2
+
+--query "Reservations[].Instances[].PublicIpAddress"
+
+3) 记录 2) 中输出的 IP。
+4) 输入以下命令。
+aws ec2 describe-addresses --query "Addresses[].PublicIp"
+
+5) 确认在输出的 IP 列表中是否存在 3) 中记录的 IP。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws ec2 describe-instances --filter Name=tag:Name,Values=skills-bastion-ec2 \
+
+2-3
+
+--query "Reservations[].Instances[].ImageId"
+
+3) 记录以 ami- 开头的 AMI ID。
+4) 输入以下命令。
+aws ec2 describe-images --image-ids <2)에서 기록한 AMI ID> --query "Images[].Description"
+
+5) 确认输出包含 Amazon Linux 2023 的语句。
+
+云计算第1次作业 16 - 6
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws docdb describe-db-clusters --db-cluster-identifier skills-mongodb-cluster \
+--query "DBClusters[].DBSubnetGroup"
+
+3) 记录执行命令时输出的语句。
+4) 输入以下命令。
+
+3-1
+
+aws docdb describe-db-subnet-groups --db-subnet-group-name <3)에서 기록한 문구> \
+--query "DBSubnetGroups[].Subnets[].SubnetIdentifier"
+
+5) 确认仅输出 2 个以 subnet- 开头的语句。
+6) 输入以下命令。
+aws ec2 describe-subnets \
+--subnet-ids <3에서 출력된 문구의 첫번째> <3에서 출력된 문구의 두번째> \
+--query "Subnets[].CidrBlock"
+
+7) 确认仅输出 10.100.21.0 和 10.100.22.0 两个。只要有一个不同即为错误。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+3-2
+
+aws docdb describe-db-clusters --db-cluster-identifier skills-mongodb-cluster \
+--query "DBClusters[].MultiAZ"
+
+3) 确认输出 true。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+3-3
+
+aws docdb describe-db-clusters --db-cluster-identifier skills-mongodb-cluster \
+--query "DBClusters[].StorageEncrypted"
+
+3) 确认输出 true。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+3-4
+
+aws docdb describe-db-clusters --db-cluster-identifier skills-mongodb-cluster \
+--query "DBClusters[].EnabledCloudwatchLogsExports"
+
+3) 确认输出 audit 和 profiler 两个。
+
+云计算第1次作业 16 - 7
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+3-5
+
+aws docdb describe-db-clusters --db-cluster-identifier skills-mongodb-cluster \
+--query "DBClusters[].BackupRetentionPeriod"
+
+3) 确认未输出 0（即大于等于 1）。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+3-6
+
+aws docdb describe-db-clusters --db-cluster-identifier skills-mongodb-cluster \
+--query "DBClusters[].Port"
+
+3) 确认输出的端口不是 27015。0.3 分。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+3-7
+
+aws docdb describe-db-clusters --db-cluster-identifier skills-mongodb-cluster \
+--query "DBClusters[].EngineVersion"
+
+3) 确认输出 5.0.0。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws docdb describe-db-clusters --db-cluster-identifier skills-mongodb-cluster \
+--query "DBClusters[].DBClusterMembers[0].DBInstanceIdentifier"
+
+3-8
+
+3) 记录以 skills-mongodb-cluster 开头的语句。
+4) 输入以下命令。
+aws docdb describe-db-instances --db-instance-identifier <3에서 기록한 문구> \
+--query "DBInstances[].DBInstanceClass"
+
+5) 确认输出 db.t4g.medium。
+
+云计算第1次作业 16 - 8
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws elasticache describe-replication-groups --replication-group-id skills-redis-cluster \
+--query "ReplicationGroups[].NodeGroups[0].NodeGroupMembers[0].CacheClusterId"
+
+3) 记录执行命令时输出的语句。
+4) 输入以下命令。
+aws elasticache describe-cache-clusters --cache-cluster-id <2)에서 기록한 문구> \
+--query "CacheClusters[].CacheSubnetGroupName"
+
+4-1
+
+5) 记录执行命令时输出的语句。
+6) 输入以下命令。
+aws elasticache describe-cache-subnet-groups --cache-subnet-group-name <3)에서 기록한 문구> \
+--query "CacheSubnetGroups[].Subnets[].SubnetIdentifier"
+
+7) 确认仅输出 2 个以 subnet- 开头的语句。
+8) 输入以下命令。
+aws ec2 describe-subnets \
+--subnet-ids <3에서 출력된 문구의 첫번째> <3에서 출력된 문구의 두번째> \
+--query "Subnets[].CidrBlock"
+
+9) 确认仅输出 10.100.21.0 和 10.100.22.0 两个。只要有一个不同即为错误。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+4-2
+
+aws elasticache describe-replication-groups --replication-group-id skills-redis-cluster \
+--query "ReplicationGroups[].ClusterEnabled"
+
+3) 确认输出 true。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws elasticache describe-replication-groups --replication-group-id skills-redis-cluster \
+--query "ReplicationGroups[].AutomaticFailover"
+
+4-3
+
+3) 确认输出 enabled。0.7 分。
+4) 输入以下命令。
+aws elasticache describe-replication-groups --replication-group-id skills-redis-cluster \
+--query "ReplicationGroups[].MultiAZ"
+
+5) 确认输出 enabled。0.8 分。
+
+云计算第1次作业 16 - 9
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws elasticache describe-replication-groups --replication-group-id skills-redis-cluster \
+--query "ReplicationGroups[].AtRestEncryptionEnabled"
+
+4-4
+
+3) 确认输出 true。0.8 分。
+4) 输入以下命令。
+aws elasticache describe-replication-groups --replication-group-id skills-redis-cluster \
+--query "ReplicationGroups[].TransitEncryptionEnabled"
+
+5) 确认输出 true。0.7 分。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+4-5
+
+aws elasticache describe-replication-groups --replication-group-id skills-redis-cluster \
+--query "ReplicationGroups[].LogDeliveryConfigurations[].Status"
+
+3) 确认输出 2 个 active。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+4-6
+
+aws elasticache describe-replication-groups --replication-group-id skills-redis-cluster \
+
+--query "ReplicationGroups[].SnapshotRetentionLimit"
+
+3) 确认未输出 0（是否为 1 或以上）。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+4-7
+
+aws elasticache describe-replication-groups --replication-group-id skills-redis-cluster \
+--query "ReplicationGroups[].ConfigurationEndpoint.Port"
+
+3) 确认输出的端口不是 6379。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws elasticache describe-replication-groups --replication-group-id skills-redis-cluster \
+--query "ReplicationGroups[].NodeGroups[0].NodeGroupMembers[0].CacheClusterId"
+
+4-8
+
+3) 记录以 skills-redis-cluster- 开头的字符串。
+4) 输入以下命令。
+aws elasticache describe-cache-clusters --cache-cluster-id <3)中记录的字符串> \
+--query "CacheClusters[].EngineVersion"
+
+5) 确认输出以 7.0 开头的字符串。
+
+云计算第1次作业 16 - 10
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+4-9
+
+aws elasticache describe-replication-groups --replication-group-id skills-redis-cluster \
+--query "ReplicationGroups[].CacheNodeType"
+
+3) 确认输出 cache.t4g.small。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+5-1
+
+aws ecr describe-repositories --repository-names user token \
+--query "repositories[].repositoryName"
+
+3) 确认输出 user 和 token。各 0.75 分。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+5-2
+
+aws ecr describe-repositories --repository-names user token \
+--query "repositories[].encryptionConfiguration[].encryptionType"
+
+3) 确认输出 KMS。每个 0.75 分。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+5-3
+
+aws ecr describe-repositories --repository-names user token \
+--query "repositories[].imageScanningConfiguration.scanOnPush"
+
+3) 确认输出 true。每个 0.75 分。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+5-4
+
+aws ecr describe-repositories --repository-names user token \
+--query "repositories[].imageTagMutability"
+
+3) 确认输出 IMMUTABLE。每个 0.75 分。
+
+云计算第1次作业 16 - 11
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws eks describe-cluster --name skills-eks-cluster --query "cluster.logging.clusterLogging"
+
+3) 确认输出 api、audit、authenticator、controllerManager、scheduler。各 0.1 分。
+4) 输入以下命令。
+
+6-1
+
+aws eks describe-cluster --name skills-eks-cluster \
+--query "cluster.encryptionConfig[].provider.keyArn"
+
+5) 确认输出以 arn:aws:kms 开头的字符串。0.5 分。
+6) 输入以下命令。
+aws eks describe-cluster --name skills-eks-cluster \
+--query "cluster.resourcesVpcConfig.[endpointPublicAccess, endpointPrivateAccess]"
+
+7) 确认按顺序输出 false、true。0.5 分。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws eks describe-nodegroup --cluster-name skills-eks-cluster \
+--nodegroup-name skills-eks-addon-nodegroup --query "nodegroup.nodegroupName"
+
+3) 确认输出 skills-eks-addon-nodegroup。0.5 分。
+4) 输入以下命令。
+kubectl get no -l "eks.amazonaws.com/nodegroup=skills-eks-addon-nodegroup" --output json \
+
+6-2
+
+| jq ".items[].metadata.labels | .\"eks.amazonaws.com/nodegroup\" + \" \" +
+.\"topology.kubernetes.io/zone\""
+
+5) 确认分别输出至少 1 个 skills-eks-addon-nodegroup ap-northeast-2a 和 skills-eks-addon-nodegroup ap-northeast-2b。0.5 分。
+6) 输入以下命令。
+kubectl get no -l "eks.amazonaws.com/nodegroup=skills-eks-addon-nodegroup" --output json \
+| jq ".items[].metadata.labels.\"node.kubernetes.io/instance-type\""
+
+7) 确认输出至少 2 个 t4g.large。0.5 分。
+
+云计算第1次作业 16 - 12
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws eks describe-nodegroup --cluster-name skills-eks-cluster \
+--nodegroup-name skills-eks-app-nodegroup --query "nodegroup.nodegroupName"
+
+3) 确认输出 skills-eks-addon-nodegroup。0.5 分。
+4) 输入以下命令。
+kubectl get no -l "eks.amazonaws.com/nodegroup=skills-eks-app-nodegroup" --output json \
+
+6-3
+
+| jq ".items[].metadata.labels | .\"eks.amazonaws.com/nodegroup\" + \" \" +
+.\"topology.kubernetes.io/zone\""
+
+5) 确认分别输出至少 1 个 skills-eks-app-nodegroup ap-northeast-2a 和 skills-eks-app-nodegroup ap-northeast-2b。0.5 分。
+6) 输入以下命令。
+kubectl get no -l "eks.amazonaws.com/nodegroup=skills-eks-app-nodegroup" --output json \
+| jq ".items[].metadata.labels.\"node.kubernetes.io/instance-type\""
+
+7) 确认输出至少 2 个 m6g.large。0.5 分。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+6-4
+
+aws eks describe-fargate-profile --cluster-name skills-eks-cluster \
+--fargate-profile-name skills-eks-app-profile \
+--query "fargateProfile.fargateProfileName"
+
+3) 确认输出 skills-eks-app-profile。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+7-1
+
+aws elbv2 describe-load-balancers --names skills-user-alb \
+--query "LoadBalancers[].Scheme"
+
+3) 确认输出 internet-facing。
+
+云计算第1次作业 16 - 13
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+kubectl get pod -n skills | grep user
+
+3) 确认输出至少 2 个 user Pod，并且全部都处于 (数字1)/(数字2) Running 状态。（数字1）和（数字2）必须不为 0 且彼此相同。参考上图。0.7 分。
+
+8-1
+
+4) 输入以下命令。
+kubectl get pod -n skills -o json | jq '.items[]' \
+| jq 'select(.metadata.name | startswith("user"))' \
+| jq -r '.spec.nodeName' | head -n 1
+5) 记录以 ip- 开头的字符串。
+
+6) 输入以下命令。
+kubectl get node <5)中记录的 node id> -o json \
+| jq -r '.metadata.labels."eks.amazonaws.com/nodegroup"'
+7) 确认输出 skills-eks-app-nodegroup。0.8 分
+
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+kubectl get pod -n skills | grep token
+
+3) 确认输出至少 2 个 token Pod，并且全部都处于 (数字1)/(数字2) Running 状态。（数字1）和（数字2）必须不为 0 且彼此相同。参考上图。0.7 分。
+
+8-2
+
+4) 输入以下命令。
+kubectl get pod -n skills -o json | jq '.items[]' \
+| jq 'select(.metadata.name | startswith("token"))' \
+| jq -r '.spec.nodeName' | head -n 1
+
+5) 记录以 fargate-ip- 开头的字符串。
+
+6) 输入以下命令。
+kubectl get pod -n skills -o json \
+| jq '.items[]' | jq 'select(.metadata.name | startswith("token"))' \
+| jq -r '.metadata.annotations.CapacityProvisioned' | head -n 1
+7) 确认是否输出 0.5vCPU 1GB。0.8分
+
+云计算第1次作业 16 - 14
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws elbv2 describe-load-balancers --names skills-user-alb \
+--query "LoadBalancers[].DNSName"
+
+3) 记录以 skills-user-alb- 开头的域名。
+4) 输入以下命令。
+
+8-3
+
+curl http://<3)中记录的域名)>/api/v1/user \
+-X POST -H 'Content-Type: application/json' \
+-d '{"id": "test9999", "name": "test9999", "password": "test9999"}'
+
+5) 确认是否输出 token 值。记录该 token 值。0.7分。
+6) 输入以下命令。
+curl http://<3)中记录的域名)>/api/v1/user?token=<5)中记录的 token 值>
+
+7) 确认是否输出 "token is valid" 字样。0.8分。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+9-1
+
+aws logs tail /aws/app/user | tail -n 1
+
+3) 确认日志时间与当前时间相近。误差允许在1分钟以内。由于时区是 UTC，
+因此需要加 9 后计算。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+9-2
+
+aws logs tail /aws/app/token | tail -n 1
+
+3) 确认日志时间与当前时间相近。误差允许在1分钟以内。由于时区是 UTC，
+因此需要加 9 后计算。
+
+云计算第1次作业 16 - 15
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。（将评分脚本保存到 Bastion 服务器后执行。）
+chmod 755./load-token.sh
+./load-user.sh
+
+3) 执行上述脚本 5 分钟后，终止。
+
+10-1
+
+4) 输入以下命令。
+kubectl get pod -n skills | grep user
+
+5) 确认是否至少输出 3 个 user Pod。
+6) 输入以下命令。
+kubectl get node -o json | jq '.items[].metadata.labels' \
+| jq -c 'select(."eks.amazonaws.com/nodegroup" == "skills-eks-app-nodegroup")' | wc -l
+
+7) 确认是否输出 3 个或以上。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+kubectl get pod -n skills | grep user
+
+10-2
+
+3) 确认是否仅输出 2 个 user Pod。最多可以等待 20 分钟。
+4) 输入以下命令。
+kubectl get node -o json | jq '.items[].metadata.labels' \
+| jq -c 'select(."eks.amazonaws.com/nodegroup" == "skills-eks-app-nodegroup")' | wc -l
+
+5) 确认是否输出 2。最多可以等待 20 分钟。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。（将评分脚本保存到 Bastion 服务器后执行。）
+chmod 755./load-token.sh
+
+10-3
+
+./load-token.sh
+
+3) 执行上述脚本 5 分钟后，终止。
+4) 输入以下命令。
+kubectl get pod -n skills | grep token
+
+5) 确认是否至少输出 3 个 token Pod。
+1) 通过 SSH 访问 Bastion 服务器。
+
+10-4
+
+2) 输入以下命令。
+kubectl get pod -n skills | grep token
+
+3) 确认是否仅输出 2 个 token Pod。最多可以等待 20 分钟。
+
+云计算第1次作业 16 - 16

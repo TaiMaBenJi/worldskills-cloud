@@ -1,0 +1,146 @@
+2024年度地方技能竞赛任务
+
+| 职业（工种）名称 | 云计算 |
+| --- | --- |
+| 任务名称 | Automation |
+| 竞赛时间 | 4小时 |
+| 参赛编号 |  |
+| 任务编号 | 第2任务 |
+| 评委确认 | (印) |
+
+1. 要求事项
+你负责 WorldSkills 的 Front-End Application 和 Back-End Application 的 DevOps 工作。考虑给定要求以及云的设计原则，如高可用性、可扩展性、成本、安全等，构建基础设施。
+
+示意图
+
+云计算 第2任务 6 - 1
+
+Software Stack
+
+| AWS | 开发语言/框架 |
+| --- | --- |
+| - VPC | - HTML |
+| - ECS | - Java/Gradle/Spring |
+| - ELB |  |
+| - Fargate |  |
+| - CodeCommit |  |
+| - CodeBuild |  |
+| - CodeDeploy |  |
+| - CodePipeline |  |
+| - S3 |  |
+
+2. 选手注意事项
+※ 请考虑以下注意事项，完成要求事项。
+1) 使用机器及工具等时请注意安全，必要时请佩戴安全装备及穿着防护服等，以预防事故。
+2) 工作中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请佩戴安全防护用品并遵守安全守则。
+3) 工作中请注意工具的使用，遵守安全守则，预防事故。
+4) 竞赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+5) 题目中给出的尖括号 < > 表示变量，选手应适当更改后使用。
+6) 为提高解题和评分效率，Security Group 的 80/443 Outbound 可设置为 Anyopen 使用。
+7) Bastion EC2 在评分时会使用，因此请注意不要因关闭或连接问题、权限问题等而遭受不利影响。
+8) 所有资源均配置在首尔(ap-northeast-2)区域。
+9) 可以修改提供资料，但评分前必须将其设置为最初收到的提供资料。
+
+云计算 第2任务 6 - 2
+
+3. Networking
+为构建云基础设施，实施基本网络配置。参考附录1的信息创建 AWS VPC。
+
+4. Bastion Server
+使用 EC2 创建 Bastion 服务器。Bastion 服务器的 IP 在重启后也不得更改，请特别注意不要将其关闭。此外，由于使用 SSH 连接服务器，必须能够通过 SSH 访问。在该实例的 root 账户中使用 AWS CLI 时，必须能够使用 AWS 的所有权限，且各软件包必须在版本和权限等方面没有问题。
+- Instance Type : t3a.small
+- OS Image : Amazon Linux 2023
+- Name Tag : skills-bastion-ec2
+- Packages : AWS CLI v2, cURL, jq
+
+5. Application
+作为提供资料给出的应用程序共有2个。Front-End 应用程序是用 HTML 开发的 Single Page Application。Back-End 应用程序是用 Java 17、Gradle、Springboot 开发的 RESTFul API。Front-End 应用程序必须部署 HTML 文件，Back-End 应用程序必须构建后部署其结果物。Back-End 应用程序可通过 TCP 8080 访问，共有 /api/、/api/time、/api/health 3个 API。
+
+6. Static Web Hosting
+将 Front-End 应用程序上传到 S3。使用 CloudFront 实施静态 Web 托管，并必须配置为外部可以无问题地访问该应用程序。一方面利用缓存为用户提供舒适的环境，另一方面，当因部署等导致 Front-End 更新时，必须显示最新画面。同时，Back-End 应用程序针对 /api/* 的请求也必须通过 CloudFront 提供，且不得进行缓存。
+- S3 Bucket Name : skills-frontend-<随机字符4位>
+- CloudFront Protocol : 配置为通过 HTTPS 访问时没有问题
+- CloudFront Origin : S3 Bucket, ELB
+- Edge : 配置为不仅是韩国，全球用户也能快速访问
+- Tag : Name=skills-frontend-cdn
+
+云计算 第2任务 6 - 3
+
+7. Container Orchestration
+Back-End 应用程序在基于 ECS 的 Fargate 上运行。Fargate 必须在 Private Subnets 中运行。Auto Scaling 或 Logging 不另行配置。
+- ECS Cluster Name : skills-ecs-cluster
+- ECS Fargate Resource : 0.5vCPU, 1GB Memory
+- ECS Service Name : backend
+- ECS Task : 2个
+
+8. Load Balancing
+配置 ALB，以便外部可以访问 ECS 中运行的 Back-End 应用程序。
+- Load Balancer Type : Application Load Balancer
+- Load Balancer Name : skills-backend-alb
+- Load Balancer Scheme : internet-facing
+- Load Balancer Protocol : HTTP
+- Load Balancer Port : 80
+
+9. Version Control
+使用 CodeCommit 进行版本管理和 CI/CD。为 Front-End 和 Back-End 各创建1个，共创建2个，将提供资料解压后上传到各 Repository 的 Root(/) 中。Repository 中可以有提供资料以外的其他文件。但是，评分前必须原样存在作为提供资料收到的内容。
+- Front-End Repository Name : skills-frontend-code
+- Back-End Repository Name : skills-backend-code
+- Default Branch : main
+
+10. Continuous Integration
+使用 CodeBuild 用于 CI。构建基于 SpringBoot 的 Back-End 应用程序。必须启用日志记录。
+- Back-End Project Name : skills-backend-build
+
+云计算 第2任务 6 - 4
+
+11. Continuous Delivery
+Front-End 应用程序必须将上传到 CodeCommit 的 HTML 文件上传到 S3，并能通过 CloudFront 访问；Back-End 应用程序必须使用 CodeDeploy 部署到 ECS Service。
+- Back-End Application Name : skills-backend-app
+- Back-End Deployment Group Name : skills-backend-dg
+- Deployment Type : Blue/Green
+- Deployment Target : ECS 的 backend Service
+
+12. CI/CD Pipeline
+必须配置为当 CodeCommit 的 main Branch 发生变更时，CodePipeline 能够自动运行。Front-End 除了 Source、Deploy 之外，即使有其他 Stage 也无妨；Back-End 不得有 Source、Build、Deploy 之外的 Stage。CodeCommit 发生变更后，必须在最多15分钟内完成所有应用程序部署。
+- Front-End Pipeline Name : skills-frontend-pipeline
+- Front-End Source Stage : CodeCommit(skills-frontend-code) 的 main Branch
+- Front-End Deploy Stage : S3(skills-frontend-<随机字符4位>)
+- Back-End Pipeline Name : skills-backend-pipeline
+- Back-End Source Stage : CodeCommit(skills-backend-code) 的 main Branch
+- Back-End Build Stage : Codebuild(skills-backend-build)
+- Back-End Deploy Stage : CodeDeploy(skills-backend-app/skills-backend-dg)
+
+云计算 第2任务 6 - 5
+
+附录 1
+VPC 信息
+
+| Name Tag | CIDR |
+| --- | --- |
+| skills-vpc | 172.16.0.0/16 |
+
+Subnets 信息
+
+| Name Tag | CIDR | Availability Zone |
+| --- | --- | --- |
+| skills-public-subnet-a | 172.16.1.0/24 | ap-northeast-2a |
+| skills-public-subnet-b | 172.16.2.0/24 | ap-northeast-2b |
+| skills-private-subnet-a | 172.16.11.0/24 | ap-northeast-2a |
+| skills-private-subnet-b | 172.16.12.0/24 | ap-northeast-2b |
+
+| Subnet | Gateway |
+| --- | --- |
+| skills-public-subnet-a | Internet Gateway (Name Tag : skills-igw) |
+| skills-public-subnet-b | Internet Gateway (Name Tag : skills-igw) |
+| skills-private-subnet-a | NAT Gateway (Name Tag : skills-nat-a) |
+| skills-private-subnet-b | NAT Gateway (Name Tag : skills-nat-b) |
+
+Route Tables 信息
+
+| Name Tag | Subnet |
+| --- | --- |
+| skills-public-rtb |  |
+| skills-private-rtb-a | skills-private-subnet-a |
+| skills-private-rtb-b | skills-private-subnet-b |
+
+云计算 第2任务 6 - 6

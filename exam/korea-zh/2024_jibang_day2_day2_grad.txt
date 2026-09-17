@@ -1,0 +1,433 @@
+2024年地方技能竞赛评分标准
+1. 评分注意事项
+
+职业名称
+
+云计算
+
+※ 评分时请注意以下事项。
+1) AWS 区域使用 ap-northeast-2。
+2) 网页访问使用 Chrome 或 Firefox。
+3) 网页中的文字可能因语言不同而显示不同。
+4) Shell 中命令的输出可能因版本而略有不同。
+5) 试题和评分标准中的 <> 是变量。请更改对应部分后输入。
+6) 评分必须按题目顺序进行。
+7) 删除类评分不可撤销，请谨慎进行。
+8) 异议申请全部结束后，删除选手创建的云资源。
+9) 有部分分数的题目，评分项中已注明部分分数。
+10) 未单独标注部分分数的题目，必须全部正确才计分。
+11) 评分前为进行环境设置，必须确认以下事项。
+- 确认能否通过 SSH 访问 Bastion。
+- 确认 Bastion 中是否已安装 AWS CLI v2、cURL、jq。
+- 确认 Bastion 中是否已映射 IAM Role，并可通过 AWS CLI 访问 AWS 的所有资源。
+- 通过 aws sts get-caller-identity 命令确认是否正在访问选手账户以外的其他账户。如果是其他账户，则可怀疑存在作弊行为。
+12) 评分前为配置评分环境，使以下内容添加到 ~/.aws/config 中。
+[default]
+region = ap-northeast-2
+output = json
+13) 评分时，可以运行另行提供的评分脚本(mark.sh)进行评分。但是，如果选手希望直接输入，可以按照评分标准表中列出的命令原样输入并进行评分。
+
+云计算 第2题 17 - 1
+
+2. 评分标准表
+1) 主要项目分数分配
+
+| 任务 | 序号 | 编号 | 主要项目 | 分值 | 评分方法-独立 | 评分方法-合议 | 评分时机-比赛进行中 | 评分时机-比赛结束后 | 备注 |
+| 第2题 | 1 | | Networking | 4.0 | ○ | | ○ | | |
+| 第2题 | 2 | | Bastion Server | 4.5 | ○ | | ○ | | |
+| 第2题 | 3 | | Version Control | 6.0 | ○ | | ○ | | |
+| 第2题 | 4 | | Continuous Integration | 3.0 | ○ | | ○ | | |
+| 第2题 | 5 | | Continuous Delivery | 3.0 | ○ | | ○ | | |
+| 第2题 | 6 | | Content Delivery Network | 7.5 | ○ | | ○ | | |
+| 第2题 | 7 | | CI/CD Pipeline | 3.0 | ○ | | ○ | | |
+| 第2题 | 8 | | Application Load Balancer | 3.0 | ○ | | ○ | | |
+| 第2题 | 9 | | Application | 6.0 | ○ | | ○ | | |
+| 合计 | | | | 40 | | | | | |
+
+云计算 第2题 17 - 2
+
+2) 评分方法及标准
+
+| 任务 | 序号 | 编号 | 主要项目 | 详细项目(评分方法) | 分值 |
+| 第2题 | 1 | 1 | Networking | VPC 确认 | 1.0 |
+| 第2题 | 1 | 2 | Networking | Subnets 确认 | 1.5 |
+| 第2题 | 1 | 3 | Networking | Route Tables 确认 | 1.5 |
+| 第2题 | 2 | 1 | Bastion Server | 实例类型确认 | 1.5 |
+| 第2题 | 2 | 2 | Bastion Server | Public IP 确认 | 1.5 |
+| 第2题 | 2 | 3 | Bastion Server | OS 确认 | 1.5 |
+| 第2题 | 3 | 1 | Version Control | 前端 CodeCommit 配置 | 1.5 |
+| 第2题 | 3 | 2 | Version Control | 后端 CodeCommit 配置 | 1.5 |
+| 第2题 | 3 | 3 | Version Control | 前端 Branch 配置 | 1.5 |
+| 第2题 | 3 | 4 | Version Control | 后端 Branch 配置 | 1.5 |
+| 第2题 | 4 | 1 | Continuous Integration | 后端 CodeBuild 配置 | 1.5 |
+| 第2题 | 4 | 2 | Continuous Integration | 后端 CodeBuild 日志记录配置 | 1.5 |
+| 第2题 | 5 | 1 | Continuous Delivery | 后端 CodeDeploy 配置 | 1.5 |
+| 第2题 | 5 | 2 | Continuous Delivery | 后端 CodeDeploy ECS 配置 | 1.5 |
+| 第2题 | 6 | 1 | Content Delivery Network | S3 配置 | 1.5 |
+| 第2题 | 6 | 2 | Content Delivery Network | CloudFront 配置 | 1.5 |
+| 第2题 | 6 | 3 | Content Delivery Network | CloudFront Origin 配置 | 1.5 |
+| 第2题 | 6 | 4 | Content Delivery Network | CloudFront Edge 配置 | 1.5 |
+| 第2题 | 6 | 5 | Content Delivery Network | CloudFront Cache 配置 | 1.5 |
+| 第2题 | 7 | 1 | CI/CD Pipeline | 前端 CodePipeline 配置 | 1.5 |
+| 第2题 | 7 | 2 | CI/CD Pipeline | 后端 CodePipeline 配置 | 1.5 |
+| 第2题 | 8 | 1 | Application Load Balancer | ALB 创建确认 | 1.5 |
+| 第2题 | 8 | 2 | Application Load Balancer | ALB Scheme 确认 | 1.5 |
+| 第2题 | 9 | 1 | Application | 前端运行测试 | 1.5 |
+| 第2题 | 9 | 2 | Application | 后端运行测试 | 1.5 |
+| 第2题 | 9 | 3 | Application | 前端部署测试 | 1.5 |
+| 第2题 | 9 | 4 | Application | 后端部署测试 | 1.5 |
+| | | | | 总分 | 40 |
+
+云计算 第2题 17 - 3
+
+3) 评分内容
+
+| 序号 | 评分项 |
+| 1-1 | 1) 通过 SSH 访问 Bastion 服务器。<br>2) 输入以下命令。<br>aws ec2 describe-vpcs --filter Name=tag:Name,Values=skills-vpc \<br>--query "Vpcs[].CidrBlock"<br>3) 确认是否输出 172.16.0.0/16。 |
+| 1-2 | 1) 通过 SSH 访问 Bastion 服务器。<br>2) 输入以下命令。<br>aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-public-subnet-a \<br>--query "Subnets[].[AvailabilityZone, CidrBlock][]"<br>3) 确认是否输出 ap-northeast-2a 和 172.16.1.0/24。<br>4) 输入以下命令。<br>aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-public-subnet-b \<br>--query "Subnets[].[AvailabilityZone, CidrBlock][]"<br>5) 确认是否输出 ap-northeast-2b 和 172.16.2.0/24。<br>6) 输入以下命令。<br>aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-private-subnet-a \<br>--query "Subnets[].[AvailabilityZone, CidrBlock][]"<br>7) 确认是否输出 ap-northeast-2a 和 172.16.11.0/24。<br>8) 输入以下命令。<br>aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-private-subnet-b \<br>--query "Subnets[].[AvailabilityZone, CidrBlock][]"<br>9) 确认是否输出 ap-northeast-2b 和 172.16.12.0/24。 |
+
+云计算 第2题 17 - 4
+
+| 序号 | 评分项 |
+| 1-3 | 1) 通过 SSH 访问 Bastion 服务器。<br>2) 输入以下命令。<br>aws ec2 describe-route-tables --filter Name=tag:Name,Values=skills-public-rtb \<br>--query "RouteTables[].Routes[].GatewayId"<br>3) 确认是否输出以 igw- 开头的文本。<br>4) 输入以下命令。<br>aws ec2 describe-internet-gateways --filter Name=tag:Name,Values=skills-igw \<br>--query "InternetGateways[].InternetGatewayId"<br>5) 确认以 igw- 开头的文本是否与步骤 2) 中输出的文本相同。<br>6) 输入以下命令。<br>aws ec2 describe-route-tables --filter Name=tag:Name,Values=skills-private-rtb-a \<br>--query "RouteTables[].Routes[].NatGatewayId"<br>7) 确认是否输出以 nat- 开头的文本。<br>8) 输入以下命令。<br>aws ec2 describe-nat-gateways --filter Name=tag:Name,Values=skills-nat-a \<br>--query "NatGateways[].NatGatewayId"<br>9) 确认以 nat- 开头的文本是否与步骤 6) 中输出的文本相同。<br>10) 输入以下命令。<br>aws ec2 describe-route-tables --filter Name=tag:Name,Values=skills-private-rtb-b \<br>--query "RouteTables[].Routes[].NatGatewayId"<br>11) 确认是否输出以 nat- 开头的文本。<br>12) 输入以下命令。<br>aws ec2 describe-nat-gateways --filter Name=tag:Name,Values=skills-nat-b \<br>--query "NatGateways[].NatGatewayId"<br>13) 确认以 nat- 开头的文本是否与步骤 10) 中输出的文本相同。 |
+| 2-1 | 1) 通过 SSH 访问 Bastion 服务器。<br>2) 输入以下命令。<br>aws ec2 describe-instances --filter Name=tag:Name,Values=skills-bastion-ec2 \<br>--query "Reservations[].Instances[].InstanceType"<br>3) 确认是否输出 t3a.small。 |
+
+云计算 第2题 17 - 5
+
+| 序号 | 评分项 |
+| 2-2 | 1) 通过 SSH 访问 Bastion 服务器。<br>2) 输入以下命令。<br>aws ec2 describe-instances --filter Name=tag:Name,Values=skills-bastion-ec2 \<br>--query "Reservations[].Instances[].PublicIpAddress"<br>3) 记录步骤 2) 中输出的 IP。<br>4) 输入以下命令。<br>aws ec2 describe-addresses --query "Addresses[].PublicIp"<br>5) 确认输出的 IP 列表中是否存在步骤 3) 中记录的 IP。 |
+| 2-3 | 1) 通过 SSH 访问 Bastion 服务器。<br>2) 输入以下命令。<br>aws ec2 describe-instances --filter Name=tag:Name,Values=skills-bastion-ec2 \<br>--query "Reservations[].Instances[].ImageId"<br>3) 记录以 ami- 开头的 AMI ID。<br>4) 输入以下命令。<br>aws ec2 describe-images --image-ids <步骤 2) 中记录的 AMI ID> --query "Images[].Description" |
+
+5) 确认是否输出包含 Amazon Linux 2023 的语句。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+3-1
+
+aws codecommit get-repository --repository-name skills-frontend-code \
+--query "repositoryMetadata.repositoryName"
+
+3) 确认是否输出 skills-frontend-code。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+3-2
+
+aws codecommit get-repository --repository-name skills-backend-code \
+--query "repositoryMetadata.repositoryName"
+
+3) 确认是否输出 skills-backend-code。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+3-3
+
+aws codecommit get-repository --repository-name skills-frontend-code \
+--query "repositoryMetadata.defaultBranch"
+
+3) 确认是否输出 main。
+
+云计算第2次作业 17 - 6
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+3-4
+
+aws codecommit get-repository --repository-name skills-backend-code \
+--query "repositoryMetadata.defaultBranch"
+
+3) 确认是否输出 main。
+1) 通过 SSH 访问 Bastion 服务器。
+
+4-1
+
+2) 输入以下命令。
+aws codebuild batch-get-projects --names skills-backend-build --query "projects[*].name"
+
+3) 确认是否输出 skills-backend-build。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+4-2
+
+aws codebuild batch-get-projects --names skills-backend-build \
+--query "projects[*].logsConfig.cloudWatchLogs.status"
+
+3) 确认是否输出 ENABLED。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+5-1
+
+aws deploy get-application --application-name skills-backend-app \
+--query "application.applicationName"
+
+3) 确认是否输出 skills-backend-app。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+5-2
+
+aws deploy get-deployment-group --application-name skills-backend-app \
+--deployment-group-name skills-backend-dg --query "deploymentGroupInfo.ecsServices[0]"
+
+3) 确认是否输出 {"serviceName": "backend","clusterName": "skills-ecs-cluster"}。
+1) 通过 SSH 访问 Bastion 服务器。
+
+6-1
+
+2) 输入以下命令。
+aws s3api list-buckets --query "Buckets[*].Name" | grep "skills-frontend-"
+
+3) 确认是否输出 skills-frontend-<随机字符 4 位>。
+
+云计算第2次作业 17 - 7
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws resourcegroupstaggingapi get-resources \
+--tag-filters Key=Name,Values=skills-frontend-cdn \
+
+6-2
+
+--resource-type-filters 'cloudfront' --region us-east-1 \
+--query "ResourceTagMappingList[0].ResourceARN" \
+--output text | sed 's:.*/::' | xargs -I {} aws cloudfront get-distribution --id {} \
+--query "Distribution.DomainName"
+
+3) 确认是否输出名为 XXXXXXXXXXXXX.cloudfront.net 的域名。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws resourcegroupstaggingapi get-resources \
+--tag-filters Key=Name,Values=skills-frontend-cdn \
+--resource-type-filters 'cloudfront' --region us-east-1 \
+
+6-3
+
+--query "ResourceTagMappingList[0].ResourceARN" \
+--output text | sed 's:.*/::' | xargs -I {} aws cloudfront get-distribution --id {} \
+--query "Distribution.DistributionConfig.Origins.Items[*].DomainName" \
+| grep "skills-frontend-"
+
+3) 确认是否输出 skills-frontend-<随机字符 4 位>.s3.ap-northeast-2.amazonaws.com 字样。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws resourcegroupstaggingapi get-resources \
+--tag-filters Key=Name,Values=skills-frontend-cdn \
+
+6-4
+
+--resource-type-filters 'cloudfront' --region us-east-1 \
+--query "ResourceTagMappingList[0].ResourceARN" \
+--output text | sed 's:.*/::' | xargs -I {} aws cloudfront get-distribution --id {} \
+--query "Distribution.DistributionConfig.PriceClass"
+
+3) 确认是否输出名为 PriceClass_All 的域名。
+
+云计算第2次作业 17 - 8
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws resourcegroupstaggingapi get-resources \
+--tag-filters Key=Name,Values=skills-frontend-cdn \
+--resource-type-filters 'cloudfront' --region us-east-1 \
+--query "ResourceTagMappingList[0].ResourceARN" \
+
+6-5
+
+--output text | sed 's:.*/::' | xargs -I {} aws cloudfront get-distribution --id {} \
+--query "Distribution.DomainName"
+
+3) 确认是否输出名为 XXXXXXXXXXXXX.cloudfront.net 的域名。
+4) 输入以下命令。
+curl --silent --head https://<3)中输出的域名>/index.html | grep "x-cache“
+
+5) 确认是否输出 x-cache: Hit from cloudfront 字样。最多可以执行 5 次。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+7-1
+
+aws codepipeline get-pipeline --name skills-frontend-pipeline \
+--query "pipeline.stages[*].[name, actions[*].actionTypeId.provider]"
+
+3) 确认是否输出 Source、Deploy，并分别输出 CodeCommit、S3。除这 3 个之外，输出其他内容也无妨，但这 3 个必须输出。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+7-2
+
+aws codepipeline get-pipeline --name skills-backend-pipeline \
+--query "pipeline.stages[*].[name, actions[*].actionTypeId.provider]"
+
+3) 确认是否输出 Source、Build、Deploy，并分别输出 CodeCommit、CodeBuild、CodeDeployToECS。除这 3 个之外，不应输出其他内容。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+8-1
+
+aws elbv2 describe-load-balancers --names skills-user-alb \
+--query "LoadBalancers[].LoadBalancerName"
+
+3) 确认是否输出 skills-user-alb。
+
+云计算第2次作业 17 - 9
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+8-2
+
+aws elbv2 describe-load-balancers --names skills-user-alb \
+--query "LoadBalancers[].Scheme"
+
+3) 确认是否输出 internet-facing。
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws resourcegroupstaggingapi get-resources \
+--tag-filters Key=Name,Values=skills-frontend-cdn \
+--resource-type-filters 'cloudfront' --region us-east-1 \
+--query "ResourceTagMappingList[0].ResourceARN" \
+--output text | sed 's:.*/::' | xargs -I {} aws cloudfront get-distribution --id {} \
+--query "Distribution.DomainName"
+
+3) 确认是否输出名为 XXXXXXXXXXXXX.cloudfront.net 的域名。
+4) 通过 Web 浏览器访问 https://<3)中输出的域名>/index.html。
+
+9-1
+
+5) 确认在 Web 浏览器中是否显示上述画面。
+
+云计算第2次作业 17 - 10
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws resourcegroupstaggingapi get-resources \
+--tag-filters Key=Name,Values=skills-frontend-cdn \
+--resource-type-filters 'cloudfront' --region us-east-1 \
+--query "ResourceTagMappingList[0].ResourceARN" \
+--output text | sed 's:.*/::' | xargs -I {} aws cloudfront get-distribution --id {} \
+--query "Distribution.DomainName"
+
+3) 确认是否输出 XXXXXXXXXXXXX.cloudfront.net 这个域名。
+4) 通过 Web 浏览器访问 https://<3)中输出的域名>/。
+
+9-2
+
+5) 如果 Web 浏览器中显示上述画面，则点击“获取当前时间”。
+
+6) 确认是否如上所示，底部无错误地输出当前时间。
+
+云计算第2次作业 17 - 11
+
+序号
+
+评分项
+
+1) 如上所述，通过 Web 浏览器访问 AWS Console 后，访问 CodeCommit 的
+skills-frontend-code 存储库。
+
+9-3
+
+2) 在 index.html 中点击 Edit 后，将 v1 修改为 v2 这一文本。输入 Author name 为 root、
+Email address 为 root@localhost 后，点击底部的 Commit changes 执行提交
+。
+
+云计算第2次作业 17 - 12
+
+序号
+
+评分项
+
+3) 访问 CodePipeline 的 skills-frontend-pipeline。由于刚刚执行了新的提交，因此如上所示，流水线应正在运行。确认流水线是否在 15 分钟内无失败地完成。流水线完成后，恢复评分。
+4) 通过 SSH 访问 Bastion 服务器。
+5) 输入以下命令。
+
+9-3
+
+aws resourcegroupstaggingapi get-resources \
+--tag-filters Key=Name,Values=skills-frontend-cdn \
+--resource-type-filters 'cloudfront' --region us-east-1 \
+--query "ResourceTagMappingList[0].ResourceARN" \
+--output text | sed 's:.*/::' | xargs -I {} aws cloudfront get-distribution --id {} \
+--query "Distribution.DomainName"
+
+6) 确认是否输出 XXXXXXXXXXXXX.cloudfront.net 这个域名。
+7) 通过 Web 浏览器访问 https://<3)中输出的域名>/index.html。
+
+8) 确认 Web 浏览器中是否如上所示输出 v2。
+
+云计算第2次作业 17 - 13
+
+序号
+
+评分项
+
+9-4
+
+1) 如上所述，通过 Web 浏览器访问 AWS Console 后，访问 CodeCommit 的 skills-backend-code
+存储库。
+
+云计算第2次作业 17 - 14
+
+序号
+
+评分项
+
+9-4
+
+2) 在 src/main/java/org/worldskills/cloud/skillsbackend/SkillsBackendApplication.java 中
+点击 Edit 后，在 currentDateTime 后面输入 v2 这一文本。输入 Author name 为 root、
+Email address 为 root@localhost 后，点击底部的 Commit changes 执行提交
+。
+
+云计算第2次作业 17 - 15
+
+序号
+
+评分项
+
+9-4
+
+3) 访问 CodePipeline 的 skills-backend-pipeline。由于刚刚执行了新的提交，因此如上所示，流水线应正在运行。确认流水线是否在 15 分钟内无失败地完成。流水线完成后，恢复评分。
+4) 通过 SSH 访问 Bastion 服务器。
+5) 输入以下命令。
+aws resourcegroupstaggingapi get-resources \
+--tag-filters Key=Name,Values=skills-frontend-cdn \
+--resource-type-filters 'cloudfront' --region us-east-1 \
+--query "ResourceTagMappingList[0].ResourceARN" \
+--output text | sed 's:.*/::' | xargs -I {} aws cloudfront get-distribution --id {} \
+--query "Distribution.DomainName"
+
+6) 确认是否输出 XXXXXXXXXXXXX.cloudfront.net 这个域名。
+7) 通过 Web 浏览器访问 https://<3)中输出的域名>/index.html。
+
+云计算第2次作业 17 - 16
+
+序号
+
+评分项
+
+8) 如果 Web 浏览器中显示上述画面，则点击“获取当前时间”。
+
+9-4
+
+9) 确认是否如上所示，底部无错误地输出当前时间以及 v2。
+
+云计算第2次作业 17 - 17

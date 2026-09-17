@@ -1,0 +1,1342 @@
+2024 庆尚北道第59届全国技能竞赛评分标准
+
+1. 评分注意事项
+
+职种名称
+
+云计算
+
+※ 评分时请注意以下事项。
+1) AWS 区域使用 us-east-1。
+2) 网页访问使用 Chrome 或 Firefox。
+3) 在网页中，根据语言不同，显示文案可能不同。
+4) shell 中命令的输出可能因版本不同而略有差异。
+5) 试题和评分表中的 <> 是变量。请更改相应部分后输入。
+6) 必须按题目顺序进行评分。
+7) 已删除的评分资料无法恢复，请谨慎操作；在异议申请全部完成之后，删除选手创建的云资源。
+8) 有部分分数的题目，其评分项中已写明部分分数。
+9) 未单独设置部分分数的题目，必须全部正确才计分。
+10) 读取资源信息的评分项，原则上通过脚本结果进行评分；如果选手有异议，可以直接输入命令进行确认。
+11) （预期输出）表示紧邻其前的（命令输入）的预期输出。
+12) 评分时，可以运行另行提供的评分脚本（wsc.sh）进行评分。但是，如果选手希望直接输入，可以按照评分标准表中列出的命令原样输入进行评分。评分脚本应指定在 root 路径下。
+13) 分发的评分脚本（wsc.sh）应放置在 ec2-user 的顶级路径下。
+14) 所有评分事项均在通过 ssh 连接到 wsc2024-bastion-ec2 后进行。
+
+云计算 第1任务 评分标准 27 - 1
+
+2. 评分标准表
+
+1) 主要项目分值
+
+| 任务 | 序号 | 主要项目 | 分值 | 独立 | 合议 | 比赛进行中 | 比赛结束后 | 备注 |
+|---|---|---|---|---|---|---|---|---|
+| 第1任务 | 1 | Network Configuration | 3.85 | ○ | | ○ | | |
+| | 2 | Transit Between VPC | 0.35 | ○ | | ○ | | |
+| | 3 | Bastion Server | 0.70 | ○ | | ○ | | |
+| | 4 | Application Access Control | 3.15 | ○ | | ○ | | |
+| | 5 | RDBMS | 0.70 | ○ | | ○ | | |
+| | 6 | NoSQL | 0.35 | ○ | | ○ | | |
+| | 7 | Container Registry | 0.35 | ○ | | ○ | | |
+| | 8 | Container Orchestartion | 1.75 | ○ | | ○ | | |
+| | 9 | Load Balancer | 1.40 | ○ | | ○ | | |
+| | 10 | Static Page | 1.05 | ○ | | ○ | | |
+| | 11 | CDN | 7.35 | ○ | | ○ | | |
+| | 12 | DNS Security | 3.0 | ○ | | ○ | | |
+| | 13 | CDN Security | 3.0 | ○ | | ○ | | |
+| | 14 | K8S Security | 3.0 | ○ | | ○ | | |
+| | 合计 | | 30 | | | | | |
+
+云计算 第1任务 评分标准 27 - 2
+
+2) 评分方法及标准
+
+| 任务 | 主要项目序号 | 主要项目 | 细项序号 | 细项（评分方法） | 分值 |
+|---|---|---|---|---|---|
+| 第1任务 | 1 | Network Configuration | 1 | VPC | 0.35 |
+| | | | 2 | Subnet | 0.35 |
+| | | | 3 | Routing Table | 0.35 |
+| | | | 4 | Flow Logs | 0.35 |
+| | | | 5 | VPC Endpoint | 0.35 |
+| | | | 6 | Endpoint Preparation Process | 1.05 |
+| | | | 7 | Bastion Access to ECR | 1.05 |
+| | 2 | Transit Between VPC | 1 | Transit Gateway Configure | 0.35 |
+| | 3 | Bastion Server | 1 | Bastion Configure | 0.35 |
+| | | | 2 | Bastion Security | 0.35 |
+| | 4 | Application Access Control | 1 | VPC Lattice Configure | 1.05 |
+| | | | 2 | Healthcheck | 1.05 |
+| | | | 3 | Healthcheck Access | 1.05 |
+| | 5 | RDBMS | 1 | RDS Configure | 0.35 |
+| | | | 2 | DB RollBack | 0.35 |
+| | 6 | NoSQL | 1 | Table Configure | 0.35 |
+| | 7 | Container Registry | 1 | ECR Configure | 0.35 |
+| | 8 | Container Orchestartion | 1 | EKS Configure | 0.35 |
+| | | | 2 | EKS KMS Encryption | 0.35 |
+| | | | 3 | DB Application Node Configure | 0.35 |
+| | | | 4 | Other Application Node Configure | 0.35 |
+| | | | 5 | Application Pods | 0.35 |
+| | 9 | Ingress | 1 | ALB Configure | 0.35 |
+| | | | 2 | Customer API Test | 0.35 |
+| | | | 3 | Order API Test | 0.35 |
+| | | | 4 | Order API Test | 0.35 |
+| | 10 | Static Page | 1 | S3 Bucket Configure | 0.35 |
+| | | | 2 | S3 Objects | 0.35 |
+| | | | 3 | S3 Access | 0.35 |
+| | 11 | CDN | 1 | CloudFront Configure | 1.05 |
+| | | | 2 | Redirect HTTPS | 1.05 |
+| | | | 3 | Static Page Test | 1.05 |
+| | | | 4 | S3 Caching | 1.05 |
+| | | | 5 | Customer API Test | 1.05 |
+| | | | 6 | Product API Test | 1.05 |
+| | | | 7 | Order API Test | 1.05 |
+| | 12 | DNS Security | 1 | Public 创建 | 0.5 |
+| | | | 2 | 外部访问 | 1.0 |
+| | | | 3 | 内部访问 | 1.5 |
+| | 13 | CDN Security | 1 | DNS Lookup | 0.5 |
+| | | | 2 | AWS Certificate Management | 1.5 |
+| | | | 3 | curl https | 1.0 |
+| | 14 | K8S Security | 1 | latest tag | 1.5 |
+| | | | 2 | prod label 部署 | 0.75 |
+| | | | 3 | beta label 部署 | 0.75 |
+| | 总分 | | | | 30 |
+
+云计算 第1任务 评分标准 27 - 3
+
+云计算 第1任务 评分标准 27 - 4
+
+3) 评分内容
+
+序号
+
+前期准备
+1) 通过 SSH 访问 wsc2024-bastion-ec2 服务器。
+2) 执行 rm –rf ~/.aws。
+0
+3) 输入 aws configure，并将 default.region 设置为 us-east-1。
+上述操作完成后，将输出“前期准备完成！开始评分！”字样。
+
+序号
+
+评分项
+
+1-1-A
+（命令输入）
+```bash
+aws ec2 describe-vpcs --filter Name=tag:Name,Values=wsc2024-ma-vpc --query "Vpcs[0].CidrBlock" \
+; aws ec2 describe-vpcs --filter Name=tag:Name,Values=wsc2024-prod-vpc --query "Vpcs[0].CidrBlock" \
+; aws ec2 describe-vpcs --filter Name=tag:Name,Values=wsc2024-storage-vpc --query "Vpcs[0].CidrBlock"
+```
+
+1-1
+
+1-1-A
+（预期输出）
+```text
+"10.0.0.0/16"
+"172.16.0.0/16"
+"192.168.0.0/16"
+```
+完全匹配
+顺序重要
+
+云计算 第1任务 评分标准 27 - 5
+
+序号
+
+评分项
+aws ec2 describe-subnets --filter
+Name=tag:Name,Values=wsc2024-ma-mgmt-sn-a --query "Subnets[0].CidrBlock"
+\
+; aws ec2 describe-subnets --filter
+Name=tag:Name,Values=wsc2024-ma-mgmt-sn-b --query "Subnets[0].CidrBlock"
+\
+; aws ec2 describe-subnets --filter
+Name=tag:Name,Values=wsc2024-prod-load-sn-a --query "Subnets[0].CidrBlock"
+\
+; aws ec2 describe-subnets --filter
+Name=tag:Name,Values=wsc2024-prod-load-sn-b --query "Subnets[0].CidrBlock"
+
+1-2-A
+（命令输入）
+
+\
+; aws ec2 describe-subnets --filter
+Name=tag:Name,Values=wsc2024-prod-app-sn-a --query "Subnets[0].CidrBlock"
+\
+; aws ec2 describe-subnets --filter
+
+1-2
+
+Name=tag:Name,Values=wsc2024-prod-app-sn-b --query "Subnets[0].CidrBlock"
+\
+; aws ec2 describe-subnets --filter
+Name=tag:Name,Values=wsc2024-storage-db-sn-a --query
+"Subnets[0].CidrBlock" \
+; aws ec2 describe-subnets --filter
+Name=tag:Name,Values=wsc2024-storage-db-sn-b --query
+"Subnets[0].CidrBlock"
+
+"10.0.0.0/24"
+"10.0.1.0/24"
+1-2-A
+
+"172.16.0.0/24"
+
+（预期输出）
+
+"172.16.1.0/24"
+
+完全匹配
+
+"172.16.2.0/24"
+
+顺序重要
+
+"172.16.3.0/24"
+"192.168.0.0/24"
+"192.168.1.0/24"
+
+云计算 第1任务 评分标准 27 - 6
+
+序号
+
+评分项
+aws ec2 describe-route-tables --filters
+"Name=tag:Name,Values=wsc2024-ma-mgmt-rt" --query
+"RouteTables[].Routes[?GatewayId != null && starts_with(GatewayId,
+'igw')].GatewayId" --output text \
+; aws ec2 describe-route-tables --filters
+"Name=tag:Name,Values=wsc2024-prod-load-rt" --query
+"RouteTables[].Routes[?GatewayId != null && starts_with(GatewayId,
+'igw')].GatewayId" --output text \
+; aws ec2 describe-route-tables --filters
+"Name=tag:Name,Values=wsc2024-prod-app-rt-a" --query
+"RouteTables[].Routes[?NatGatewayId != null].NatGatewayId" --output text \
+
+1-3-A
+（命令输入）
+
+; aws ec2 describe-route-tables --filters
+"Name=tag:Name,Values=wsc2024-prod-app-rt-b" --query
+
+"RouteTables[].Routes[?NatGatewayId != null].NatGatewayId" --output text \
+; aws ec2 describe-route-tables --filters
+
+1-3
+
+"Name=tag:Name,Values=wsc2024-storage-db-rt-a" --query
+"RouteTables[].Associations[].SubnetId" --output text | xargs -I {} aws ec2
+describe-subnets --subnet-ids {} --query
+"Subnets[].Tags[?Key=='Name'].Value" --output text \
+; aws ec2 describe-route-tables --filters
+"Name=tag:Name,Values=wsc2024-storage-db-rt-b" --query
+"RouteTables[].Associations[].SubnetId" --output text | xargs -I {} aws ec2
+describe-subnets --subnet-ids {} --query
+"Subnets[].Tags[?Key=='Name'].Value" --output text
+
+确认是否输出以“igw-”开头的字符串
+确认是否输出以“igw-”开头的字符串
+1-3-A
+确认是否输出以“nat-”开头的字符串
+（预期输出）
+确认是否输出以“nat-”开头的字符串
+顺序重要
+wsc2024-storage-db-sn-a <- 完全匹配
+wsc2024-storage-db-sn-b <- 完全匹配
+
+云计算第1次作业评分标准 27 - 7
+
+序号
+
+评分项
+VPC_ID=$(aws ec2 describe-vpcs --filters
+"Name=tag:Name,Values=wsc2024-ma-vpc" --query "Vpcs[*].VpcId" --output
+1-4-A
+text)
+
+1-4
+
+（输入命令）
+
+aws ec2 describe-flow-logs --filter "Name=resource-id,Values=$VPC_ID"
+--query "FlowLogs[*].FlowLogId" --output text
+
+1-4-A
+确认是否输出以“fl-”开头的字符串
+（预期输出）
+1-5-A
+aws ec2 describe-vpc-endpoints --query "VpcEndpoints[].ServiceName"
+（输入命令）
+
+1-5
+
+1-5-A
+
+[
+
+（预期输出）
+
+"com.amazonaws.us-east-1.s3",
+
+ecr.dkr , s3
+
+"com.amazonaws.us-east-1.ecr.dkr",
+
+确认是否存在
+
+]
+POLICY_ARNS=$(aws iam list-attached-role-policies --role-name
+wsc2024-bastion-role --query "AttachedPolicies[].PolicyArn" --output text)
+for POLICY_ARN in $POLICY_ARNS; do
+POLICY_VERSION=$(aws iam get-policy --policy-arn $POLICY_ARN --query
+
+1-6-A
+
+"Policy.DefaultVersionId" --output text)
+
+（输入命令）
+
+POLICY_DOCUMENT=$(aws iam get-policy-version --policy-arn $POLICY_ARN
+--version-id $POLICY_VERSION --query "PolicyVersion.Document" --output json)
+echo "$POLICY_DOCUMENT"
+done
+
+{
+
+1-6
+
+"Version": "2012-10-17",
+"Statement": [
+
+1-6-A
+
+{
+
+（预期输出）
+
+"Effect": "Allow",
+
+完全匹配
+"Action": "*",
+
+不得输出除此以外的 JSON
+
+"Resource": "*"
+
+}
+]
+}
+
+云计算第1次作业评分标准 27 - 8
+
+序号
+
+评分项
+export BUCKET_NAME="tesfsdfklsqwerlksdf"
+export REGION="us-east-1"
+export FILE_NAME="test_upload.txt"
+export DOWNLOADED_FILE_NAME="downloaded_test_upload.txt"
+aws s3api create-bucket --bucket $BUCKET_NAME --region $REGION >
+1-6-B
+/dev/null 2>&1
+（输入命令）
+
+1-6
+
+echo "This is a test file for S3 upload and download." > $FILE_NAME
+aws s3 cp $FILE_NAME s3://$BUCKET_NAME/ > /dev/null 2>&1
+aws s3 cp s3://$BUCKET_NAME/$FILE_NAME $DOWNLOADED_FILE_NAME
+aws s3 rm s3://$BUCKET_NAME/$FILE_NAME
+aws s3api delete-bucket --bucket $BUCKET_NAME --region $REGION
+
+1-6-B
+
+download: s3://tesfsdfklsqwerlksdf/test_upload.txt to
+
+（预期输出）
+
+./downloaded_test_upload.txt
+
+完全匹配
+
+delete: s3://tesfsdfklsqwerlksdf/test_upload.txt
+
+AWS_REGION=$(aws configure get region)
+ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+1-7-A
+
+docker rmi -f $(docker images) 2>/dev/null \
+
+（输入命令）
+
+; aws ecr get-login-password --region "$AWS_REGION" | docker login
+
+（若1-6答错则不进行）
+
+--username AWS --password-stdin
+
+"$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com" > /dev/null 2>&1 \
+; docker pull
+
+1-7
+
+$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/customer-repo:latest
+
+1-7-A
+
+error pulling image configuration: download failed after attempts=1: denied:
+
+（预期输出）
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+（若1-6答错则不进行）
+
+<Error><Code>AccessDenied</Code><Message>Access
+
+Denied</Message><RequestId>D266MTTR9A8Y6XAQ</RequestId><HostId>oNG
+
+AccessDenied
+
+QmQ4OWAyNe/nB9X2st34y5tQWJlLL/9mpwK56unHhOR2izzuNUByqiNlL10Jtw3vp
+
+确认输出
+
+MJg+vdQ=</HostId></Error>
+
+云计算第1次作业评分标准 27 - 9
+
+序号
+
+评分项
+TGWS=$(aws ec2 describe-transit-gateways --query
+"TransitGateways[*].{Name:Tags[?Key=='Name'].Value|[0]}" --output json)
+TGW_NAMES=$(echo $TGWS | jq -r '.[].Name')
+for TGW_NAME in $TGW_NAMES; do
+echo "$TGW_NAME"
+TGW_ID=$(aws ec2 describe-transit-gateways --filters
+"Name=tag:Name,Values=$TGW_NAME" --query
+"TransitGateways[0].TransitGatewayId" --output text)
+ATTACHMENTS=$(aws ec2 describe-transit-gateway-attachments --filters
+"Name=transit-gateway-id,Values=$TGW_ID" --query
+
+2-1-A
+
+"TransitGatewayAttachments[*].{Name:Tags[?Key=='Name'].Value|[0]}" --output json)
+ATTACHMENT_NAMES=$(echo $ATTACHMENTS | jq -r '.[].Name')
+
+（输入命令）
+
+for ATTACHMENT_NAME in $ATTACHMENT_NAMES; do
+echo "$ATTACHMENT_NAME"
+done
+ROUTE_TABLES=$(aws ec2 describe-transit-gateway-route-tables --filters
+
+2-1
+
+"Name=transit-gateway-id,Values=$TGW_ID" --query
+"TransitGatewayRouteTables[*].{Name:Tags[?Key=='Name'].Value|[0]}" --output json)
+ROUTE_TABLE_NAMES=$(echo $ROUTE_TABLES | jq -r '.[].Name')
+for ROUTE_TABLE_NAME in $ROUTE_TABLE_NAMES; do
+echo "$ROUTE_TABLE_NAME"
+done
+done
+
+wsc2024-vpc-tgw
+wsc2024-ma-tgw-attach
+2-1-A
+wsc2024-prod-tgw-attach
+（预期输出）
+wsc2024-storage-tgw-attach
+完全匹配
+wsc2024-ma-tgw-rt
+顺序无关
+wsc2024-prod-tgw-rt
+wsc2024-storage-tgw-rt
+
+云计算第1次作业评分标准 27 - 10
+
+序号
+
+评分项
+INSTANCE_NAME_TAG="wsc2024-bastion-ec2"
+INSTANCE_ID=$(aws ec2 describe-instances --filters
+"Name=tag:Name,Values=$INSTANCE_NAME_TAG" --query
+"Reservations[0].Instances[0].InstanceId" --output text)
+AMI_ID=$(aws ec2 describe-instances --instance-ids "$INSTANCE_ID" --query
+
+3-1-A
+（输入命令）
+
+3-1
+
+"Reservations[0].Instances[0].ImageId" --output text)
+AMI_DESCRIPTION=$(aws ec2 describe-images --image-ids "$AMI_ID" --query
+"Images[0].Description" --output text)
+INSTANCE_TYPE=$(aws ec2 describe-instances --instance-ids "$INSTANCE_ID"
+--query "Reservations[0].Instances[0].InstanceType" --output text)
+echo "$AMI_DESCRIPTION"
+
+echo "$INSTANCE_TYPE"
+
+3-1-A
+(预期输出)
+
+确认是否输出以“Amazon Linux 2023 AMI”开头的文本
+t3.small <- 完全匹配
+
+aws ec2 describe-security-groups --filter
+
+3-2-A
+
+Name=group-name,Values=wsc2024-bastion-sg --query
+"SecurityGroups[0].IpPermissions[].{FromPort:FromPort,ToPort:ToPort,IpRanges:IpRa
+
+(输入命令)
+
+nges}"
+
+[
+{
+"FromPort": 28282,
+
+3-2
+
+"ToPort": 28282,
+
+3-2-A
+
+"IpRanges": [
+
+(预期输出)
+
+{
+"CidrIp": “0.0.0.0/0" <- 也可能只允许单个 IP
+
+完全匹配
+}
+]
+}
+]
+
+云计算第一题评分标准 27 - 11
+
+序号
+
+评分项
+INSTANCE_NAME_TAG="wsc2024-bastion-ec2"
+INSTANCE_DESC=$(aws ec2 describe-instances --filters
+"Name=tag:Name,Values=$INSTANCE_NAME_TAG" --query
+"Reservations[0].Instances[0]" --output json)
+IAM_INSTANCE_PROFILE_ARN=$(echo $INSTANCE_DESC | jq -r
+3-2-B
+(输入命令)
+
+3-2
+
+'.IamInstanceProfile.Arn')
+ROLE_NAME=$(aws iam get-instance-profile --instance-profile-name
+$(echo $IAM_INSTANCE_PROFILE_ARN | awk -F'/' '{print $NF}') --query
+"InstanceProfile.Roles[0].RoleName" --output text)
+ROLE_POLICIES=$(aws iam list-attached-role-policies --role-name
+"$ROLE_NAME" --query "AttachedPolicies[].PolicyName" --output text)
+echo "$ROLE_POLICIES"
+
+3-2-B
+(预期输出)
+
+AdministratorAccess
+
+完全匹配
+aws vpc-lattice list-service-networks --query
+"items[?name=='wsc2024-lattice-svc-net'].name" --output text
+SERVICE_NETWORK_ID=$(aws vpc-lattice list-service-networks --query
+"items[?name=='wsc2024-lattice-svc-net'].id" --output text)
+SVC_ASSOCIATION=$(aws vpc-lattice list-service-network-service-associations
+
+4-1-A
+(输入命令)
+
+--service-network-identifier "$SERVICE_NETWORK_ID" --query items[*].id
+--output text)
+VPC_ASSOCIATION=$(aws vpc-lattice list-service-network-vpc-associations
+
+4-1
+
+--service-network-identifier "$SERVICE_NETWORK_ID" --query 'items[*].id'
+--output text)
+echo "$SVC_ASSOCIATION"
+echo "$VPC_ASSOCIATION"
+
+4-1-A
+
+wsc2024-lattice-svc-net <- 完全匹配
+
+(预期输出)
+
+确认是否输出以“snsa-”开头的文本
+
+顺序有关
+
+确认是否输出以“snva-”开头的文本
+
+云计算第一题评分标准 27 - 12
+
+序号
+
+评分项
+TARGET_GROUP_ID=$(aws vpc-lattice list-target-groups
+4-2-A
+(输入命令)
+
+--target-group-type IP | jq -r '.items[].id')
+aws vpc-lattice list-targets --target-group-identifier
+"$TARGET_GROUP_ID"
+
+{
+"items": [
+
+4-2
+
+4-2-A
+{
+(预期输出)
+"id": "172.16.3.145",
+status
+"port": 8080,
+是否为 HEALTH
+"status": "HEALTHY"
+确认，可能为多个
+}
+]
+}
+
+SERVICE_NETWORK_ID=$(aws vpc-lattice list-service-networks --query
+
+4-3-A
+
+"items[?name=='wsc2024-lattice-svc-net'].id" --output text)
+aws vpc-lattice list-service-network-service-associations
+
+(输入命令)
+
+--service-network-identifier "$SERVICE_NETWORK_ID" --query items[*].id
+--output text
+
+4-3
+
+4-3-A
+复制以“snsa-”开头的文本
+(预期输出)
+
+云计算第一题评分标准 27 - 13
+
+序号
+
+评分项
+
+1) 连接到名称为 wsc2024-lattice-svc-net 的 Service networks
+
+2) 连接到从 4-3-A 复制的 ID
+
+4-3-B
+(控制台访问)
+
+4-3
+3) 复制 Domain Name
+
+4) curl http://<从 4-3-B-3 项复制的 Domain>/healthcheck
+
+4-3-B
+(预期输出)
+
+{"status":"ok."}
+
+完全匹配
+
+云计算第一题评分标准 27 - 14
+
+序号
+
+评分项
+
+aws rds describe-db-clusters --db-cluster-identifier wsc2024-db-cluster
+--query 'DBClusters[0].EngineVersion' --output text \
+; aws rds describe-db-clusters --db-cluster-identifier wsc2024-db-cluster
+5-1-A
+--query 'DBClusters[0].MasterUsername' --output text \
+(输入命令)
+
+; aws rds describe-db-instances
+
+--query
+
+"DBInstances[?DBClusterIdentifier=='wsc2024-db-cluster'].DBInstanceClass"
+--output text \
+
+5-1
+
+确认是否输出以“8.0.mysql_aurora”开头的文本
+5-1-A
+admin <- 完全匹配
+(预期输出)
+db.t3.medium
+
+5-2-A
+(输入命令)
+
+db.t3.medium <- 完全匹配
+
+aws rds describe-db-clusters --db-cluster-identifier wsc2024-db-cluster
+--query "DBClusters[0].BacktrackWindow" --output text
+
+5-2
+5-2-A
+(预期输出)
+
+14400
+
+完全匹配
+
+云计算第一题评分标准 27 - 15
+
+序号
+
+评分项
+6-1-A
+(输入命令)
+
+aws dynamodb describe-table --table-name order --query
+'Table.KeySchema[?KeyType == `HASH`].AttributeName' --output text
+
+6-1
+6-1-A
+(预期输出)
+
+id
+
+完全匹配
+7-1-A
+(输入命令)
+
+7-1
+
+aws ecr describe-repositories --query 'repositories[*].repositoryName'
+--output text
+
+7-1-A
+(预期输出)
+
+customer-repo
+
+product-repo
+
+order-repo
+
+完全匹配
+
+aws eks describe-cluster --name wsc2024-eks-cluster --query
+8-1-A
+(输入命令)
+
+'cluster.version' --output text \
+; aws eks describe-cluster --name wsc2024-eks-cluster --query
+'cluster.logging.clusterLogging[].types' | jq .
+
+--output text
+
+1.29
+[
+
+8-1
+
+[
+"api",
+8-1-A
+"audit",
+(预期输出)
+"authenticator",
+完全匹配
+"controllerManager",
+"scheduler"
+]
+]
+
+云计算第一题评分标准 27 - 16
+
+序号
+
+评分项
+8-2-A
+
+8-2
+
+(输入命令)
+
+aws eks describe-cluster --name wsc2024-eks-cluster --query
+"cluster.encryptionConfig[].provider.keyArn" --output text
+
+8-2-A
+确认是否输出以“arn:aws:kms:us-east-1”开头的文本
+(预期输出)
+kubectl get node -l app=db -o json | jq -r
+'.items[].metadata.labels."eks.amazonaws.com/nodegroup"'
+8-3-A
+kubectl get nodes -l app=db -o json | jq -r '.items[].metadata.name'
+(输入命令)
+
+kubectl get nodes -l app=db -o json | jq -r '.items[] |
+.metadata.labels["beta.kubernetes.io/instance-type"]'
+
+8-3
+
+wsc2024-db-application-ng
+8-3-A
+wsc2024-db-application-ng
+(预期输出)
+确认是否输出以“ip-“开头的文本
+完全匹配，
+确认是否输出以”ip-”开头的文本
+必须输出多个才是正确答案
+t3.medium
+正确答案
+t3.medium
+
+kubectl get node -l app=other -o json | jq -r
+'.items[].metadata.labels."eks.amazonaws.com/nodegroup"'
+8-4-A
+kubectl get nodes -l app=other -o json | jq -r '.items[].metadata.name'
+(输入命令)
+
+kubectl get nodes -l app=other -o json | jq -r '.items[] |
+.metadata.labels["beta.kubernetes.io/instance-type"]'
+
+8-4
+
+wsc2024-other-ng
+wsc2024-other-ng
+8-4-A
+
+确认是否输出以“ip-“开头的文本
+
+(预期输出)
+
+确认是否输出以”ip-”开头的文本
+t3.medium
+t3.medium
+
+云计算第一题评分标准 27 - 17
+
+序号
+
+评分项
+8-5-A
+
+**8-5**
+- **8-5-A**
+  - （输入命令）
+    ```
+    kubectl get deploy -n wsc2024
+    ```
+  - （预期输出）
+    ```
+    完全一致
+    ```
+
+**9-1**
+- **9-1-A**
+  - （输入命令）
+    ```
+    aws elbv2 describe-load-balancers --names wsc2024-alb --query "LoadBalancers[].Scheme" --output text
+    aws elbv2 describe-load-balancers --names wsc2024-alb --query "LoadBalancers[].Type" --output text
+    ```
+  - （预期输出）
+    ```
+    internet-facing
+    application
+    完全一致
+    ```
+
+**9-2**
+- **9-2-A**
+  - （输入命令）
+    ```
+    LBDNS=$(aws elbv2 describe-load-balancers --names wsc2024-alb --query "LoadBalancers[].DNSName" --output text)
+    curl http://$LBDNS/v1/customer -X POST -H 'Content-Type: application/json' -d '{"id": "3101", "name": "Lee", "gender": "18"}'
+    echo "-"
+    ```
+  - （失败时更改 id 后最多可重试 3 次）
+  - （预期输出）
+    ```
+    {"customer":{"id":"3101","name":"Lee","gender":"18"},"message":"The customer is created."}
+    ```
+    ```
+    完全一致
+    ```
+
+云计算第1作业评分标准 27 - 18
+
+序号
+
+评分项
+
+**9-3**
+- **9-3-A**
+  - （输入命令）
+    ```
+    LBDNS=$(aws elbv2 describe-load-balancers --names wsc2024-alb --query "LoadBalancers[].DNSName" --output text)
+    curl http://$LBDNS/v1/product -X POST -H 'Content-Type: application/json' -d '{"id": "3201", "name": "kim", "category": "stduent"}'
+    echo "-"
+    ```
+  - （预期输出）
+    ```
+    {"product":{"id":"3201","name":"kim","category":"stduent"},"message":"The product is created."}
+    ```
+    ```
+    完全一致
+    ```
+
+**9-4**
+- **9-4-A**
+  - （输入命令）
+    ```
+    LBDNS=$(aws elbv2 describe-load-balancers --names wsc2024-alb --query "LoadBalancers[].DNSName" --output text)
+    curl http://$LBDNS/v1/order -X POST -H 'Content-Type: application/json' -d '{"id": "3301", "customerid": "3101", "productid": "3201"}'
+    echo "-"
+    ```
+  - （预期输出）
+    ```
+    {"order":{"id":"3301","customerid":"3101","productid":"3201"},"message":"The order is created."}
+    ```
+    ```
+    完全一致
+    ```
+
+**10-1**
+- **10-1-A**
+  - （输入命令）
+    ```
+    aws s3 ls
+    ```
+  - （预期输出）
+    ```
+    2024-05-29 01:45:49 wsc2024-s3-static-zfff
+    ```
+    确认是否输出 wsc2024-s3-static-<4位英文字母>
+
+云计算第1作业评分标准 27 - 19
+
+序号
+
+评分项
+
+**10-2**
+- **10-2-A**
+  - （输入命令）
+    ```
+    for bucket in $(aws s3api list-buckets --query "Buckets[?starts_with(Name, 'wsc2024-s3-static')].Name" --output text); do
+    aws s3 ls "s3://$bucket" --recursive
+    done
+    ```
+  - （预期输出）
+    ```
+    2024-05-30 02:19:44
+    10004 index.html
+    ```
+    确认是否仅输出 index.html
+
+**10-3**
+- **10-3-A**
+  - （输入命令）
+    ```
+    BUCKET_NAME=$(aws s3api list-buckets --query "Buckets[?starts_with(Name, 'wsc2024-s3-static')].Name" --output text)
+    curl https://s3.us-east-1.amazonaws.com/$BUCKET_NAME/index.html
+    ```
+  - （预期输出）
+    ```
+    <?xml version="1.0" encoding="UTF-8"?>
+    <Error><Code>AccessDenied</Code><Message>Access
+    Denied</Message><RequestId>61ZYXR7KRGYYQV0F</RequestId><HostId>1DV
+    S1AnW17Q1FBRzgyk37tJ36ONhVMkjn8M4A+mTm02SW2krmxIZ2uVIs5A25rYCTms
+    R8OG+A+I=</HostId></Error>
+    ```
+    确认输出 AccessDenied
+
+云计算第1作业评分标准 27 - 20
+
+序号
+
+评分项
+
+**11-1**
+- **11-1-A**
+  - （输入命令）
+    ```
+    aws cloudfront list-distributions --query "DistributionList.Items[].Origins.Items[].DomainName" --output text
+    aws cloudfront list-distributions --query "DistributionList.Items[].IsIPV6Enabled" --output text
+    ID=$(aws cloudfront list-distributions --query "DistributionList.Items[].Id" --output text)
+    aws cloudfront get-distribution-config --id $ID --query 'DistributionConfig.PriceClass' --output text
+    ```
+  - （预期输出）
+    ```
+    确认是否输出以“wsc2024-s3-static-”开头的字符串
+    确认是否输出以“wsc2024-alb-”开头的字符串
+    False <- 完全一致
+    PriceClass_All <- 完全一致
+    ```
+
+**11-2**
+- **11-2-A**
+  - （输入命令）
+    ```
+    aws cloudfront list-distributions --query "DistributionList.Items[].DefaultCacheBehavior.ViewerProtocolPolicy" --output text
+    aws cloudfront list-distributions --query "DistributionList.Items[].CacheBehaviors.Items[].ViewerProtocolPolicy" --output text
+    ```
+  - （预期输出）
+    ```
+    redirect-to-https
+    redirect-to-https
+    完全一致
+    ```
+
+**11-3**
+- **11-3-A**
+  - （输入命令）
+    ```
+    DOMAIN=$(aws cloudfront list-distributions --query "DistributionList.Items[].DomainName" --output text)
+    curl https://$DOMAIN 2>/dev/null | grep -oP '(?<=<h1>).*?(?=</h1>)'
+    ```
+  - （预期输出）
+    ```
+    Welcome to Cloud Computing
+    ```
+    ```
+    完全一致
+    ```
+
+云计算第1作业评分标准 27 - 21
+
+序号
+
+评分项
+
+**11-4**
+- **11-4-A**
+  - （输入命令）
+    ```
+    DOMAIN=$(aws cloudfront list-distributions --query "DistributionList.Items[].DomainName" --output text)
+    curl -s -I https://$DOMAIN | grep -i x-cache
+    ```
+  - （只输入一次）
+  - （预期输出）
+    ```
+    x-cache: Hit from cloudfront
+    ```
+    ```
+    完全一致
+    ```
+
+**11-5**
+- **11-5-A**
+  - （输入命令）
+    ```
+    DOMAIN=$(aws cloudfront list-distributions --query "DistributionList.Items[].DomainName" --output text)
+    curl https://$DOMAIN/v1/customer?id=3101
+    echo "-"
+    ```
+  - （预期输出）
+    ```
+    {"customer":{"id":"3101","name":"Lee","gender":"18"},"message":"The customer is well in database."}
+    ```
+    ```
+    完全一致
+    ```
+
+**11-6**
+- **11-6-A**
+  - （输入命令）
+    ```
+    DOMAIN=$(aws cloudfront list-distributions --query "DistributionList.Items[].DomainName" --output text)
+    curl https://$DOMAIN/v1/product?id=3201
+    echo "-"
+    ```
+  - （预期输出）
+    ```
+    {"product":{"id":"3201","name":"kim","category":"stduent"},"message":"The product is well in database."}
+    ```
+    ```
+    完全一致
+    ```
+
+**11-7**
+- **11-7-A**
+  - （输入命令）
+    ```
+    DOMAIN=$(aws cloudfront list-distributions --query "DistributionList.Items[].DomainName" --output text)
+    curl https://$DOMAIN/v1/order?id=3301
+    echo "-"
+    ```
+  - （预期输出）
+    ```
+    {"order":{"id":"3301","customerid":"3101","productid":"3201"},"message":"The order is well in database."}
+    ```
+    ```
+    完全一致
+    ```
+
+云计算第1作业评分标准 27 - 22
+
+序号
+
+评分项
+
+**12-1**
+- **12-1-A**
+  - （执行命令）
+    ```
+    aws route53 list-hosted-zones --region us-east-1 | grep Name
+    ```
+  - （说明）
+    确认是否有以 <非编号>.cloudhrdk*.com 返回的名称。
+
+**12-2**
+- **12-2-A**
+  - （说明）
+    在选手的 Windows PC 等外部环境中输入以下命令时，确认是否返回 54.0.0.10。
+  - （执行命令）
+    ```
+    nslookup q1.${HOSTZONE}
+    ```
+
+**12-3**
+- **12-3-A**
+  - （说明）
+    1) 访问 Bastion。
+    2) 输入以下命令，确认没有与 cloudhrdk 相关的域名。
+  - （执行命令）
+    ```
+    cat /etc/hosts
+    ```
+- **12-3-B**
+  - （说明）
+    3) 输入以下命令，确认没有 Private hosted zone。
+  - （执行命令）
+    ```
+    aws route53 list-hosted-zones --region us-east-1 --hosted-zone-type PrivateHostedZone
+    ```
+
+云计算第1作业评分标准 27 - 23
+
+序号
+
+评分项
+
+**12-3-C**
+
+输入以下命令，确认是否返回 172.16.0.10。
+
+说明
+
+共重复 4 次，且 4 次都必须返回 172.16.0.10。
+
+12-3
+12-3-C
+
+nslookup q1.${hostzone}
+
+执行命令
+
+13-1-A
+说明
+
+输入以下命令，确认是否返回包含 cloudfront.net 的地址。
+
+13-1
+13-1-A
+
+nslookup cf.${hostzone}
+
+执行命令
+
+13-2-A
+说明
+
+输入以下命令，确认是否返回包含 Amazon 或 AWS 的字符串。
+
+13-2
+13-2-A
+执行命令
+
+13-3-A
+说明
+
+echo -n "Q" | openssl s_client -connect cf.${hostzone}:443 2>
+/dev/null | grep i:
+
+输入以下命令，确认是否返回“Cloud Skills <비번호>”字符串。
+
+13-3
+
+13-3-A
+
+curl https://cf.${hostzone}
+
+执行命令
+
+云计算第1次作业评分标准 27 - 24
+
+序号
+
+评分项
+14-1-A
+说明
+
+输入以下命令，在 beta 命名空间中创建 Pod。
+
+14-1-A
+
+aws eks update-kubeconfig --region us-east-1 --name prod-<등번호>
+
+执行命令
+
+14-1-B
+说明
+
+14-1-B
+
+kubectl apply -f beta.yaml
+
+输入以下命令，确认 beta 命名空间中的 day1-beta Pod 是否已正确配置为 Running 状态。
+
+kubectl get pods -n beta
+
+执行命令
+
+14-1
+14-1-C
+
+输入以下命令，在 prod 命名空间中创建 Pod。
+
+说明
+
+14-1-C
+
+kubectl apply -f prod.yaml
+
+执行命令
+
+14-1-D
+说明
+
+14-1-D
+
+输入以下命令，确认 prod 命名空间中的 day1-prod Pod 是否创建失败。
+
+kubectl get pods -n prod
+
+执行命令
+
+云计算第1次作业评分标准 27 - 25
+
+序号
+
+评分项
+14-2-A
+
+输入命令，创建 day1-prod-pos Pod。
+
+说明
+
+14-2-A
+
+kubectl apply -f prod-pos.yaml
+
+执行命令
+
+14-2-B
+说明
+
+14-2-B
+
+输入命令，确认 day1-prod-pos Pod 是否已创建并处于 Running 状态。
+
+kubectl get pods -n prod
+
+执行命令
+
+14-2
+14-2-C
+
+输入命令，创建 day1-prod-neg Pod。
+
+说明
+
+14-2-C
+
+kubectl apply -f prod-neg.yaml
+
+执行命令
+
+14-2-D
+说明
+
+14-2-D
+
+输入命令，确认 day1-prod-neg Pod 是否创建失败。
+
+kubectl get pods -n prod
+
+执行命令
+
+云计算第1次作业评分标准 27 - 26
+
+序号
+
+评分项
+14-3-A
+
+输入命令，创建 day1-beta-pos Pod。
+
+说明
+
+14-3-A
+
+kubectl apply -f beta-pos.yaml
+
+执行命令
+
+14-3-B
+说明
+
+14-3-B
+
+输入命令，确认 day1-beta-pos Pod 是否已创建并处于 Running 状态。
+
+kubectl get pods -n beta
+
+执行命令
+
+14-3
+14-3-C
+
+输入命令，创建 day1-beta-neg Pod。
+
+说明
+
+14-3-C
+
+kubectl apply -f beta-neg.yaml
+
+执行命令
+
+14-3-D
+说明
+
+14-3-D
+
+输入命令，确认 day1-beta-neg Pod 是否创建失败。
+
+kubectl get pods -n beta
+
+执行命令
+
+云计算第1次作业评分标准 27 - 27

@@ -1,0 +1,107 @@
+2022 庆尚南道 第57届全国技能大赛 评分标准
+1. 评分注意事项
+
+| 工种名称 | 云计算 |
+|---|---|
+
+※ 评分时请注意以下事项。
+1) AWS 区域使用 ap-northeast-2。
+2) 网页访问使用 Chrome 或 Firefox。
+3) 网页中根据语言不同，文案可能显示不同。
+4) shell 中命令的输出可能因版本而略有不同。
+5) 试题和评分表中的 <> 是变量。修改该部分后输入。
+6) 对于包含资源删除的题目，评分必须按顺序进行。
+7) 已删除的评分资料无法恢复，请务必注意并进行；在异议申请全部完成之后，删除选手创建的云资源。
+8) 有部分分数的题目，在评分项中写有部分分数。
+9) 没有单独部分分数的题目，必须全部正确才计分。
+
+云计算 第3任务 评分标准 4 - 1
+
+2. 评分标准表
+1) 各主要项目配分
+
+| 任务 | 序号 | 编号 | 主要项目 | 配分 | 评分方法-独立 | 评分方法-合议 | 评分时间-比赛进行中 | 评分时间-比赛结束后 | 备注 |
+|---|---|---|---|---|---|---|---|---|---|
+| 第3任务 | 1 |  | Docker | 5 | ○ |  | ○ |  |  |
+| 第3任务 | 2 |  | AWSCLI | 5.5 | ○ |  | ○ |  |  |
+| 第3任务 | 3 |  | 服务器错误 | 4.5 | ○ |  | ○ |  |  |
+| 第3任务 | 4 |  | C.F | 5 | ○ |  | ○ |  |  |
+| 合计 |  |  |  | 20 |  |  |  |  |  |
+
+云计算 第3任务 评分标准 4 - 2
+
+2) 评分方法及标准
+
+| 任务 | 序号 | 编号 | 主要项目 | 序号 | 详细项目（评分方法） | 配分 |
+|---|---|---|---|---|---|---|
+| 第3任务 | 1 |  | Docker | 1 | Docker 执行 | 5 |
+| 第3任务 | 2 |  | AWSCLI | 1 | Shell 脚本执行 | 5.5 |
+| 第3任务 | 3 |  | 服务器错误 | 1 | 错误计数确认 | 4.5 |
+| 第3任务 | 4 |  | C.F | 1 | 基础设施创建确认 | 5 |
+| 总分 |  |  |  |  |  | 20 |
+
+云计算 第3任务 评分标准 4 - 3
+
+3) 评分内容
+
+<table>
+<thead>
+<tr><th>序号</th><th>评分项</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>1-1</td>
+<td>
+1) 通过 SSH 连接到 day3 EC2，并以 root 账号登录。(1分)<br>
+2) 输入 docker ps，确认运行中的 docker 的 PORTS 部分如下所示包含 80 -> 8080。(1.5分)<br>
+并且确认分配到 80 -> 8080 的容器状态 STATUS 是否为 UP。(1分)<br>
+<pre>
+CONTAINER ID    IMAGE         COMMAND        CREATED      STATUS      PORTS
+a3sadfcxz       app:latest    “python3 ..”   4 min ago    UP 4min     0.0.0.0:80 -> 8080/tcp
+</pre>
+3) 输入以下命令，确认是否输出 {“status”:“ok”}。(1.5分)<br>
+<code>curl http://localhost:80/health</code>
+</td>
+</tr>
+<tr>
+<td>2-1</td>
+<td>
+1) 通过 SSH 连接到 day3 EC2，并以 root 账号登录。(1分)<br>
+2) 输入 /opt/cli.sh，记录输出的 Bucket name。<br>
+3) 使用输出的 bucket 名称输入以下命令。<br>
+<code>aws s3 ls s3://&lt;&lt;버킷이름&gt;&gt;/</code><br>
+4) 确认 a.txt、b.txt、c.txt 文件是否已上传。日期必须是当前时间。<br>
+（a.txt 文件 1.5分，b.txt 文件 1.5分，c.txt 文件 1.5分）
+</td>
+</tr>
+<tr>
+<td>3-1</td>
+<td>
+1) 确认选手填写的错误数量是否如下所示。<br>
+504 = 1,657 (1.5分)<br>
+503 = 2,360 or 2,361 (1.5分)<br>
+500 = 5,058 (1.5分)
+</td>
+</tr>
+<tr>
+<td>4-1</td>
+<td>
+1) 通过 SSH 连接到 day3 EC2，并以 root 账号登录。(1分)<br>
+2) 输入以下命令，确认是否未输出包含 cloudformation 的文案。(1分)<br>
+<pre>
+aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-22-q4-priv-B --query \
+“Subnets[].Tags[]”
+</pre>
+3) 输入以下命令创建资源。完成后会输出 Successfully created/updated stack 文案，最多可能需要 10 分钟。(1.5分)<br>
+<code>aws cloudformation deploy --template-file ‘/opt/cf.yaml’ --stack-name vpc-q4</code><br>
+4) 输入以下命令，确认是否输出包含 “Key”: “aws:cloudformation:stack-id” 的文案。(1.5分)<br>
+<pre>
+aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-22-q4-priv-B --query \
+“Subnets[].Tags[]”
+</pre>
+</td>
+</tr>
+</tbody>
+</table>
+
+云计算 第3任务 评分标准 4 - 4

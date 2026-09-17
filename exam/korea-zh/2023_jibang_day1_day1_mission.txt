@@ -1,0 +1,153 @@
+2023 地方技能竞赛任务
+职业名称
+
+云计算
+
+任务名称
+
+Web Service
+Provisioning
+
+竞赛时间
+
+4小时
+
+编号
+
+任务编号
+评委
+确
+
+认
+
+第1任务
+(印)
+
+1. 需求
+希望使用 AWS 服务构建可运营 Web 服务的云平台。
+基于给定架构，考虑高可用性和性能等多种因素，构建能够让 Web 应用程序运行的云平台。通过 AWS 提供的解决方案，更快速、更稳定地进行构建是你的工作。
+图表
+
+软件栈
+AWS
+- VPC
+
+开发语言/框架
+- Python / Flask
+
+- EC2
+- ECS
+- ELB
+- ECR
+- CloudFront
+
+云计算 第1任务 1 - 6
+
+2. 选手注意事项
+1) 使用机器及工具等时请注意安全，必要时请佩戴安全装备及服装等，预防事故。
+2) 工作中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请佩戴安全防护用具，遵守安全守则。
+3) 工作中请注意工具的使用，遵守安全守则，预防事故。
+4) 竞赛开始前请通过轻微拉伸等放松紧张情绪，使用作业工具时请注意安全。
+5) 选手账户存在费用限制，如果计费高于该限制，账户可能无法使用。
+6) 题目中给出的尖括号框 <> 表示变量，选手必须适当更改后使用。
+7) 为提高题目效率，Security Group 的 80/443 outbound 可以 anyopen 使用。
+8) Bastion EC2 在评分时也会使用，因此请注意不要将其终止，以免遭受不利影响。
+9) 所有资源都配置在首尔(ap-northeast-2) 区域。
+
+云计算 第1任务 2 - 6
+
+3. 云网络（Cloud Netowrking）
+为能够对云基础设施进行网络级别的隔离和分离，参考以下要求配置 VPC。Name 标签最后附带的字母表示 ZONE。
+VPC 信息
+- VPC CIDR : 10.0.0.0/16
+- VPC Tag : Name=wsi-vpc
+Public A 子网信息
+- CIDR : 10.0.1.0/24
+- Tag : Name=wsi-public-a
+- 外部通信：配置 Internet G/W 以访问互联网
+- 路由表 Tag : Name=wsi-public-rtb
+Public B 子网信息
+- CIDR : 10.0.2.0/24
+- Tag : Name=wsi-public-b
+- 外部通信：配置 Internet G/W 以访问互联网
+- 路由表 Tag : Name=wsi-public-rtb
+Private A 子网信息
+- CIDR : 10.0.3.0/24
+- Tag : Name=wsi-private-a
+- 外部通信：配置 NAT G/W，以使其能够访问互联网
+- 路由表 Tag : Name=wsi-private-rtb-a
+Private B 子网信息
+- CIDR : 10.0.4.0/24
+- Tag : Name=wsi-private-b
+- 外部通信：配置 NAT G/W，以使其能够访问互联网
+- 路由表 Tag : Name=wsi-private-rtb-b
+
+云计算 第1任务 3 - 6
+
+4. Bastion 服务器
+使用 EC2 配置 Bastion 服务器。该服务器位于 public 区域，停止后重新启动时 public IP 也不能改变。配置为可从外部通过 SSH 连接到 Bastion 服务器。评分时也会使用，因此不要终止实例，以免遭受不利影响。
+必须配置为：在 Bastion 服务器内，无论哪个用户调用 awscli 命令，都具有 PowerUserAccess policy 权限。根据以下要求配置 Bastion 服务器。
+- EC2 type : t3.small
+- 镜像：Amazon Linux2
+- Subnet : wsi-public-a
+- 权限：AWS PowerUser policy
+- 安装包：awscli, curl
+- Tag : Name=wsi-bastion
+- Security Group：允许所有流量、所有 IPv4 目标的 outbound
+
+5. Web 应用程序
+这是关于本任务中将以 Docker 镜像部署并使用的 Web 应用程序的信息。
+Listen Port 均设置为 5000。不要修改部署文件。
+about 应用程序信息
+- 开发语言及框架：Python3.8 / Flask
+- 在 Docker 容器中访问 http://localhost:5000/about 时输出 "The about page"
+projects 应用程序信息
+- 开发语言及框架：Python3.8 / Flask
+- 在 Docker 容器中访问 http://localhost:5000/projects 时输出 "The projects page"
+
+云计算 第1任务 4 - 6
+
+6. ECR
+创建供 ECS 容器使用的 Docker 镜像。根据以下要求配置私有仓库并上传 Docker 镜像。镜像上传时自动扫描，并且标签均设置为 latest。所有镜像不得存在 Low 及以上级别的漏洞。
+about Docker 镜像信息
+- 仓库名称：wsi-about
+- 运行该 Docker 镜像时，必须运行 about 应用程序。
+projects Docker 镜像信息
+- 仓库名称：wsi-projects
+- 运行该 Docker 镜像时，必须运行 projects 应用程序。
+
+7. ECS
+根据以下要求配置 ECS 服务。所有容器必须在 EC2 上运行。必须仅允许通过 ALB 进入的请求。所有服务的宿主端口设置为 5000，并适当映射容器端口。即使一个可用区发生问题，服务也必须正常运行。所有服务必须在 Fargate(Linux) 上运行，并配置在 Private Subnet 中。
+集群信息
+- 集群名称：wsi-ecs
+about 服务信息
+- 服务名称：wsi-about-svc
+- 任务定义：about-task-def
+- 容器镜像：about Docker 镜像
+- Security Group : wsi-about-sg
+projects 服务信息
+- 服务名称：wsi-projects-svc
+- 任务定义：projects-task-def
+- 容器镜像：projects Docker 镜像
+- Security Group : wsi-projects-sg
+
+云计算 第1任务 5 - 6
+
+8. ALB
+ALB 接收请求后，将请求发送到 ECS 服务，然后将响应返回给客户端。配置为通过 Target Group 选择目标。ALB 必须仅允许通过 CloudFront 进入的请求。根据以下要求配置 ALB。
+- ALB 名称：wsi-alb
+- 进入 HTTP 80 /about 路径的请求必须转发到 about 服务。
+Target Group : wsi-about-tg
+- 进入 HTTP 80 /projects 路径的请求必须转发到 projects 服务。
+Target Group : wsi-projects-tg
+
+9. CloudFront
+通过 CloudFront 使 Web 服务可访问。通过缓存，使用户可以通过浏览器访问 CloudFront 地址，从而更快速地使用 Web 服务。对 about 服务的请求必须进行缓存，对 projects 服务的请求必须设置为不进行缓存。
+- 协议：配置为访问 CloudFront 时可通过 HTTPS 访问
+- 源站：ALB
+- 边缘：配置为不仅韩国的用户，全球用户也能快速访问
+- 其他：为防止评分时发生异常，禁用 IPv6，并且仅创建一个 CloudFront
+- 进入 /about 路径的请求必须通过 ALB 转发到 about 服务。
+- 进入 /projects 路径的请求必须通过 ALB 转发到 projects 服务。
+
+云计算 第1任务 6 - 6

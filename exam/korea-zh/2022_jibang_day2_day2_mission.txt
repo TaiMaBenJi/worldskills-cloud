@@ -1,0 +1,66 @@
+2022年度地方技能竞赛试题
+职业名称：云计算
+试题名称：Automation
+比赛时间：4小时
+保密编号：
+试题编号：第2题
+评审委员确认：（印）
+
+1. 需求
+云平台在实现时必须处理用户日志文件、电子商务购买记录、游戏游玩活动、社交网络信息等大量流数据。AWS 上有用于处理这些流信息的服务，名为 Amazon Kinesis Data Analytics（以下简称 KDA）。KDA 是通过 Apache Flink 实时转换和分析流数据的最简单方法。Flink 是用于数据流处理的开源框架及引擎。必须实现使用 KDA 和 Flink 从 Kinesis 接收并处理数据的 Architecture。需要实现的 Cloud Architecture 如下。
+图表
+
+Software Stack(AWS)
+- Kinesis data stream
+- Kinesis data analytics (Flink)
+- S3
+- CloudWatch
+
+云计算 第2题 1 - 3
+
+2. 选手注意事项
+1) 比赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+2) 比赛期间只能从互联网查阅并参考完全公开的资料。（如果不是公开资料，可能会被判定为取消资格。）
+3) 选手的账户存在费用限制，如果计费超过该限制，账户可能无法使用。
+4) 题目中未特别指定的选项、设置或值，请使用系统推荐默认值，并请注意大小写。
+5) 除试题中提供的 AWS resource 外，不得有其他 resource。
+6) Region 使用弗吉尼亚北部（us-east-1）。
+7) 试题结束时，请终止所有正在进行的测试，以免服务器产生负载。
+8) 为进行评分，必须创建具有 AdministratorAccess 权限且可进行 Console Access、Programmatic Access 的 IAM User，并提供该 IAM User 的 ID、Password、Access Key、Secret Access Key。
+9) 选手在自己的评分完成之前不得与外界接触，也不得离开考场。但是，在比赛时间内完成试题的选手可在评分后离开。
+
+云计算 第2题 2 - 3
+
+3. 基本设计
+1) 创建 Kinesis data stream。
+- 名称创建为 “kda_flink_kinesis_stream”。
+2) 创建 S3。
+- 在此过程中创建的 Bucket name 必须输入到 KDA 的 runtime properties 中。
+3) 将附件中的 jar（kinesis-data-analytics-flink.jar）上传到已创建的 S3 bucket 的 “/kda_flink_jar/” 位置。
+4) 创建 IAM。
+- IAM 名称创建为 “kda_flink_role”。
+- IAM policy 具有对 cloudwatch、cloudwatch_log、Kinesis data streaming、S3 的访问权限。（请参考 cloud watch 相关 policy 附件 json 文件。）
+- IAM 必须能够分配给 KDA。
+5) 使用已创建的 IAM 创建 Kinesis data analytics application。
+- 选择 Flink。（version 1.13）
+- Application 名称创建为 “kda_flink_application”。
+6) 对已创建的 KDA Application 进行配置设置。
+- Bucket 设置设为上述创建的 S3 bucket。
+- 对象设置将 path 设置为已上传的 jar 文件位置。
+- 添加 Runtime properties，并将 Group ID 输入为 “FlinkAppProperties”。
+Key
+s3_output_path
+
+value
+s3a://<bucket_name>/kda_flink_output
+
+7) 设置完成后运行 KDA。
+8) 已运行的 KDA 通过 kinesis data stream 接收 data，并将数据保存到 s3。
+9) 已运行的 KDA 在 CloudWatch 中留下 log。
+10) 提交已创建的 S3 bucket name。
+S3 Bucket name
+11) 附件
+- Kinesis data analytics Application : kinesis-data-analytics-flink.jar
+- CloudWatch IAM policy : flink_iam_policy_cloudwatch.json
+
+云计算 第2题 3 - 3

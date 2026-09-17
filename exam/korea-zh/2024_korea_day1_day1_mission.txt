@@ -1,0 +1,491 @@
+2024年度全国技能大赛任务
+职业名称
+
+云计算
+
+任务名称
+
+比赛时间
+
+4小时
+
+编号
+
+Solution
+Architecture
+
+任务编号
+评委
+确
+
+认
+
+第1任务
+(印)
+
+1. 需求
+你在Wordskills负责利用云解决方案构建能够运行应用程序的IT基础设施的工作。应充分考虑下面给出的图表和需求，以及云的设计原则——高可用性、扩展性、成本、安全性等，来构建基础设施。
+图表
+
+云计算 第1任务 12 - 1
+
+软件栈
+AWS
+
+开发语言/框架
+
+- VPC
+
+- golang/gin
+
+- EC2
+
+- docker
+
+- ELB
+
+- html
+
+- EKS
+- ECR
+- RDS
+- Dynamodb
+- CloudFront
+- CloudWatch
+- S3
+- IAM
+- KMS
+
+云计算 第1任务 12 - 2
+
+2. 选手注意事项
+※ 请考虑以下注意事项并完成需求。
+1) 使用机械及工具等时请注意安全，必要时请佩戴安全装备及服装等，预防事故。
+2) 工作中请注意预防烫伤、触电、擦伤等安全事故，使用工具或作业工具时请佩戴安全防护用具等，遵守安全守则。
+3) 工作中注意工具的使用，遵守安全守则，预防事故。
+4) 比赛开始前请通过轻度拉伸等放松紧张，使用作业工具时请注意安全。
+5) 题目中给出的尖括号 < > 表示变量，选手应适当更改后使用。
+6) 为提高解题与评分效率，Security Group的80/443 Outbound可以Anyopen使用。
+7) Bastion EC2在评分时会使用，因此请注意不要因关闭或连接问题、权限问题等而受到不利影响。
+8) 所有资源均配置在弗吉尼亚北部(us-east-1)区域。
+9) 提供的资料不经修改使用。若修改提供的资料使用，可能会受到不利影响。
+10) 题目中未给出的值应根据 AWS Well-Architected Framework 6 pillars 设置适当的值。
+11) 创建不必要资源时，可能成为扣分因素。(e.g. 额外创建 VPC)
+12) 所有资源的名称、标签、变量与变量区分大小写。
+13) 第1页的图表是抽象表示构成的图，详细构成应满足以下需求。(ex. 子网可以有2个以上。)
+
+云计算 第1任务 12 - 3
+
+3. 网络配置
+为了在Cloud内构建虚拟专用Network，请参考以下说明和Reference01的表来配置VPC。在运行Application的Subnet中，配置为下载Image时只能通过内部Network下载。(必须使用 ecr.dkr、s3 Endpoint。)
+执行将 wsc2024-ma-vpc 内产生的 Network Traffic 数据监控到 AWS CloudWatch 的工作。设置Bastion Server无法Download ECR Image。(但，第5项中指定的 IAM 设置不可修改或添加。)
+
+4. VPC 间中转
+该 Architecture 中 Network 被分离为 3 个 VPC。只有各 VPC 内构建的 Infra 之间能够相互通信，该任务的目的才能完成。为使各 VPC 通信，请使用 Transit Gateway。Transit Gateway Name 指定为 wsc2024-vpc-tgw。
+Ÿ
+
+ma-tgw-attachment Name Tag : wsc2024-ma-tgw-attach
+
+Ÿ
+
+prod-tgw-attachment Name Tag : wsc2024-prod-tgw-attach
+
+Ÿ
+
+storage-tgw-attachment Name Tag : wsc2024-storage-tgw-attach
+
+Ÿ
+
+ma-tgw-rt Name Tag : wsc2024-ma-tgw-rt
+
+Ÿ
+
+prod-tgw-rt Name Tag : wsc2024-prod-tgw-rt
+
+Ÿ
+
+storage-tgw-rt Name Tag : wsc2024-storage-tgw-rt
+
+5. Bastion Server
+为评分使用 AWS EC2 创建 Bastion Server。为防止评分中 ip 突然变更，即使重启时 ip 也不应变更。SSH 访问时，考虑 Security，须将 Port Number 更改为 28282。必须在 wsc2024-ma-mgmt-sn-a Subnet 中运行。评分时以 Root user 进行，因此不得有包相关错误，IAM Role 仅使用 AdministratorAccess Policy 配置。Bastion Server 用于评分。若配置错误，可能在特定评分项中受到不利影响，请注意。
+Ÿ
+
+Instance Name Tag : wsc2024-bastion-ec2
+
+Ÿ
+
+Machine Image : Amazon Linux 2023
+
+Ÿ
+
+Instance Type : t3.small
+
+Ÿ
+
+Security Group Name Tag : wsc2024-bastion-sg
+
+Ÿ
+
+IAM Role Name Tag : wsc2024-bastion-role
+
+Ÿ
+
+Required Package : awscliv2 , curl , eksctl , kubectl , jq
+
+云计算 第1任务 12 - 4
+
+6. Application
+存在 Customer、Product、Order 共 3 个 Application。提供的 binary 使用 golang/gin 开发，并在 x86 系统上构建。Application 运行时绑定的 Port Number 为 TCP/8080。此外，3 个 application 全部通过 /healthcheck 确认 Application 状态。
+
+(Application 详细信息请参考 Reference02)
+
+7. Application 访问控制
+与安全密切相关的访问必须与外部隔离。所有 Application 都通过 /healthcheck 判断 Server 的 health。若外部随意使用 Healthcheck，可能会给 Server 带来负担。Customer Application 中，为弥补该部分，应阻止外部对 /healthcheck 的访问，并使用 VPC Lattice 构建为只能在 Bastion Server 中确认。
+Ÿ
+
+Service Network Name : wsc2024-lattice-svc-net
+
+8. RDBMS
+为稳定高效地存储 Customer、product Application 数据，配置 RDBMS。使用 AWS 管理的 MySQL 兼容引擎，并以 default for major version 8.0 构建 Database。为方便 DB 管理，Logging 和 Monitoring 必须处于激活状态，该 DB 必须能够 RollBack 到 4 小时前。必须能够从 Bastion Server 访问该 RDBMS。(RDBMS 详细信息请参考 Reference03)
+Ÿ
+
+DB Cluster Name : wsc2024-db-cluster
+
+Ÿ
+
+Master username : admin
+
+Ÿ
+
+Master password : Skill53##
+
+Ÿ
+
+DB instance class : db.t3.medium
+
+Ÿ
+
+DB Name : wsc2024_db
+
+9. NoSQL Database
+将 order Application 的 Database 使用 AWS 提供的完全托管 No SQL Database Service——Dynamodb。(NoSQL Database 详细信息请参考 Reference03)
+
+云计算 第1任务 12 - 5
+
+10. Container Registry
+将提供的 application 镜像化后，打算保存到 AWS ECR Repository。Upload 到 ECR 的 Image 必须带有 latest 这个 Tag。
+Ÿ
+
+Customer image repository Name : customer-repo
+
+Ÿ
+
+Product image repository Name : product-repo
+
+Ÿ
+
+Order image repository Name : order-repo
+
+11. 容器编排
+为将提供的 Application 部署到 Container 环境，使用 AWS EKS。EKS Cluster Control Plane 中产生的所有日志必须能够在 CloudWatch Logs 中查看，Secret Resource 必须经过 KMS Encryption。为方便管理，所有 NodeGroup 都创建为 ManagedNodeGroup，必须考虑高可用性，且 NodeGroup 必须在 Private 环境中运行。给定的 application 必须使用名为 wsc2024 的 Namespace，在 EKS Cluster 内进行逻辑分离。由于可能部署新 Version 的 EKS Pod，必须考虑无中断部署进行配置。
+Ÿ
+
+EKS Cluster Name : wsc2024-eks-cluster
+
+Ÿ
+
+EKS Cluster Version : 1.29
+
+DB Application ManagedNodegroup
+将数据存储到 Database 的 Application 必须在 DB Application NodeGroup 中运行。不得存在除此之外的其他 Resource，并且必须考虑高可用性。此外，该 NodeGroup 的 Node 必须带有 {app:db} 这个 Label。
+Ÿ
+
+NodeGroup Name : wsc2024-db-application-ng
+
+Ÿ
+
+Node Instance Name Tag : wsc2024-db-application-node
+
+Ÿ
+
+Node Instance Type : t3.medium
+
+其他 ManagedNodegroup
+
+除提供的 Application 之外，其余所有 Resource 都必须在 Other Nodegroup 中运行。不得存在 Application Resource，并且必须考虑高可用性。此外，该 NodeGroup 的 Node 必须具有 {app:other} 这个 Label。
+
+- NodeGroup Name : wsc2024-other-ng
+- Node Instance Name Tag : wsc2024-other-node
+- Node Instance Type : t3.medium
+
+云计算第1作业 12 - 6
+
+EKS Deployments
+- customer Application Deployment Name : customer-deploy
+- product Application Deployment Name : product-deploy
+- order Application Deployment Name : order-deploy
+
+12. Load Balancer
+为了能够从外部访问 application，同时分散负载，使用 Load Balancer。
+- Load Balancer Name : wsc2024-alb
+- Load Balancer Scheme : internet-facing
+- Load Balancer Type : Application Load Balancer
+- Load Balancer Listen : HTTP 80
+
+13. 静态页面
+通过 S3 存储并提供已部署的 index.html 静态内容。如果用户进行了正常访问，则必须显示 index.html，并且必须存储在 Bucket 的最上层路径。Bucket Name 指定为 wsc2024-s3-static-<4位英文字母>。必须阻止外部直接访问 S3 Bucket 中存在的 Objects，并且只能通过 CloudFront 访问。
+
+14. CDN
+为了向用户提供更快的 Service，使用 AWS CloudFront。通过 CloudFront 将 ALB 和 S3 绑定为一个 Domain。用户通过域名访问时，默认必须显示 S3 中的 index.html 文件；访问 /v1/* 路径时，必须 Routing 到 ALB。（详细路径说明请参考 Reference02）对于 S3 相关操作，因为是静态内容，所以必须 Caching。即使使用者通过 HTTP 访问，也要设置为 Redirect 到 HTTPS。为防止评分时发生误判，禁用 IPv6。不仅是韩国，全球用户都必须能够快速访问，并且只能配置一个 CloudFront。
+
+云计算第1作业 12 - 7
+
+15. DNS Security
+DNS 委派工作
+为了使用已认证的 DNS，决定接收上级账户中现有 DNS 的子域委派并使用。确认下方与本人对应的域名，创建 Route53 Public Hosted Zone，并将该 Hostzone 的 NS 记录信息以 Issue 形式登记到 Github。比赛开始 30 分钟后，按照 Issue 中登记的顺序进行委派工作。注意不要传递缓存设置和错误的 NS 信息。委派完成后，为测试创建一条 my.<hostzone> 记录，并配置为返回 211.0.0.10。
+域名形式为 p{编号}.cloudhrdk{0-2}.com。
+- 编号 101-109 : cloudhrdk0.com
+- 编号 110-119 : cloudhrdk1.com
+- 编号 120-129 : cloudhrdk2.com
+
+测试用查询记录示例)
+
+选手的 hostzone 名称示例)
+
+$ nslookup my.p101.cloudhrdk0.com
+...
+
+101选手 → p101.cloudhrdk0.com
+112选手 → p112.cloudhrdk1.com
+123选手 → p123.cloudhrdk2.com
+
+211.0.0.10
+
+使用 DNS 进行路由
+VPC 内部的服务器希望针对特定 DNS 地址不经过外部网络，安全地路由到内部。为实现这一点，希望利用 Route53 功能。
+在题目指定的 VPC 内部查询 q1.<hostzone> 地址时，必须返回 172.16.0.10。但在外部计算机上查询同一记录时，必须返回 54.0.0.10。除 Route53 功能外，若使用篡改 hosts 文件、通过创建 Private Hostzone 进行更改、更改 EC2 名称服务器等取巧方式解决，则不被视为正确答案。必须返回本人拥有的 cloudhrdk Hostzone 中 q1 记录所分配的 IP 地址。只要创建了任何一个 Private Hosted Zone，所有 DNS 相关项均不予得分。
+VPC 内部 DNS 查询示例)
+$ nslookup q1.p101.cloudhrdk0.com
+...
+
+外部 DNS 查询示例)
+$ nslookup q1.p101.cloudhrdk0.com
+...
+
+Address: 172.16.0.10
+
+Address: 54.0.0.10
+
+云计算第1作业 12 - 8
+
+16. CDN Security
+CDN 及 DNS 配置
+额外创建一个 CloudFront Distribution，并创建 CNAME 记录，使得从外部查询 cf.<hostzone> 时返回所连接 CloudFront 的地址。并且为了 Web 托管，在访问该记录的 index.html 时，输出 "Cloud Skills <编号>" 文案。
+连接到 CloudFront 的 Origin 只要是本人 AWS 账户中的资源，任何资源都可以。最终通过 curl 等访问时，必须如下方示例所示输出。如果输出的编号不同，则不予得分。
+DNS 查询示例)
+$ nslookup cf.p129.cloudhrdk2.com
+...
+Name:
+xxx096kci2yyy.cloudfront.net
+Address: 54.19.15.141
+
+Web 访问示例)
+$ curl https://cf.p129.cloudhrdk2.com/index.html
+
+Cloud Skills 129
+
+CDN 加密连接
+连接 CDN 时，为安全使用 HTTPS 协议。通过 ACM 颁发 Amazon 证书，并将其关联到已创建的 CloudFront Distribution。从外部通过 HTTPS 协议访问 cf.<hostzone> 时，必须能够使用通过 Amazon 证书加密的连接。
+
+17. Kubernetes Security
+构建生产环境集群
+创建用于生产环境的 EKS 集群。创建名称为 prod-<编号> 的 1.30 版本集群，并利用 Managed Node Group 配置 2 台 t3.medium 类型 Worker Node 连接到集群。节点配置完成后，创建 "prod" 命名空间和 "beta" 命名空间。除 EKS 版本、名称、节点类型、命名空间之外的值可任意设置。最终必须确保 Pod 能够正常运行。
+镜像下载限制
+在 "prod" 命名空间中，如果 Pod 的镜像标签带有 "latest"，则必须无法创建。但在 "beta" 命名空间中，即使带有 "latest" 标签，也必须能够创建 Pod。评分时使用 kubectl 进行 Pod 创建测试。
+Label 限制
+在 "prod" 命名空间中，如果没有 "cloudhrdk.com/env: prod" 这个 label，则必须无法创建 Pod。"beta" 命名空间同样，如果没有 cloudhrdk.com/env: beta 这个 label，则必须无法创建 Pod。评分时使用 kubectl 进行 Pod 创建测试。
+
+云计算第1作业 12 - 9
+
+Reference01
+- VPC -
+
+| 名称 | CIDR |
+|---|---|
+| wsc2024-ma-vpc | 10.0.0.0/16 |
+| wsc2024-prod-vpc | 172.16.0.0/16 |
+| wsc2024-storage-vpc | 192.168.0.0/16 |
+
+- Subnet -
+
+| 名称 | CIDR | VPC |
+|---|---|---|
+| wsc2024-ma-mgmt-sn-a | 10.0.0.0/24 | wsc2024-ma-vpc |
+| wsc2024-ma-mgmt-sn-b | 10.0.1.0/24 | wsc2024-ma-vpc |
+| wsc2024-prod-load-sn-a | 172.16.0.0/24 | wsc2024-prod-vpc |
+| wsc2024-prod-load-sn-b | 172.16.1.0/24 | wsc2024-prod-vpc |
+| wsc2024-prod-app-sn-a | 172.16.2.0/24 | wsc2024-prod-vpc |
+| wsc2024-prod-app-sn-b | 172.16.3.0/24 | wsc2024-prod-vpc |
+| wsc2024-storage-db-sn-a | 192.168.0.0/24 | wsc2024-storage-vpc |
+| wsc2024-storage-db-sn-b | 192.168.1.0/24 | wsc2024-storage-vpc |
+
+| 子网 | 网关 |
+|---|---|
+| wsc2024-ma-mgmt-sn-a | Internet Gateway |
+| wsc2024-ma-mgmt-sn-b | (wsc2024-ma-igw) |
+| wsc2024-prod-load-sn-a | Internet Gateway |
+| wsc2024-prod-load-sn-b | (wsc2024-prod-igw) |
+
+- 路由表 -
+
+名称
+wsc2024-ma-mgmt-rt
+
+wsc2024-prod-load-rt
+
+NAT Gateway
+
+wsc2024-prod-app-rt-a
+
+wsc2024-prod-app-sn-a
+
+wsc2024-prod-app-rt-b
+
+wsc2024-prod-app-sn-b
+
+wsc2024-storage-db-rt-a
+
+wsc2024-storage-db-sn-a
+
+X
+
+wsc2024-storage-db-rt-b
+
+wsc2024-storage-db-sn-b
+
+X
+
+云计算第1作业 12 - 10
+
+(wsc2024-prod-natgw-a)
+NAT Gateway
+(wsc2024-prod-natgw-b)
+
+Reference02
+- Customer -
+
+API Spec
+
+路径
+
+方法
+
+/v1/customer
+
+GET
+
+/v1/customer
+
+POST
+
+Environment Key
+
+OS Environment
+
+请求格式
+Query String
+?id=xxxxxxx
+Request Body
+
+'{"id":"xxxxxx","name":"xxxxxxx","gender":"xxxxxx"}'
+描述
+
+| 环境变量键 | 描述 |
+| --- | --- |
+| MYSQL_USER | 用于 RDBMS 连接的用户名 |
+| MYSQL_PASSWORD | 用于 RDBMS 连接的用户密码 |
+| MYSQL_HOST | 用于 RDBMS 连接的主机名 |
+| MYSQL_PORT | 用于 RDBMS 连接的端口号 |
+| MYSQL_DBNAME | 用于 RDBMS 连接的数据库名称 |
+
+- product -
+
+| 路径 | 方法 |
+| --- | --- |
+| /v1/product | GET |
+| /v1/product | POST |
+
+API 规范
+
+环境变量键
+
+OS 环境
+
+请求格式
+查询字符串
+?id=xxxxxxx
+请求体
+'{"id":"xxxxxx","name":"xxxxxxx","category":"xxxxxx"}'
+描述
+
+| 环境变量键 | 描述 |
+| --- | --- |
+| MYSQL_USER | 用于 RDBMS 连接的用户名 |
+| MYSQL_PASSWORD | 用于 RDBMS 连接的用户密码 |
+| MYSQL_HOST | 用于 RDBMS 连接的主机名 |
+| MYSQL_PORT | 用于 RDBMS 连接的端口号 |
+| MYSQL_DBNAME | 用于 RDBMS 连接的数据库名称 |
+
+- order -
+
+API 规范
+
+| 路径 | 方法 |
+| --- | --- |
+| /v1/order | GET |
+| /v1/order | POST |
+
+OS 环境
+
+请求格式
+查询字符串
+?id=xxxxxxx
+请求体
+'{"id":"xxxxxx","customerid":"xxxxxxx","productid":"xxxxxx"}'
+
+环境变量键
+
+描述
+
+| 环境变量键 | 描述 |
+| --- | --- |
+| AWS_REGION | 用于 DynamoDB 连接的区域代码（例如 ap-northeast-2） |
+
+云计算第1次作业 12 - 11
+
+参考03
+- RDBMS 表名：customer -
+
+| 列名 | 数据类型 | 备注 |
+| --- | --- | --- |
+| id | VARCHAR(255) | - |
+| name | VARCHAR(255) | - |
+| gender | VARCHAR(255) | - |
+
+| 列名 | 数据类型 | 备注 |
+| --- | --- | --- |
+| id | VARCHAR(255) | - |
+| name | VARCHAR(255) | - |
+| category | VARCHAR(255) | - |
+
+| 键名 | 数据类型 | 备注 |
+| --- | --- | --- |
+| id | String | PK |
+| customerid | String | - |
+| productid | String | - |
+
+- RDBMS 表名：product -
+
+- DynamoDB 表名：order -
+
+云计算第1次作业 12 - 12

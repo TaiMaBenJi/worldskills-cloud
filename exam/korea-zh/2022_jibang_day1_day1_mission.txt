@@ -1,0 +1,68 @@
+2022年度地方技能竞赛任务
+职业名称：云计算
+任务名称：Web Service Provisioning
+比赛时间：4小时
+密编号：
+任务编号：
+评审委员确认：(印)
+
+第1题
+
+1. 需求
+云平台正被用于各个领域，规模也在逐渐扩大。平台规模越大，就越需要理解并善用 MSA(microservice architecture) 架构。随着平台规模扩大，需要与各种团队协作，因此云上可能存在多个 VPC。你需要执行构建两个 VPC 相连接的基础设施的任务。
+示意图
+
+软件栈
+- AWS
+- VPC
+
+- 开发语言/框架
+- Apache Tomcat
+
+- EC2
+- ELB
+- Route53
+
+云计算 第1题 1 - 3
+
+2. 选手注意事项
+1) 比赛开始前，请通过轻度拉伸等放松紧张情绪，并在使用工具时注意安全。
+2) 比赛期间，只能在互联网上查阅完全公开的资料作为参考。
+（如果不是公开资料，可能会被取消资格。）
+3) 选手账户存在费用限制，如果计费超过该限制，账户可能无法使用。
+4) 题目中未特别指定的选项、设置或值，请使用系统推荐的默认值，并请注意大小写。
+5) 所有 Resource/Instance Type 均使用 t3.micro。
+6) Region 使用弗吉尼亚北部(us-east-1)。
+7) 任务结束时，请终止所有正在进行的测试，以免给服务器造成负载。
+8) 为了评分，需要创建具有 AdministratorAccess 权限且可以进行 Console Access、Programmatic Access 的 IAM User，并提供该 IAM User 的 ID、Password、Access Key、Secret Access Key。
+9) 选手在自己评分完成之前不能与外界接触，也不能离开考场。但在比赛时间内完成任务的选手，可以在评分结束后离开。
+
+云计算 第1题 2 - 3
+
+3. 基本设计
+1) 需要创建两个 VPC。(VPC_A, VPC_B)
+2) VPC_A 必须各有一个 public subnet 和一个 private subnet。
+3) VPC_B 必须有一个 public subnet 和两个 private subnet（可用区 a、可用区 b）。
+4) EC2 实例总共四个，bastion 必须位于 public subnet，service 用实例必须位于 private。(bastion 用实例名称为 Bastion_A、Bastion_B，service 用实例为 Service_A、Service_B)
+5) 创建实例时，镜像使用 Amazon Linux 镜像。
+6) Service_B 必须与 Private ALB 连接。
+7) ELB 必须与 internal Route53 连接。（地址设置为 “service.internal”）
+
+4. 网络与安全
+1) VPC_A 和 VPC_B 必须建立 VPC peering。
+2) VPC_A 设置为 CIDR(10.2.0.0/16)，VPC_B 设置为 CIDR(10.4.0.0/16)。
+3) 创建实例时，Service_A 和 Bastion_A 使用相同的密钥对创建，Service_B 和 Bastion_B 使用相同的密钥对创建。
+4) Service_A 实例必须只能通过 Bastion_B 访问。
+5) Service_B 实例必须只能通过 Bastion_B 和 ELB 访问。
+6) 在 Service_B 实例上实现 Web 服务器。（使用 apache 2 包，使用 80 port，返回 200 ok returen）
+7) 从 Service_A 向 Route53(“service.internal”) 地址发起 http 调用时，必须收到 200 返回。
+8) Security Group 必须设置为最小范围，以提高安全性。
+9) 选手需将以下内容填写在答题纸上并提交。
+Bastion_A public IP
+Bastion_B public IP
+Service_A private IP
+Service_B private IP
+Service_A, Bastion_A 密钥对
+Service_B, Bastion_B 密钥对
+
+云计算 第1题 3 - 3

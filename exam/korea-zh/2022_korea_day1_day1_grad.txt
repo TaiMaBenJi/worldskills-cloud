@@ -1,0 +1,376 @@
+2022 庆尚南道 第57届全国技能大赛 评分标准
+1. 评分注意事项
+
+职业名称
+
+云计算
+
+※ 评分时请注意以下事项。
+1) AWS 区域使用 ap-northeast-2。
+2) 网页访问使用 Chrome 或 Firefox。
+3) 根据语言不同，网页中的文字可能显示不同。
+4) shell 中命令的输出可能因版本略有不同。
+5) 试题和评分表中的 <> 是变量。请修改该部分后输入。
+6) 评分必须按题目顺序进行。
+7) 删除的评分资料无法恢复，请谨慎操作；在异议申请全部完成之后，删除选手创建的云资源。
+8) 有部分分值的题目会在评分项中标注部分分值。
+9) 未单独标注部分分值的题目必须全部正确才计分。
+
+云计算 第1题 评分标准 12 - 1
+
+2. 评分标准表
+1) 主要项目分值
+
+| 任务 | 序号 | 编号 | 主要项目 | 分值 | 评分方法 |  | 评分时间 |  | 备注 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  | 独立 | 合议 | 比赛进行中 | 比赛结束后 |  |
+| 第1题 | 1 |  | 网络构成 | 2.7 | ○ |  | ○ |  |  |
+|  | 2 |  | 应用程序 | 5.3 | ○ |  | ○ |  |  |
+|  | 3 |  | 容器化 | 3.5 | ○ |  | ○ |  |  |
+|  | 4 |  | Kubernetes | 6 | ○ |  | ○ |  |  |
+|  | 5 |  | 部署 | 6.5 | ○ |  | ○ |  |  |
+|  | 6 |  | 安全设置 | 5.6 | ○ |  | ○ |  |  |
+|  | 7 |  | LB | 4.6 | ○ |  | ○ |  |  |
+|  | 8 |  | 放置 | 3 | ○ |  | ○ |  |  |
+|  | 9 |  | 负载测试 | 1.5 | ○ |  | ○ |  |  |
+|  | 10 |  | 监控 | 1.3 | ○ |  | ○ |  |  |
+|  |  |  | 合计 | 40 |  |  |  |  |  |
+
+云计算 第1题 评分标准 12 - 2
+
+备注
+
+2) 评分方法及标准
+
+| 任务 | 序号 | 编号 | 主要项目 | 细分项（评分方法） | 分值 |
+| --- | --- | --- | --- | --- | --- |
+| 第1题 | 1 | 1 | 网络构成 | VPC | 1.2 |
+|  | 1 | 2 | 网络构成 | 子网 | 1.5 |
+|  | 2 | 1 | 应用程序 | Match API positive | 1.3 |
+|  | 2 | 2 | 应用程序 | Match API negative | 1.6 |
+|  | 2 | 3 | 应用程序 | Stress stress API | 1.4 |
+|  | 2 | 4 | 应用程序 | Stress random API | 1.0 |
+|  | 3 | 1 | 容器化 | ECR | 0.9 |
+|  | 3 | 2 | 容器化 | Docker user | 1.5 |
+|  | 3 | 3 | 容器化 | Docker image | 1.1 |
+|  | 4 | 1 | Kubernetes | EKS Cluster | 1.5 |
+|  | 4 | 2 | Kubernetes | EKS logging | 1.5 |
+|  | 4 | 3 | Kubernetes | EKS Node Group scale | 1.5 |
+|  | 4 | 4 | Kubernetes | EKS Node Group subnets | 1.5 |
+|  | 5 | 1 | 部署 | Deploy match container | 1.4 |
+|  | 5 | 2 | 部署 | Deploy error test | 5.1 |
+|  | 6 | 1 | 安全设置 | Match ext access | 1.3 |
+|  | 6 | 2 | 安全设置 | Match deny rule | 1.5 |
+|  | 6 | 3 | 安全设置 | Stress ext access | 1.3 |
+|  | 6 | 4 | 安全设置 | Stress deny rule | 1.5 |
+|  | 7 | 1 | LB | Match LB | 0.8 |
+|  | 7 | 2 | LB | Match Routing | 1.5 |
+|  | 7 | 3 | LB | Stress LB | 0.8 |
+|  | 7 | 4 | LB | Stress routing | 1.5 |
+|  | 8 | 1 | 放置 | App placement | 1.5 |
+|  | 8 | 2 | 放置 | Addon placement | 1.5 |
+|  | 9 | 1 | 负载测试 | Stress aging | 1.5 |
+|  | 10 | 1 | 监控 | Worker dashboard | 0.6 |
+|  | 10 | 2 | 监控 | match dashboard | 0.7 |
+|  |  |  |  | 总分 | 40 |
+
+云计算 第1题 评分标准 12 - 3
+
+3) 评分内容
+序号
+0 准备工作
+1) 确认 bastion 命令及权限（kubectl、awscli permission、jq、curl、awscli region）
+2) 将 marking 脚本下载到 /root/marking。
+
+云计算 第1题 评分标准 12 - 4
+
+序号 | 评分项
+1-1 | 1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws ec2 describe-vpcs --filter Name=tag:Name,Values=skills-vpc --query "Vpcs[].CidrBlock"
+3) 确认输出 10.0.0.0/16。
+1-2 | 1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令
+aws ec2 describe-route-tables --filter Name=tag:Name,Values=skills-private-b-rt \
+--query "RouteTables[].Routes[].NatGatewayId"
+3) 确认输出以 "nat-" 开头的字符串。
+2-1 | 1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，并记录输出的 Pod 名称。
+kubectl -n skills get pods | grep match | head -n 1
+3) 使用以下命令连接到该 Pod。（Pod 名称不同）
+kubectl exec -n skills -it match-xx12345688-xxx111 sh
+4) 使用以下命令确认输出 {“status”: “OK”}。
+curl http://localhost:8080/v1/match?token=cccccccc
+2-2 | 1) 保持 2-1 的 match pod 连接状态。
+2) 使用以下命令确认输出 {“status”: “FAIL”}。
+curl http://localhost:8080/v1/match?token=11131111
+2-3 | 1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，并记录输出的 Pod 名称。
+kubectl -n skills get pods | grep stress | head -n 1
+3) 使用以下命令连接到该 Pod。（Pod 名称不同）
+kubectl exec -n skills -it stress-xx12345688-xxx111 sh
+4) 使用以下命令确认输出 {“status”: “OK”}。
+curl http://localhost:8080/v1/stress
+2-4 | 1) 保持 2-3 的 stress pod 连接状态。
+2) 使用以下命令确认输出 {“status”: “OK”}。（最多可能需要 40 秒）
+curl http://localhost:8080/v1/random
+
+云计算 第1题 评分标准 12 - 5
+
+3-1 | 1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，确认输出 match-ecr。
+aws ecr describe-repositories --repository-name match-ecr --query \
+"repositories[].repositoryName"
+3-2 | 1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，并记录输出的 Pod 名称。
+kubectl -n skills get pods | grep stress | head -n 1
+3) 使用以下命令连接到该 Pod。（Pod 名称不同）
+kubectl exec -n skills –it stress-xx12345688-xxx111 sh
+4) 输入以下命令，确认输出 stress。
+whoami
+3-3 | 1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，确认是否有输出 latest。
+aws ecr list-images --repository-name stress-ecr --query "imageIds[].imageTag"
+4-1 | 1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，确认输出 1.22。
+aws eks describe-cluster --name skills-cluster --query "cluster.version"
+4-2 | 1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws eks describe-cluster --name skills-cluster --query "cluster.logging.clusterLogging“
+3) 确认结果值如下所示，enabled: true，并且 types 中包含全部 5 种类型。
+"enabled": true,
+"types": [
+"api",
+"audit",
+"authenticator",
+"controllerManager",
+"scheduler"
+]
+
+云计算 第1题 评分标准 12 - 6
+
+4-3 | 1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，确认输出 "c5.large"。
+aws eks describe-nodegroup --cluster-name skills-cluster --nodegroup-name skills-app --query
+"nodegroup.instanceTypes“
+4-4 | 1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，确认输出 3 个以 subnet- 开头的资源。
+aws eks describe-nodegroup --cluster-name skills-cluster --nodegroup-name skills-addon --query
+"nodegroup.subnets"
+5-1 | 1) 通过 SSH 访问 Bastion 服务器后，使用以下命令切换目录。
+2) 打开 deployment.yaml 文件，找到如下 skills/version: v1 的部分。
+3) 将相应部分修改为 skills/version: v101 后保存。
+4) 应用修改后的 yaml 文件。
+kubectl apply –n skills –f deployment.yaml
+5) 输入以下命令，记录新生成的 ReplicaSet ID。
+kubectl describe –n skills deployment match | grep NewReplicaSet | grep match
+6) 基于生成的 ReplicaSet（上述搜索到的 ID）搜索生成的 Pod。
+kubectl get pods –n skills | grep match-xxxxyyyyzz
+7) 确认 Pod 状态如下为 Running。
+kubectl get pods | grep match-xxxxyyyyzz
+match-xxxxyyyyzz-pppzz
+1/1
+Running
+0
+3m8s
+8) 使用以下命令查看 Pod 详细信息，确认输出 skills/version: v101。
+kubectl get pods match-xxxxyyyyzz-pppzz -o yaml | grep v101
+
+云计算 第1题 评分标准 12 - 7
+
+1) 通过 SSH 访问 Bastion。
+2) 使用以下命令切换到 /script 后执行 deploy_test.sh。
+cd ~/marking
+./deploy_test.sh
+
+3) 如下所示，等待已有容器全部消失，并且新创建的容器从 Pending、Terminating 等
+状态变为 Running 状态。第4列中的 85s 表示创建后经过的时间。
+stress-xxxxxxxxxx-aaaaa
+stress-xxxxxxxxxx-bbbb
+
+1/1
+
+1/1
+
+Running
+Running
+
+0
+
+0
+
+85s
+84s
+
+4) 部署完成后，按 control + c 取消正在运行的脚本，并读取生成的 stress_result_<时间>.txt
+文件以确认错误数量。
+
+5-2
+
+cat stress_result_053231.txt | grep –v 200
+
+5) 如果上述 txt 文件中输出 502、503、400 等内容，则扣分。从 5 分起，每输出 2 个扣
+1.02 分；如果完全没有输出内容，则为 5.1 分。
+例)
+
+输出 0 个时 (5.10)
+输出 1~2 个时 (4.08)
+输出 3~4 个时 (3.06)
+输出 5~6 个时 (2.04)
+输出 7~8 个时 (1.02)
+输出 9 个以上时 (0)
+
+云计算第1次作业 12 - 8
+
+序号    评分项
+6-1    1) 通过 SSH 访问 Bastion。
+       2) 通过以下命令记录一个 match 容器 ID。
+       kubectl –n skills get pods | grep match
+       3) 访问该容器。
+       kubectl –n skills exec –it match-xxxxxxxxx-aaaaa sh
+       5) 输入以下命令，确认是否输出包含 302 Found 字样的响应。
+       curl http://www.naver.com
+
+6-2    1) 保持 6-1 的容器访问。
+       2) 通过以下命令确认是否输出一个 IPv4 地址。
+       echo $STRESS_SERVICE_HOST
+       3) 输入以下命令，确认是否因没有输出的响应或 timeout 错误等而无法访问。
+       （10 秒内没有响应则视为成功。）
+       curl http://${STRESS_SERVICE_HOST}:${STRESS_SERVICE_PORT}/v1/stress
+       or
+       curl --connect-timeout 10 http://stress.skills.svc.cluster.local/v1/stress
+
+6-3    1) 通过 SSH 访问 Bastion。
+       2) 通过以下命令记录一个 stress 容器 ID。
+       kubectl –n skills get pods | grep stress
+       3) 访问该容器。
+       kubectl –n skills exec –it stress-xxxxxxxxx-aaaaa sh
+       4) 输入以下命令，确认是否输出包含 302 Found 字样的响应。
+       curl http://www.naver.com
+
+6-4    1) 保持 6-3 的容器访问。
+       2) 通过以下命令确认是否输出一个 IPv4 地址。
+       echo $MATCH_SERVICE_HOST
+       3) 输入以下命令，确认是否因没有输出的响应或 timeout 错误等而无法访问。
+       （10 秒内没有响应则视为成功。）
+       curl http://${MATCH_SERVICE_HOST}:${MATCH_SERVICE_PORT}/v1/match?token=aa
+       or
+       curl --connect-timeout 10 http://match.skills.svc.cluster.local/v1/match
+
+云计算第1次作业 12 - 9
+
+序号    评分项
+7-1    1) 通过 SSH 访问 Bastion。
+       2) 输入以下命令，确认 match 的 ingress 是否存在包含 amazonaws.com 的 ADDRESS。
+       kubectl –n skills get ingress | grep -v stress
+       NAME
+
+       CLASS
+
+       HOSTS
+
+       ADDRESS
+
+       PORTS
+
+       AGE
+
+       match
+
+       <none>
+
+       *
+
+       xxxx..ap-northeast-2.elb.amazonaws.com
+
+       80
+
+       7d13h
+
+7-2    1) 通过 SSH 访问 Bastion。
+       2) 复制 7-1 中输出的 ADDRESS。
+       3) 输入以下命令，确认是否输出 403。
+       curl --silent -o /dev/null -w %{http_code} http://<ADDRESS>/health
+       4) 输入以下命令，确认是否输出 200。
+       curl --silent -o /dev/null -w %{http_code} http://<ADDRESS>/v1/match?token=aa
+
+7-3    1) 通过 SSH 访问 Bastion。
+       2) 输入以下命令，确认 stress 的 ingress 是否存在包含 amazonaws.com 的 ADDRESS。
+       kubectl –n skills get ingress | grep -v match
+       NAME
+
+       CLASS
+
+       stress
+
+       <none>
+
+       HOSTS
+       *
+
+       ADDRESS
+
+       PORTS
+
+       AGE
+
+       xxxx..ap-northeast-2.elb.amazonaws.com
+
+       80
+
+       7d13h
+
+7-4    1) 通过 SSH 访问 Bastion。
+       2) 复制 7-3 中输出的 ADDRESS。
+       3) 输入以下命令，确认是否输出 403。
+       curl --silent -o /dev/null -w %{http_code} http://<ADDRESS>/health
+       4) 输入以下命令，确认是否输出 200。
+       curl --silent -o /dev/null -w %{http_code} http://<ADDRESS>/v1/stress
+
+云计算第1次作业 12 - 10
+
+序号    评分项
+8-1    1) 通过 SSH 访问 Bastion。
+       2) 输入以下命令，复制输出的一个 node。
+       kubectl get pods –n skills –o wide
+       3) 使用复制得到的 node，通过以下命令详细输出该 node。
+       kubectl get nodes ip-10-x-x-x.ap-northeast-2.compute.internal –o json | jq .“.metadata.labels”
+       4) 确认输出内容中是否包含以下两行。
+       "eks.amazonaws.com/nodegroup": "skills-app",
+       "skills/dedicated": "app",
+
+8-2    1) 通过 SSH 访问 Bastion。
+       2) 输入以下命令，复制输出的 node。
+       kubectl get pods -n kube-system -o wide | grep cluster-autoscaler
+       3) 使用复制得到的 node，通过以下命令详细输出该 node。
+       kubectl get nodes ip-10-x-x-x.ap-northeast-2.compute.internal –o json | jq .“.metadata.labels”
+       4) 确认输出内容中是否包含以下两行。
+       "eks.amazonaws.com/nodegroup": "skills-addon",
+       "skills/dedicated": "addon",
+
+9-1    1) 通过 SSH 访问 Bastion。
+       2) 输入以下命令，确认当前有多少台 nodes 处于 Ready 状态。
+       kubectl get nodes
+       3) 通过以下命令注入负载。
+       /marking/load.sh
+       4) 确认随着时间推移是否新增节点，并且新增节点的 STATUS 变为 Ready。
+       （最多可以等待 5 分钟。）
+
+云计算第1次作业 12 - 11
+
+序号    评分项
+10-1   1) 登录 AWS Web console。
+       2) 转到 CloudWatch page。
+       3) 点击左侧面板中的 Dashboards 并进入。
+       4) 点击 worker dashboard。
+       5) 确认是否存在如图所示的 WORKER CPU、WORKER NETWORK 两个图表。
+       6) 由于在 9-1 中注入了负载，确认 CPU 使用率和网络使用率是否都如图一样在 10 分钟内
+       出现突增区间。
+
+10-2   1) 像 10-1 一样转到 CloudWatch dashboard。
+       2) 选择 stress dashboard。
+       3) 确认是否存在如图所示的 STRESS REQ COUNT、STRESS RES TIME、STRESS 5xx 三个图表。
+       4) 由于在 9-1 中注入了负载，STRESS REQ COUNT 必须如图一样在 10 分钟内存在突增区间。
+       必须至少存在一个 1000(1K) 以上的区间。
+
+云计算第1次作业 12 - 12

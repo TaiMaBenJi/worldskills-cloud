@@ -1,0 +1,279 @@
+# Source: /var/minis/shared/worldskills-cloud/github-repos/wsc2025-15-days-ago-task2-main/충남/과제지&배포파일/클라우드컴퓨팅_2과제_과제지_v2.hwp
+
+----- BodyText/Section0 -----
+2025年全国技能竞赛 课题
+
+职种名
+云计算
+课题名
+Small
+Challenge
+课题编号
+第2课题
+比赛时间
+4小时
+选手编号
+审查委员
+确   认
+      (印)
+
+1. 要求事项
+1) CI/CD
+2) 存储数据保护
+3) WAF
+4) 安全网络
+
+2. 选手注意事项
+※ 请考虑以下注意事项完成要求事项。
+1) 使用机器及工具等时请注意安全，必要时请穿戴安全装备及服装等，预防事故发生。
+2) 工作中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请佩戴安全防护用具，遵守安全守则。
+3) 工作中请注意工具的使用，遵守安全守则，预防事故。
+4) 比赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+5) 问题中给出的尖括号<>表示变量，选手应适当更改后使用。
+6) Security Group的80/443 outbound应设置为anyopen以便使用。
+7) Bastion EC2用于评分。请确保服务器连接不出现问题，以免在评分中受到不利影响。
+8) 课题结束前应停止正在运行的测试及负载，确保服务器无问题。
+9) 请注意避免因Tag信息不正确或权限问题导致无法评分。
+10) 创建用于评分的Bastion，Bastion应能够访问所有Resource。
+
+1) CI/CD
+云计算第2课题  - 5
+
+概述
+配置可将应用部署到容器的CI/CD管道。Region使用ap-southeast-1。
+
+课题说明
+
+ECR
+为高效管理Container Image，创建专用Registry。基于nginx:latest构建自定义镜像，并将提供的部署文件(index.html)设置为主页面。镜像标签指定为vX.X.X格式（例如：v1.0.0），以便于版本管理。
+ECR Repository Name: app-repo
+
+EKS
+为高效轻松地管理容器，使用EKS。应用程序Pod必须在名为“wsc2025”的namespace中运行。Deployment的名称指定为“nginx-deploy”。评分前，使用提供的部署文件的image创建Pod。
+EKS Cluster Name: wsc2025-cluster
+EKS Cluster Version: 1.32
+EKS Node Instance Type: t3.medium
+EKS NodeGroup Name: wsc2025-app-ng
+EKS Node Name: wsc2025-app-node
+
+ELB
+提供可访问应用程序Pod的Endpoint。Endpoint应确保外部访问无问题，即使Pod重启或增加，也应能正常访问。
+LoadBalancer Type: ALB
+LoadBalancer Name: wsc2025-cicd-alb
+
+Github
+将给定的部署文件index.html和version文件放在Repository最顶层，在manifest/路径下创建manifest文件，并指定部署deploy的manifest名称为deploy.yaml。通过Github Action，如果index.html文件发生更改或修改，Github Action将自动运行，使用version文件指定tag并创建新镜像。同时，将deploy.yaml中的镜像更改为新镜像。但Github Action仅在index.html更改时运行。
+Repository Name: wsc2025-argocd-repo
+Repository Type: Public
+
+ArgoCD
+通过Github Action生成新Image后，使用新Image的Pod必须在5分钟内创建。如果不是通过更改github Repository中的代码，而是管理员通过其他方式更改镜像时，应自动恢复。
+ArgoCD App Name: wsc2025-argo-app
+
+2) 存储数据保护
+概述
+配置用于保护存储在Object Storage S3中的数据的解决方案。Region使用ap-northeast-2。
+课题说明
+
+S3
+使用S3管理包含敏感数据的文件。在S3中创建名为/masked的prefix和名为/incoming的prefix。将给定的部署文件全部上传到/incoming prefix。
+S3 Bucket Name: wsc2025-sensitive-<任意4个英文字母>
+
+Macie
+使用Amazon Macie搜索和保护存储在S3中的敏感数据。必须能够利用Macie准确检测部署文件中的所有敏感信息，检测标准参考下表。创建Job时，设置为仅检测S3存储桶内带有masked前缀(prefix)的对象中的敏感数据，并且Job应配置为仅运行一次。评分时，将复制已创建的Job使用，如果该Job不能正常运行，可能会发生扣分等不利影响。
+Job Name: wsc2025-sensor-job
+
+Lambda
+为防止敏感数据泄露，使用AWS Lambda对数据进行掩码处理。Lambda函数应在文件上传到S3存储桶中带有incoming前缀(prefix)的路径时自动运行，对该文件的敏感信息进行掩码处理后，保存到带有masked前缀的路径。掩码方式示例参考下表。
+Lambda Name: wsc2025-masking-start
+
+
+
+敏感信息类型
+
+原始示例（应由Macie检测到）
+
+掩码示例（不应由Macie检测到）
+
+names
+
+Crystal White
+
+Crystal *****
+
+emails
+
+davisjesus@example.org
+
+d*********@example.org
+
+phone_numbers
+
+010-7658-5153
+
+010-7658-****
+
+ssns
+
+887-07-7325
+
+887-07-****
+
+card_numbers
+
+4468-6779-7028-4776
+
+4468-6779-7028-****
+
+uuids
+
+665ef2db-cd63-4086-81e9-661ccaf8dd20
+
+665ef2db-cd63-4086-81e9-************
+
+3) WAF
+概述
+使用AWS WAF配置阻止Web攻击的系统。Region使用us-east-1。
+课题说明
+许多Web应用程序基于用户传递的值执行数据库查询。在此过程中，如果对输入值的有效性验证不足，恶意查询语句可能被直接执行，这可能导致SQL Injection (SQLi)攻击。SQLi是一种严重的安全漏洞，攻击者可通过操纵数据库查询进行认证绕过、数据泄露、数据更改/删除等攻击。使用WAF对输入值进行有效性验证，并阻止恶意查询语句。
+
+1. Bastion
+为进行动作测试，在Default VPC中创建EC2 Instance，Name Tag创建为waf-bastion。为了进行评分，必须能够通过SystemManager访问，如果无法访问，可能会在评分中受到不利影响。
+
+2. App Server
+使用EC2创建App Server，VPC使用default VPC。使用给定的部署文件在App Server上运行Python应用程序时，应在后台运行以防止服务器终止。此外，必须分配public IP。
+App Server Name: wsc2025-app-server
+Instance Type: t3.small
+
+3. ELB
+创建ELB以提供可访问上面创建的App Server的Endpoint。
+Load balancer name: wsc2025-waf-alb
+Load balancer type: Application
+Load balancer Scheme: Internet-facing
+
+4. WAF
+找出应用程序中存在的漏洞，配置针对漏洞的Rule设置，当攻击漏洞时，应出现403 Forbidden错误。
+WAF Name: wsc2025-waf
+
+API
+应用程序使用Python开发，是在x86架构系统上构建的应用程序。运行时绑定到TCP 5000端口，应用程序端点和响应结果值参考下表。
+
+
+
+Path
+
+Method
+
+Description
+
+Query String Example
+
+/login
+
+GET
+
+用户认证
+
+name=admin&secret=x
+
+/lookup
+
+GET
+
+通过用户ID查询
+
+id=1
+
+4) 安全网络
+概述
+利用Network Firewall控制和检查VPC的Egress网络流量。Region使用eu-west-1。
+课题说明
+
+1. VPC
+Egress VPC由用于互联网连接的Public Subnet、用于与App VPC通信的Peering Subnet以及仅放置Network Firewall的Firewall Subnet组成；App VPC仅创建Private Subnet，与外部通信通过Egress VPC经由防火墙(Firewall Subnet)进行。Subnet名称后面的英文字母表示AZ。
+
+VPC -
+
+Name
+
+Cidr
+
+wsc2025-egress-vpc
+
+10.0.0.0/16
+
+wsc2025-app-vpc
+
+172.16.0.0/16
+
+Subnet -
+
+Name
+
+Cidr
+
+VPC
+
+wsc2025-egress-public-sn-a
+
+10.0.0.0/24
+
+wsc2025-egress-vpc
+
+wsc2025-egress-public-sn-b
+
+10.0.1.0/24
+
+wsc2025-egress-vpc
+
+wsc2025-egress-peering-sn-a
+
+10.0.2.0/24
+
+wsc2025-egress-vpc
+
+wsc2025-egress-peering-sn-b
+
+10.0.3.0/24
+
+wsc2025-egress-vpc
+
+wsc2025-egress-firewall-sn-a
+
+10.0.4.0/24
+
+wsc2025-egress-vpc
+
+wsc2025-egress-firewall-sn-b
+
+10.0.5.0/24
+
+wsc2025-egress-vpc
+
+wsc2025-app-private-sn-a
+
+172.16.0.0/24
+
+wsc2025-app-vpc
+
+wsc2025-app-private-sn-b
+
+172.16.1.0/24
+
+wsc2025-app-vpc
+
+2. Network Firewall
+
+在 Egress VPC 的 firewall 子网中创建 Network Firewall，所配置的 AWS Network Firewall 通过多层安全策略，系统性地控制发往外部互联网的流量。该系统实现了三级防御机制。
+
+首先，通过无状态（Stateless）规则引擎阻断所有 ICMP（ping）协议流量，从而阻止网络扫描和基于 ping 的攻击。这作为第一道防线，阻断网络层（L3）的基本安全威胁。
+
+其次，在有状态（Stateful）规则引擎中，为强化 DNS 安全，阻断所有使用 UDP/TCP 53 端口的外部 DNS 查询。由此强制仅使用内部已批准的 DNS 解析器，同时防止 DNS 劫持攻击和数据泄露风险。此外，还会阻断通过 IP 直接访问或 HTTPS 加密流量进行的绕过访问。
+
+跨 2 个可用区配置为高可用。
+
+Firewall Name: wsc2025-firewall
+
+3. Bastion
+
+为进行动作测试，在 App VPC 中创建 EC2 Instance，Name Tag 创建为 app-bastion。为进行评分，必须能够通过 SystemManager 访问，若无法访问，可能会对评分产生不利影响。

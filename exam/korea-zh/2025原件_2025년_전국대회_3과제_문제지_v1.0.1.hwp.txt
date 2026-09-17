@@ -1,0 +1,412 @@
+2025年全国技能大赛
+
+云计算第3任务  - 6
+
+
+
+工 种 名 称
+
+云计算
+
+任 务 名 称
+
+System operation
+
+任务编号
+
+第 3 任务
+
+比赛时间
+
+3小时
+
+编 号
+
+评委
+
+确    认
+
+(签名)
+
+1. 需求事项
+
+ 将开发完成的应用程序进行部署，构建为用户提供服务的系统，并构建用于运维的监控系统。必须处理流量以满足设定的服务水平目标，并且必须运营系统，以便快速检测所构建系统中可能发生的故障和错误，提供最佳的用户体验。同时，应尽可能以最低成本运营系统。
+
+ 
+
+图
+
+
+
+
+
+必需 Software Stack
+
+
+
+AWS
+
+开发语言/框架
+
+  - VPC
+
+  - ECS, EC2, ECR
+
+  - RDS, DynamoDB
+
+  - Golang / Gin
+
+可用 Software Stack
+
+
+
+AWS
+
+开发语言/框架
+
+  - ELB, API Gateway
+
+  - CloudFront, R53
+
+  - S3
+
+  - Cloudwatch
+
+  - WAF
+
+  - Docker
+
+2. 选手注意事项
+
+  1) 使用机械及工具等时请注意安全，必要时请佩戴安全装备及穿着防护服等，以预防事故。
+
+  2) 工作中请注意预防烫伤、触电、擦伤等安全事故，使用工具或作业工具时请遵守佩戴安全防护用品等安全规程。
+
+  3) 工作中请注意工具的使用，遵守安全规程，预防事故。
+
+  4) 比赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+
+  5) 选手的账户存在费用限制，若产生高于该限制的费用，账户可能无法使用。
+
+  6) 题目中给出的尖括号 <> 表示变量，选手需适当更改后使用。
+
+  7) 任务结束时，请终止所有正在进行的测试，以免给服务器造成负载。
+
+  8) 如无特别说明，请在 ap-northeast-2 区域创建资源。
+
+  9) 第1页的图是对构成的抽象表示，具体构成应能够满足以下需求事项。（例：子网可能存在2个以上。）
+
+  10) 所有资源的名称、标签、变量均区分大小写。
+
+  11) 题目中未给出的值，应依据 AWS Well-Architected Framework 6 pillars 设定为合适的值。
+
+  12) 创建不必要的资源可能成为扣分因素。
+（例如：未使用的 EC2、额外添加的 VPC、在其他区域创建资源等）
+
+  13) 对于 DB 及所有资源，若未遵守规定的实例类型、CPU、内存大小和数量，可能会受到不利影响。（包括未使用的）
+
+  14) 所有时间均使用 KST(UTC+9) 时区。
+
+  15) 计算类型只能使用 EC2 实例。无论出于何种目的，均不得使用 Fargate 和 Lambda。
+
+3. 关系型数据库
+
+ user 应用程序使用关系型数据库，且读取、写入操作均须可用。应用程序支持 MySQL Community 引擎。DB 实例以最小规模运营。
+
+ - DB identifier : apdev-rds-instance
+
+ - Deployment options: Multi-AZ DB instance
+
+ - DB instance class: db.t3.micro
+
+ - Storage type: General Purpose SSD (gp3)
+
+ - Engine : MySQL Community 8.0
+
+ 可参考以下命令创建表。
+
+
+
+CREATE TABLE user (
+
+    id               VARCHAR(255)    NOT NULL,   
+
+    username         VARCHAR(255)    NOT NULL,
+
+    email            VARCHAR(255)    NOT NULL,
+
+    status_message   VARCHAR(255)    NOT NULL,
+
+    PRIMARY KEY (userid),
+
+    UNIQUE KEY uk_username (username)
+
+);
+
+ 为确保正常运行，必须使用 load_user.dump 文件插入数据，插入的数据请勿任意修改或删除。请注意，插入除产生流量之外的其他任意数据可能导致性能下降。可能需要根据应用程序的行为和流量模式重新设计表结构。
+
+4. DynamoDB
+
+ product 应用程序使用 DynamoDB，且读取、写入操作均须可用。只能创建 1 个表，表中存储的数据示例格式如下。可能需要根据应用程序的行为和流量模式设计 PK、SK、Index。
+
+
+
+Key
+
+Data Type
+
+Description
+
+id
+
+string
+
+product 唯一值
+
+name
+
+string
+
+product 名称
+
+price
+
+Number
+
+product 价格
+
+5. Web 应用程序
+
+ user、product、stress 共有 3 个应用程序。提供的 binary 已在基于 x86 的 EC2 的 Amazon Linux 2023 上构建并确认可运行。go version 为 go1.22.2 linux/amd64。应用程序运行时绑定的端口为 TCP/8080。所有应用程序都将 access log 输出到 stdout、stderr。为防止篡改，所有应用程序都会在 Request 请求中添加 requestid、uuid 查询字符串。请勿对正常请求的 Request 及 Response 进行篡改，以免受到不利影响。评分时使用的响应时间及代码均以客户端到达为准。
+
+ - user
+
+  提供管理用户信息的 API。应用程序的行为参考以下内容。user API 为保证最低可用性，将确保 5 秒以下的响应时间，并将 0.2 秒以下的响应时间设定为服务水平目标。请按该标准测量服务水平并运营应用程序。
+
+
+
+Path
+
+Method
+
+Request (example)
+
+Response code
+
+/v1/user
+
+POST
+
+{
+
+"requestid":"999999999999",
+
+"uuid":"7c5a3c6a-758f-4bc5-9bdf-3e573a0ad729",
+
+"username":"dbdump500001",
+
+"email":"dbdump500001@example.org",
+
+"status_message":"I’m happy",
+
+}
+
+201
+
+/v1/user
+
+GET
+
+?email=dbdump500001@example.org
+
+&requestid=999999999999
+
+&uuid=7c5a3c6a-758f-4bc5-9bdf-3e573a0ad729
+
+200
+
+/healthcheck
+
+GET
+
+-
+
+200
+
+ user 应用程序在运行时读取以下 Linux 环境变量，连接到关系型数据库。
+
+
+
+Environment Key
+
+Data Type
+
+Value
+
+etc
+
+MYSQL_USER
+
+string
+
+具有 db 访问权限的用户名
+
+required
+
+MYSQL_PASSWORD
+
+string
+
+具有 db 访问权限的用户密码
+
+required
+
+MYSQL_HOST
+
+string
+
+可进行 db 读/写的地址
+
+（IP 或 DNS，禁止插入引擎名）
+
+required
+
+MYSQL_PORT
+
+integer
+
+可进行 db 读/写的地址的端口号
+
+required
+
+MYSQL_DBNAME
+
+string
+
+逻辑数据库名称 (dev)
+
+required
+
+ 若 /v1/user POST 请求时 email 地址的格式不是 xxxx@xxxx.xxxx，请配置为产生 403 错误。该功能未通过应用程序逻辑实现。 
+
+ - 正常请求 email 示例：gildong@example.org
+
+ - 非正常请求 email 示例(1)：gildong（缺少域名）
+
+ - 非正常请求 email 示例(2)：gildong@example（域名格式错误）
+
+ - product
+
+  提供管理产品信息的 API。应用程序的行为参考以下内容。product API 在产品创建（POST 请求）之后，该产品的信息不会变更，预计对同一 id 的请求会频繁发生。product API 为保证最低可用性，将确保 5 秒以下的响应时间，并将 0.2 秒以下的响应时间设定为服务水平目标。请按该标准测量服务水平并运营应用程序。
+
+
+
+Path
+
+Method
+
+Request (example)
+
+Response code
+
+/v1/product
+
+POST
+
+{
+
+"requestid":"999999999999",
+
+"uuid":"7c5a3c6a-758f-4bc5-9bdf-3e573a0ad729",
+
+"id":"dbdump500001",
+
+"name":"dbdump500001",
+
+"price":1234,
+
+}
+
+201
+
+/v1/product
+
+GET
+
+?id=dbdump50001
+
+&requestid=999999999999
+
+&uuid=7c5a3c6a-758f-4bc5-9bdf-3e573a0ad729
+
+200
+
+/healthcheck
+
+GET
+
+-
+
+200
+
+ product 应用程序在运行时读取以下 Linux 环境变量，连接到关系型数据库。
+
+
+
+Environment Key
+
+Data Type
+
+Value
+
+etc
+
+TABLE_NAME
+
+string
+
+DynamoDB 表名称
+
+required
+
+TABLE_INDEX_NAME
+
+string
+
+DynamoDB 表内索引名称
+
+(default: 不使用索引)
+
+optional
+
+ - stress
+
+提供用于向资源施加负载的演示 API。应用程序的行为请参考下方。stress API 为确保最低可用性，力求保证 5 秒以下的响应时间，并将 1 秒以下的响应时间设置为服务水平目标。按照该标准衡量服务水平并运营应用程序。
+
+| 路径 | 方法 | 请求（示例） | 响应码 |
+| --- | --- | --- | --- |
+| /v1/stress | POST | {<br>"requestid":"999999999999",<br>"uuid":"7c5a3c6a-758f-4bc5-9bdf-3e573a0ad729",<br>"length": 256<br>} | 201 |
+| /healthcheck | GET | - | 200 |
+
+7. 流量处理
+
+ 构建系统，以便部署应用程序并向外部用户提供服务。必须使用容器，容器编排工具使用 ECS。不能使用 EKS。容器镜像仓库可以使用 ECR，用于容器托管的计算资源使用 EC2。
+
+ EC2 实例仅使用 t3.medium 类型，并且为处理流量仅使用最少的资源。如果使用其他实例类型或使用过多资源，可能会导致扣分。
+
+ 为处理流量，将提供给用户的 Endpoint 统一为一个。从比赛开始 1 小时后开始产生流量，并通过输入到评分平台的 Endpoint 注入选手的系统。处理比赛期间产生的流量，使其满足目标服务水平。构建监控环境和日志解决方案，以执行日志分析、流量模式分析、系统改进、系统故障/错误检测与应对。不要让本人的 Endpoint 暴露给他人，以免遭受不利影响。输入到评分平台的格式为协议和地址（IP/DNS），不得写入路径。
+
+- 正常示例: https://example.org
+- 错误示例(1): example.org（缺少协议）
+
+错误示例(2): https://example.org/v1/（填写了路径）
+
+ 确保可用性，以便无服务中断地稳定提供服务。应考虑到这一点来设计、构建并运营系统。
+
+ 对发往提供给用户的 Endpoint 的非正常请求进行 Block，并返回 403 响应码。但除提供的 API 之外的请求应返回 404 响应码。
+
+示例)
+
+- 对 /v1/user 的非正常请求：403 响应码
+
+/v1/none 的非正常请求：404 响应码

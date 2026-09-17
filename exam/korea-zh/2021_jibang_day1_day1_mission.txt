@@ -1,0 +1,123 @@
+2021年度地方技能竞赛试题
+职业名称：云计算
+课题名称：IT Infrastructure
+比赛时间：4小时
+编号：
+试题编号：
+评委确认：（印）
+第1题：（印）
+
+1. 要求
+你在一家运营 Web 服务的公司担任云基础设施工程师。你的工作是将后端开发人员开发的应用程序部署到云端并运营服务。为了服务运营，必须进行考虑高可用性、可扩展性和负载均衡的网络、服务器设计与构建，并且必须为已开发应用程序的部署配置自动化。此外，为了实现高效的服务运营，还必须实现 A/B 测试。
+
+云计算 第1题 5 - 1
+
+2. 选手注意事项
+1) 使用机器及工具等时请注意安全，必要时请穿戴安全装备及防护服等，以预防事故。
+2) 工作中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请遵守佩戴安全防护用具等安全规则。
+3) 工作中请注意工具的使用，遵守安全规则，预防事故。
+4) 比赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+5) 所有 EC2 类型请使用 t3.small。
+6) EC2 的 OS 请使用 Amazon Linux2。
+7) 请使用 Seoul region。
+8) 请注意配置，以免在评分时因 EC2 终止等受到不利影响。
+9) Web 服务器实例可能会在删除后重新创建并进行评分，因此请注意不要因配置被初始化而受到不利影响。
+10) 由于云资源的特性，实例可能会突然被删除，因此请注意通过创建镜像或快照等方式进行备份，以免受到不利影响。
+11) 评分通过在 Bastion 服务器上执行命令来进行，因此在试题结束前必须配置为使 Bastion 服务器不会终止。
+12) 如果未使用试题中给出的名称或标签，评分时可能会受到不利影响。
+13) 题目中给出的 <变量> 部分不是原样使用，而必须由选手更改后使用。
+14) 为了安装软件包，所有 EC2 实例的 TCP 80/443 端口 outbound 流量必须对 0.0.0.0/0 开放。
+15) 为了顺利评分，SSH 连接方式必须更改为密码方式。
+16) 比赛结束前，Web 服务器的 ASG 必须更改为 min:2、desired:2、max: 10。
+17) 评分时，为了能够执行 AWS 命令，在所有 EC2 上安装 AWSCLI。权限设置可能因服务器而异，相关内容按照试题中明示的内容配置。
+18) 评分时，为了能够执行 curl 命令，在所有 EC2 上安装 curl。
+
+云计算 第1题 5 - 2
+
+3. 网络配置
+为了创建云资源，配置 AWS 的 VPC。创建时必须考虑负载均衡和高可用性来创建 VPC。为实现高可用性，配置时必须仅使用 A 和 B 两个可用区（AZ）。
+3.1. Virtual Private Cloud
+- 分配给 VPC 的默认 CIDR 使用 10.0.0.0/16。
+- 名称设置为 vpc-skills-ap。
+- VPC 下创建的所有子网都必须创建为具有 24bit。
+- 子网必须使用 0bit 开始。（从 10.0.0.0/24 开始使用）
+3.2. Public subnet
+- 在通过子网划分构成的可用网段中，将第一个/第三个子网分配给 public-a、public-b。
+- 第一个子网是 10.0.0.0/21，第三个子网是 10.0.2.0/24。
+- 位于 public subnet 的 VM 必须能够通过自己的 IP 访问互联网。
+- A 区子网名称设置为 skills-pub-a。
+- B 区子网名称设置为 skills-pub-b。
+3.3. Private subnet
+- 在通过子网划分构成的可用网段中，将第二个/第四个子网分配给 private-a、private-b。
+- 第二个子网是 10.0.1.0/21，第四个子网是 10.0.3.0/24。
+- 位于该子网的 VM 必须能够通过 NAT gateway 访问互联网。
+- A 区子网名称设置为 skills-priv-a。
+- B 区子网名称设置为 skills-priv-b。
+
+4. Simple Storage Service
+为了存储将要部署到 Web 服务器的静态文件，配置 AWS 的 S3。
+- S3 不能配置为任何人都可访问，必须配置为仅必要的 EC2 可以访问。
+- 存储桶名称设置为 skills-<任意值>。（例如，skills-seoul99）
+- 将提供的文件分别上传到 s3://<bucket>/web/v1.tar、s3://<bucket>/web/v2.tar 路径。如果存储桶名称是 skills-seoul99，则必须能够通过该命令下载文件。aws s3 cp s3://skills-seoul99/web/v1.tar。
+
+5. Domain Name Service
+为了管理所创建基础设施的域名，使用 AWS 的 Route53。DNS 创建可在 VPC 内使用的 private hosted zone，并且域名设置为 ws.local。
+云计算 第1题 5 – 3
+
+6. Bastion 服务器
+为了通过 SSH 访问 EC2，创建 Bastion 服务器。必须经由该服务器以 SSH 访问位于 private zone 的服务器。
+- 使用 AWS EC2 创建实例。
+- bastion 服务器位于 VPC 的 public subnet 中。
+- 为了安全，将 bastion 的 SSH 端口更改为 2222。
+- 添加名为 "Name": "bastion-skills-ap" 的 EC2 tag。
+- 这是可从外部访问的资源，因此请注意安全设置。
+
+7. Web 服务器 - Stable version
+- 为了运营 Web 服务器，使用 Auto Scaling 组创建 EC2。
+- 当发生 Scale-out 时，无需额外设置即可自动配置并运行 Web 服务器。
+- 该 EC2 必须保证高可用性。
+- 配置为至少运行 2 台以上。
+- 在该 EC2 上安装 Apache Web 服务器。
+- Apache Web 服务器的 listen port 设置为 80。
+- 将提供的 v1.tar 文件解压后的文件放置到 DocumentRoot。
+如果 Apache 配置正常完成，则在本地调用 GET http://localhost:80/health 时，可以收到 "{"health": "UP"}" 响应。
+- 将 ASG 和 EC2 配置为具有 "Name": "web-skills-ap-stable" 标签。
+- 配置 Auto Scaling，使平均 CPU 使用率超过 10% 时进行 Scale-out。
+- 使用 AWS 命令时，无需 access key，而是能够基于 role 获取权限。
+- 该 EC2 必须能够访问选手在 S3 题目中创建的存储桶。
+
+8. Web 服务器 - Test version
+- 为了运营 Web 服务器，使用 Auto Scaling 组创建 EC2。
+- 当发生 Scale-out 时，无需额外设置即可自动配置并运行 Web 服务器。
+- 该 EC2 必须保证高可用性。
+- 配置为至少运行 2 台以上。
+- 在该 EC2 上安装 Apache Web 服务器。
+- Apache Web 服务器的 listen port 设置为 80。
+- 将提供的 v2.tar 文件解压后的文件放置到 DocumentRoot。
+如果 Apache 配置正常完成，则在本地调用 GET http://localhost:80/health 时，可以收到 "{"health": "UP"}" 响应。
+云计算 第1题 5 - 4
+- 将 ASG 和 EC2 配置为具有 "Name": "web-skills-ap-test" 标签。
+- 配置 Auto Scaling，使平均 CPU 使用率超过 10% 时进行 Scale-out。
+- 使用 aws 命令时，无需 access key，而是能够基于 role 获取权限。
+- 该 EC2 必须能够访问选手在 S3 题目中创建的存储桶。
+
+9. Load Balancing
+为了对 Web 服务器进行负载均衡，配置 Application Load Balancer。
+9.1. ALB 基本配置
+- 为了安全，将实例配置为仅从 LB 接收流量。
+- LB 必须能够接收 VPC 内所有位置的流量。
+- 创建 Internal ALB，配置为接收 Web 服务器的流量。
+- 使用 ALB 提供的 CNAME 添加名为 web.ws.local 的记录。
+- ALB 的名称指定为 "web-cc2021-ap-int"。
+- ALB 的 listener 端口指定为 80。
+- 最终在 Bastion 中调用 http://web.ws.local/health 时，必须看到 "{"health": "UP"}" 字样。
+9.2. 开发用页面安全
+swagger page 必须仅在该 Web 服务器内部调用。
+如果通过外部端点 http://web.ws.local/swagger-ui.html 访问页面，则必须无法访问 EC2 服务器，并且必须返回 404 响应码。Body 必须显示为 "Not found this WSI page"。
+9.3. A/B 测试
+为了进行 A/B testing，包含 test=true 查询参数调用 http://web.ws.local 时，必须调用到 Test Web 服务器；不包含该查询参数调用时，必须调用到 Stable Web 服务器。
+
+10. Monitoring
+使用 ALB 的指标配置监控告警。当连接到 ALB 的服务器返回的 HTTP 4XX 值在 1 分钟内升高到 55 个以上时，配置为能够在 CloudWatch 中看到 alert。alert 级别设置为 "Alarm(警报)" 阶段。
+最终必须能够在 CloudWatch 中确认 Alert，SNS topic 设置等可任意配置，告警名称配置为 ALB-4XX-high。
+云计算 第1题 5 - 5

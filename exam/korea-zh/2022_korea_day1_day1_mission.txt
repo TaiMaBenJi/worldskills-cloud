@@ -1,0 +1,175 @@
+2022 庆尚南道第57届全国技能大赛
+工种名称
+
+云计算
+
+任务名称
+
+竞赛时间
+
+4小时
+
+编号
+
+Web Service
+Provisioning
+
+任务编号
+
+第1任务
+
+评委
+确
+
+认
+
+(签名)
+
+1. 需求
+将利用 AWS 服务和 Kubernetes 构建 Web 服务架构。必须利用给定的详细需求和架构，并考虑高可用性、性能等来构建云平台。必须通过 AWS 中存在的托管服务快速、稳定地构建。
+
+S/W stack
+AWS
+EKS(Kubernetes 及 Addon)
+EC2
+Load Balancer
+ECR
+CloudWatch
+
+Application
+Golang
+Docker
+
+云计算 第1任务 7 - 1
+
+2. 选手注意事项
+※ 请考虑以下注意事项完成需求。
+1) 使用机器和工具等时请注意安全，必要时请穿戴安全装备和服装，以预防事故。
+2) 工作中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请佩戴安全防护用品，遵守安全规则。
+3) 工作中请注意工具使用，遵守安全规则，预防事故。
+4) 比赛开始前请通过轻度拉伸等放松紧张，使用作业工具时注意安全。
+5) 选手账户存在费用限制。若使用超过费用限制，账户可能无法使用。
+6) 题目中给出的括号表示变量，选手应适当更改后使用。
+7) 为提高题目效率，Security Group 的 80/443 outbound 请设置为 any open 使用。
+8) 任务结束时，请终止所有正在进行的测试，避免对服务器造成负载。
+9) 评分时将使用 Bastion EC2，请注意不要将其关闭以免受到不利影响。
+10) 比赛结束前，将每个应用程序设置为 2 个容器、2 个节点。评分时请注意不要因服务器关闭而受到不利影响。
+11) 需要指定 Region 的服务请指定为 ap-northeast-2。
+12) 第8题 Kubernetes 中，Pod 增加时并不意味着 Node 必须无条件增加，而是指 Pod 增加但 Node 资源不足时，Node 才需要增加。
+13) 第3题网络配置表格中的 “Name” 和 “route table” 列，表示配置 VPC 的 Subnet 和 Route table Tag 时 Name Tag 的 Value。
+
+云计算 第1任务 7 - 2
+
+3. 网络配置
+创建 VPC 以配置云网络。使用 10.0.0.0/16 网络。考虑 HA，设计 VPC 使其至少具有 3 个 az。VPC 名称为 skills-vpc。配置时名称(Name)表示以 Name 为 Key 的 Tag。配置子网时允许 zero subnet，子网掩码均使用 24bit。
+请参考以下内容配置子网。
+
+| Name | Internet access | route table | 区分 |
+| --- | --- | --- | --- |
+| skills-private-a | NAT G/W | skills-private-a-rt | 可用第1个 |
+| skills-private-b | NAT G/W | skills-private-b-rt | 可用第2个 |
+| skills-private-c | NAT G/W | skills-private-c-rt | 可用第3个 |
+| skills-public-a | Internet G/W | skills-public-rt | 可用第4个 |
+| skills-public-b | Internet G/W | skills-public-rt | 可用第5个 |
+| skills-public-c | Internet G/W | skills-public-rt | 可用第6个 |
+
+4. 应用程序
+有 Match 和 Stress 两个应用程序。提供的 binary 已在基于 x86 的 EC2 的 Amazon Linux2 上构建并确认可运行。go version 为 go1.16.15 linux/amd64。App 运行时绑定的端口为 8080。
+- Match
+提供用于检查通过 Query string 传递的字符串的 API。传递名为 Token 的 key 后，服务器检查并返回响应码。若传递 8 个字符以下且全部相同的字符，则返回 OK；若超过 8 个字符或混入任何一个不同字符，则返回 FAIL。
+
+| URL | Response body | 示例 |
+| --- | --- | --- |
+| GET /v1/match | {status: OK} | OK = /v1/match?token=cccccccc |
+|  | {status: FAIL} | FAIL = /v1/match?token=cccccccb<br>FAIL = /v1/match?token=aaaaaaaaa |
+| GET /health | {status: OK} | /health |
+
+- Stress
+Stress 应用程序包含用于负载测试的 API。调用 /v1/stress 会消耗大量 CPU。/v1/random 的响应返回时间最长可能需要 40 秒。
+
+| URL | Response | 示例 |
+| --- | --- | --- |
+| GET /v1/stress | {status: OK} | /v1/stress |
+| GET /v1/random | {status: OK} | /v1/random |
+| GET /health | {status: OK} | /health |
+
+云计算 第1任务 7 - 3
+
+5. Bastion
+为访问服务器及评分，配置 Bastion 服务器。若无法访问该服务器则无法评分，因此必须确保可通过 SSH 连接且无权限问题。Bastion 在使用 awscli 时必须具有与 Admin Policy 相对应的权限。使用 kubectl 时也必须无集群访问问题并拥有所有权限。
+- EC2 type : c5.large
+- 镜像 : Amazon Linux2
+- 安装包 : awscli, jq, curl, kubectl
+- Tag : Name=skills-bastion
+
+6. 容器化
+必须将应用程序制作成容器后部署到 Kubernetes。首先创建容器镜像，然后上传到 ECR。ECR 类型为 private。容器在 Kubernetes 中运行，通过 kubectl exec 命令进行 ssh 访问时，match app 必须直接以名为 match 的用户访问，stress app 必须直接以名为 stress 的用户访问，Golang app 进程也必须以该用户运行。请在容器镜像中安装好软件包，以便可以使用 curl 命令。充当版本角色的镜像 Tag 设置为 latest。
+- ECR 名称 : match-ecr
+- 用户名 : match
+- Stress ECR 名称 : stress-ecr
+- Stress 用户名 : stress
+
+7. CodeCommit
+为存储 Kubernetes yaml 文件而创建 codecommit。仅用于存储 Yaml 文件，不需要单独的 CI/CD。
+- Codecommit name = skills-code
+
+云计算 第1任务 7 - 4
+
+8. Kubernetes
+为运行应用程序而创建 Kubernetes 集群。创建两个节点组。Stress、match 应用程序 Pod 必须部署到 skills-app 节点组，额外安装的 addon（CA、Calico 等）必须部署到 skills-addon 节点组。但 addon 中以 daemonset 形式部署的容器必须部署到所有节点。match、stress pods 绝不能放置到 addon 节点。利用 Cluster-Autoscaler 设置当 Pods 的 CPU 超过 60% 时进行 scale-out。Pod 增加时，Node 也必须自动增加。向 Pods 添加名为 skills/version = v1 的 label。必须为 Stress 和 match 应用程序的所有容器指定该 label，并且 deployment.yaml 文件中必须定义该 label。match 和 stress 应用程序的资源（pods、ingress 等）必须全部存在于名为 skills 的 namespace 中。
+评分时，Kubernetes 资源会通过定义的 yaml 文件反复创建和删除。必须配置文件，避免遗漏设置。
+- EKS 名称 : skills-cluster
+- EKS logging : Control plane 必须存储全部 5 种日志（API server、audit 等）
+- EKS version : 1.22.0
+- Node group Name: skills-app, skills-addon
+- Node group EC2 type = c5.large
+- Node group subnet = private subnets
+- Node min size = 2（无工作负载时也必须保持为 2 个）
+- Node label : skills/dedicated: app, skills/dedicated: addon
+- Pod label(match, stress): “skills/version: v1”
+
+9. 部署
+将用于将 Stress 和 match 应用程序部署到 K8s 的 deployment.yaml 在 codecommit 中管理。通过 Rollout 重启或使用 deployment.yaml 部署时，不得丢失正在处理的流量或将其作为错误处理。部署时间不得超过 5 分钟。部署测试时利用 stress app 进行评分，不进行每秒注入 10 件以上负载的部署测试。
+
+云计算 第1任务 7 - 5
+
+10. 安全设置
+在 EKS 中使用 Calico 进行容器网络隔离。Stress 和 match 容器之间在 Kubernetes 网络内必须无法互相通信。如果 Stress pod 能调用 match pod，则视为错误。反之亦然。评分时通过 Kubernetes 的 Service 访问，不得设置为删除 Kubernetes 默认创建的 Linux 环境变量 Service 的 IP。允许 stress 和 match 应用程序对外部进行 DNS、HTTP、HTTPS 访问。请创建 networkpolicy.yaml 文件并上传到 codecommit。
+(/match/networkpolicy.yaml, /stress/networkpolicy.yaml)
+
+11. LB
+
+Match 应用程序和 Stress 应用程序的 K8S Ingress 创建时，应自动创建 AWS ALB。
+为了安全，通过负载均衡器访问时，除给定的 /v1/* API 外，其他调用应返回 403 响应码。ALB 监听的端口设置为 80。
+创建 ingress.yaml 文件进行管理，并上传到 CodeCommit 中。不要进行手动设置，即使使用 kubectl 命令删除并重新创建，Ingress 和 ALB 也应自动创建。创建后，输入 kubectl get ingress match 时，address 栏中应显示 ALB 的地址。所有 Load Balancer 的 Security Group 均为 ingress anyopen。
+Ingress 名称
+match
+stress
+
+CodeCommit 中的文件名
+/match/ingress.yaml
+/stress/ingress.yaml
+
+云计算第1次作业 7 - 6
+
+网络
+外部
+内部
+
+12. 监控
+配置 CloudWatch 的 dashboard 页面，以便能够监控 skills-app 节点组的 EC2 CPU、Network(IN/OUT) 信息。指标周期为 1 分钟，值的统计以平均值为基准。
+- Dashboard 名称 = worker
+- CPU Graph 名称 = WORKER CPU
+- CPU Graph metric = CPUUtilization
+- Network Graph 名称 = WORKER NETWORK
+- Network Graph metrics = NetworkOut, NetworkIn
+使 stress 应用程序的监控也能在 dashboard 中进行。通过 ALB 的 metrics 配置为可监控 Total request count、Average latency、5xx errors(ELB) 信息。指标周期为 1 分钟，统计方式因指标而异。
+- Dashboard 名称 = stress
+- Total request count Graph 名称 = STRESS REQ COUNT
+- Total request count Graph metric = ALB RequestCount
+- Average latency Graph 名称 = STRESS RES TIME
+- Average latency Grph metric = ALB TargetResponseTime
+- 5xx errors Graph 名称 = STRESS 5xx
+- 5xx errors Graph metric = HTTPCode_ELB_5XX_Count
+
+云计算第1次作业 7 - 7

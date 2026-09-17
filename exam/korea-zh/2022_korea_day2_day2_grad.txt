@@ -1,0 +1,738 @@
+2022 庆尚南道第57届全国技能大赛评分标准
+1. 评分注意事项
+
+职业名称
+
+云计算
+
+※ 请注意以下事项进行评分。
+1) AWS的区域使用 ap-northeast-2。
+2) 网页访问使用 Chrome 或 Firefox。
+3) 网页中根据语言不同，显示的文字可能不同。
+4) shell 中命令的输出可能因版本而略有不同。
+5) 试题和评分表中的 <> 是变量。请修改该部分后输入。
+6) 对于有资源修改的题目，评分必须按顺序进行。
+7) 已删除的评分资料无法恢复，请注意进行；在异议申请完成之后，删除选手创建的云资源。
+8) 有部分分数的题目，在评分项中写有部分分数。
+9) 没有单独部分分数的题目，必须全部正确才被认定为得分。
+
+云计算 第2题 评分标准 10 - 1
+
+2. 评分标准表
+1) 主要项目分值
+
+任务
+
+序号
+
+编号
+
+第2题
+
+职业名称
+
+云计算
+
+评分方法
+主要项目
+
+分值
+独立
+
+合议
+
+评分时间
+比赛
+
+比赛
+
+进行中 结束后
+
+1
+
+网络配置
+
+9.8
+
+○
+
+○
+
+2
+
+Code Commit
+
+3
+
+○
+
+○
+
+3
+
+Code Build
+
+1.5
+
+○
+
+○
+
+4
+
+Code Deploy
+
+4.4
+
+○
+
+○
+
+5
+
+Code Pipeline
+
+4.5
+
+○
+
+○
+
+6
+
+Route53
+
+3
+
+○
+
+○
+
+7
+
+Load Balancer
+
+3
+
+○
+
+○
+
+8
+
+Application
+
+1.5
+
+○
+
+○
+
+9
+
+Deployment
+
+7.5
+
+○
+
+○
+
+10
+
+Bastion
+
+1.8
+
+○
+
+○
+
+合计
+
+40
+
+云计算 第2题 评分标准 10 - 2
+
+备注
+
+2) 评分方法及标准
+任务
+
+序号
+
+编号
+
+1
+
+第2题
+
+主要项目
+
+网络配置
+
+2
+
+Code Commit
+
+3
+
+Code Build
+
+4
+
+5
+
+Code Deploy
+
+Code Pipeline
+
+6
+
+Route53
+
+7
+
+Load Balancer
+
+8
+
+Application
+
+9
+
+10
+
+Deployment
+
+Bastion
+
+序号
+
+细项（评分方法）
+
+分值
+
+1
+
+VPC 创建
+
+0.7
+
+2
+
+CIDR private a 配置
+
+0.7
+
+3
+
+CIDR private b 配置
+
+0.7
+
+4
+
+CIDR private c 配置
+
+0.7
+
+5
+
+CIDR public a 配置
+
+0.7
+
+6
+
+CIDR public b 配置
+
+0.7
+
+7
+
+CIDR public c 配置
+
+0.7
+
+8
+9
+
+AZ A-zone 配置
+AZ B-zone 配置
+
+0.7
+0.7
+
+10
+
+AZ C-zone 配置
+
+0.7
+
+11
+
+Interget G/W 配置
+
+0.7
+
+12
+13
+
+NAT G/W A-zone 配置
+NAT G/W B-zone 配置
+
+0.6
+0.75
+
+14
+
+NAT G/W C-zone 配置
+
+0.75
+
+1
+
+Code commit 创建
+
+1.5
+
+2
+1
+
+Branch 配置
+Code Build 创建
+
+1.5
+1.5
+
+1
+
+Code deploy 创建
+
+1.1
+
+2
+
+Code deploy 类型配置
+
+1.1
+
+3
+4
+
+Code deploy ECS 配置
+Code deploy Target Group
+
+1.1
+1.1
+
+1
+
+Pipeline source 配置
+
+1.5
+
+2
+
+Pipeline build 配置
+
+1.5
+
+3
+1
+
+Pipeline deploy 配置
+Hosted zone 配置
+
+1.5
+1.5
+
+2
+
+Record 配置
+
+1.5
+
+1
+
+Load Balancer Type
+
+1.5
+
+2
+1
+
+Load Balancer AZ 配置
+动作测试
+
+1.5
+1.5
+
+1
+
+CI/CD
+
+1.5
+
+2
+
+ECR 上传确认
+
+1.5
+
+3
+4
+
+部署应用程序确认
+部署回滚流水线确认
+
+1.5
+1.5
+
+5
+
+部署确认
+
+1.5
+
+1
+
+Bastion 创建
+
+0.8
+
+2
+
+EIP
+
+1
+
+编号
+
+总分
+
+云计算 第2题 评分标准 10 - 3
+
+40
+
+3) 评分内容
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+
+1-1
+
+2) 输入以下命令。
+aws ec2 describe-vpcs --filter Name=tag:Name,Values=skills-vpc --query "Vpcs[].CidrBlock"
+3) 确认是否输出 10.10.0.0/16。
+1) 通过 SSH 访问 Bastion 服务器。
+
+1-2
+
+2) 输入以下命令后，确认是否输出 10.10.0.0/24。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-priv-a --query \
+“Subnets[].CidrBlock”
+1) 通过 SSH 访问 Bastion 服务器。
+
+1-3
+
+2) 输入以下命令后，确认是否输出 10.10.1.0/24。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-priv-b --query \
+“Subnets[].CidrBlock”
+1) 通过 SSH 访问 Bastion 服务器。
+
+1-4
+
+2) 输入以下命令后，确认是否输出 10.10.2.0/24。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-priv-c --query \
+“Subnets[].CidrBlock”
+1) 通过 SSH 访问 Bastion 服务器。
+
+1-5
+
+2) 输入以下命令后，确认是否输出 10.10.10.0/24。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-pub-a --query \
+“Subnets[].CidrBlock”
+1) 通过 SSH 访问 Bastion 服务器。
+
+1-6
+
+2) 输入以下命令后，确认是否输出 10.10.11.0/24。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-pub-b --query \
+“Subnets[].CidrBlock”
+1) 通过 SSH 访问 Bastion 服务器。
+
+1-7
+
+2) 输入以下命令后，确认是否输出 10.10.12.0/24。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-pub-c --query \
+“Subnets[].CidrBlock”
+
+云计算 第2题 评分标准 10 - 4
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+
+1-8
+
+2) 输入以下命令后，确认是否输出 ap-northeast-2a。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-priv-a --query \
+“Subnets[].AvailabilityZone”
+1) 通过 SSH 访问 Bastion 服务器。
+
+1-9
+
+2) 输入以下命令后，确认是否输出 ap-northeast-2b。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-priv-b --query \
+“Subnets[].AvailabilityZone”
+1) 通过 SSH 访问 Bastion 服务器。
+
+1-10
+
+2) 输入以下命令后，确认是否输出 ap-northeast-2c。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=skills-priv-c --query \
+“Subnets[].AvailabilityZone”
+1) 通过 SSH 访问 Bastion 服务器。
+
+1-11
+
+2) 输入以下命令后，确认是否输出以 igw- 开头的文字。
+aws ec2 describe-route-tables --filter Name=tag:Name,Values=skills-pub-rt \
+--query “RouteTables[].Routes[].GatewayId”
+1) 通过 SSH 访问 Bastion 服务器。
+
+1-12
+
+2) 输入以下命令后，确认是否输出以 nat- 开头的文字。
+aws ec2 describe-route-tables --filter Name=tag:Name,Values=skills-priv-a-rt \
+--query “RouteTables[].Routes[].NatGatewayId”
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出以 nat- 开头的文字。并确认是否与 1-12 中输出的
+
+1-13
+
+Id 不同。
+aws ec2 describe-route-tables --filter Name=tag:Name,Values=skills-priv-b-rt \
+--query “RouteTables[].Routes[].NatGatewayId”
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出以 nat- 开头的文字。并确认是否与 1-13 中输出的
+
+1-14
+
+Id 不同。
+aws ec2 describe-route-tables --filter Name=tag:Name,Values=skills-priv-c-rt \
+--query “RouteTables[].Routes[].NatGatewayId”
+
+云计算 第2题 评分标准 10 - 5
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+
+2-1
+
+2) 输入以下命令后，确认是否有输出 skills-commit 的部分。
+aws codecommit list-repositories
+1) 通过 SSH 访问 Bastion 服务器。
+
+2-2
+
+2) 输入以下命令后，确认是否输出 upstream。
+aws codecommit get-branch --repository-name skills-commit --branch-name upstream --query
+branch.branchName
+1) 通过 SSH 访问 Bastion 服务器。
+
+3-1
+
+2) 输入以下命令后，确认是否有输出 skills-build。
+aws codebuild list-projects --query projects
+1) 通过 SSH 访问 Bastion 服务器。
+
+4-1
+
+2) 输入以下命令后，确认是否输出 ECS。
+aws deploy get-application --application-name skills-app --query application.computePlatform
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出 BLUE/GREEN。
+
+4-2
+
+aws deploy get-deployment-group --application-name skills-app --deployment-group-name \
+skills-dg --query deploymentGroupInfo.deploymentStyle.deploymentType
+
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws deploy get-deployment-group --application-name skills-app --deployment-group-name \
+
+4-3
+
+skills-dg --query deploymentGroupInfo.ecsServices
+3) 确认输出结果是否如下。
+"clusterName": "skills-cluster",
+"serviceName": "skills-svc"
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws deploy get-deployment-group --application-name skills-app --deployment-group-name \
+
+4-4
+
+skills-dg --query "deploymentGroupInfo.loadBalancerInfo.targetGroupPairInfoList[].targetGroups[]"
+3) 确认输出内容是否包含以下内容。
+"name": "skills-tg1"
+"name": "skills-tg2"
+
+云计算第二次作业评分标准 10 - 6
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+
+5-1
+
+2) 输入以下命令后，确认是否输出 skills-commit。
+aws codepipeline get-pipeline --name skills-pipeline --query \
+"pipeline.stages[0].actions[].configuration.RepositoryName"
+1) 通过 SSH 访问 Bastion 服务器。
+
+5-2
+
+2) 输入以下命令后，确认是否输出 skills-build。
+aws codepipeline get-pipeline --name skills-pipeline --query \
+"pipeline.stages[1].actions[].configuration.ProjectName"
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出 skills-app。
+aws codepipeline get-pipeline --name skills-pipeline --query \
+
+5-3
+
+"pipeline.stages[2].actions[].configuration.ApplicationName"
+4) 输入以下命令后，确认是否输出 skills-dg。
+aws codepipeline get-pipeline --name skills-pipeline --query \
+"pipeline.stages[2].actions[].configuration.DeploymentGroupName"
+1) 通过 SSH 访问 Bastion 服务器。
+
+6-1
+
+2) 输入以下命令后，确认是否输出 true。
+aws route53 list-hosted-zones --query 'HostedZones[?Name == `skills.local.`].Config.PrivateZone'
+1) 通过 SSH 访问 Bastion 服务器。
+
+6-2
+
+2) 输入 nslookup app.skills.local。
+3) 确认是否无错误并正确输出 IP。
+1) 通过 SSH 访问 Bastion 服务器。
+
+7-1
+
+2) 输入以下命令后，确认是否输出 application。
+aws elbv2 describe-load-balancers --query 'LoadBalancers[?LoadBalancerName == `skills-alb`].Type'
+
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+7-2
+
+aws elbv2 describe-load-balancers --query \
+'LoadBalancers[?LoadBalancerName == `skills-alb`].AvailabilityZones[].ZoneName'
+3) 确认是否如下所示输出 3 个 AZ。
+"ap-northeast-2a", "ap-northeast-2b", "ap-northeast-2c"
+
+云计算第二次作业评分标准 10 - 7
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+
+8-1
+
+2) 输入以下命令，确认是否输出 BLUE。
+curl http://app.skills.local/v1/dummy
+1) 转到 AWS Web 控制台。
+2) 转到 Code Commit 页面并选择 skills-commit。
+3) 打开 upstream branch 的 main.go 文件。
+4) 将文件内容中如下所示第 13 行的 BLUE 部分修改为 GREEN。
+
+5) 转到 Code Pipeline 页面并选择 skills-pipeline。
+6) 确认执行时间，确认是否是在刚才代码更改后启动的。确认 Source、Build、Deploy 状态
+是否都变为绿色的 Succeeded，完成最多可能需要 7 分钟左右。
+
+9-1
+8) 点击 Deploy 的 details 后，在 Deployment status 中确认 Step1 ~ Step4 是否都是 Successded，
+在 Traffic shifting progress 中确认 Replacement 是否为 100%。
+
+1) 转到 AWS Web 控制台。
+2) 转到 ECR 页面。
+3) 选择 skills-ecr。
+
+9-2
+
+4) 确认刚才的镜像是否以如下格式上传。时间为韩国时间标准。
+
+年-月-日.时.分.秒 (2022-06-26.09.01.59)
+
+云计算第二次作业评分标准 10 - 8
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+
+9-3
+
+2) 输入以下命令，确认是否输出 GREEN。
+curl http://app.skills.local/v1/dummy
+1) 转到 AWS Web 控制台。
+2) 转到 Code Commit 页面。
+3) 选择 skills-commit。
+4) 打开 upstream branch 的 main.go 文件。
+5) 修改文件内容中如下所示的两处。如下方图片所示，将第 13 行中 GREEN 的部分
+改为 RED，将第 19 行的 :80 改为 :88 后保存。
+
+6) 转到 Code Pipeline 页面并选择 skills-pipeline。
+7) 检查各阶段，确认 Pipeline 是否在刚才代码更改后执行。
+
+9-4
+
+8) 确认 Source 和 Build 成功完成并变为 Succeeded，且 Deploy 阶段是否持续为 In progress。
+当 In progress 状态持续 3 分钟以上–5 分钟以下时，点击 Details。
+
+9) 确认 Install 部分是否如下方图片所示显示为 In progress。
+
+1) 通过 SSH 访问 Bastion 服务器。
+
+9-5
+
+2) 输入以下命令，确认是否输出 GREEN。如果输出 BLUE 或 RED，则失败。
+curl http://app.skills.local/v1/dummy
+
+云计算第二次作业评分标准 10 - 9
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+
+10-1
+
+2) 输入以下命令，确认是否有以 “-i” 开头的结果。
+aws ec2 describe-instance --filter Name=tag:Name,Values=skills-bastion2 \
+--query ‘Reservations[].Instances[].InstanceId’
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令并记录输出的 IP。
+
+10-2
+
+aws ec2 describe-instances --filter Name=tag:Name,Values=skills-bastion2 \
+--query “Reservations[].Instances[].PublicIpAddress”
+3) 输入以下命令后，确认输出的 IP 中是否有第 2) 步输出的 IP。
+aws ec2 describe-addresses --query “Addresses[].PublicIp”
+
+云计算第二次作业评分标准 10 - 10

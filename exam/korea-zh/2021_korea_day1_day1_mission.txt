@@ -1,0 +1,180 @@
+2021 大田广域市 第56届全国技能大赛 课题
+职 种 名
+
+云计算
+
+课 题 名
+
+比赛时间
+
+4小时
+
+编 号
+
+Web Service
+Provisioning
+
+课题编号
+评委
+确
+
+认
+
+第1课题
+(印)
+
+1. 需求事项
+使用 AWS 服务构建可运营 Web 服务的云平台。
+基于给定架构，综合考虑高可用性和性能等多种因素，构建能够运行 Web 应用程序的云平台。通过 AWS 提供的解决方案，更快、更稳定地构建，这就是你的任务。
+架构图
+
+Software Stack
+
+- CloudWatch
+
+- AWS
+- VPC
+- EC2(Autoscaling)
+
+- 开发语言/框架
+- Python / Flask
+
+- LoadBalancer
+- S3
+- CloudFront
+
+云计算 第1课题 1 - 6
+
+2. 选手注意事项
+1) 使用机械及工具等时请注意安全，必要时请佩戴安全装备及服装等，以预防事故。
+2) 作业中请注意预防烫伤、触电、擦伤等安全事故，使用工具或作业工具时请佩戴安全防护用品，遵守安全守则。
+3) 作业中请注意工具的使用，遵守安全守则以预防事故。
+4) 比赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+5) 选手的账户存在费用限制，若产生高于该限制的费用，账户可能无法使用。
+6) 题目中给出的括号框 <> 表示变量，选手需适当更改后使用。
+7) 为提高题目效率，Security Group 的 80/443 outbound 可设为 anyopen 使用。
+8) Bastion EC2 在评分时会使用，请注意不要将其终止而遭受不利。
+9) 课题结束时请终止所有正在进行的测试，以免对服务器产生负载。
+
+3. Cloud Netowkring
+参考以下需求事项，构建能够对云基础设施进行网络级别隔离和分离的 VPC。Private subnet 必须各自拥有独立的 route table。Public Subnet 拥有一个 route table。名称最后附带的字母表示 ZONE。
+VPC 信息
+- VPC CIDR : 10.1.0.0/16
+- VPC Tag : Name=wsi-vpc
+Private A subnet 信息
+- CIDR : 10.1.0.0/24
+- Tag : Name=wsi-private-a
+- 外部通信 : 配置 NAT G/W 以使其能够访问互联网
+- Route table Tag : Name=wsi-private-a-rt
+Private B subnet 信息
+- CIDR : 10.1.1.0/24
+- Tag : Name=wsi-private-b
+- 外部通信 : 配置 NAT G/W 以使其能够访问互联网
+- Route table Tag : Name=wsi-private-b-rt
+云计算 第1课题 2 - 6
+
+Public A subnet 信息
+- CIDR : 10.1.2.0/24
+- Tag : Name=wsi-public-a
+- 外部通信 : 配置 Internet G/W 以访问互联网
+- Route table Tag : Name=wsi-public-rt
+Public B subnet 信息
+- CIDR : 10.1.3.0/24
+- Tag : Name=wsi-public-b
+- 外部通信 : 配置 Internet G/W 以访问互联网
+- Route table Tag : Name=wsi-public-rt
+
+4. S3 hosting
+使用以下信息创建 S3 存储桶，并将提供的 s3.tar 中的所有文件上传至 s3。这些文件之后必须能够通过 CloudFront 访问。
+- 存储桶名称 : wsi-<编号>-<4位任意英文字母>-web-static
+
+5. Bastion 服务器
+利用 EC2 构建 Bastion 服务器。该服务器位于 public 区，即使 stop 后重新启动，public ip 也不得更改。外部 SSH 访问需通过该 bastion 服务器进行访问。评分时也会使用，请勿终止实例以免遭受不利。
+评分时，Bastion 上任何用户调用 awscli 命令时，都必须设置为具有 PowerUser policy 权限。
+- EC2 type : t3.small
+- 镜像 : Amazon Linux2
+- 权限 : AWS PowerUser policy
+- 安装包 : awscli, jq, curl
+- Tag : Name=wsi-bastion-ec2
+
+6. Web 应用程序
+本课题中部署并使用的 Web 应用程序。具有 HTTP GET./v1/color 一个 API，根据接收到的查询字符串发送不同的响应值。接收名为 name 的参数时，对若干颜色返回 RGB 代码。推荐执行命令可能因环境不同而无法执行。仅为简单指南，执行时不使用推荐命令也无妨。
+使用 nginx、uWSGI 等多个线程接收工作负载等更好的方式运行应用程序也无妨。提供的应用程序二进制文件需创建 S3 存储桶并上传，以便能够在 EC2 中下载使用。提供的二进制文件不得修改源代码后使用。
+
+云计算 第1课题 3 - 6
+
+构建 Web 服务器时使用以下信息。
+#!/usr/bin/python3
+from flask import Flask, abort, request, jsonify
+
+- S3 名称(Artifactory) : wsi-<编号>-<4位任意值>-artifactory
+- 开发语言及框架 : Python3 / Flask
+- 日志信息 : 已在代码中实现保存至 /var/log/app/app.log
+- 推荐执行命令 : nohup python3 app.py &
+- Health check API : HTTP GET /health
+- 提供 API : HTTP GET /v1/color
+调用示例) http://localhost:8080/v1/color?name=red&hash=abcd
+响应示例) {code: fc4a07, name: orange}
+(value 可能不同，但具有 code, name key)
+- Listen port : TCP 8080
+- 库信息
+#!/usr/bin/python3
+from flask import Flask, abort, request, jsonify
+
+7. 自动扩展
+配置使 Web 应用程序能够在 EC2 上运行。通过自动扩展组创建 EC2。接收大量工作负载时应自动增加 EC2，并通过自动化无需额外配置即可使 Web 服务器运行。即使实例新创建，若 Web 应用程序不能自动运行，则视为无法运行。该服务器必须能够下载题目中创建的 artifactory 中的文件。但必须配置为没有上传权限。评分过程中服务器可能被删除，autoscaling size 也可能设置为 0。不得通过 protection 选项等设置使服务器绝对不被终止。
+- 自动扩展组/EC2 名称 : wsi-web-api-asg
+- 镜像 : Amazon Linux2
+- EC2 type : t3.small
+- 安装包 : jq, curl
+- Tag : Name=wsi-web-api-asg
+- Scale-up : 配置为平均 CPU 使用率达到 30 以上时进行 scale-up
+- 高可用性 : 配置为即使一台 EC2 宕机服务也能运行
+- EC2 Tag : Name=wsi-web-api-asg (创建的 EC2 名称也具有相同的 Name 标签)
+- Time : 配置为最多 6 分钟内实例能够新创建或终止
+
+云计算 第1课题 4 - 6
+
+8. 负载均衡器
+利用 ALB 配置将工作负载分散到多台 wsi-web-api-asg EC2。wsi-webapp-asg 服务器必须仅通过负载均衡器接收 HTTP 请求。其他外部 PC 或 Bastion 不经负载均衡器直接发起 HTTP 请求时，请求必须被拦截。
+- Network facing : 配置为可从互联网访问 LB
+- Listen : 配置为可通过 HTTP 80 访问
+- 名称 : wsi-web-api-alb
+- Tag : Name-wsi-web-api-alb
+
+9. Cloud Front
+通过 CloudFront 使 Web 服务可访问。通过缓存，用户可通过浏览器访问 CloudFront 地址，以更快的速度使用 Web 服务。第4项中配置的 S3 中上传的静态文件必须被缓存。但对于第8项中配置的 ALB 的请求不得缓存，Query String 也必须全部传递到 origin。
+- 协议 : 配置为访问 CloudFront 时可通过 HTTPS 访问
+- Origin : 配置为具有 S3 和 ALB 两个 origin
+- Edge : 配置为不仅韩国，全球用户都能快速访问
+- Tag : Name=wsi-web-cdn
+- 其他 : 为防止评分时误操作，禁用 IPv6，且仅创建一个 CloudFront
+
+10. 日志
+保存服务器中产生的日志。配置使 wsi-web-api-asg 服务器留下的 app 日志保存至 CloudWatch Logs。
+- 日志组名称 : /aws/ec2/wsi
+- 日志流名称 : api_<EC2 ID>
+示例) api_i-xxxx0000
+
+云计算 第1课题 5 - 6
+
+11. 监控
+利用 CloudWatch 监控系统。为了在一处查看分散的指标，在 CloudWatch 中创建 Dash board。必须能够在同一个 dash board 中确认以下指标信息。一个 DashBoard 由多个图表组成，一个图表可包含一个以上的指标。所有图表的 period 设置为 1 分钟。
+- Dash board 名称 : WSI_API
+- HTTP ERROR 图表
+- 图表名称 : HTTP_ERROR
+- 包含服务器的 5XX 响应值和 LB 的 5XX 响应值的指标
+- 统计错误数量，因此值必须以 sum 计算并显示
+- HTTP 请求 count 图表
+
+- 图表名称：HTTP_COUNT
+- 包含流入 LB 的 HTTP 请求数量指标
+- 通过聚合请求数量，值应以 sum 计算并显示
+- HTTP 响应时间图表
+- 图表名称：RESPONSE_TIME
+- 包含流入 LB 的 HTTP 请求的平均响应时间指标
+- Autoscaling EC2 CPU 图表
+- 图表名称：API_CPU
+- 包含 wsi-web-api-asg 实例的平均 CPU 使用率指标
+
+云计算第一次作业 6 - 6

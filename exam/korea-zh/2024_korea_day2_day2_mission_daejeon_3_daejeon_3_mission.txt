@@ -1,0 +1,96 @@
+2024年全国技能大赛
+职种名称
+
+云计算
+
+课题名称
+
+比赛时间
+
+4小时
+
+密号
+
+Small Challenge
+
+课题编号
+
+第2课题
+
+审查委员
+确认
+
+(印)
+
+1. 选手注意事项
+1) 使用机械设备及工具等时请注意安全，必要时请佩戴安全装备及服装等，以预防事故。
+2) 作业过程中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时，请遵守佩戴安全防护用品等安全规则。
+3) 作业中请注意工具的使用，遵守安全规则，预防事故。
+4) 比赛开始前请通过轻微拉伸等放松紧张，使用作业工具时请注意安全。
+5) 选手账号存在费用限制，如果计费超过该限制，可能无法使用账号。
+6) 题目中给出的尖括号 <> 表示变量，选手必须适当更改后使用。
+7) 将 EC2 实例的 TCP 80/443 outbound 设置为 anyopen，以便可以使用。
+8) 课题结束时，请终止所有正在进行的测试，以免服务器产生负载。
+9) 如无另行说明，请在 us-west-1 区域创建资源。
+10) 每道题 30 分钟，共 8 道题，比赛时间为 4 小时。
+
+云计算 第2课题 1 - 3
+
+o 使用 FluentBit 的 EKS 可观测性
+模块: 14) EKS 可观测性
+创建一台 EKS Cluster 和 Node Group。使用 EC2 作为 Worker Node，不另行配置扩缩容。所有容器必须由 wsi-ns namespace 管理。Pod 的日志使用 Fluent-Bit 配置，并使用 Sidecar Pattern 保存日志。保存到 CloudWatch Logs 时，必须转换为以下日志格式进行保存。日志保存时间配置为按韩国时间保存，不另行设置 TimeZone。此外，日志配置为在 /logs/app.log 路径中生成日志。
+将提供的 Python 应用容器化，并部署到 EKS wsi-ns namespace。通过 kubectl exec 命令访问容器时，必须能够访问 /app，并且容器配置为也可使用 curl 命令。即使不做任何设置，也要配置为至少运行 2 个。Default Container 指定为 "wsi-cnt"。
+- EC2 名称 : wsi-bastion-ec2
+- EKS Cluster 名称 : wsi-eks-cluster
+- EKS 版本 : 1.29
+- EKS Deployment 名称 : wsi-dpm
+- EKS Container 名称 : wsi-cnt
+- Fluent-Bit Container 名称 : fluent-bit-cnt
+- CloudWatch Log Group 名称 : /wsi/eks/log/
+- CloudWatch Log Stream 名称 : log-<Pod ID>
+
+| API 路径 | 状态码 | 响应体 |
+| --- | --- | --- |
+| /2xx | 200 | {‘status’: “200”} |
+| /3xx | 300 | {‘status’: “300”} |
+| /4xx | 400 | {‘status’: “400”} |
+| /5xx | 500 | {‘status’: “500”} |
+| /healthz | 200 | {‘status’: “ok”} |
+
+云计算 第2课题 2 - 3
+
+- 变更前日志格式
+2024-05-23 15:58:13,479 - - 127.0.0.1 8080 GET /2xx 200
+- 变更后日志格式
+{
+"year": “2024“,
+"month": “05”,
+"day": “23“,
+"hour": “15“,
+"minute": ”58“,
+"second": “13”,
+"ip": "127.0.0.1",
+"port": “8080“,
+"method": "GET",
+"path": "/2xx",
+"statuscode": “200”
+}
+
+（关于 Alter Log Format，Key 的位置无关。）
+- S/W Stack
+AWS 服务
+
+其他 S/W
+
+- VPC
+- EC2
+
+- Fluent-Bit
+
+- EKS
+
+- curl
+
+- ECR
+
+云计算 第2课题 3 - 3

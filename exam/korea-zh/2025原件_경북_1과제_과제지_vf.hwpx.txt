@@ -1,0 +1,272 @@
+# Source: /var/minis/shared/worldskills-cloud/github-repos/wsc2025-15-days-ago-task1-main/경북/과제지&배포파일/경북_1과제_과제지_vf.hwpx
+
+### Contents/section0.xml
+2025年全国技能竞赛任务
+<hp:sz width="50460" widthRelTo="ABSOLUTE" height="6804" heightRelTo="ABSOLUTE" protect="0"/><hp:pos treatAsChar="1" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="COLUMN" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/><hp:outMargin left="140" right="140" top="140" bottom="140"/><hp:inMargin left="510" right="510" top="141" bottom="141"/><hp:tr><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="5"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="12"><hp:t>职业名称
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="12"><hp:t>云计算
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="12"><hp:t>任务名称
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="12"><hp:t>Solution Architecture
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="12"><hp:t>任务编号
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="12"><hp:t>第1题
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="9"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="12"><hp:t>竞赛时间
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="12"><hp:t>4小时
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="12"><hp:t>保密编号
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="12"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="0" vertsize="1200" textheight="1200" baseline="1020" spacing="720" horzpos="0" horzsize="11916" flags="393216"/></hp:linesegarray></hp:p></hp:subList><hp:cellAddr colAddr="3" rowAddr="1"/><hp:cellSpan colSpan="1" rowSpan="1"/><hp:cellSz width="12938" height="3402"/><hp:cellMargin left="510" right="510" top="141" bottom="141"/></hp:tc><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="10"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="12"><hp:t>评委
+确    认
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="12"><hp:t>     (印)
+</hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="3200" vertsize="7084" textheight="7084" baseline="6021" spacing="1200" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="32" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="14"><hp:t>1. 要求
+云计算 第1题 
+ -
+
+</hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="0" vertsize="1200" textheight="1200" baseline="1020" spacing="720" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p></hp:subList></hp:footer></hp:ctrl><hp:t>为了提供Web服务，希望部署并运营REST API。REST API考虑到未来的扩展性、稳定性等，已按照MSA(Micro Service Architecture)模式进行设计和开发。在运营MSA模式的REST API方面，选择了具有多种优势的容器基础环境，并且为了高效的容器管理，选择了编排工具Kubernetes。除此之外，请综合考虑性能、安全、高可用性、运营效率、可持续性等多种因素，部署应用程序并构建基础设施。
+图表
+</hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="31404" vertsize="33478" textheight="33478" baseline="28456" spacing="720" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="0" vertsize="1000" textheight="1000" baseline="850" spacing="600" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="22" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="17"><hp:t>Software Stack
+云计算第1次作业 
+ - 
+</hp:run></hp:p></hp:subList></hp:footer></hp:ctrl><hp:t/></hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="1600" vertsize="1200" textheight="1200" baseline="1020" spacing="720" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="2147483648" paraPrIDRef="22" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:t>  
+<hp:sz width="35750" widthRelTo="ABSOLUTE" height="24066" heightRelTo="ABSOLUTE" protect="0"/><hp:pos treatAsChar="1" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="PARA" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/><hp:outMargin left="0" right="0" top="0" bottom="0"/><hp:inMargin left="1417" right="0" top="0" bottom="0"/><hp:tr><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="13"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="23" styleIDRef="21" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="18"><hp:t>AWS
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="23" styleIDRef="21" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="18"><hp:t>开发语言/框架
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="15"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="TOP" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="22" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="0"><hp:t>- VPC
+- Network Firewall
+- EC2
+ 
+云计算第1次作业 
+ - 
+</hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="0" vertsize="1200" textheight="1200" baseline="1020" spacing="720" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p></hp:subList></hp:footer></hp:ctrl><hp:t>- ELB
+- EKS
+- ECR
+- RDS
+CloudWatch
+IAM
+KMS
+OpenSearch
+Secrets Manager
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="TOP" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="22" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="0"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="0"><hp:t>- golang/gin
+- Github
+- External Secrets
+- Fluent Bit
+- Fluentd
+- Argo CD, Rollouts
+</hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="3520" vertsize="24066" textheight="24066" baseline="20456" spacing="720" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="2147483648" paraPrIDRef="22" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="14"><hp:t><hp:tab width="4000" leader="0" type="1"/>
+2. 选手注意事项
+  ※ 请考虑以下注意事项，完成需求。
+  1) 
+使用机械及工具等时请注意安全，必要时请佩戴安全装备及穿着防护服等，
+ 以预防事故。
+  2) 作业过程中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请佩戴安全防护用品，遵守安全守则。
+  3) 
+作业中请注意工具的使用，遵守安全守则，预防事故。
+  4) 比赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+  5) 
+题目中给出的括号框 
+< > 
+表示变量，选手需适当更改后使用。
+  6) 
+为提高解题和评分的效率，Security Group的80/443 Outbound允许使用Anyopen。
+  7) 
+Bastion EC2在评分时会使用，请注意不要因终止或连接问题、权限问题等而受到不利影响。
+  8) 所有资源均配置在首尔(ap-northeast-2)区域。
+  9) 提供的资料不做修改直接使用。修改提供的资料使用可能会受到不利影响。
+  10) 
+题目中未给出的值，应根据AWS Well-Architected Framework 6 pillars设置适当的值。
+  11) 创建不必要的资源可能会成为扣分因素。(e.g. 额外创建VPC)
+  12) 所有资源的名称、标签、变量与变量区分大小写。
+  13) 
+第1页的图表是抽象表达配置的图，具体配置应满足以下需求。(ex. 子网可以有2个以上。)
+3. VPC
+
+参考以下说明和 Reference01 的表格，配置 VPC。在运行 Application 的 Subnet 中，配置为 Image Download 时只能经由内部 Network 下载。（必须使用 ecr.dkr、s3 Endpoint。）
+4. VPC 之间的 Peering
+该 Architecture 中，Network 被分离为 2 个 VPC。各 VPC 必须能够相互通信，应用才能无问题地处理来自外部的请求。为使各 VPC 相互通信，使用 Peering Connection。
+peering connection name: skills-peering
+5. Network Firewall<hp:lineBreak/>
+配置 Network Firewall，以过滤通过 IGW 进入 VPC 内部的流量以及从 Bastion 发出的流量。通过 IGW 进入的流量，以及 VPC 内部通过 IGW 出去的流量，都必须经过 Network Firewall 所在的 Inspection Subnet。请充分考虑经过 PCX、IGW、NAT 等的流量走向，配置 Route table 的 Route。
+network firewall name : skills-firewall
+network firewall policy : skills-firewall-policy
+network firewall subnet : skills-inspect-subnet-a, skills-inspect-subnet-b
+5-1. Network Firewall Rule
+<hp:lineBreak/>
+配置以下规则，以便按条件阻断流量。
+阻断从 Bastion 发往外部 ifconfig.me 的 HTTP/HTTPS 请求。
+6. Bastion Server
+为了评分，使用 AWS EC2 创建 Bastion Server。必须配置为即使重启，IP 也不会变更，以免评分过程中 IP 突然变更。SSH 访问时，考虑到安全性，必须将 Port Number 更改为 2025。必须在 skills-hub-subnet-a Subnet 中运行。评分时以 Root user 进行，因此不能有 Package 相关错误，并且 IAM Role 仅使用 AdministratorAccess Policy 进行配置。必须能够通过 GitHub CLI 访问账号及 Repository。此外，将 Bastion EC2 配置为可以使用 KeyPair 及 Password 认证两种方式访问。
+Bastion Server 用于评分。
+如果配置错误，可能会在特定评分项目中受到不利影响，请注意。
+Instance Name Tag : skills-bastion
+Machine Image : Amazon Linux 2023
+Instance Type : t3.small
+Security Group Name Tag : skills-bastion-sg
+IAM Role Name Tag : skills-bastion-role
+Login Password : Skill53##
+Required Package : awscliv2, curl, jq, eksctl, kubectl, argocd cli, gh cli
+7. Secret Store
+将用于连接 Application Database 的环境变量保存到由 KMS 加密的 Secrets Manager 中进行管理。环境变量值不得直接指定到 Pod 中，必须配置为仅通过 Secrets Manager 中保存的值加载。（Environment Variables 详细信息请参考 Reference02）
+Application Secret Name : skills-secrets
+8. Application
+共有 Green、Red 两个 Application。提供的 binary 使用 golang/gin 开发，并在 x86 系统上构建。Application 运行时绑定的 Port Number 是 TCP/8080。此外，2 个 application 都通过 /health 检查 Application 状态。（Application 详细信息请参考 Reference02）
+9. RDBMS
+为了稳定高效地保存 Green、Red Application 数据，配置 RDBMS。使用 AWS 托管的 MySQL 兼容引擎，并以 default for major version 8.0 构建 Database。为方便 DB 管理，必须启用 Logging、Monitoring、Backtracking。此外，配置为可从 Bastion Server 访问 RDS。
+DB Cluster Name : skills-db-cluster
+Master username : admin
+Master password : Skill53##
+DB instance class : db.t3.medium
+DB Name : day1
+10. S3 Bucket
+为了轻松管理 ArgoCD 的应用程序，配置为使用 S3 Bucket 及 Helm Chart 管理 Manifest。此外，将用于评分的 v1.0.1 binary 上传到 S3。
+Bucket Name : skills-chart-bucket-<英文 4 位>
+App Chart : s3://skills-chart-bucket-<英文 4 位>/app
+v1.0.1 Binary Path : s3://skills-chart-bucket-<英文 4 位>/images/
+11. Container Registry
+将提供的 application 制作成 Image 后，保存到 AWS ECR Repository。上传到 ECR 的 Image 必须能够进行 KMS 加密和漏洞分析。不得存在漏洞。此外，以 v1.0.0 Tag 上传，并配置为如果存在相同 Tag 则无法上传。为了评分，在容器中安装 curl。
+Green image repository Name : skills-green-repo
+Red image repository Name : skills-red-repo
+12. Continuous Delivery<hp:lineBreak/>
+通过自动化应用程序的部署过程来提高工作效率，配置 CD 环境。首先，利用 S3 及 Helm Chart 配置 ArgoCD Application。Application 的 Chart source 使用 s3:// 格式的 S3 URI。配置一个名为 app 的 Chart，并在 GitHub 中创建名为 day1-values 的 Public Repository。在 day1-values 中分别编写用于 green、red 应用的 values 源，并据此配置 2 个名为 green、red 的 ArgoCD Application。在 ArgoCD 中 Sync 时，应用也必须根据 GitHub Repository 的 values 中指定的内容进行变更。但是，不能使用 githubusercontent、GitHub Pages 来获取 values。<hp:lineBreak/>（为了评分，将使用 v1.0.1 binary 的 Dockerfile 分别放置在 /home/ec2-user/images 文件夹下的 green、red 文件夹中。）
+Green Values File Name : green.values.yaml
+Red Values File Name   : red.values.yaml
+13. Container Orchestration
+为了将提供的 Application 部署到 Container 环境，使用 AWS EKS。必须能在 CloudWatch Logs 中查看 EKS Cluster Control Plane 产生的所有日志，并且 Secret Resource 必须进行 KMS Encryption。此外，Kubernetes API 必须无法从外部访问，并且只能从 Bastion Server 访问。为便于管理，所有 NodeGroup 都创建为 Managed NodeGroup，必须考虑最低限度的高可用性，并且 NodeGroup 必须在 Private 环境中运行。给定的 application 必须使用名为 skills 的 Namespace，在 EKS Cluster 内进行逻辑隔离。由于可能会部署新 Version 的 EKS Pod，必须考虑零停机部署进行配置。
+EKS Cluster Name : skills-eks-cluster
+EKS Cluster Version : 1.32
+Application Managed Nodegroup
+Application 必须在 Application NodeGroup 中运行。不得存在除此之外的其他 Resource，并且必须考虑高可用性。此外，该 NodeGroup 的 Node 必须具有 {skills:app} 这个 Label。
+NodeGroup Name : skills-app-nodegroup
+Node Instance Name Tag : skills-app-node
+Node Instance Type : t3.medium
+Addon Managed Nodegroup
+除 Application 之外的 AWS Load Balancer Controller 等 Addon 必须在 Addon NodeGroup 中运行。必须至少运行 2 个以上。此外，该 NodeGroup 的 Node 必须具有 {skills:addon} 这个 Label。
+NodeGroup Name : skills-addon-nodegroup
+Node Instance Name Tag : skills-addon-node
+Node Instance Type : t3.medium
+Fargate Profile
+为了部署 CoreDNS，使用 Fargate。除 CoreDNS 之外，其他资源不得存在于 Fargate Profile 中。
+Fargate Profile Name : skills-fargate-profile
+Label : {skills:coredns}
+EKS Deployments
+green Application Deployment Name : green-deploy
+red Application Deployment Name : red-deploy
+14. Logging
+
+为了收集 Application Log，使用 OpenSearch。为了收集日志，配置 Fluentd 从 Fluent Bit 接收日志并存储到 OpenSearch。Fluentd 必须按 Application Nodegroup 的每个节点运行 1 个 Pod 的方式运行，Fluent Bit 则配置为在应用程序 Pod 内以 Sidecar 方式运行。OpenSearch Dashboard 必须能够通过 Web 浏览器访问。此外，配置为不传递 /health 路径的日志。
+加载到 OpenSearch 的日志应以 JSON 格式解析并存储，且必须排除 /health 相关日志。（日志格式详细信息请参阅 Reference03）
+域名 : skills-opensearch
+版本 : 2.19
+数据节点实例类型 : r7g.medium.search
+数据节点数量 : 2
+主节点数量 : 3
+主用户名 : admin
+主密码 : Skill53##
+索引模式 : app-log
+15. 负载均衡器<hp:lineBreak/>
+为了能够从外部顺畅且安全地访问 Green、Red 应用程序，按照以下要求配置负载均衡器。必须能够使用 VPC Endpoint，通过 PrivateLink 在不经过互联网的情况下进行 NLB 之间的通信。<hp:lineBreak/><hp:lineBreak/>
+15-1 Internal ALB
+配置 Application Load Balancer，以便从内部安全地访问应用程序，并能够基于 L7 提供的各种数据分发请求。
+负载均衡器名称 : skills-alb
+负载均衡器方案 : internal 
+负载均衡器类型 : Application Load Balancer
+负载均衡器监听 : HTTP 80
+15-2 Internal NLB<hp:lineBreak/>
+配置 Internal 类型的 Network Load Balancer，以便 External NLB 能够通过 VPC Endpoint 安全地访问应用程序。
+负载均衡器名称 : skills-internal-nlb
+负载均衡器监听 : TCP 80
+15-3 External NLB<hp:lineBreak/>
+配置可从外部访问的 Network Load Balancer，以便 Hub VPC 能够通过 VPC Endpoint 安全地与 Internal NLB 通信。
+负载均衡器名称 : skills-nlb
+负载均衡器方案 : internet-facing
+负载均衡器监听 : TCP 80
+16. 监控
+使用 CloudWatch 的 Container Insights 功能构建监控系统。访问 Container Insights 页面时，必须能够一眼查看集群的信息（CPU、Memory、Nodes、Pods）。
+Reference01
+Hub VPC 
+-
+| 名称 | CIDR |
+| --- | --- |
+| skills-hub-vpc | 10.0.0.0/16 |
+
+Hub 子网 
+-
+| 名称 | CIDR |
+| --- | --- |
+
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="4"><hp:t>skills-hub-subnet-a
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="4"><hp:t>10.0.0.0/24
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="4"><hp:t>skills-hub-subnet-b
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="4"><hp:t>10.0.1.0/24
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="0" vertsize="1000" textheight="1000" baseline="850" spacing="600" horzpos="0" horzsize="24500" flags="393216"/></hp:linesegarray></hp:p></hp:subList><hp:cellAddr colAddr="0" rowAddr="3"/><hp:cellSpan colSpan="1" rowSpan="1"/><hp:cellSz width="25523" height="1748"/><hp:cellMargin left="510" right="510" top="141" bottom="141"/></hp:tc><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="0" vertsize="1000" textheight="1000" baseline="850" spacing="600" horzpos="0" horzsize="24080" flags="393216"/></hp:linesegarray></hp:p></hp:subList><hp:cellAddr colAddr="1" rowAddr="3"/><hp:cellSpan colSpan="1" rowSpan="1"/><hp:cellSz width="25101" height="1748"/><hp:cellMargin left="510" right="510" top="141" bottom="141"/></hp:tc></hp:tr><hp:tr><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="4"><hp:t>skills-inspect-subnet-a
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="4"><hp:t>10.0.2.0/24
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="4"><hp:t>skills-inspect-subnet-b
+
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="4"><hp:t>10.0.3.0/24
+</hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="14456" vertsize="10090" textheight="10090" baseline="8577" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="25"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="25026" vertsize="1200" textheight="1200" baseline="1020" spacing="720" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="2147483648" paraPrIDRef="33" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="2"><hp:t>应用 VPC 
+-
+<hp:sz width="50717" widthRelTo="ABSOLUTE" height="3096" heightRelTo="ABSOLUTE" protect="0"/><hp:pos treatAsChar="1" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="PARA" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/><hp:outMargin left="0" right="0" top="0" bottom="0"/><hp:inMargin left="510" right="510" top="141" bottom="141"/><hp:tr><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="17"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:t>名称
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:t>CIDR
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:t>skills-app-vpc
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:t>192.168.0.0/16
+</hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="28866" vertsize="3096" textheight="3096" baseline="2632" spacing="720" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="27"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="32682" vertsize="1200" textheight="1200" baseline="1020" spacing="720" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="2147483648" paraPrIDRef="33" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="2"><hp:t>应用子网 
+-
+<hp:sz width="50624" widthRelTo="ABSOLUTE" height="15334" heightRelTo="ABSOLUTE" protect="0"/><hp:pos treatAsChar="1" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="PARA" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/><hp:outMargin left="0" right="0" top="0" bottom="0"/><hp:inMargin left="510" right="510" top="141" bottom="141"/><hp:tr><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="17"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:t>名称
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:t>CIDR
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:t>skills-app-subnet-a
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:t>192.168.0.0/24
+
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="4"><hp:t>skills-app-subnet-b
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="4"><hp:t>192.168.1.0/24
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="0" vertsize="1000" textheight="1000" baseline="850" spacing="600" horzpos="0" horzsize="24500" flags="393216"/></hp:linesegarray></hp:p></hp:subList><hp:cellAddr colAddr="0" rowAddr="3"/><hp:cellSpan colSpan="1" rowSpan="1"/><hp:cellSz width="25523" height="1748"/><hp:cellMargin left="510" right="510" top="141" bottom="141"/></hp:tc><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="0" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="0" vertsize="1000" textheight="1000" baseline="850" spacing="600" horzpos="0" horzsize="24080" flags="393216"/></hp:linesegarray></hp:p></hp:subList><hp:cellAddr colAddr="1" rowAddr="3"/><hp:cellSpan colSpan="1" rowSpan="1"/><hp:cellSz width="25101" height="1748"/><hp:cellMargin left="510" right="510" top="141" bottom="141"/></hp:tc></hp:tr><hp:tr><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:t>skills-workload-subnet-a
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:t>192.168.2.0/24
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="4"><hp:t>skills-workload-subnet-b
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="4"><hp:t>192.168.3.0/24
+
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="0" vertsize="1000" textheight="1000" baseline="850" spacing="600" horzpos="0" horzsize="24500" flags="393216"/></hp:linesegarray></hp:p></hp:subList><hp:cellAddr colAddr="0" rowAddr="6"/><hp:cellSpan colSpan="1" rowSpan="1"/><hp:cellSz width="25523" height="1748"/><hp:cellMargin left="510" right="510" top="141" bottom="141"/></hp:tc><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="0" vertsize="1000" textheight="1000" baseline="850" spacing="600" horzpos="0" horzsize="24080" flags="393216"/></hp:linesegarray></hp:p></hp:subList><hp:cellAddr colAddr="1" rowAddr="6"/><hp:cellSpan colSpan="1" rowSpan="1"/><hp:cellSz width="25101" height="1748"/><hp:cellMargin left="510" right="510" top="141" bottom="141"/></hp:tc></hp:tr><hp:tr><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:t>skills-db-subnet-a
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="4"><hp:t>192.168.4.0/24
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="4"><hp:t>skills-db-subnet-b
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl></hp:run><hp:run charPrIDRef="4"><hp:t>192.168.5.0/24
+</hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="36522" vertsize="15334" textheight="15334" baseline="13034" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="32" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="30"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="54336" vertsize="1800" textheight="1800" baseline="1530" spacing="1080" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="32" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="30"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="59216" vertsize="1800" textheight="1800" baseline="1530" spacing="1080" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="32" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="30"><hp:t>Reference02
+环境变量 -
+<hp:sz width="40519" widthRelTo="ABSOLUTE" height="7148" heightRelTo="ABSOLUTE" protect="0"/><hp:pos treatAsChar="1" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="PARA" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/><hp:outMargin left="141" right="141" top="141" bottom="141"/><hp:inMargin left="510" right="510" top="141" bottom="141"/><hp:tr><hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:t>OS 环境
+
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:t>环境变量键（Environment Key）
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="21" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:t>描述（Description）
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="22" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:t>DB_USER
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="37" styleIDRef="21" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="31"><hp:t>用于连接 RDBMS 的用户名
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="22" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:t>DB_PASSWD
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="37" styleIDRef="21" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="31"><hp:t>用于连接 RDBMS 的用户密码
+<hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="4"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="22" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="4"><hp:t>DB_URL
+<hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0"><hp:p id="2147483648" paraPrIDRef="37" styleIDRef="21" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="31"><hp:t>用于连接 RDBMS 的主机名
+</hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="6800" vertsize="7430" textheight="7430" baseline="6316" spacing="1080" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="2147483648" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="2"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="15310" vertsize="1200" textheight="1200" baseline="1020" spacing="720" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="33" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="2"><hp:t>application -
+
+</hp:run><hp:linesegarray><hp:lineseg textpos="0" vertpos="19150" vertsize="20029" textheight="20029" baseline="17025" spacing="720" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="30"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="39899" vertsize="1800" textheight="1800" baseline="1530" spacing="1080" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="26"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="42779" vertsize="800" textheight="800" baseline="680" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="26"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="44059" vertsize="800" textheight="800" baseline="680" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="26"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="45339" vertsize="800" textheight="800" baseline="680" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="26"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="46619" vertsize="800" textheight="800" baseline="680" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="26"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="47899" vertsize="800" textheight="800" baseline="680" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="26"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="49179" vertsize="800" textheight="800" baseline="680" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="26"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="50459" vertsize="800" textheight="800" baseline="680" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="26"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="51739" vertsize="800" textheight="800" baseline="680" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="26"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="53019" vertsize="800" textheight="800" baseline="680" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="26"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="54299" vertsize="800" textheight="800" baseline="680" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="26"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="55579" vertsize="800" textheight="800" baseline="680" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="26"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="56859" vertsize="800" textheight="800" baseline="680" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="26"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="58139" vertsize="800" textheight="800" baseline="680" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="26"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="59419" vertsize="800" textheight="800" baseline="680" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="1" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="26"/><hp:linesegarray><hp:lineseg textpos="0" vertpos="60699" vertsize="800" textheight="800" baseline="680" spacing="480" horzpos="0" horzsize="51000" flags="393216"/></hp:linesegarray></hp:p><hp:p id="0" paraPrIDRef="32" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="30"><hp:t>Reference03
+{
+  "date": "2025/06/14",
+  "time": "07:21:30",
+  "timestamp": "2025-06-14T07:21:30Z",
+  "method": "GET",
+  "path": "/green",
+  "ip": "192.168.2.220",
+  "port": "43422"
+}
+
+
+### :: PREVIEW TEXT ::
+2025年度全国技能大赛试题
+<工种名称><云计算><试题名称><Solution Architecture><试题编号><第1题>
+<比赛时间><4小时><参赛编号><><评委确认><     (印)>
+1. 需求
+
+希望部署并运营用于提供 Web 服务的 REST API。该 REST API 考虑到未来的扩展性、稳定性等，已按照 MSA(Micro Service Architecture) 模式进行设计和开发。在运营 MSA 模式的 REST API 时，选择了具有多种优势的容器基础环境，并且为了高效管理容器，决定使用编排工具 Kubernetes。此外，请综合考虑性能、安全、高可用性、运营效率、可持续性等多种因素，部署应用程序并构建基础设施。
+
+图表
+
+
+Software Stack
+  <AWS><开发语言/框架>
+<- VPC - Network Firewall - EC2 - ELB - EKS - ECR - RDS CloudWatch IAM KMS OpenSearch Secrets Manager><- golang/gin - Github - External Secrets - Fluent Bit - Fluentd - Argo CD, Rollouts>
+ 
+
+2. 选手注意事项
+  ※ 请考虑以下注意事项，完成需求。
+  1) 使用机械及工具等时请注意安全，必要时请穿戴安全装备及服装等，预防事故。
+  2) 工作中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请遵守佩戴安全防护用具等安全守则。
+  3) 工作中请注意工具的使用，遵守安全守则，预防事故。
+  4) 比赛开始前请通过轻度拉伸等放松紧张，使用作业工具时请注意安全。
+  5) 题目中给出的括号框 <

@@ -1,0 +1,1206 @@
+2024 第2课题 全国技能竞赛 评分标准
+
+1. 评分注意事项
+
+工种名称
+
+云计算
+
+※ 评分时请注意以下事项。
+1) AWS 的区域使用各课题指定的 Region。
+2) 网页访问使用 Chrome 或 Firefox。
+3) 网页中根据语言不同，文字可能显示不同。
+4) shell 中命令的输出可能因版本不同而略有差异。
+5) 试题和评分表中的 <> 是变量。请更改该部分后输入。
+6) 评分必须按题目顺序进行。
+7) 已删除的评分资料无法恢复，请务必注意；在申诉完成之后，删除选手创建的云资源。
+8) 有部分分数的题目，评分项中写有部分分数。
+9) 没有单独部分分数的题目，必须全部正确才计分。
+10) 读取资源信息的评分项，原则上通过脚本结果进行评分；如果选手有异议，可以直接输入命令进行确认。
+11) [ ] 符号不影响评分。
+12) 命令输入框中的命令行是一行命令。如果没有单独指示，请原样复制框内全部内容并粘贴到 shell 中执行命令。
+13) （预期输出）表示紧接其前的（命令输入）的预期输出。
+
+2. 评分标准表
+
+1) 按主要项配分
+
+| 课题 | 序号 | 编号 | 评分方法 主要项 | 配分 | 独立 | 协议 | 评分时间 比赛中 | 评分时间 比赛结束后 | 备注 |
+|---|---|---|---|---|---|---|---|---|---|
+| 庆北2课题3号 | 1 |  | Elastic_stack | 3.0 | ○ | ○ |  |  |  |
+| 光州2课题3号 | 2 |  | Collect application logs using Fluent-bit and Fluentd | 3.0 | ○ | ○ |  |  |  |
+| 大田2课题3号 | 3 |  | EKS Observability with FluentBit | 3.0 | ○ | ○ |  |  |  |
+| 釜山2课题2号 | 4 |  | Governance | 3.0 | ○ | ○ |  |  |  |
+| 首尔2课题1号 | 5 |  | Image resizing on Edge location | 3.0 | ○ | ○ |  |  |  |
+| 首尔2课题3号 | 6 |  | IAM security maintenance system | 3.0 | ○ | ○ |  |  |  |
+| 济州2课题3号 | 7 |  | Secure networking | 3.0 | ○ | ○ |  |  |  |
+| 忠南2课题1号 | 8 |  | Dynamic IAM Role Authorization Enforcement | 3.0 | ○ | ○ |  |  |  |
+|  | 9 |  | ClientVPN | 3.0 | ○ | ○ |  |  |  |
+|  | 10 |  | Keycloack | 3.0 | ○ | ○ |  |  |  |
+| 合计 |  |  |  | 30 |  |  |  |  |  |
+
+2) 评分方法及标准
+
+| 课题 | 序号 | 编号 | 主要项 | 子项序号 | 子项（评分方法） | 配分 |
+|---|---|---|---|---|---|---|
+| 庆北2课题3号 | 1 |  | Elastic_stack | 1 | Bastion EC2 – 实例类型确认 | 0.2 |
+| 庆北2课题3号 | 1 |  | Elastic_stack | 2 | App EC2 – 实例类型确认 | 0.2 |
+| 庆北2课题3号 | 1 |  | Elastic_stack | 3 | Web 应用程序 - API 请求确认 | 0.4 |
+| 庆北2课题3号 | 1 |  | Elastic_stack | 4 | OpenSearch – 域确认 | 0.4 |
+| 庆北2课题3号 | 1 |  | Elastic_stack | 5 | OpenSearch – 详细设置确认 | 0.8 |
+| 庆北2课题3号 | 1 |  | Elastic_stack | 6 | OpenSearch – 日志确认 | 1 |
+| 光州2课题3号 | 2 |  | 使用 Fluent-bit 和 Fluentd 收集应用程序日志 | 1 | 基本部署配置确认 | 0.6 |
+| 光州2课题3号 | 2 |  | 使用 Fluent-bit 和 Fluentd 收集应用程序日志 | 2 | 集中式日志记录确认 | 1.2 |
+| 光州2课题3号 | 2 |  | 使用 Fluent-bit 和 Fluentd 收集应用程序日志 | 3 | 应用程序日志记录 | 1.2 |
+| 大田2课题3号 | 3 |  | 使用 FluentBit 的 EKS 可观测性 | 1 | EKS – EKS Cluster 创建确认 | 0.24 |
+| 大田2课题3号 | 3 |  | 使用 FluentBit 的 EKS 可观测性 | 2 | EKS – Namespace 确认 | 0.24 |
+| 大田2课题3号 | 3 |  | 使用 FluentBit 的 EKS 可观测性 | 3 | CloudWatch Log Group 创建确认 | 0.24 |
+| 大田2课题3号 | 3 |  | 使用 FluentBit 的 EKS 可观测性 | 4 | EKS Setting – Deployment 确认 | 0.24 |
+| 大田2课题3号 | 3 |  | 使用 FluentBit 的 EKS 可观测性 | 5 | EKS Setting – Sidecar Pattern 确认 | 0.64 |
+| 大田2课题3号 | 3 |  | 使用 FluentBit 的 EKS 可观测性 | 6 | Application – Application 确认 | 0.4 |
+| 大田2课题3号 | 3 |  | 使用 FluentBit 的 EKS 可观测性 | 7 | Application – CloudWatch Log Stream 创建确认 | 0.44 |
+| 大田2课题3号 | 3 |  | 使用 FluentBit 的 EKS 可观测性 | 8 | Application – 日志格式确认 | 0.56 |
+| 釜山2课题2号 | 4 |  | 治理 | 1 | EC2 服务器配置 | 0.4 |
+| 釜山2课题2号 | 4 |  | 治理 | 2 | IAM User | 0.4 |
+| 釜山2课题2号 | 4 |  | 治理 | 3 | Trailing | 0.4 |
+| 釜山2课题2号 | 4 |  | 治理 | 4 | CloudWatch - User Login | 0.4 |
+| 釜山2课题2号 | 4 |  | 治理 | 5 | CloudWatch - 登录日志 | 0.4 |
+| 釜山2课题2号 | 4 |  | 治理 | 6 | Lambda 配置 | 0.4 |
+| 首尔2课题1号 | 5 |  | 边缘位置上的图像缩放 | 1 | S3 Bucket | 0.2 |
+| 首尔2课题1号 | 5 |  | 边缘位置上的图像缩放 | 2 | CloudFront - Resizing | 0.8 |
+| 首尔2课题1号 | 5 |  | 边缘位置上的图像缩放 | 3 | CloudFront - Redirection | 0.6 |
+| 首尔2课题1号 | 5 |  | 边缘位置上的图像缩放 | 4 | CloudFront - Caching | 0.4 |
+| 首尔2课题1号 | 5 |  | 边缘位置上的图像缩放 | 5 | CloudFront - Ignore caching | 0.4 |
+| 首尔2课题1号 | 5 |  | 边缘位置上的图像缩放 | 6 | CloudFront - CloudFront function | 0.4 |
+| 首尔2课题1号 | 5 |  | 边缘位置上的图像缩放 | 7 | Lambda - Runtime | 0.2 |
+| 首尔2课题3号 | 6 |  | IAM 安全维护系统 | 1 | tester | 0.2 |
+| 首尔2课题3号 | 6 |  | IAM 安全维护系统 | 2 | tester admin role | 0.2 |
+| 首尔2课题3号 | 6 |  | IAM 安全维护系统 | 3 | mfaBucketDeleteControl | 1.2 |
+| 首尔2课题3号 | 6 |  | IAM 安全维护系统 | 4 | user_group_kr | 0.2 |
+| 首尔2课题3号 | 6 |  | IAM 安全维护系统 | 5 | Only Seoul region | 1.2 |
+| 济州2课题3号 | 7 |  | 安全网络 | 1 | S3 - S3 名称 | 0.12 |
+| 济州2课题3号 | 7 |  | 安全网络 | 2 | S3 - S3 访问确认 | 0.64 |
+| 济州2课题3号 | 7 |  | 安全网络 | 3 | S3 - 备份桶文件复制确认 | 0.64 |
+| 济州2课题3号 | 7 |  | 安全网络 | 4 | SQS - S3 事件发生确认 | 0.64 |
+| 济州2课题3号 | 7 |  | 安全网络 | 5 | SQS - EC2 事件发生确认 | 0.28 |
+| 济州2课题3号 | 7 |  | 安全网络 | 6 | NAT G/W & Internet G/W 创建与否确认 | 0.4 |
+| 济州2课题3号 | 7 |  | 安全网络 | 7 | endpoint - 实例访问子网确认 | 0.28 |
+| 忠南2课题1号 | 8 |  | 动态 IAM 角色授权强制执行 | 1 | IAM - User Name | 0.16 |
+| 忠南2课题1号 | 8 |  | 动态 IAM 角色授权强制执行 | 2 | IAM - User policy | 0.2 |
+| 忠南2课题1号 | 8 |  | 动态 IAM 角色授权强制执行 | 3 | IAM - instance role Name | 0.16 |
+| 忠南2课题1号 | 8 |  | 动态 IAM 角色授权强制执行 | 4 | IAM - instance role policy | 0.2 |
+| 忠南2课题1号 | 8 |  | 动态 IAM 角色授权强制执行 | 5 | Monitoring Service Name - CloudTrail Name | 0.16 |
+| 忠南2课题1号 | 8 |  | 动态 IAM 角色授权强制执行 | 6 | CloudWatch Alarm Name | 0.2 |
+| 忠南2课题1号 | 8 |  | 动态 IAM 角色授权强制执行 | 7 | CloudWtach Log Group Name | 0.16 |
+| 忠南2课题1号 | 8 |  | 动态 IAM 角色授权强制执行 | 8 | Lambda - Lambda name | 0.16 |
+| 忠南2课题1号 | 8 |  | 动态 IAM 角色授权强制执行 | 9 | Employee - Alarm | 0.4 |
+| 忠南2课题1号 | 8 |  | 动态 IAM 角色授权强制执行 | 10 | Employee - instance role policy test | 0.4 |
+| 忠南2课题1号 | 8 |  | 动态 IAM 角色授权强制执行 | 11 | Admin - Alarm | 0.4 |
+| 忠南2课题1号 | 8 |  | 动态 IAM 角色授权强制执行 | 12 | Admin - instance role policy test | 0.4 |
+|  | 9 |  | ClientVPN | 1 | 域查询 | 1.5 |
+|  | 9 |  | ClientVPN | 2 | DB 连接 | 1.5 |
+|  | 10 |  | Keycloak | 1 | admin 登录 | 1.5 |
+|  | 10 |  | Keycloak | 2 | dev 登录 | 1.5 |
+
+总分 30
+
+3) 评分内容
+
+| 序号 | 评分项 | 命令输入 | 预期输出 |
+|---|---|---|---|
+| 1-1 | 1-1-A | `aws ec2 describe-instances --filter Name=tag:Name,Values=wsi-bastion \`<br>`--query "Reservations[].Instances[].InstanceType"` | `[`<br>`"t3.small"`<br>`]` |
+| 1-2 | 1-2-A | `aws ec2 describe-instances --filter Name=tag:Name,Values=wsi-app \`<br>`--query "Reservations[].Instances[].InstanceType"` | `[`<br>`"t3.small"`<br>`]` |
+| 1-3 | 1-3-A | `APP_PRIVATE_IP=$(aws ec2 describe-instances --filters`<br>`"Name=tag:Name,Values=wsi-app" --query`<br>`"Reservations[*].Instances[*].PrivateIpAddress" --output text)`<br>`curl $APP_PRIVATE_IP:5000/log`<br>`echo ""`<br>`curl $APP_PRIVATE_IP:5000/healthcheck` | `Log entry created`<br>`status: ok` |
+| 1-4 | 1-4-A | `aws opensearch list-domain-names \| grep wsi-opensearch` | `"DomainName": "wsi-opensearch"` |
+| 1-5 | 1-5-A | `aws opensearch describe-domain --domain-name wsi-opensearch --query`<br>`"DomainStatus.ClusterConfig.[InstanceCount, DedicatedMasterCount]"` | `[`<br>`2,`<br>`3`<br>`]` |
+| 1-5 | 1-5-B | `aws opensearch describe-domain --domain-name wsi-opensearch --query`<br>`"DomainStatus.EngineVersion"` | `"OpenSearch_2.13"` |
+| 1-5 | 1-5-C | `OPENSEARCH_ENDPOINT=$(aws opensearch describe-domain --domain-name`<br>`wsi-opensearch \| jq -r '.DomainStatus.Endpoint')`<br>`curl -s -u admin:Password01!`<br>`"https://$OPENSEARCH_ENDPOINT/_cat/indices?index=app-log"` | `green open app-log dWxHtcnyQcGsMwhGB0FMYw 5 1 2 0 34kb 17kb`<br>确认是否存在如上包含 app-log 的输出 |
+| 1-5 | 1-5-D | `OPENSEARCH_ENDPOINT=$(aws opensearch describe-domain --domain-name`<br>`wsi-opensearch \| jq -r '.DomainStatus.Endpoint')`<br>`curl -s -u admin:Password01! https://$OPENSEARCH_ENDPOINT/app-log \|`<br>`jq '.["app-log"].mappings.properties \| keys[]'` | `"clientip"`<br>`"method"`<br>`"path"`<br>`"protocol"`<br>`"responsecode"`<br>`"time"`<br>`"useragent“"`<br>不必完全一致 |
+
+确认是否如上所述输出 clientip、method、path、protocol、responsecode、time、
+useragent
+
+1-6-A
+（输入命令）
+
+aws opensearch describe-domain --domain-name wsi-opensearch --output json |
+jq -r '.DomainStatus.Endpoint + "/_dashboards"'
+
+1-6-A
+输出仪表板 URL。
+（预期输出）
+
+1-6
+在浏览器中访问输出的 URL。
+1-6-B
+（访问仪表板）
+
+使用 ID admin、密码 Password01! 登录。
+访问仪表板的 discover 标签页。
+将 index 指定为 app-log。
+
+序号
+
+评分项
+
+1-6-B
+（预期输出）
+
+确认是否输出日志。
+
+1-6
+
+1-6-C
+在 search 中输入 /healthcheck。
+（仪表板确认）
+
+1-6-C
+（预期输出）
+
+确认没有日志输出。
+
+序号
+
+评分项
+kubectl get deployment service-a -n app -o=json | jq
+'.spec.template.spec.containers' | grep '"image"' \
+2-1-A
+（输入命令）
+
+; kubectl get deployment service-b -n app -o=json | jq
+'.spec.template.spec.containers' | grep '"image"' \
+; kubectl get deployment service-c -n app -o=json | jq
+'.spec.template.spec.containers' | grep '"image"'
+"image": "250832144271.dkr.ecr.ap-northeast-2.amazonaws.com/service:a",
+"image": "fluent/fluent-bit:latest",
+"image": "250832144271.dkr.ecr.ap-northeast-2.amazonaws.com/service:b",
+
+2-1-A
+（预期输出）
+
+2-1
+
+"image": "fluent/fluent-bit:latest",
+"image": "250832144271.dkr.ecr.ap-northeast-2.amazonaws.com/service:c",
+"image": "fluent/fluent-bit:latest",
+
+* 除下划线部分外，其余必须全部相同
+NODE_COUNT=$(kubectl get nodes | grep Ready | wc -l) \
+; DAEMONSET_COUNT=$(kubectl get daemonsets -n fluentd | tail -n 1 | awk
+2-1-B
+{'print $4'}) \
+（输入命令）
+; echo $(expr $NODE_COUNT - $DAEMONSET_COUNT) \
+; kubectl describe -n fluentd daemonset fluentd | grep Image | grep fluent
+2-1-B
+0
+（预期输出）
+Image: fluent/fluentd-kubernetes-daemonset:v1.10.3-debian-cloudwatch-1.0
+完全一致
+
+序号
+
+评分项
+cd /tmp
+kubectl get daemonset fluentd -n fluentd -o yaml > fluentd.yaml
+kubectl delete daemonset fluentd -n fluentd
+date
+kubectl exec -it -n app deployment.apps/service-a -- curl localhost:8080 > /dev/null 2>&1
+kubectl exec -it -n app deployment.apps/service-b -- curl localhost:8080 > /dev/null 2>&1
+
+2-2-A
+
+kubectl exec -it -n app deployment.apps/service-c -- curl localhost:8080 > /dev/null 2>&1
+sleep 30;
+
+（输入命令）
+
+aws logs get-log-events --log-group-name /gwangju/eks/application/logs --log-stream-name
+service-a-logs --limit 1 --query 'events[*].message' --output json \
+; aws logs get-log-events --log-group-name /gwangju/eks/application/logs --log-stream-name
+service-b-logs --limit 1 --query 'events[*].message' --output json \
+; aws logs get-log-events --log-group-name /gwangju/eks/application/logs --log-stream-name
+service-c-logs --limit 1 --query 'events[*].message' --output json
+kubectl apply -f fluentd.yaml
+
+daemonset.apps "fluentd" deleted
+Fri May 31 02:00:30 UTC 2024
+
+2-2
+
+[
+"{\"log\":\"[2024-05-31 01:55:07,660] Service A 127.0.0.1 \\\"GET
+/\\\" 0.93ms 200\"}"
+]
+[
+"{\"log\":\"[2024-05-31 01:55:08,682] Service B 127.0.0.1 \\\"GET
+
+2-2-A
+（预期输出）
+
+/\\\" 0.45ms 200\"}"
+]
+[
+"{\"log\":\"[2024-05-31 01:57:06,019] Service C 127.0.0.1 \\\"GET
+/\\\" 0.78ms 200\"}"
+]
+daemonset.apps/fluentd created
+
+* 如果出现 date 时间之后的日志，则判为错误
+
+序号
+
+评分项
+date
+kubectl exec -it -n app deployment.apps/service-a -- curl localhost:8080 > /dev/null 2>&1
+kubectl exec -it -n app deployment.apps/service-b -- curl localhost:8080 > /dev/null 2>&1
+kubectl exec -it -n app deployment.apps/service-c -- curl localhost:8080 > /dev/null 2>&1
+
+2-3-A
+
+sleep 30;
+aws logs get-log-events --log-group-name /gwangju/eks/application/logs --log-stream-name
+
+（输入命令）
+
+service-a-logs --limit 1 --query 'events[*].message' --output json \
+; aws logs get-log-events --log-group-name /gwangju/eks/application/logs --log-stream-name
+service-b-logs --limit 1 --query 'events[*].message' --output json \
+; aws logs get-log-events --log-group-name /gwangju/eks/application/logs --log-stream-name
+service-c-logs --limit 1 --query 'events[*].message' --output json
+
+Fri May 31 01:49:42 UTC 2024
+[
+"{\"log\":\"[2024-05-31 01:49:43,591] Service A 127.0.0.1 \\\"GET
+
+2-3
+
+/\\\" 0.59ms 200\"}"
+]
+[
+"{\"log\":\"[2024-05-31 01:49:44,473] Service B 127.0.0.1 \\\"GET
+
+2-3-A
+（预期输出）
+
+/\\\" 0.95ms 200\"}"
+]
+[
+"{\"log\":\"[2024-05-31 01:49:45,463] Service C 127.0.0.1 \\\"GET
+/\\\" 0.82ms 200\"}"
+]
+
+* Service A、B、C 必须各输出一次，并确认 date 命令输出时间之后的日志是否在 30 秒内记录
+
+序号
+
+评分项
+1) 通过 SSH 访问 EC2。
+2) 输入以下命令后，确认是否输出 “wsi-eks-cluster”。
+
+3-1
+
+aws eks describe-cluster --name wsi-eks-cluster —query "cluster.name“
+3) 输入以下命令后，确认是否输出 “1.29”。
+aws eks describe-cluster --name wsi-eks-cluster --query "cluster.version"
+
+3-2
+
+1) 通过 SSH 访问 EC2。
+
+3-2
+
+2) 输入以下命令后，确认是否输出 “wsi-ns”。
+kubectl get ns -o json | jq '.items[] | select(.metadata.name == "wsi-ns") |
+.metadata.name'
+
+3-3
+
+1) 通过 SSH 访问 EC2。
+
+3-3
+
+2) 输入以下命令后，确认是否输出 “/wsi/eks/log/”。
+aws logs describe-log-groups --query "logGroups[?contains(logGroupName,
+'/wsi/eks/log/')].logGroupName“
+
+3-4
+
+1) 通过 SSH 访问 EC2。
+
+3-4
+
+2) 输入以下命令后，确认是否输出 “wsi-dpm”。
+kubectl get deploy -n wsi-ns -o json | jq '.items[].metadata.name’
+
+3-5
+
+1) 通过 SSH 访问 EC2。
+
+3-5
+
+2) 输入以下命令后，确认是否输出 “wsi-cnt”和“fluent-bit-cnt”。
+(必须存在 wsi-cnt 2 个、fluent-bit-cnt 2 个，共 4 个。)
+kubectl get po -n wsi-ns -o json | jq '.items[].spec.containers[].name'
+1) 通过 SSH 访问 EC2。
+2) 输入以下命令。
+POD_NAME=$(kubectl get po -n wsi-ns -o jsonpath='{.items[0].metadata.name}')
+3) 输入以下命令后，确认是否输出 “{'status': '200'}”。
+kubectl exec -it $POD_NAME -n wsi-ns -- curl localhost:8080/2xx
+3) 输入以下命令后，确认是否输出 “{'status': '300'}”。
+
+3-6
+
+kubectl exec -it $POD_NAME -n wsi-ns -- curl localhost:8080/3xx
+
+3) 输入以下命令后，确认是否输出 “{'status': '400'}“。
+kubectl exec -it $POD_NAME -n wsi-ns -- curl localhost:8080/4xx
+3) 输入以下命令后，确认是否输出 “{'status': '500'}“。
+kubectl exec -it $POD_NAME -n wsi-ns -- curl localhost:8080/5xx
+3) 输入以下命令后，确认是否输出 “{'status': 'ok'}“。
+kubectl exec -it $POD_NAME -n wsi-ns -- curl localhost:8080/healthz
+
+序号
+
+评分项
+1) 通过 SSH 访问 EC2。
+2) 输入以下命令。
+CW_LOG_STREAM_NAME=$(aws logs describe-log-streams --log-group-name /wsi/eks/log/ \
+--query "logStreams[].logStreamName" --output text)
+
+3-7
+
+POD_ID=$(kubectl get po -n wsi-ns -o jsonpath='{.items[0].metadata.name}')
+MATCHING_LOG_STREAM_NAME="log-$POD_ID"
+3) 输入以下命令后，确认是否输出 “log-{Pod ID}”。
+{Pod ID} 表示对应 Pod 的名称，每位选手的值可能不同。
+[ "$CW_LOG_STREAM_NAME" == "$MATCHING_LOG_STREAM_NAME" ] && aws logs describe-log-streams \
+--log-group-name /wsi/eks/log/ —query "logStreams[].logStreamName“
+
+1) 通过 SSH 访问 EC2。
+2) 输入以下命令。
+aws logs tail /wsi/eks/log/ | tail -n 1 | awk '{print substr($0,index($0,"{"))}' | jq .
+3) 确认如下图中所示是否存在 day、hour、ip、method、minute、month、path、port、second、statuscode、year。（只要有一个不存在，即视为错误。）
+（Key 的位置可以不同，Value 也可能存在差异。）
+
+3-8
+
+序号
+
+评分项
+aws ec2 describe-instances --filters
+"Name=tag:Name,Values=wsi-bastion-ec2" --query
+"Reservations[*].Instances[*].[InstanceId, InstanceType,
+IamInstanceProfile.Arn]" --output text | awk '{print $1,$2,$3}' | xargs -I
+{} bash -c 'INSTANCE_PROFILE_NAME=$(echo {} | awk -F"/" "{print
+4-1-A
+（命令输入）
+
+\$NF}"); ROLE_NAME=$(aws iam get-instance-profile
+--instance-profile-name $INSTANCE_PROFILE_NAME --query
+"InstanceProfile.Roles[*].RoleName" --output text); echo "Instance ID:
+
+4-1
+
+$(echo {} | awk "{print \$1}")"; echo "Instance Type: $(echo {} | awk
+"{print \$2}")"; aws iam list-attached-role-policies --role-name
+$ROLE_NAME --query "AttachedPolicies[*].[PolicyName, PolicyArn]"
+--output text'
+
+4-1-A
+Instance ID: i-xxxxxxxxxxxxxxxxxxxxxxxx
+（预期输出）
+Instance Type: t3.small
+完全匹配
+AdministratorAccess
+
+arn:aws:iam::aws:policy/AdministratorAccess
+
+顺序重要
+aws iam get-user --user-name wsi-project-user --query
+"User.UserName" --output text \
+; aws iam list-attached-user-policies --user-name wsi-project-user
+4-2-A
+（命令输入）
+
+--query 'AttachedPolicies[*].PolicyName' --output text && aws iam
+list-user-policies --user-name wsi-project-user --query 'PolicyNames'
+--output text
+
+4-2
+
+4-2-A
+（预期输出）
+
+wsi-project-user
+
+完全匹配
+
+AdministratorAccess
+
+顺序重要
+
+序号
+
+评分项
+4-3-A
+（命令输入）
+
+4-3
+
+aws cloudtrail describe-trails --query
+'trailList[?Name==`wsi-project-trail`].Name' --output json
+
+4-3-A
+[
+（预期输出）
+"wsi-project-trail"
+完全匹配
+]
+顺序重要
+
+4-4-A
+
+4-4
+4-4-A
+
+从账户注销后，使用此前创建的 IAM 用户登录。
+
+序号
+
+评分项
+登录后
+需 4 分钟
+date -d "+9 hours" "+%Y-%m-%d.%H.%M.%S“
+echo "4분 소요"
+sleep 240
+LOG_GROUP_NAME="wsi-project-login"
+aws logs describe-log-groups --log-group-name-prefix $LOG_GROUP_NAME
+--query 'logGroups[?logGroupName==`wsi-project-login`].logGroupName' --output
+
+4-5-A
+
+json
+LATEST_LOG_STREAM=$(aws logs describe-log-streams --log-group-name
+
+（命令输入）
+
+$LOG_GROUP_NAME --order-by LastEventTime --descending --limit 1 --query
+'logStreams[0].logStreamName' --output text)
+aws logs get-log-events --log-group-name $LOG_GROUP_NAME
+--log-stream-name $LATEST_LOG_STREAM --limit 1 --query
+'events[-1].{timestamp:timestamp, message:message}' --output json | jq -r
+'"\(.timestamp)\t\(.message)"' | while IFS=$'\t' read -r timestamp message; do
+echo -e "$(date -d @$((timestamp / 1000 + 9 * 3600))
+'+%Y-%m-%d-%H:%M:%S')\t$message"; done
+
+4-5-A
+（预期输出）
+
+2024-07-21.20.23.52
+[
+
+确认 timestamp，检查是否包含在 4 分钟内
+
+4-6-A
+（命令输入）
+
+4-6
+
+"wsi-project-login"
+]
+2024-07-21.20.24.51
+
+{ USER : "wsi-project-user has logged in!" }
+
+（截止 UTC 时间也允许计分）
+aws lambda get-function --function-name wsi-project-log-function
+--query 'Configuration.FunctionName' --output json
+
+4-6-A
+（预期输出）
+"wsi-project-log-function"
+完全匹配
+顺序重要
+
+序号
+
+评分项
+5-1-A
+aws s3 ls s3://${STATIC_BUCKET}/ --recursive | awk '{print $4}'
+
+（命令输入）
+
+5-1
+
+5-1-A
+（预期输出）
+
+dev/
+images/glass.jpg
+images/hamster.jpg
+
+完全匹配
+顺序重要
+
+5-2-A
+（命令输入）
+
+5-2
+
+images/library.jpg
+index.html
+
+curl -s "https://${CF_DOMAIN}/images/library.jpg?width=400&height=400" | file -b
+- | grep -oE '[0-9]+x[0-9]+' | tail -n 1
+
+5-2-A
+（预期输出）
+400x400
+
+完全匹配
+顺序重要
+
+5-3-A
+（命令输入）
+
+curl -sIL -o /dev/null -w '%{url_effective}\n' https://${CF_DOMAIN}/dev/
+curl -sIL -o /dev/null -w '%{url_effective}\n' https://${CF_DOMAIN}/
+
+5-3-A
+
+5-3
+
+（预期输出）
+完全匹配
+
+https://<CF_DOMAIN>/index.html
+
+<CF_DOMAIN> 可能因选手而异
+
+https://<CF_DOMAIN>/index.html
+
+curl -sI "https://${CF_DOMAIN}/images/library.jpg?width=123&height=32" | grep -i
+"x-cache"
+
+5-4-A
+（命令输入）
+
+curl -sI "https://${CF_DOMAIN}/images/library.jpg?width=123&height=32" | grep -i
+"x-cache"
+curl -sI "https://${CF_DOMAIN}/images/library.jpg?width=123&height=40" | grep -i
+
+5-4
+
+"x-cache"
+
+5-4-A
+（预期输出）
+
+x-cache: Miss from cloudfront
+x-cache: Hit from cloudfront
+
+完全匹配
+顺序重要
+
+x-cache: Miss from cloudfront
+
+序号
+
+5-5
+
+评分项
+5-5-A
+
+curl -sI "https://${CF_DOMAIN}/index.html" | grep -i "x-cache"
+
+（命令输入）
+
+curl -sI "https://${CF_DOMAIN}/index.html" | grep -i "x-cache"
+
+5-5-A
+（预期输出）
+
+x-cache: Miss from cloudfront
+
+完全匹配
+
+x-cache: Miss from cloudfront
+
+顺序重要
+aws cloudfront get-distribution-config --id ${DISTRIBUTION_ID} --query
+
+5-6-A
+
+"DistributionConfig.DefaultCacheBehavior.FunctionAssociations.Quantity > \`0\` ||
+
+（命令输入）
+
+DistributionConfig.CacheBehaviors.Items[].FunctionAssociations.Quantity > \`0\`"
+
+--output text
+
+5-6
+
+5-6-A
+（预期输出）
+True
+
+完全匹配
+顺序重要
+
+5-7-A
+（命令输入）
+
+5-7
+
+aws lambda get-function-configuration --function-name ${LAMBDA_NAME}
+--region us-east-1 --query "Runtime" --output text
+
+5-7-A
+（预期输出）
+
+nodejs20.x
+
+仅二者之一
+
+python3.9
+
+匹配
+
+序号
+
+评分项
+6-1-A
+（命令输入）
+
+6-1
+
+aws iam list-users --query "Users[?UserName=='tester']" | grep -i
+username
+
+6-1-A
+（预期输出）
+"UserName": "tester",
+完全匹配
+顺序重要
+
+6-2-A
+（命令输入）
+
+6-2
+
+aws iam list-attached-user-policies --user-name tester | grep
+AdministratorAccess
+
+6-2-A
+（预期输出）
+
+"PolicyName": "AdministratorAccess",
+
+完全匹配
+
+"PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess"
+
+顺序重要
+aws iam get-policy-version --policy-arn arn:aws:iam::$(aws sts
+6-3-A
+（命令输入）
+
+get-caller-identity --query "Account" --output
+text):policy/mfaBucketDeleteControl --version-id v1 --query
+'PolicyVersion.Document.Statement[].Condition' | jq
+[
+
+6-3
+
+{
+6-3-A
+"Bool": {
+（预期输出）
+"aws:MultiFactorAuthPresent": "false"
+完全匹配
+}
+顺序重要
+}
+]
+6-4-A
+（命令输入）
+
+6-4
+
+aws iam list-groups --query "Groups[?GroupName=='user_group_kr']" |
+grep GroupName
+
+6-4-A
+（预期输出）
+"GroupName": "user_group_kr",
+完全匹配
+顺序重要
+
+序号
+
+评分项
+aws iam simulate-principal-policy \
+6-5-A
+（命令输入）
+
+--policy-source-arn arn:aws:iam::$ACCOUNT_ID:user/tester \
+--action-names ec2:DescribeInstances \
+--region ap-northeast-2 | jq '.EvaluationResults[0].EvalDecision'
+
+6-5
+6-5-A
+（预期输出）
+
+"explicitDeny"
+
+高亮色匹配
+buckets=$(aws s3 ls | awk '{print $3}' | grep -E
+'j-s3-bucket-[a-zA-Z0-9]{7}-(original|backup)')
+bucket1=$(echo "$buckets" | grep 'original' | head -n 1)
+
+7-1-A
+（命令输入）
+
+bucket2=$(echo "$buckets" | grep 'backup' | head -n 1)
+buckets=$(aws s3 ls | awk '{print $3}' | grep -E
+
+7-1
+
+'^j-s3-bucket-[a-zA-Z0-9]{7}-(original|backup)$')
+echo "$buckets"
+
+7-1-A
+
+j-s3-bucket-<任意7个字符>-backup
+
+完全匹配
+
+j-s3-bucket-<任意7个字符>-original
+
+echo “test” > test.txt
+
+7-2-A
+（命令输入）
+
+aws s3 cp test.txt s3://j-s3-bucket-<任意7个字符>-original/
+aws s3 cp test.txt s3://j-s3-bucket-<任意7个字符>-original/2024/
+aws s3 cp test.txt s3://j-s3-bucket-<任意7个字符>-backup/
+sleep 80
+
+upload: ./test.txt to s3://j-s3-bucket-<任意7个字符>-original/test.txt
+
+7-2-A
+7-2
+
+完全匹配
+
+upload: ./test.txt to s3://j-s3-bucket-<任意7个字符>-original/2024/test.txt
+upload: ./test.txt to s3://j-s3-bucket-<任意7个字符>-backup/test.txt
+
+7-2-B
+（命令输入）
+
+7-2-B
+完全匹配
+
+aws s3 cp test.txt s3://j-s3-bucket-<任意7个字符>-backup/2024/
+
+upload failed: ./test.txt to s3://j-s3-bucket-<任意7个字符>-backup/2024/test.txt An error
+occurred (AccessDenied) when calling the PutObject operation: Access Denied
+
+序号
+
+评分项
+echo “copy” > copy.txt
+
+7-3-A
+（命令输入）
+
+aws s3 cp copy.txt s3://j-s3-bucket-<任意7个字符>-original/2024/
+sleep 80
+
+7-3-A
+完全匹配
+
+upload: ./copy.txt to s3://j-s3-bucket-<任意7个字符>-original/2024/copy.txt
+
+移动到 https://ap-northeast-2.console.aws.amazon.com/s3。
+移动到 j-s3-bucket-<任意7个字符>-backup。进入 2024/ 文件夹后，
+确认是否存在 copy.txt 文件。如果存在，则进入 j-s3-bucket-<任意7个
+字符>-original 桶和 j-s3-bucket-<任意7个字符>-backup 的 2024/ 文件夹，
+点击 show versions，确认 copy.txt 的 Version ID 是否相同。必须在 4 分钟内
+完成复制。
+
+7-3
+7-3-B
+确认文件是否
+上传到备份桶
+
+echo “check” > check.txt
+
+7-4-A
+（命令输入）
+
+aws s3 cp check.txt s3://j-s3-bucket-<任意7个字符>-original/2024/
+sleep 80
+
+7-4
+7-4-A
+完全匹配
+
+upload: ./check.txt to s3://j-s3-bucket-<任意7个字符>-original/2024/check.txt
+
+序号
+
+评分项
+移动到 https://ap-northeast-2.console.aws.amazon.com/s3/。
+确认 j-s3-bucket-example-backup 的 2024/ 文件夹中名为 check.txt 的文件是否为 1 个，
+并检查 Last Modified。
+
+7-4-B
+手动
+
+7-4
+移动到 https://ap-northeast-2.console.aws.amazon.com/sqs/v3/home?region=ap-northea
+st-2#/queues。移动到创建的 Queues。移动后，点击右上方的 Send and receive messages。
+如果文件上传到 j-s3-bucket-example-backup 的 2024 文件夹，则点击 Poll for messages。
+
+7-4-C
+确认是否发生
+Event
+
+Sent 时间必须与 j-s3-bucket-example-backup 的 2024/ 文件夹中
+check.txt 的 Last Modified 相同。（可能会有约 1 分钟的误差范围。）
+ex ) Last modified 07:22 -> SQS Send 07:23 O 07:21 X
+
+aws sqs send-message --queue-url \
+https://sqs.ap-northeast-2.amazonaws.com/<account-id>/<queue-name> \
+
+7-5-A
+手动
+
+--message-body "Hello from EC2!“
+必须将 <account-id> 和 <queue-name> 替换为选手指定的内容。
+
+7-5
+
+{
+7-5-A
+完全匹配
+
+"MD5OfMessageBody": "d6d829edde2cd621a6f20ef7e8c15c61",
+"MessageId": "37c567b2-175f-4b23-9532-bc6c3d117e47"
+}
+
+MD5OfMessageBody 和 MessageId 可能不同。
+
+序号
+
+评分项
+https://ap-northeast-2.console.aws.amazon.com/vpcconsole/home?region
+=ap-northeast-2#NatGateways:
+1) 通过上述 URL 进入，确认 Bastion 所属 VPC 中未创建 Nat G/W。
+
+7-6
+
+7-6-A
+手动
+
+https://ap-northeast-2.console.aws.amazon.com/vpcconsole/home?region
+=ap-northeast-2#igws:
+2) 通过上述 URL 进入，确认 Bastion 所属 VPC 中未创建 IGW。
+3) 如果创建了其中任何一个，则该项按 0 分处理。
+https://ap-northeast-2.console.aws.amazon.com/vpcconsole/home?region
+=ap-northeast-2#Endpoints:
+通过上述 URL 进入。进入后，单击 VPC endpoint ID 以 eice- 开头的
+endpoint，然后点击 Subnet，确认其是否为 J-company-priv-sub-b。
+
+7-7
+
+7-7-A
+手动
+
+序号
+
+评分项
+8-1-A
+
+aws iam list-users --query "Users[?UserName=='myadmin'].UserName“
+
+（命令输入）
+
+aws iam list-users --query "Users[?UserName=='Employee'].UserName“
+[
+“myadmin”
+
+8-1
+
+8-1-A
+
+],
+
+（预期输出）
+
+[
+
+完全匹配
+
+“ Employee”
+]
+
+8-2-A
+
+aws iam list-attached-user-policies --user-name mydmin
+
+（命令输入）
+
+aws iam list-attached-user-policies --user-name Employee
+
+{
+"AttachedPolicies": [
+{
+"PolicyName": "AdministratorAccess",
+"PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess"
+}
+8-2
+
+]
+8-2-A
+},
+（预期输出）
+{
+完全匹配
+"AttachedPolicies": [
+{
+"PolicyName": "IAMFullAccess",
+"PolicyArn": "arn:aws:iam::aws:policy/IAMFullAccess"
+}
+]
+}
+
+序号
+
+评分项
+8-3-A
+
+序号　　评分项
+
+## 8-3
+**8-3-A**
+（输入命令）
+```bash
+aws iam get-role --role-name wsc2024-instance-role --query 'Role.RoleName'
+```
+（预期输出）
+```
+"wsc2024-instance-role"
+```
+完全匹配
+
+## 8-4
+**8-4-A**
+（输入命令）
+```bash
+aws iam list-attached-role-policies --role-name wsc2024-instance-role --query "AttachedPolicies[].PolicyArn"
+```
+（预期输出）
+```
+[
+"arn:aws:iam:aws:policy/AmazonSSMManagedInstanceCore"
+]
+```
+完全匹配
+
+## 8-5
+**8-5-A**
+（输入命令）
+```bash
+aws cloudtrail describe-trails --trail-name-list wsc2024-CT --query "trailList[].Name"
+```
+（预期输出）
+```
+[
+"wsc2024-CT"
+]
+```
+完全匹配
+
+## 8-6
+**8-6-A**
+（输入命令）
+```bash
+aws cloudwatch describe-alarms --alarm-name-prefix wsc2024-gvn-alarm --query 'MetricAlarms[*].AlarmName'
+```
+（预期输出）
+```
+[
+"wsc2024-gvn-alarm"
+]
+```
+完全匹配
+
+## 8-7
+**8-7-A**
+（输入命令）
+```bash
+aws logs describe-log-groups --log-group-name-prefix wsc2024-gvn-LG --query 'logGroups[].logGroupName' --output text
+```
+（预期输出）
+```
+wsc2024-gvn-LG
+```
+完全匹配
+
+## 8-8
+**8-8-A**
+（输入命令）
+```bash
+aws lambda list-functions --query "Functions[?FunctionName=='wsc2024-gvn-Lambda'].FunctionName"
+```
+（预期输出）
+```
+[
+"wsc2024-gvn-Lambda"
+]
+```
+完全匹配
+
+## 8-9
+**8-9-A**
+（输入命令）
+```bash
+USERNAME="Employee"
+CREATED_KEYS=$(aws iam create-access-key --user-name "$USERNAME")
+ACCESS_KEY_ID=$(echo "$CREATED_KEYS" | jq -r '.AccessKey.AccessKeyId')
+SECRET_ACCESS_KEY=$(echo "$CREATED_KEYS" | jq -r '.AccessKey.SecretAccessKey')
+aws configure set aws_access_key_id "$ACCESS_KEY_ID"
+aws configure set aws_secret_access_key "$SECRET_ACCESS_KEY"
+sleep 10
+aws iam attach-role-policy --role-name wsc2024-instance-role --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
+rm -rf ~/.aws/*
+timeout 180 bash -c 'while [ "$(aws cloudwatch describe-alarms
+--alarm-names "wsc2024-gvn-alarm" --query "MetricAlarms[0].StateValue"
+--output text)" != "ALARM" ]; do echo "Waiting for alarm to enter ALARM
+state..."; sleep 30; done; echo "Alarm is now in ALARM state."'
+```
+（预期输出）
+```
+Wating for alarm to enter ALARM state...
+Wating for alarm to enter ALARM state...
+Wating for alarm to enter ALARM state...
+Alarm is now in ALARM state.
+```
+下划线部分匹配
+
+## 8-10
+**8-10-A**
+（输入命令）
+```bash
+aws iam list-attached-role-policies --role-name wsc2024-instance-role
+```
+（预期输出）
+```json
+{
+"AttachedPolicies": [
+{
+"PolicyName": "AmazonSSMManagedInstanceCore",
+"PolicyArn": "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+]
+}
+```
+完全匹配
+
+## 8-11
+**8-11-A**
+（输入命令）
+```bash
+USERNAME="Admin"
+CREATED_KEYS=$(aws iam create-access-key --user-name "$USERNAME")
+ACCESS_KEY_ID=$(echo "$CREATED_KEYS" | jq -r '.AccessKey.AccessKeyId')
+SECRET_ACCESS_KEY=$(echo "$CREATED_KEYS" | jq -r '.AccessKey.SecretAccessKey')
+aws configure set aws_access_key_id "$ACCESS_KEY_ID"
+aws configure set aws_secret_access_key "$SECRET_ACCESS_KEY"
+sleep 10
+aws iam attach-role-policy --role-name wsc2024-instance-role --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
+sleep 180 && aws cloudwatch describe-alarms --alarm-names "wsc2024-gvn-alarm" --query "MetricAlarms[0].StateValue" --output text
+```
+（预期输出）
+```
+仅确认不是 ALARM 状态
+INSUFFICIENT_DATA
+OK
+```
+
+## 8-12
+**8-12-A**
+（输入命令）
+```bash
+aws iam list-attached-role-policies --role-name wsc2024-instance-role
+```
+（预期输出）
+```json
+{
+"AttachedPolicies": [
+{
+"PolicyName": "AmazonSSMManagedInstanceCore",
+"PolicyArn": "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+},
+{
+"PolicyName": "AdministratorAccess",
+"PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess"
+}
+]
+}
+```
+完全匹配
+
+序号　　评分项
+
+如果符合以下任一要素，即视为使用非正常方法作答，Client VPN 项全部不予评分。其他事项也会核查，若判定使用了不正当方法，则不予评分。
+1) 确认 Client VPN 连接是否已断开。
+2) 在选手 Windows PC 上输入以下命令，确认查询是否失败。
+> nslookup db.day2.local
+3) 在选手 Windows PC 上输入以下命令，确认是否因无法找到主机错误而导致连接失败。
+> ping db.day2.local
+4) 在选手 Windows PC 上输入以下命令，确认没有处于 listen 状态的端口。
+> netstat -an | findstr 5432
+
+## 9-1
+1) 在 Windows PC 上连接 Client VPN。务必确认使用 ws-day2 配置文件。
+2) 连接 VPN 后，在 Windows 中输入以下命令，确认是否返回正确的 canonical name 和 IP。
+>nslookup db.day2.local
+
+输出包含 canonical name：rds.amazonaws.com.
+IP address：172.26.10.1 ~ 172.26.10.254 或 172.26.20.1 ~ 172.26.20.254 之间的地址
+
+## 9-2
+1) 在 Windows PC 上确认 Client VPN 是否已连接。（使用 ws-day2 配置文件）
+2) 连接 VPN 后，在 Windows 中输入以下命令，确认是否可以访问 DB。
+> psql -U day2_root -d day2 -h db.day2.local -p 5432
+3) 输入以下命令，确认 day2 Database 是否已创建。（小写 L）
+PSQL> \l
+
+序号　　评分项
+
+如果符合以下任一要素，即视为使用非正常方法作答，Keycloak 项全部不予评分。其他事项也会核查，若判定使用了不正当方法，则不予评分。
+1) 检查选手提交的 URL，确认 Keycloak 服务器是否位于选手的账户中。
+
+## 10-1
+1) 新建浏览器窗口，访问任务书上写的 Keycloak 地址，确认是否显示与下方类似的页面。
+2) 在账号名称中输入 admin<编号>，确认能否正常登录。
+3) 确认是否跳转到 AWS 页面并显示与下方类似的页面。UI 可能略有不同，但选手账号编号与 admin-access role 必须一致。
+4) 使用 admin-access Role 确认能否正常登录 AWS 账号。登录后查看右上角的账号信息，确认账号编号和 Role 名称。
+
+序号　　评分项
+
+如果符合以下任一要素，即视为使用非正常方法作答，Keycloak 项全部不予评分。其他事项也会核查，若判定使用了不正当方法，则不予评分。
+1) 检查选手提交的 URL，确认 Keycloak 服务器是否位于选手的账户中。
+
+## 10-2
+1) 新建浏览器窗口，访问任务书上写的 Keycloak 地址，确认是否显示与下方类似的页面。
+2) 在账号名称中输入 dev<编号>，确认能否正常登录。
+3) 确认是否跳转到 AWS 页面并显示与下方类似的页面。UI 可能略有不同，但选手账号编号与 poweruser-access role 必须一致。
+4) 使用 poweruser-access Role 确认能否正常登录 AWS 账号。登录后查看右上角的账号信息，确认账号编号和 Role 名称。

@@ -1,0 +1,699 @@
+2023 地方技能竞赛评分标准
+1. 评分注意事项
+
+职业名称
+
+云计算
+
+※ 评分时请注意以下事项。
+1) AWS 区域使用 ap-northeast-2。
+2) 网页访问使用 Chrome 或 Firefox。
+3) 网页中根据语言不同，显示的文本可能不同。
+4) shell 中命令的输出可能因版本不同而略有差异。
+5) 评分进行前，为进行环境设置，需确认以下事项。
+- 确认是否可通过 SSH 访问 Bastion。
+- 确认 Bastion 中是否已安装 awscli、curl。
+- 确认 Bastion 中是否已映射 IAM Role，从而可通过 awscli 访问 AWS 所有资源。
+- 通过 aws sts get-caller-identity 命令确认是否正在访问选手账户以外的其他账户。如果为其他账户，则可能怀疑存在作弊行为。
+6) 试题和评分表中的 <> 为变量。请更改相应部分后输入。
+7) 评分必须按题目顺序进行。
+8) 已删除的内容无法恢复，请谨慎进行评分。
+9) 异议申请结束之后，删除选手创建的云资源。
+10) 有部分分数的题目，在评分项中写有部分分数。
+11) 没有单独部分分数的题目，必须全部答对才计入分数。
+12) 评分前，为构建评分环境，请在 ~/.aws/config 中添加以下内容。
+/////
+[default]
+region = ap-northeast-2
+output = json
+/////
+
+云计算 第1题 1 - 11
+
+2. 评分标准表
+1) 主要项별 分值
+
+题目
+
+序号
+
+编号
+
+第1题
+
+职业名称
+
+云计算
+
+评分方法
+主要项
+
+分值
+独立
+
+协商
+
+评分时机
+竞赛
+
+竞赛
+
+进行中 结束后
+
+1
+
+网络
+
+7.5
+
+○
+
+○
+
+2
+
+Bastion
+
+3
+
+○
+
+○
+
+3
+
+ECR
+
+6
+
+○
+
+○
+
+4
+
+ECS
+
+16.5
+
+○
+
+○
+
+5
+
+ALB
+
+7.5
+
+○
+
+○
+
+6
+
+Target Group
+
+9
+
+○
+
+○
+
+7
+
+CloudFront
+
+10.5
+
+○
+
+○
+
+合计
+
+60
+
+合
+
+云计算 第1题 2 - 11
+
+备注
+
+2) 评分方法及标准
+题目
+
+序号
+
+编号
+
+1
+
+Bastion
+
+3
+
+ECR
+
+ECS
+
+第1题
+
+5
+
+6
+
+7
+
+细项（评分方法）
+
+分值
+
+1
+
+VPC
+
+1.5
+
+2
+
+Subnet
+
+1.5
+
+3
+
+IGW
+
+1.5
+
+4
+
+NAT
+
+1.5
+
+5
+
+HA
+
+1.5
+
+1
+
+EC2 Instance
+
+1.5
+
+2
+
+EIP
+
+1.5
+
+1
+
+ECR Creation
+
+3
+
+2
+
+ECR Scan
+
+3
+
+1
+
+ECS Cluster
+
+1.5
+
+2
+
+ECS Task Definition
+
+4.5
+
+3
+
+ECS Service
+
+3
+
+4
+
+ECS Task
+
+1.5
+
+5
+
+ECS HA
+
+3
+
+6
+
+ECS Security
+
+3
+
+1
+
+ALB Creation
+
+3
+
+2
+
+ALB Listener
+
+3
+
+3
+
+ALB Security
+
+1.5
+
+1
+
+Target Group Creation
+
+3
+
+2
+
+Target Group Healty
+
+3
+
+3
+
+Target Group HA
+
+3
+
+1
+
+CloudFront Creation
+
+3
+
+2
+
+CloudFront Connect
+
+3
+
+3
+
+CloudFront Cache
+
+3
+
+4
+
+CloudFront Edge
+
+1.5
+
+编号
+
+网络
+
+2
+
+4
+
+序号
+
+主要项
+
+ALB
+
+Target Group
+
+CloudFront
+
+总分
+
+60
+
+云计算 第1题 3 - 11
+
+3) 评分内容
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+
+1-1
+
+2) 输入以下命令后，确认是否输出 “10.0.0.0/16”。
+aws ec2 describe-vpcs --filter Name=tag:Name,Values=wsi-vpc --query "Vpcs[].CidrBlock"
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出 “10.0.1.0/24”。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-public-a --query \
+"Subnets[].CidrBlock"
+3) 输入以下命令后，确认是否输出 “10.0.2.0/24”。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-public-b --query \
+
+1-2
+
+"Subnets[].CidrBlock"
+4) 输入以下命令后，确认是否输出 “10.0.3.0/24”。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-private-a --query \
+"Subnets[].CidrBlock"
+5) 输入以下命令后，确认是否输出 “10.0.4.0/24”。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-private-b --query \
+"Subnets[].CidrBlock"
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出以 “igw-” 开头的文本。
+aws ec2 describe-internet-gateways --filter Name=tag:Name,Values=wsi-igw \
+
+1-3
+
+--query "InternetGateways[].InternetGatewayId"
+3) 输入以下命令后，确认是否输出以 “igw-” 开头的文本。
+aws ec2 describe-route-tables --filter Name=tag:Name,Values=wsi-public-rtb \
+--query "RouteTables[].Routes[].GatewayId"
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出以 “nat-” 开头的文本。
+aws ec2 describe-route-tables --filter Name=tag:Name,Values=wsi-private-rtb-a \
+
+1-4
+
+--query "RouteTables[].Routes[].NatGatewayId"
+3) 输入以下命令后，确认是否输出以 “nat-” 开头的文本，并确认是否具有与 2) 的结果不同的 ID。
+aws ec2 describe-route-tables --filter Name=tag:Name,Values=wsi-private-rtb-b \
+--query "RouteTables[].Routes[].NatGatewayId"
+
+云计算 第1题 4 - 11
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出 “ap-northeast-2a”。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-public-a --query \
+"Subnets[].AvailabilityZone"
+3) 输入以下命令后，确认是否输出 “ap-northeast-2b”。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-public-b --query \
+
+1-5
+
+"Subnets[].AvailabilityZone"
+4) 输入以下命令后，确认是否输出 “ap-northeast-2a”。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-private-a --query \
+"Subnets[].AvailabilityZone"
+5) 输入以下命令后，确认是否输出 “ap-northeast-2b”。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-private-b --query \
+"Subnets[].AvailabilityZone"
+
+1) 通过 SSH 访问 Bastion 服务器。
+
+2-1
+
+2) 输入以下命令，确认是否获取到以 “i-” 开头的文本。
+aws ec2 describe-instances --filter Name=tag:Name,Values=wsi-bastion \
+--query "Reservations[].Instances[].InstanceId"
+
+1) 通过 SSH 访问 Bastion 服务器。
+2) 记录输入以下命令后输出的 IP。
+
+2-2
+
+aws ec2 describe-instances --filter Name=tag:Name,Values=wsi-bastion \
+--query "Reservations[].Instances[].PublicIpAddress"
+3) 输入以下命令后，确认输出的 IP 列表中是否存在 2) 中输出的 IP。
+aws ec2 describe-addresses --query "Addresses[].PublicIp"
+
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出 “latest”。（1.5分）
+
+3-1
+
+aws ecr describe-images --repository-name wsi-about --query "imageDetails[].imageTags[]"
+3) 输入以下命令后，确认是否输出 “latest”。（1.5分）
+aws ecr describe-images --repository-name wsi-projects --query "imageDetails[].imageTags[]"
+
+云计算 第1题 5 - 11
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否未输出 “CRITICAL”、“HIGH”、“MEDIUM”、“LOW” 中的任何一个。（1.5分）
+aws ecr describe-image-scan-findings --repository-name wsi-about \
+
+3-2
+
+--image-id imageTag=latest --query "imageScanFindings.findingSeverityCounts"
+3) 输入以下命令后，确认是否未输出 “CRITICAL”、“HIGH”、“MEDIUM”、“LOW” 中的任何一个。（1.5分）
+aws ecr describe-image-scan-findings --repository-name wsi-projects \
+--image-id imageTag=latest --query "imageScanFindings.findingSeverityCounts"
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出 “wsi-ecs”。
+
+4-1
+
+aws ecs describe-clusters --cluster wsi-ecs --query "clusters[].clusterName"
+3) 输入以下命令后，确认是否输出 “FARGATE“, "FARGATE_SPOT“。
+aws ecs describe-clusters --cluster wsi-ecs --query "clusters[].capacityProviders[]"
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出 5000。（1分）
+aws ecs describe-task-definition --task-definition about-task-def \
+--query "taskDefinition.containerDefinitions[].portMappings[].containerPort"
+3) 输入以下命令后，确认是否输出 “[账户 ID].dkr.ecr.ap-northeast-2.amazonaws.com/wsi-about:latest”。（1.25分）
+aws ecs describe-task-definition --task-definition about-task-def \
+
+4-2
+
+--query "taskDefinition.containerDefinitions[].image"
+4) 输入以下命令后，确认是否输出 5000。（1分）
+aws ecs describe-task-definition --task-definition projects-task-def \
+--query "taskDefinition.containerDefinitions[].portMappings[].containerPort"
+5) 输入以下命令后，确认是否输出 “[账户 ID].dkr.ecr.ap-northeast-2.amazonaws.com/wsi-projects:latest”。（1.25分）
+aws ecs describe-task-definition --task-definition projects-task-def \
+--query "taskDefinition.containerDefinitions[].image"
+
+云计算第一次作业 6 - 11
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出 “DISABLED"。（0.5分）
+aws ecs describe-services --cluster wsi-ecs --services wsi-about-svc \
+--query "services[].networkConfiguration.awsvpcConfiguration.assignPublicIp"
+3) 输入以下命令后，确认是否输出 “FARGATE"。（0.5分）
+aws ecs describe-services --cluster wsi-ecs --services wsi-about-svc \
+--query "services[].launchType"
+4) 输入以下命令后，确认是否输出 “ACTIVE"。（0.5分）
+
+4-3
+
+aws ecs describe-services --cluster wsi-ecs --services wsi-about-svc --query "services[].status"
+5) 输入以下命令后，确认是否输出 “DISABLED"。（0.5分）
+aws ecs describe-services --cluster wsi-ecs --services wsi-projects-svc \
+--query "services[].networkConfiguration.awsvpcConfiguration.assignPublicIp"
+6) 输入以下命令后，确认是否输出 “FARGATE"。（0.5分）
+aws ecs describe-services --cluster wsi-ecs --services wsi-projects-svc \
+--query "services[].launchType"
+7) 输入以下命令后，确认是否输出 “ACTIVE"。（0.5分）
+aws ecs describe-services --cluster wsi-ecs --services wsi-projects-svc --query "services[].status"
+
+1) 通过 SSH 访问 Bastion 服务器。
+
+4-4
+
+2) 输入以下命令后，确认是否输出 2 以上的数字。
+aws ecs describe-clusters --cluster wsi-ecs --query "clusters[].runningTasksCount"
+
+云计算第一次作业 7 - 11
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出 4 以上的数字。（1分）
+aws ecs describe-clusters --cluster wsi-ecs --query "clusters[].runningTasksCount"
+3) 输入以下命令后，确认是否输出 2 个以上以 "subnet-“ 开头的字符串。（0.5分）
+aws ecs describe-services --cluster wsi-ecs --services wsi-about-svc \
+--query "services[].networkConfiguration.awsvpcConfiguration[].subnets[]"
+4) 输入以下命令后，确认是否输出 2 以上的数字。（0.5分）
+
+4-5
+
+aws ecs describe-services --cluster wsi-ecs --services wsi-about-svc \
+--query "services[].runningCount“
+5) 输入以下命令后，确认是否输出 2 个以上以 "subnet-“ 开头的字符串。（0.5分）
+aws ecs describe-services --cluster wsi-ecs --services wsi-projects-svc \
+--query "services[].networkConfiguration.awsvpcConfiguration[].subnets[]"
+6) 输入以下命令后，确认是否输出 2 以上的数字。（0.5分）
+aws ecs describe-services --cluster wsi-ecs --services wsi-projects-svc \
+--query "services[].runningCount"
+
+1) 通过 SSH 访问 Bastion 服务器。
+2) 记录输入以下命令后输出的字符串。
+aws elbv2 describe-load-balancers --query "LoadBalancers[].SecurityGroups[]"
+3) 输入以下命令后，确认是否与 2) 中记录的字符串一致。（1.5分）
+
+4-6
+
+aws ec2 describe-security-groups \
+--query "SecurityGroups[?GroupName=='wsi-about-sg'].IpPermissions[].UserIdGroupPairs[].GroupId"
+4) 输入以下命令后，确认是否与 2) 中记录的字符串一致。（1.5分）
+aws ec2 describe-security-groups --query \
+"SecurityGroups[?GroupName=='wsi-projects-sg'].IpPermissions[].UserIdGroupPairs[].GroupId"
+
+云计算第一次作业 8 - 11
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出 “wsi-alb"。（0.5分）
+aws elbv2 describe-load-balancers \
+--query "LoadBalancers[?LoadBalancerName=='wsi-alb'].LoadBalancerName"
+3) 输入以下命令后，确认是否输出 “internet-facing"。（0.5分）
+aws elbv2 describe-load-balancers \
+
+5-1
+
+--query "LoadBalancers[?LoadBalancerName=='wsi-alb'].Scheme"
+4) 输入以下命令后，确认是否输出 “application"。（0.5分）
+aws elbv2 describe-load-balancers \
+--query "LoadBalancers[?LoadBalancerName=='wsi-alb'].Type"
+5) 输入以下命令后，确认是否输出 “ap-northeast-2a", “ap-northeast-2b"。（1.5分）
+aws elbv2 describe-load-balancers \
+--query "LoadBalancers[?LoadBalancerName=='wsi-alb'].AvailabilityZones[].ZoneName"
+
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+alb_arn=`aws elbv2 describe-load-balancers \
+
+5-2
+
+--query "LoadBalancers[?LoadBalancerName=='wsi-alb'].LoadBalancerArn" --output text`
+3) 输入以下命令后，确认是否输出 “HTTP"。（1.5分）
+aws elbv2 describe-listeners --load-balancer-arn $alb_arn --query "Listeners[].Protocol"
+4) 输入以下命令后，确认是否输出 “80"。（1.5分）
+aws elbv2 describe-listeners --load-balancer-arn $alb_arn --query "Listeners[].Port"
+
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+5-3
+
+alb_dns=`aws elbv2 describe-load-balancers \
+--query "LoadBalancers[?LoadBalancerName=='wsi-alb'].DNSName" --output text`
+3) 输入以下命令后，确认是否输出 “403 Forbidden"。
+curl $alb_dns
+
+云计算第一次作业 9 - 11
+
+序号
+
+评分项
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出 “/about"。（1.5分）
+aws elbv2 describe-target-groups --names wsi-about-tg \
+
+6-1
+
+--query "TargetGroups[].HealthCheckPath"
+3) 输入以下命令后，确认是否输出 "/projects"。（1.5分）
+aws elbv2 describe-target-groups --names wsi-projects-tg \
+--query "TargetGroups[].HealthCheckPath"
+1) 通过 SSH 访问 Bastion 服务器。
+
+2) 输入以下命令。
+about_tg_arn=`aws elbv2 describe-target-groups --names wsi-about-tg \
+--query "TargetGroups[].TargetGroupArn" --output text`
+projects_tg_arn=`aws elbv2 describe-target-groups --names wsi-projects-tg \
+
+6-2
+
+--query "TargetGroups[].TargetGroupArn" --output text`
+3) 输入以下命令后，确认是否输出 "healty"。（1.5分）
+aws elbv2 describe-target-health --target-group-arn
+
+$about_tg_arn \
+
+--query "TargetHealthDescriptions[].TargetHealth.State"
+4) 输入以下命令后，确认是否输出 "healty"。（1.5分）
+aws elbv2 describe-target-health --target-group-arn
+
+$projects_tg_arn \
+
+--query "TargetHealthDescriptions[].TargetHealth.State"
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+about_tg_arn=`aws elbv2 describe-target-groups --names wsi-about-tg \
+--query "TargetGroups[].TargetGroupArn" --output text`
+projects_tg_arn=`aws elbv2 describe-target-groups --names wsi-projects-tg \
+
+6-3
+
+--query "TargetGroups[].TargetGroupArn" --output text`
+3) 输入以下命令后，确认是否输出 "ap-northeast-2a"、"ap-northeast-2b"。（1.5分）
+aws elbv2 describe-target-health --target-group-arn
+
+$about_tg_arn \
+
+--query "TargetHealthDescriptions[].Target.AvailabilityZone"
+4) 输入以下命令后，确认是否输出 "ap-northeast-2a"、"ap-northeast-2b"。（1.5分）
+aws elbv2 describe-target-health --target-group-arn
+
+$projects_tg_arn \
+
+--query "TargetHealthDescriptions[].Target.AvailabilityZone"
+
+云计算第1次作业 10 - 11
+
+序号
+
+评分项目
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出约 14 位英文字母和数字混合的 ID。（1.5分）
+
+7-1
+
+aws cloudfront list-distributions --query "DistributionList.Items[].Id"
+3) 输入以下命令后，确认是否输出以 "wsi-alb" 开头的字符串。（1.5分）
+aws cloudfront list-distributions --query "DistributionList.Items[].Origins.Items[].DomainName"
+
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+cloudfront_url=`aws cloudfront list-distributions --query "DistributionList.Items[].DomainName" \
+
+7-2
+
+--output text`
+3) 输入以下命令后，确认是否输出 "The about page"。（1.5分）
+curl $cloudfront_url/about
+4) 输入以下命令后，确认是否输出 "The projects page"。（1.5分）
+curl $cloudfront_url/projects
+
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认是否输出 "X-Cache: Hit from cloudfront"。（1.5分）
+
+7-3
+
+curl -I -s $cloudfront_url/about | grep X-Cache
+3) 输入以下命令后，确认是否输出 "X-Cache: Miss from cloudfront"。（1.5分）
+curl -I -s $cloudfront_url/projects | grep X-Cache
+
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+
+7-4
+
+cloudfront_id=`aws cloudfront list-distributions --query "DistributionList.Items[].Id" --output text`
+3) 输入以下命令后，确认是否输出 “PriceClass_All"。
+aws cloudfront get-distribution-config --id $cloudfront_id --query "DistributionConfig.PriceClass"
+
+云计算第1次作业 11 - 11

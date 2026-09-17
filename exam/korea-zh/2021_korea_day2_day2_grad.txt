@@ -1,0 +1,767 @@
+2021 大田广域市 第56届全国技能竞赛评分标准
+1. 评分注意事项
+
+工种名称
+云计算
+
+※ 评分时请注意以下事项。
+1) AWS 区域使用 ap-northeast-2。
+2) 网页访问使用 Chrome 或 Firefox。
+3) 网页上根据语言不同，显示的文字可能不同。
+4) shell 中命令的输出可能因版本不同而略有差异。
+5) 进行评分前，为设置环境，需确认以下事项。
+- 确认是否可通过 SSH 访问 Bastion。
+- 确认 Bastion 上是否已安装 curl, jq, awscli。
+- 确认 Bastion 上是否映射了 IAM Role，从而可通过 awscli 访问 AWS 所有资源。
+- 通过 aws sts get-caller-identity 命令确认是否正在访问选手账户以外的其他账户。如果是其他账户，则可怀疑作弊。
+6) 试题和评分表中的 <> 是变量。请更改该部分后输入。
+7) 评分必须按题目顺序进行。
+8) 删除的内容无法恢复，请谨慎进行评分。
+9) 异议申请结束后，删除选手创建的云资源。
+10) 有部分分数的题目，在评分项中写有部分分数。
+11) 没有单独部分分数的题目，必须全部答对才能得分。
+12) 评分前，为构建评分环境，需在 ~/.aws/config 中添加以下内容。
+aws configure
+/////
+[default]
+region = ap-northeast-2
+output = json
+/////
+
+云计算 第2题 1 - 22
+
+2. 评分标准表
+1) 主要项分配分数
+
+任务
+
+序号
+
+编号
+
+编号
+
+第2题
+
+工种名称
+
+云计算
+
+评分方法
+主要项
+
+配分
+独立
+
+合议
+
+评分时间
+竞赛
+
+竞赛
+
+进行中 结束后
+
+1
+
+网络
+
+6.7
+
+○
+
+○
+
+2
+
+EC2
+
+3
+
+○
+
+○
+
+3
+
+LB
+
+4.5
+
+○
+
+○
+
+4
+
+Code Commit
+
+4
+
+○
+
+○
+
+5
+
+Code Build
+
+2.6
+
+○
+
+○
+
+6
+
+Code Deploy
+
+4.4
+
+○
+
+○
+
+7
+
+Code Pipeline
+
+10.3
+
+○
+
+○
+
+8
+
+ECR
+
+4.5
+
+○
+
+○
+
+合
+
+计
+
+40
+
+云计算 第2题 2 - 22
+
+2) 评分方法及标准
+任务
+
+序号
+
+编号
+
+编号
+
+1
+
+2
+
+3
+
+4
+
+5
+
+序号
+
+主要项
+
+网络
+
+EC2
+
+LB
+
+Code Commit
+
+Code Build
+
+第2题
+6
+
+7
+
+8
+
+Code Deploy
+
+Code Pipeline
+
+ECR
+
+细项(评分方法)
+
+配分
+
+1
+
+VPC
+
+0.7
+
+2
+
+子网
+
+2
+
+3
+
+HA 配置
+
+2
+
+4
+
+网关
+
+2
+
+1
+
+EC2 创建确认
+
+1.5
+
+2
+
+IAM role 确认
+
+1.5
+
+1
+
+LB 创建确认
+
+1.5
+
+2
+
+healthy EC2 确认
+
+1.5
+
+3
+
+Application 调用确认
+
+1.5
+
+1
+
+code commit 创建确认
+
+1.2
+
+2
+
+default branch 更改
+
+1.5
+
+3
+
+源代码上传确认
+
+1.3
+
+1
+
+code build 创建确认
+
+1.1
+
+2
+
+Build log 确认
+
+1.5
+
+1
+
+code deploy 创建确认
+
+1.4
+
+2
+
+Deploy type 确认
+
+1.5
+
+3
+
+Deploy target 确认
+
+1.5
+
+1
+
+Pipeline 创建确认
+
+1.3
+
+2
+
+pipeline stage 确认
+
+1.5
+
+3
+
+pipeline manual trigger
+
+1.5
+
+4
+
+new instance 部署
+
+1.5
+
+5
+
+code commit trigger
+
+1.5
+
+6
+
+new instance 运行确认
+
+1.5
+
+7
+
+new instace LB 确认
+
+1.5
+
+1
+
+ECR 创建确认
+
+1.5
+
+2
+
+Docker build 确认
+
+1.5
+
+3
+
+Docker image 确认
+
+1.5
+
+编号
+
+总分
+
+40
+
+云计算 第2题 3 - 22
+
+3) 评分内容
+序号
+
+评分项
+
+1-1
+
+1) 使用 putty 等程序通过 SSH 访问 Bastion 服务器。
+2) 输入 aws ec2 describe-vpcs —filter Name=tag:Name,Values=wsi-vpc --query "Vpcs[].CidrBlock"
+3) 确认是否输出 10.1.0.0/16
+
+1-2
+
+1) 使用 putty 等程序通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-public-a --query
+"Subnets[].CidrBlock"
+3) 确认是否输出 10.1.2.0/24。若输出，得 1 分。
+4) 输入以下命令。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-private-a --query
+"Subnets[].CidrBlock"
+5) 确认是否输出 10.1.0.0/24。若输出，得 1 分。
+
+1-3
+
+1) 使用 putty 等程序通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-public-a --query \
+"Subnets[].AvailabilityZone"
+3) 确认是否输出 "ap-northeast-2a"。若输出，得 1 分。
+4) aws ec2 describe-subnets --filter Name=tag:Name,Values=wsi-private-b --query \
+"Subnets[].AvailabilityZone"
+5) 确认是否输出 "ap-northeast-2b"。若输出，得 1 分。
+
+云计算 第2题 4 - 22
+
+1-4
+
+1) 使用 putty 等程序通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令
+aws ec2 describe-route-tables --filter Name=tag:Name,Values=wsi-private-a-rt \
+--query "RouteTables[].Routes[].NatGatewayId"
+3) 确认是否输出以 "nat-" 开头的字符串。若输出，得 0.5 分。
+4) 输入以下命令
+aws ec2 describe-route-tables --filter Name=tag:Name,Values=wsi-private-a-rt \
+--query "RouteTables[].Routes[].NatGatewayId"
+5) 确认是否输出以 "nat-" 开头的字符串，并确认其 ID 与上述评分 3) 中输出的不同。0.5 分。
+6) 输入以下命令
+aws ec2 describe-route-tables --filter Name=tag:Name,Values=wsi-public-rt \
+--query "RouteTables[].Routes[].GatewayId"
+7) 确认输出的字符串中是否有以 "igw-" 开头的字符串。若输出，得 1 分。
+
+2-1
+
+1) 使用 putty 等程序通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws ec2 describe-instances --filters "Name=tag:wsi:deploy:group,Values=dev-api" \
+--query "Reservations[].Instances[].Tags[]" | jq '.[] | select ( .Key == "Name" ) .Value'
+3) 确认是否与下方相同，出现 2 个结果。
+"wsi-api-1"
+"wsi-api-2"
+
+2-2
+
+1) 使用 putty 等程序通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws ec2 describe-instances --filters "Name=tag:Name,Values=wsi-api-1" \
+--query "Reservations[].Instances[].IamInstanceProfile[].Arn"
+3) 确认是否如下所示。中间数字 0000 是账号，可能不同，但其他字符串必须一致。
+"arn:aws:iam::000000000000:instance-profile/wsi-api"
+
+云计算 第2题 5 - 22
+
+3-1
+
+1) 使用 putty 等程序通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws elbv2 describe-load-balancers —names <选手创建的 LB Name> --query
+"LoadBalancers[].Type"
+3) 确认是否输出 application。
+
+3-2
+
+1) 使用 putty 等程序通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，记录输出的目标组 arn。
+aws elbv2 describe-target-groups —names <选手创建的 TG Name> --query
+"TargetGroups[].TargetGroupArn"
+3) 输入以下命令。
+aws elbv2 describe-target-health --query "TargetHealthDescriptions[].TargetHealth.State" \
+--target-group-arn < 2) 中得到的 arn >
+4) 确认是否有 2 台标记为 healthy 的 EC2。
+
+3-3
+
+1) 使用 putty 等程序通过 SSH 访问 Bastion 服务器。
+2) 通过以下命令记录输出的 LB 的 DNS。
+aws elbv2 describe-load-balancers --names "wsi-api-alb" --query "LoadBalancers[].DNSName"
+3) 输入以下命令，确认是否输出 {"status":"ok"}。
+curl http://< 2) 中输出的 DNS>/health
+
+云计算 第2题 6 - 22
+
+4-1
+
+1) 使用浏览器访问 AWS 页面。
+2) 在页面顶部搜索 "codecommit" 并进入相应页面。
+3) 点击左侧 Source 下的 Repositories。
+4) 确认是否如下所示，已创建 wsi-api-repo。
+
+云计算 第2题 7 - 22
+
+4-2
+
+1) 参考 4-1 评分项，进入已创建的 wsi-api-repo。
+2) 进入 wsi-api-repo 页面后，点击左侧 Branches。
+
+3) 在 wsi-api-repo 的 branch 页面中，确认 main 是否被设为 "Default branch"。
+
+云计算第2次作业 8 - 22
+
+序号
+
+评分项
+1) 参考 4-1 评分项，移动到已创建的 wsi-api-repo。
+2) 移动到左侧的 Code。
+
+3) 确认是否存在如图中方框所示的 appspec.yml 文件。
+
+4-3
+
+4-3 评分在下一页继续。
+
+云计算第2次作业 9 - 22
+
+序号
+
+评分项
+
+4) 移动到 src 目录。
+
+4-3
+5) 确认 src 目录下是否存在 app.py 文件。
+
+云计算第2次作业 10 - 22
+
+序号
+
+评分项
+1) 使用 Web 浏览器访问 AWS 页面。
+2) 在页面上方搜索 "codebuild" 并移动到相应页面。
+
+3) 点击左侧的 Build projects。
+
+5-1
+
+4) 确认是否如下所示已创建 wsi-api-build。
+
+云计算第2次作业 11 - 22
+
+序号
+
+评分项
+1) 参考 5-1，移动到 wsi-api-build CodeBuild 页面。
+2) 在 Build history 中点击最近执行的一次 build。
+
+5-2
+2) 在 build 页面中间点击 Build log，并确认是否如下图一样输出日志。日志内容可能因选手而异，因此只需确认日志已激活并可查看即可。
+
+1) 使用 putty 等程序通过 SSH 访问 Bastion 服务器。
+
+6-1
+
+2) 输入以下命令，确认是否输出 "wsi-api"。
+aws deploy get-application --application-name wsi-api --query "application.applicationName"
+
+云计算第2次作业 12 - 22
+
+序号
+
+评分项
+1) 使用 putty 等程序通过 SSH 访问 Bastion 服务器。
+
+6-2
+
+2) 输入以下命令，确认是否输出 "IN_PLACE"。
+aws deploy get-deployment-group --application-name wsi-api —deployment-group-name \
+dev-api --query "deploymentGroupInfo.deploymentStyle.deploymentType"
+1) 使用 putty 等程序通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令。
+aws deploy get-deployment-group --application-name wsi-api \
+
+6-3
+
+--deployment-group-name dev-api --query "deploymentGroupInfo.ec2TagSet.ec2TagSetList[]"
+3) 确认输出结果中是否包含以下两项。
+"Key": "wsi:deploy:group",
+"Value": "dev-api",
+
+1) 使用 putty 等程序通过 SSH 访问 Bastion 服务器。
+
+7-1
+
+2) 输入以下命令，确认输出结果中是否有 "wsi-api-pipeline"。
+aws codepipeline list-pipelines --query "pipelines[].name"
+
+云计算第2次作业 13 - 22
+
+序号
+
+评分项
+1) 使用 Web 浏览器访问 AWS 页面。
+2) 在页面上方搜索 codepiple 并移动到相应页面。
+
+3) 点击 wsi-api-pipeline 管道。
+
+7-2
+4) 确认管道最开始是否为 Source。
+该 Source 必须如下图一样，以 AWS CodeCommit 作为 Source。
+
+7-2 评分在下一页继续。
+
+云计算第2次作业 14 - 22
+
+序号
+
+评分项
+5) 确认 Source 的下一步是否为 Build。
+Build 必须如下图一样，以 AWS CodeBuild 作为 build。
+
+7-2
+6) 确认 Build 的下一步是否为 Deploy。
+Deploy 必须如下图一样，以 AWS CodeDeploy 作为 Deploy。
+
+云计算第2次作业 15 - 22
+
+序号
+
+评分项
+1) 参考 7-2 评分项，移动到 wsi-api-pipeline。
+2) 移动到 wsi-api-pipeline 后，点击 release change。
+
+3) 如果如下图 Source 或 Build 显示为蓝色 In progress，则说明 release 已执行。
+
+7-3
+
+4) Source > Build > Deploy 依次执行，最后阶段 Deploy 会显示为蓝色 In progress。如果显示为蓝色，说明正在进行中，请等待；如果是红色，说明出错，因此是错误的。
+最终全部正常完成，Source、Build、Deploy 以成功结束并全部显示为绿色，请确认。部署最多可能需要 15 分钟左右。
+
+云计算第2次作业 16 - 22
+
+序号
+
+评分项
+1) 使用 putty 等程序通过 SSH 访问 Bastion 服务器。
+2) 输入 /opt/ec2_launch.sh wsi-api-9847 命令。
+3) 输入以下命令，确认 wsi-api-9847 EC2 是否已创建。
+aws ec2 describe-instances --filters "Name=tag:Name,Values=wsi-api-9847" \
+--query "Reservations[].Instances[].Tags[]"
+
+7-4
+
+4) 确认输出结果中是否包含如下内容。由于创建需要一定时间，执行创建命令后最多约 2 分钟内可以重试 3) 的确认命令。
+{
+"Key": "wsi:deploy:group",
+"Value": "dev-api"
+}
+
+云计算第2次作业 17 - 22
+
+序号
+
+评分项
+1) 参考 4-1 评分项，移动到已创建的 wsi-api-repo。
+2) 点击 src/app.py 文件。
+3) 点击文件后，如果看到如下页面，请点击 Edit 按钮进行编辑。
+
+4) 如下图方框所示更改 ret 值。
+更改为 ret = {'hash': 'wsi-ffad-9642', 'code': 200}。
+
+7-5
+
+5) 向下滚动，如下所示输入修改者信息，并点击 commit changes。
+
+7-5 评分在下一页继续。
+
+云计算第2次作业 18 - 22
+
+序号
+
+评分项
+6) 参考 7-2 评分项，移动到 wsi-api-pipeline CodePipeline 页面。
+7) 确认 Deploy 是否为蓝色并正在进行。等待 Deploy 成功并变为绿色 Success。最多可能需要 15 分钟左右。
+
+7-5
+
+8) 完成后通过 SSH 访问 Bastion。
+9) 通过以下命令记录输出的 LB 的 DNS。
+aws elbv2 describe-load-balancers --names "wsi-api-alb" --query "LoadBalancers[].DNSName"
+10) 输入以下命令，确认是否输出 {'hash': 'wsi-ffad-9642', 'code': 200}。
+curl http://< 2) 中输出的 DNS>/health
+1) 使用 putty 等程序通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，获取新创建的实例的 IP 地址。
+aws ec2 describe-instances --filters "Name=tag:Name,Values=wsi-api-9847" \
+--query "Reservations[].Instances[].NetworkInterfaces[].PrivateIpAddress"
+
+7-6
+
+3) 通过 ssh ec2-user@< 2) 中输出的 IP> 访问新实例。如有需要，可以通过 -i 选项使用密钥访问。
+4) 输入以下命令，确认是否输出 {"code":200,"hash":"wsi-ffad-9642"}。
+curl http://localhost:80/health
+
+云计算第2次作业 19 - 22
+
+序号
+
+评分项
+1) 使用 putty 等程序通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，获取新创建的实例 ID。
+aws ec2 describe-instances --filters "Name=tag:Name,Values=wsi-api-9847" \
+--query "Reservations[].Instances[].InstanceId"
+2) 输入以下命令，记录输出的目标组 arn。
+
+7-7
+
+aws elbv2 describe-target-groups --names wsi-api-tg --query "TargetGroups[].TargetGroupArn"
+3) 输入以下命令。
+aws elbv2 describe-target-health --target-group-arn < 3) 中输出的 arn > \
+--query "TargetHealthDescriptions[].Target.Id"
+4) 确认输出结果中是否包含 2) 的结果即新实例 ID。
+1) 使用 putty 等程序通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，确认是否输出 wsi-api-ecr。
+
+8-1
+
+aws ecr describe-repositories --repository-name wsi-api-ecr --query
+"repositories[].repositoryName"
+1) 使用 Web 浏览器访问 AWS 页面。
+2) 参考 4-1 评分项，移动到 wsi-api-repo CodeCommit 页面。
+3) 如下图选择 release branch。
+
+4) 移动到 src 目录。
+
+8-2
+
+8-2 评分在下一页继续。
+
+云计算第2次作业 20 - 22
+
+序号
+
+评分项
+5) 点击 Edit 按钮，进入 app.py 文件编辑模式。
+
+6) 将 app.py 文件内容中方框部分如下图一样更改。
+ret = {'hash': 'wsi-release-ffaa', 'code': 200}
+
+8-2
+
+7) 向下滚动，将 author 和 email 填为任意值，然后点击 commit。
+
+8-2 评分在下一页继续。
+
+云计算第2次作业 21 - 22
+
+序号
+
+评分项
+8) 使用 putty 等程序通过 SSH 访问 Bastion 服务器。
+
+9) 输入命令 aws ecr list-images --repository-name wsi-api-ecr --query "imageIds[].imageTag"。
+
+8-2
+
+10) 确认输出结果中是否存在以当前时间作为标签的镜像。格式为年 月 日 时 分 秒。
+（例如，21年07月01日14时12分9秒则表示为 210701141209）
+构建和上传最多可能需要约5分钟。5分钟内多次输入第9)条命令也没有关系。因为必须生成当前日期的镜像，所以不能与当前时间相差5分钟或以上。
+1) 使用 PuTTY 等程序通过 SSH 访问 Bastion 服务器。
+2) 使用以下命令记录 ECR 仓库的 URI。
+aws ecr describe-repositories --repository-name wsi-api-ecr --query "repositories[].repositoryUri"
+3) 使用以下命令记录最新的镜像标签。
+aws ecr list-images --repository-name wsi-api-ecr --query "imageIds[].imageTag"
+4) 使用以下命令登录 ECR。
+aws ecr get-login --no-include-email | sh -x
+
+8-3
+
+5) 使用以下命令下载 Docker 镜像。
+docker pull <第2步的 URI>:<第3步的镜像标签>
+例) docker pull 0000000000.dkr.ecr.ap-northeast-2.amazonaws.com/wsi-api-ecr:210701141209
+6) 使用以下命令运行 Docker。
+docker run -d -p 28888:80/tcp <第2步的 URI>:<第3步的镜像标签>
+7) 调用以下命令，确认响应是否为 {"code":200,"hash":"wsi-release-ffaa"}。
+curl http://localhost:28888/health
+
+云计算第2次作业 22 - 22

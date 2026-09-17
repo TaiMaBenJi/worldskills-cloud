@@ -1,0 +1,541 @@
+# Source: /var/minis/shared/worldskills-cloud/github-repos/wsc2025-15-days-ago-task2-main/경북/과제지&배포파일/경북_2과제_과제지_vf.hwp
+
+----- BodyText/Section0 -----
+2025年度全国技能大赛
+
+云计算第2任务  - 13
+
+
+
+职业名称
+
+云计算
+
+任务名称
+
+Small Challenge
+
+任务编号
+
+第 2 任务
+
+比赛时间
+
+4小时
+
+匿名编号
+
+评委
+
+确   认
+
+(印)
+
+1. 需求事项
+1) S3 Multi-Region Access Point (CDN)
+2) VPC Lattice
+3) Actions Runner Controller (CI/CD)
+4) ECS Firelens (Logging)
+
+2. 选手注意事项
+
+    ※ 请参考以下注意事项完成需求事项。
+
+    1) 使用机械及工具等时请注意安全，必要时请佩戴安全装备及穿着防护服装等，
+
+       以预防事故发生。
+
+    2) 作业过程中请注意预防烫伤、触电、擦伤等安全事故，使用工具或作业器具时
+
+       请佩戴安全防护用品等，遵守安全守则。
+
+    3) 作业中请注意工具的使用，遵守安全守则，预防事故发生。
+
+    4) 比赛开始前请通过轻微拉伸等放松紧张情绪，使用作业工具时请注意安全。
+
+    5) 题目中给出的尖括号 <> 表示变量，选手需适当更改后使用。
+
+    6) Security Group 的 80/443 outbound 应设为 anyopen 以便使用。
+
+    7) Bastion EC2 用于评分。请确保不会因服务器连接问题而在评分中受到不利影响。
+
+    8) 任务结束前应停止正在运行的测试及负载，确保服务器不出现问题。
+
+    9) 请注意避免因 Tag 信息不符或权限问题导致无法评分。
+
+3. S3 Multi-Region Access Point
+
+需求事项
+  目前正在基于 Amazon CloudFront 与 CloudFront Function 等，实现按国家区分内容分发与恶意 User-Agent 拦截功能，通过提供静态内容并拦截自动化请求，来增强 Web 服务的安全性与性能。利用 AWS 的全球基础设施与边缘计算技术，构建快速、稳定的静态 Web 内容提供环境，是你的主要职责。
+该题目在 ap-northeast-2、us-east-1 中创建资源。
+
+VPC
+
+为便于评分，创建默认 VPC 以构建云网络。
+
+S3 Bucket
+
+使用以下信息创建 S3 存储桶，并将发放的所有文件上传至 S3。这些文件之后必须能够通过 CloudFront 访问，且必须配置为 Lambda@Edge 以 SigV4 方式对请求进行签名，使 CloudFront 能够访问 S3 MRAP。此外，为了根据用户的地理位置从最近区域的 S3 存储桶提供内容，从而将网络延迟降至最低，请参考以下信息配置 Multi Region Access Point。MRAP 应启用 Public Access 阻止功能。
+
+KR S3 Name Tag : skills-kr-cdn-web-static-<账户ID>
+
+US S3 Name Tag : skills-us-cdn-web-static-<账户ID>
+
+MRAP Name : skills-mrap
+
+Bastion
+
+为便于评分，使用 AWS EC2 在 ap-northesat-2 中创建 Bastion Server。为确保评分过程中 IP 不会突然变更，重启时也应配置为 IP 不变。Bastion 用于评分用途，因此必须确保通过 SSH 的访问与权限不存在问题。
+
+Instance Name Tag : mrap-bastion
+
+Machine Image : Amazon Linux 2023
+
+Instance Type : t3.micro
+
+Security Group Name Tag : mrap-bastion-sg
+
+IAM Role Name Tag : mrap-bastion-role
+
+Required Package : awscliv2 , curl, jq 
+
+CloudFront Distributions
+
+创建 Distributions 并进行用于全球内容传输的基本设置。源必须使用 MRAP，Viewer Protocol Policy 必须设置为 Redirect HTTP to HTTPS。Origin Request Policy 必须基于地区信息进行设置。此外，需开发并编写连接到 CloudFront 的 Viewer Request 阶段的函数代码。基于地区的拦截应利用 CloudFront 标头功能，对于来自 KR、US 国家以外的请求，以及 user-agent 标头中包含 bot、crawler、spider 的请求，配置为返回 403 Status 及以下响应。
+
+CloudFront Name Tag : skills-global-distribution
+
+CloudFront Function Name : skills-cf-function
+
+Allow Region List : KR, US
+
+Country 403 Status Body : “Access denied: unsupported country”
+
+User Agent 403 Status Body :“Request blocked due to suspicious User-Agent”
+
+CloudFront Invalidations
+
+目前通过 CloudFront 发布的内容中，部分对象出现未能更新的问题。为解决此问题，需利用 Lambda 对该对象执行 CloudFront Invalidation 以使缓存失效，确保最新版本传递给用户，请参考以下信息进行配置。
+
+KR Lambda Function Name : skills-lambda-function-kr
+
+US Lambda Function Name : skills-lambda-function-us
+
+KR Lambda IAM Role Name : skills-lambda-role-kr
+
+US Lambda IAM Role Name : skills-lambda-role-us
+
+4. VPC Lattice
+
+需求事项
+
+  你需要在给定架构的基础上，综合考虑高可用性、性能等多项要素，构建能够运行 Web 应用程序的云平台。利用 AWS 提供的解决方案及各种 Use Case 等，更快速、更稳定地完成构建，是你的工作。该题目要求在 ap-southeast-1 中创建资源。
+
+VPC
+
+创建 VPC 以构建云网络。考虑 HA，配置为至少拥有 2 个可用区（AZ）。
+
+- Consumer VPC
+
+VPC Name : skills-consumer-vpc
+
+VPC CIDR : 172.168.0.0/16
+
+Intetnet G/W Name : skills-consumer-igw
+
+Nat G/W Name : skills-consumer-nat-a, skills-consumer-nat-c
+
+- Public Subnet A
+
+CIDR : 172.168.0.0/24
+
+Name : skills-consumer-public-subnet-a
+
+外部通信 : 配置 Internet G/W 以访问互联网
+
+Route Table Name : skills-consumer-public-rt
+
+- Public Subnet C
+
+CIDR : 172.168.1.0/24
+
+Name : skills-consumer-public-subnet-c
+
+外部通信 : 配置 Internet G/W 以访问互联网
+
+Route Table Name : skills-consumer-public-rt
+
+- Private Subnet A
+
+CIDR : 172.168.2.0/24
+
+Name : skills-consumer-workload-subnet-a
+
+外部通信 : 配置 Nat G/W 以访问互联网
+
+Route Table Name : skills-consumer-workload-rt-a
+
+- Private Subnet C
+
+CIDR : 172.168.3.0/24
+
+Name : skills-consumer-workload-subnet-c
+
+外部通信 : 配置 Nat G/W 以访问互联网
+
+Route Table Name : skills-consumer-workload-rt-c
+
+- Service VPC
+
+VPC Name : skills-service-vpc
+
+VPC CIDR : 10.0.0.0/16
+
+Intetnet G/W Name : skills-service-igw
+
+Nat G/W Name : skills-service-nat-a, skills-service-nat-c
+
+- Public Subnet A
+
+CIDR : 10.0.0.0/24
+
+Name : skills-service-public-subnet-a
+
+外部通信 : 配置 Internet G/W 以访问互联网
+
+Route Table Name : skills-service-public-rt
+
+- Public Subnet C
+
+CIDR : 10.0.1.0/24
+
+Name : skills-service-public-subnet-c
+
+外部通信 : 配置 Internet G/W 以访问互联网
+
+Route Table Name : skills-service-public-rt
+
+- Private Subnet A
+
+CIDR : 10.0.2.0/24
+
+Name : skills-service-workload-subnet-a
+
+外部通信 : 配置 Nat G/W 以访问互联网
+
+Route Table Name : skills-service-workload-rt-a
+
+- Private Subnet C
+
+CIDR : 10.0.3.0/24
+
+Name : skills-service-workload-subnet-c
+
+外部通信 : 配置 Nat G/W 以访问互联网
+
+Route Table Name : skills-service-workload-rt-c
+
+VPC Lattice
+
+该架构中 Consumer VPC 与 Service VPC 的网络相互隔离，两个 VPC 之间的通信通过 VPC Lattice 实现。Consumer VPC 中产生的请求经 VPC Lattice 传递至 Service VPC，从而实现安全、高效的网络连接。
+
+Lattice Service Network Name : skills-app-service-network
+
+Lattice Service Name : skills-app-service
+
+Lattice Target Group Name : skills-alb-tg
+
+Bastion
+
+为了进行评分，使用 AWS EC2 创建 Bastion Server。为避免评分过程中 IP 突然变更，即使在重启时也必须配置为 IP 不发生变更。Bastion 用于评分，因此务必确保可以通过 SSH 访问且不存在权限问题。
+
+实例 Name 标签 : skills-bastion
+
+机器镜像 : Amazon Linux 2023
+
+实例类型 : t3.micro
+
+安全组 Name 标签 : skills-bastion-sg
+
+IAM Role Name 标签 : skills-bastion-role
+
+所需软件包 : awscliv2 , curl, jq
+
+应用程序
+
+- Consumer Server (External ALB)
+
+Consumer Server 位于 Consumer VPC 内的 Private Subnet 中，并连接到 External ALB。在接收来自外部客户端的请求后，将其通过 VPC Lattice 转发到 Service VPC，从而与 App Server 通信。通过这种方式，将外部流量安全地路由到内部服务。Consumer Server 应使用 Web 服务器，或使用 Python 直接开发来构建服务器。
+
+External ALB 名称 : skills-consumer-alb
+
+- App Server (Internal ALB)
+
+App Server 位于 Service VPC 内的 Private Subnet 中，并连接到 Internal ALB。它接收通过 VPC Lattice 从 Consumer Server 转发来的请求，并处理业务逻辑。App Server 与 DynamoDB 集成以存储和查询数据，并提供可扩展性和稳定性。
+
+Internal ALB 名称 : skills-app-alb
+
+DynamoDB
+
+App Server 使用 DynamoDB 处理数据。配置表时使用 PAY_PER_REQUEST 模式，并将 UserId 用作表的键。此外，为应对数据丢失，启用 PITR，并为防止表被意外删除而配置表的删除保护。
+
+表名称 : skills-app-table
+
+键 : UserId
+
+模式 : PAY_PER_REQUEST
+
+应用程序 API Spec
+
+5. Actions Runner Controller
+
+要求
+
+  必须配置使用 EKS、Github、Github Actions、ArgoCD 的 CI/CD 流水线。构建在 EKS cluster 上运行的 Self-hosted Runner，以便执行 workflow job。不能使用 Github-hosted Runner。当容器镜像构建并上传到 ECR 后，必须通过 ArgoCD 使用上传的镜像对容器进行无中断部署。请根据要求配置合适的流水线。
+该问题在 eu-central-1 中创建资源。
+
+VPC 配置
+
+为了分 dev 环境和 prod 环境运营，必须配置 2 个 VPC。
+
+每个 VPC 必须存在 2 个 Public subnet、2 个 Private subnet。
+
+VPC Name 标签: dev-vpc, prod-vpc
+
+Bastion 配置
+
+在 dev-vpc 的 Public subnet 中创建用于评分的 Bastion EC2，并且必须能够以集群管理员权限正常访问 EKS Cluster。此外，为了评分，必须能够通过 gh cli 访问 Github，并且必须已通过 argocd cli 登录到 ArgoCD。
+
+为了评分，必须向实例 iam role 添加 AdministratorAccess 策略。
+
+Bastion EC2 安装包: kubectl, gh cli, argocd cli
+
+Bastion Name 标签: dev-bastion
+
+应用程序
+
+应用程序在 8080 port 上运行。
+
+应用程序必须通过 Argo Rollouts CRD 部署到每个 EKS cluster。
+
+应用程序必须部署到每个 EKS cluster 的 app namespace 中。
+
+EKS
+
+必须分别在 dev 和 prod 分离的 2 个 VPC 的 Private subnet 中配置 EKS cluster。
+
+使用名为 dev-cluster、prod-cluster 的 cluster name。
+
+Repository
+
+使用 Github 配置用于应用程序开发和版本管理的 Public Repository。
+
+创建名为 day2-product 的 Repository。
+
+将名为 app 的 Helm chart 配置在 Repository 最顶层位置的 charts/ 中，并将 dev.values.yaml、prod.values.yaml 配置在 values/ 中。
+
+在 main branch 中，将应用程序源代码及部署管理环境配置所需的 .github/workflows、Dockerfile、app.py、requirements.txt、charts/、values/ 一起 commit & push。
+
+以 main branch 为 source 创建 dev、prod branch。另外，将 dev branch 设置为 base。
+
+可以为新功能添加 feature/* 形式的 branch，并可以向 dev 及 prod branch 创建 PR。
+
+创建名为 approval 的 PR label，用于处理向 prod branch 发起的 PR 请求。
+
+Registry
+
+在 ECR 中创建 product/dev、product/prod 这 2 个 private repository。
+
+必须预先上传通过提供的 Python 源代码构建的镜像。
+
+Workflow
+
+配置使用 Github Actions 的流水线。
+
+必须编写 2 个名为 dev、prod 的 workflow，并分别编写为 dev.yml、prod.yml。
+
+workflow 必须配置为考虑多架构，能够同时构建 linux/amd64、linux/arm64。此外，新构建镜像的 tag 使用 Commit ID。
+
+当 Trigger 发生时，将新 tag 的镜像上传到 product/dev、product/prod ECR repo 后，修改 Repo 内 values/ 的 dev/prod.values.yaml 以使用新镜像，并通过 argocd sync 自动完成整体工作，使其在各个 cluster 中更新为新版本。
+
+必须在 dev、prod cluster 中分别配置各自的自托管 Runner，runner 必须分别具有 dev、prod 这个 custom label。此外，必须维持 2 个 runner。
+
+在 feature/* branch 向 dev branch 创建 PR 时，使用 dev-cluster 的 runner 在 1 分钟内 merge 到 dev branch，并 build & push 到 product/dev ECR repo 后，立即 Sync 到 ArgoCD。
+
+在 dev branch 向 prod branch 创建 PR 时，如果为该 PR 赋予 approval label，则在 1 分钟内 merge 到 prod branch，并 build & push 到 product/prod ECR repo 后，立即 Sync 到 ArgoCD。此外，必须 Fast-Forwarding 到 dev branch。
+
+请良好配置 Dockerfile，使流水线在 1 分钟内成功完成。
+
+在 ECR push 时，为了访问 ECR 时的安全，不能使用 AWS Access Key。配置 Github OIDC，使 workflow 能够通过 IAM Role 访问。
+
+Argo
+
+ArgoCD 仅安装在 dev-cluster 中。prod-cluster 只能安装 Rollouts，并将其注册到位于 dev-cluster 的 ArgoCD 中，以便一起管理。此外，必须使用名为 argocd 的 namespace。
+
+应用程序必须通过 Blue/Green 部署策略进行更新，并禁用 Auto sync。由于 Workflow 中的 Sync，当新版本的应用程序准备完成后，必须自动替换现有应用程序。
+
+应用程序更新完成后，现有应用程序 pod 必须终止。
+
+Rollout 资源的名称配置为 product。
+
+ArgoCD Application 的名称分别配置为 dev、prod。
+
+ALB
+
+必须按环境配置 2 个 ALB，以便能够通过 ALB 访问最新应用程序。
+
+   - Ingress Name : dev-ingress, prod-ingress
+
+   - Ingress Namespace : app
+
+   - ALB Name Tag : dev-alb, prod-alb
+
+应用程序 API Spec
+
+| 路径 | 方法 | 响应体 | 响应状态码 |
+| --- | --- | --- | --- |
+| /api | GET | “product v1” | 200 |
+| /health | GET | “ok” | 200 |
+
+6. ECS Firelens
+
+要求
+为了在 ECS 环境中高效处理和管理日志，使用 Fluentbit 收集应用程序容器的日志。该问题在 eu-west-1 中创建资源。
+
+VPC
+
+VPC 信息
+
+VPC CIDR : 10.1.0.0/16
+
+VPC Tag : Name=skills-log-vpc
+
+Private A subnet 信息
+
+CIDR : 10.1.0.0/24
+
+Tag : Name=skills-log-priv-a
+
+外部通信：配置 NAT G/W，使其能够访问互联网
+
+Route table Tag : Name=skills-log-priv-rt-a
+
+Private B subnet 信息
+
+CIDR : 10.1.1.0/24
+
+Tag : Name=skills-log-priv-b
+
+外部通信：配置 NAT G/W，使其能够访问互联网
+
+路由表标签 : Name=skills-log-priv-rt-b
+
+Public A 子网信息
+
+CIDR : 10.1.2.0/24
+
+标签 : Name=skills-log-pub-a
+
+外部通信 : 通过配置 Internet G/W 访问互联网
+
+路由表标签 : Name=skills-log-pub-rt
+
+Public B 子网信息
+
+CIDR : 10.1.3.0/24
+
+标签 : Name=skills-log-pub-b
+
+外部通信 : 通过配置 Internet G/W 访问互联网
+
+路由表标签 : Name=skills-log-pub-rt
+
+
+
+Bastion Server
+
+为了评分，使用 AWS EC2 创建 Bastion Server。Bastion 用于评分，因此必须确保通过 SSH 访问和权限没有问题。
+
+Instance Name Tag : skills-log-bastion
+
+Machine Image : Amazon Linux 2023
+
+Instance Type : t3.small
+
+Security Group Name Tag : skills-log-bastion-sg
+
+IAM Role Name Tag : skills-log-bastion-role
+
+Required Package : awscliv2 , curl, jq, docker
+
+应用程序
+
+应用程序接收外部用户的请求，并在服务器内部记录日志。通过位于 Public 子网的 ALB 接收请求。
+
+Binding port: 5000
+
+
+
+API
+
+响应
+
+GET   /check
+
+{"data": "hello"}
+
+GET   /health
+
+{"status": "ok"}
+
+ECR
+
+希望将包含所提供 application 的容器镜像保存到 ECR。上传到 ECR 的镜像必须经过扫描，且不得存在漏洞。
+
+application ECR 名称 : skills-app
+
+Fluent Bit ECR 名称 : skills-firelens
+
+Elastic Container Service
+
+利用以下信息配置 ECS。Python 应用程序通过 ECR 部署到 task。必须仅允许通过 ALB 进入的请求，ALB 必须通过 /health 路径进行 healthcheck。所有服务的主机端口都设置为 5000。所有服务都必须在 Fargate 上运行，并且所有应用程序都必须配置在 Private Subnet 中。编写包含使用 FireLens 的 Fluent Bit 日志配置的 Task Definition。日志驱动程序使用 awsfirelens。FireLens 配置文件（extra.conf, parsers.conf）必须由选手直接编写。
+
+ECS Cluster 名称 : skills-log-cluster
+
+ALB 名称标签 : skills-log-alb
+
+ECS Service 名称 : app
+
+ECS TaskDefinition 名称标签 : skills-log-app-td
+
+容器名称 : app, log_router
+
+Fluent Bit
+
+Fluent Bit 与 FireLens 集成，在 extra.conf 中配置 INPUT、FILTER，并在 parsers.conf 中配置 PARSER，以将应用程序日志解析为 JSON 形式。
+
+Plain Log : 172.17.0.1 - - [14/Jun/2025 02:43:22] "GET /check HTTP/1.1" 200 -
+
+CloudWatch Log : 
+
+    ྠ
+    ྠ  "clientip": "10.1.3.186",
+
+    ྠ  "timestamp": "14/Jun/2025 03:32:25",
+
+    ྠ  "method": "GET",
+
+    ྠ  "path": "/check",
+
+    ྠ  "http_version": "1.1",
+
+    ྠ  "statuscode": "200"
+
+    ྠ
+9. CloudWatch
+
+所有应用程序日志都必须发送到 CloudWatch Logs，日志必须结构化为 JSON 格式，并保持适合可视化和分析的质量。
+
+日志组名称 : /skills/app
+
+日志流名称 : logs/<ECS TASK ID>

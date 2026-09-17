@@ -1,0 +1,271 @@
+2024年度地方技能竞赛任务
+职业名称
+
+云计算
+
+任务名称
+
+比赛时间
+
+4小时
+
+密编号
+
+Web Service
+Provisioning
+
+任务编号
+评委
+确
+
+认
+
+第1任务
+（印）
+
+1. 需求
+你承担了 WorldSkills 系统中认证系统的 Infrastructure 设计与运营工作。认证系统由 MSA 构成。必须充分考虑给定需求以及云的设计原则，如高可用性、扩展性、成本、安全性等，构建基础设施。
+示意图
+
+云计算 第1任务 8 - 1
+
+Software Stack
+AWS
+
+- VPC
+
+开发语言/框架
+
+- Golang
+
+- EC2
+- ELB
+- Fargate
+- EKS
+- ECR
+- DocumentDB
+- ElastiCache
+- Secrets Manager
+
+2. 选手注意事项
+※ 请考虑以下注意事项，完成需求。
+1) 使用机械及工具等时请注意安全，必要时请穿戴安全装备及服装等，预防事故。
+2) 作业中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请遵守佩戴安全防护用具等安全守则。
+3) 作业中使用工具时请注意，遵守安全守则，预防事故。
+4) 比赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+5) 题目中给出的尖括号 < > 表示变量，选手必须适当更改后使用。
+6) 为了解题和评分的效率，Security Group 的 80/443 Outbound 可 Anyopen 使用。
+7) Bastion EC2 在评分时会被使用，因此请注意不要因终止、连接问题、权限问题等而受到不利影响。
+8) 所有资源均配置在首尔（ap-northeast-2）区域。
+9) 提供的资料不得修改，直接使用。若修改提供的资料后使用，可能受到不利影响。
+
+云计算 第1任务 8 - 2
+
+3. Networking
+为构建云基础设施，实施基本网络配置。参考附录 1 的信息创建 AWS VPC。
+
+4. Bastion Server
+使用 EC2 创建 Bastion 服务器。Bastion 服务器的 IP 在重启后也不得更改，请特别注意不要将其终止。此外，由于使用 SSH 连接到服务器，因此必须能够通过 SSH 访问，并且端口绝不能使用 SSH 默认端口。在该实例的 root 账户中使用 AWS CLI 时，必须能够使用 AWS 的所有权限；使用 kubectl 时，必须能够使用该 EKS Cluster 的所有权限。软件包必须在版本和权限等方面没有问题。
+Ÿ
+
+Instance Type : t4g.large
+
+Ÿ
+
+OS Image : Amazon Linux 2023
+
+Ÿ
+
+Name Tag : skills-bastion-ec2
+
+Ÿ
+
+Packages : AWS CLI v2, cURL, jq, kubectl
+
+5. NoSQL Database
+user 应用使用 MongoDB 作为数据库。利用 AWS 中可用的 Managed MongoDB Service——DocumentDB，使 user 应用能够使用。MongoDB 的端口必须从默认端口更改为其他端口。必须使用 DocumentDB 选项保证高可用性，并启用加密、日志记录（audit、profiler）、备份等。为提高安全性，将其配置在不与互联网连接的环境中。
+Ÿ
+
+Cluster Name : skills-mongodb-cluster
+
+Ÿ
+
+Engine Version : 5.0.0
+
+Ÿ
+
+Instance Class : db.t4g.medium
+
+云计算 第1任务 8 - 3
+
+6. In-Memory Database
+token 应用使用 Redis 作为数据库。利用 AWS 中可用的 Managed Redis Service 之一 ElastiCache，使 token 应用能够使用。Redis 的端口必须从默认端口更改为其他端口。必须保证高可用性，并启用加密（AtRest Encryption、Transit Encryption）、日志记录、备份等。还必须启用 Sharding，以确保 token 应用能够无问题地运行。
+Ÿ
+
+Cluster Name : skills-redis-cluster
+
+Ÿ
+
+Engine Version : 7.0
+
+Ÿ
+
+Instance Type : t4g.small
+
+7. Application
+作为提供资料给出的应用是用 Golang 开发的二进制文件。token 二进制文件基于 x86_64 构建，user 二进制文件基于 ARM64 构建。user 应用必须能够使用 token 应用的 REST API。必须充分掌握附录 2 中说明的二进制文件使用方法，并运行应用。此外，容器镜像内必须能够使用 curl。提供资料中有 API 文档。
+
+8. Secrets Store
+为了使 user 应用能够签发 JWT，必须能够访问 Secrets Manager。Secret 必须以 JSON 格式保存，形式如 {"secretValue": "secret"}。（例：{"secretValue":"test12345678"}）
+
+9. Container Image Registry
+使用 AWS ECR 存储应用的容器镜像。为 user 和 token 应用分别创建一个仓库。两个仓库都必须能够进行 KMS 加密和漏洞分析等，并配置为不允许上传具有相同标签的镜像。
+Ÿ
+
+user 应用仓库名称 : user
+
+Ÿ
+
+token 应用仓库名称 : token
+
+云计算 第1任务 8 - 4
+
+10. Container Orchestration
+使用基于 EKS 的 Kubernetes 配置 Container Orchestration。必须能够在 CloudWatch Logs 中查看 Kubernetes Cluster 的 Control Plane 中发生的所有日志，Kubernetes 的 Secret 资源必须使用 KMS 加密。创建 Private 类型的 EKS 集群，Kubernetes API 必须无法从外部访问，只能从 Bastion Server 访问。token 在指定的 Fargate 上运行，user 在指定的 Nodegroup 上运行，其他 Addon 必须在 Addon Nodegroup 上运行。但 DaemonSet 资源必须在除 Fargate 外的所有 Node 上运行。
+Ÿ
+
+Clsuter Name : skills-eks-cluster
+
+Ÿ
+
+Kubernetes Version : EKS 最新版本
+
+Addon Nodegroup
+除应用外的其他所有 Addon 都必须在 Addon Nodegroup 上运行。至少运行 2 个以上，平时必须保持 2 个。
+Ÿ
+
+Nodegroup Name : skills-eks-addon-nodegroup
+
+Ÿ
+
+Node EC2 Instance Tag : Name=skills-eks-addon-node
+
+Ÿ
+
+Node EC2 Instance Type : t4g.large
+
+App Nodegroup
+user 应用必须在 App Nodegroup 上运行，除 user 应用外的其他资源不得存在于 App Nodegroup 中。至少运行 2 个以上，平时必须保持 2 个。
+Ÿ
+
+Nodegroup Name : skills-eks-app-nodegroup
+
+Ÿ
+
+Node EC2 Instance Tag : Name=skills-eks-app-node
+
+Ÿ
+
+Node EC2 Instance Type : m6g.large
+
+App Fargate Profile
+token 应用必须在 App Fargate Profile 上运行，除 token 应用外的其他资源不得存在于 App Fargate Profile 中。
+Ÿ
+
+Fargate Profile Name : skills-eks-app-profile
+
+Ÿ
+
+Fargate Resource : 0.5vCPU, 1GB Memory
+
+云计算 第1任务 8 - 5
+
+Kubernetes Resource
+user 应用和 token 应用必须创建在 skills Namespace 中，user 应用的 Deployment 名称必须是 user，token 应用的 Deployment 名称必须是 token。user 和 token Deployment 的 Pod 必须分别至少运行 2 个以上，平时必须保持 2 个。
+
+11. Load Balancing
+使用 Load balancer，使 user 应用能够从外部访问，同时能够分散负载。
+Ÿ
+
+Load Balancer Type : Application Load Balancer
+
+Ÿ
+
+Load Balancer Name : skills-user-alb
+
+Ÿ
+
+Load Balancer Scheme : internet-facing
+
+Ÿ
+
+Load Balancer Protocol : HTTP
+
+Ÿ
+
+Load Balancer Port : 80
+
+12. Auto Scaling
+当 user 应用和 token 应用使用大量资源时，配置为执行 Auto Scaling。当 user 应用执行 Auto Scaling 时，Pod 增加的同时，Node 也必须增加。Pod 数量减少时，Node 数量也必须减少。当 token 应用执行 Auto Scaling 时，Fargate Pod 必须增加；资源使用量较少时，Fargate Pod 数量必须减少。Pod 的 CPU 使用率大于等于 10% 时必须 Scale-out，小于 10% 时必须 Scale-in；Scale-out 必须在 5 分钟内完成，Scale-in 必须在 20 分钟内完成。
+
+13. Logging
+user 应用和 token 应用正在将日志输出到标准输出和标准错误。配置为能够将这些日志保存到 CloudWatch。
+Ÿ
+
+user 应用程序 Log Group 名称：/aws/app/user
+
+-
+
+token 应用程序 Log Group 名称：/aws/app/token
+
+云计算第1次作业 8 - 6
+
+附录 1
+VPC 信息
+| Name Tag | CIDR |
+| --- | --- |
+| skills-vpc | 10.100.0.0/16 |
+
+子网信息
+| Name Tag | CIDR | 可用区 |
+| --- | --- | --- |
+| skills-public-subnet-a | 10.100.1.0/24 | ap-northeast-2a |
+| skills-public-subnet-b | 10.100.2.0/24 | ap-northeast-2b |
+| skills-private-subnet-a | 10.100.11.0/24 | ap-northeast-2a |
+| skills-private-subnet-b | 10.100.12.0/24 | ap-northeast-2b |
+| skills-protected-subnet-a | 10.100.21.0/24 | ap-northeast-2a |
+| skills-protected-subnet-b | 10.100.22.0/24 | ap-northeast-2b |
+
+路由表信息
+| Name Tag | 子网 | 网关 |
+| --- | --- | --- |
+| skills-public-rtb | skills-public-subnet-a, skills-public-subnet-b | Internet Gateway (Name Tag : skills-igw) |
+| skills-private-rtb-a | skills-private-subnet-a | NAT Gateway (Name Tag : skills-nat-a) |
+| skills-private-rtb-b | skills-private-subnet-b | NAT Gateway (Name Tag : skills-nat-b) |
+| skills-protected-rtb | skills-protected-subnet-a, skills-protected-subnet-b | NO INTERNET ACCESS |
+
+云计算第1次作业 8 - 7
+
+附录 2
+user 应用程序
+应用程序说明
+接收用户数据（email、password）以创建新用户，或接收用户数据并签发 JWT。数据库使用 MongoDB。必须设置下方的环境变量，应用程序才能正常运行。指定 MongoDB 数据库名称后，会在该数据库内部自动创建名为 user 的集合。从 AWS Secrets Manager 获取 secret 并用于签发 JWT。
+REST API 可通过 TCP 8080 访问。
+环境变量
+- MONGODB_HOST：MongoDB 地址
+- MONGODB_PORT：MongoDB 端口
+- MONGODB_USERNAME：MongoDB 用户
+- MONGODB_PASSWORD：MongoDB 用户密码
+- AWS_REGION：Secrets Manager Secret 所在的区域
+- AWS_SECRET_NAME：Secrets Manager Secret 名称
+- TOKEN_ENDPOINT：token 应用程序端点 URL
+（例如 http://token-endpoint:8080）
+
+token 应用程序
+应用程序说明
+接收 user 应用程序生成的 JWT 并存储到 In-Memory Database 中。数据库使用 Redis。必须设置下方的环境变量，应用程序才能正常运行。REST API 可通过 TCP 8080 访问。
+环境变量
+- REDIS_HOST：Redis Configuration 地址
+- REDIS_PORT：Redis Configuration 端口
+
+云计算第1次作业 8 - 8

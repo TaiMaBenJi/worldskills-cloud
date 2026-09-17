@@ -1,0 +1,103 @@
+2023年全国技能竞赛
+职业名称
+
+云计算
+
+任务名称
+
+竞赛时间
+
+2小时
+
+备注
+
+Trouble-shooting
+
+任务编号
+
+第3题
+
+评审委员
+确认
+
+(签名)
+
+1. 要求事项
+1-1. 容器镜像构建问题
+1-2. S3 对象问题
+1-3. IAM 权限控制
+1-4. IaC 问题
+
+S/W Stack
+因 trouble-shooting 不提供
+
+2. 选手注意事项
+1) 使用机械及工具等时请注意安全，必要时请佩戴安全装备及穿着防护服等，以预防事故。
+2) 作业中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请佩戴安全防护用具，并遵守安全守则。
+3) 作业中请注意工具的使用，遵守安全守则，预防事故。
+4) 竞赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+5) 选手的账户存在费用限制，若产生高于此的费用，账户可能无法使用。
+6) 题目中给出的尖括号 <> 表示变量，选手应适当更改后使用。
+7) 将 EC2 实例的 TCP 80/443 出站设为 anyopen，以便可以使用。
+8) 任务的 Bastion 服务器上会进行大部分评分，因此如果未创建实例或实例处于已终止状态，则无法评分，请特别留意。
+9) 任务结束时，请终止所有正在进行的测试，以免服务器产生负载。
+10) 如无另行说明，请在 ap-northeast-2 区域创建资源。
+11) 所有资源的名称、标签、变量和变量区分大小写。
+云计算 第3题 1 - 3
+
+3. Bastion 服务器
+使用 EC2 构建 Bastion 服务器。网络位置不限，但应配置为可从外部访问。Bastion 服务器本身不评分，但为了后续任务解答，必须按如下方式创建。如无另行说明，评分将通过以 root 账户 SSH 访问 Bastion 并执行 awscli 等命令来进行。
+- 实例类型：t3.small
+- AMI：Amazon Linux2
+- 安装包：awscli, jq, curl, docker
+- 标签：Name=wsi-bastion
+- EC2 IAM Role：创建对所有资源具有 full access 的 role 并附加。
+
+4. 容器镜像构建问题
+1) 提供文件介绍
+希望创建用于运行 foo 应用程序的容器镜像。将提供的 day3-container-image-build.zip 文件解压到 Bastion 服务器的 /home/ec2-user/container/ 路径。压缩包内包含 Dockerfile 和应用程序代码。
+该应用程序提供 GET /v1/foo API。应用程序代码没有问题。因此，执行任务时不得更改应用程序源代码。应用程序使用 8080 端口。
+2) 问题
+通过提供的 Dockerfile 正常执行构建，并确保执行 ECR Scan 时未发现漏洞。如果构建正常，则应能从 Bastion 通过 localhost:8080 调用 API。评分时使用 docker run –d –p 8080:8080 <image> 命令运行容器后，调用 http://localhost:8080/v1/foo 进行部分评分。调用时应返回 {"application":"foo"} body 和 200 响应码。
+3) 配置
+为保存 Docker 镜像，创建名为 foo 的 ECR Repository 并启用 Scan-on-push 功能。为了构建和上传镜像，在 Bastion 服务器 /home/ec2-user/container/build.sh 路径创建脚本。执行 build.sh 时，构建具有 foo:<time> 名称/标签的镜像。此外，该镜像必须使用相同的 <time> tag 值推送到 foo repository。2023 年 10 月 18 日 21 时 10 分 5 秒时，<time> tag 应为 foo:20231018-211005。build.sh 执行后 5 分钟内必须完成镜像构建和上传。容器运行时，无需额外操作应用程序也应工作。
+云计算 第3题 2 - 3
+- 本地镜像名称示例：foo:20231018-211005
+- 上传到 ECR 的镜像名称示例：ecr.xxxxx/foo:20231018-211005
+- 使用的文件：day3-container-image-build.zip
+- 评分时 build.sh 执行命令：cd /home/ec2-user/container; ./build.sh
+
+5. S3 对象问题
+1) 提供文件介绍
+提供的 day3-objects.zip 文件中包含含有敏感信息的 csv 文件。解压后，在不修改文件名的情况下将所有文件上传到 private S3 桶的最顶层路径。不要将文件直接上传到 public S3 桶。
+2) 问题
+不小心将包含敏感信息的数据上传到了 S3。文件格式各不相同，数量也很多，难以逐一处理。需要使用高效方法移除所有敏感信息。
+3) 配置
+利用 AWS Macie 可以高效移除敏感信息。配置为在 private S3 桶中现有的数据中，利用 Macie 查找并移除敏感数据后，将其存储到 public S3。但仅删除敏感数据，文件名必须保持不变。包含敏感数据的列和需要创建的桶信息如下。
+- 使用的文件：day3-objects.zip
+- Sensitive data columns: licensenumber, epid
+- Private S3 bucket（用于存储现有数据）：wsi-day3-private-<任意4位英文字母>
+- Public S3 bucket（用于存储转换后的数据）：wsi-day3-public-<任意4位英文字母>
+
+6. IAM 权限控制
+1) 提供文件介绍
+提供的 day3-iam.zip 文件中存在定义 IAM Policy 的 json 文件。解压后用于解决任务。该文件无需放置在 Bastion 的特定路径，可在创建 IAM 账户时参考使用。
+2) 问题
+希望利用 EC2 Tag 信息管理 IAM 用户创建 EC2 的权限。IAM red-user 应只能创建存在 Key=project、Value=red 这个 Tag 的 EC2。但是，将当前拥有的 iam-policy.json 应用于 red-user 时，EC2 实例创建存在问题。
+云计算 第3题 3 - 3
+3) 配置
+创建可登录 AWS console 的名为 red-user 的 IAM 账户。修改给定的 iam-policy.json，应用 IAM policy，使 red-user 只能创建具有相应 Tag 信息的 EC2，而无法创建具有其他 Tag 信息的 EC2。如果具有其他标签信息，则无法创建及修改。但是，EC2 的 running 状态、实例类型等信息应不受 Tag 设置影响，可以查看。
+- 使用的文件：day3-iam.zip
+
+7. IaC 问题
+1) 提供文件介绍
+提供的 day-iac.zip 文件中存在定义 cloudformation 栈的 yaml 文件。解压后用于创建 cloudformation 栈。该文件无需放置在 Bastion 的特定位置。
+2) 问题
+希望使用提供的 yaml 文件创建 cloudformation 栈，以预置 S3 和 KMS 密钥。但是 yaml 文件存在问题，导致 cloudformation 栈创建失败。
+3) 配置
+使用 yaml 文件创建名为 day3-wsi-s3-bucket-stack 的 cloudformation 栈。必须使用提供的 yaml 文件创建 cloudformation 栈，如果修改与栈创建错误原因无关的语句，可能导致扣分。cloudformation 栈创建成功后，将预置名为 day3-wsi-temp-bucket-<任意4位英文字母> 的 s3 桶和名为 day3-wsi-temp-bucket-<任意4位英文字母> 的 kms 密钥。
+- 使用的文件：day3-iac.zip
+- cloudformation stack 名称：day3-wsi-s3-bucket-stack
+- Parameter(BucketName)：day3-wsi-temp-bucket-<任意4位英文字母>
+
+云计算 第3题 4 - 3

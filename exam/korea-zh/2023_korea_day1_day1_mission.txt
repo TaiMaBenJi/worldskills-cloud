@@ -1,0 +1,196 @@
+2023年度全国技能竞赛
+职业名称：云计算
+任务名称：Web Service Provisioning
+比赛时间：4小时
+编号：
+任务编号：
+审查委员确认：
+第1任务（印）
+
+1. 要求
+构建并运营包含 MSA(Micro Service Pattern) 的 REST API 的 Web 服务环境。在运营 MSA 模式的 REST API 时，需要使用具有多种优势的基于容器的环境，以及 AWS 托管服务 ECS 作为容器编排工具。除此之外，还必须使用多种 AWS 服务来配置能够运营 Web 服务的云平台。基于给定架构，需要考虑高可用性、性能、安全性、运营效率等多种因素，构建能够运行 Web 应用程序的云平台。
+示意图
+
+云计算 第1任务 1 - 8
+
+Software Stack
+| AWS | 开发语言/框架 |
+| --- | --- |
+| - VPC | - Golang / Gin |
+| - EC2 | - Docker |
+| - ECS | |
+| - ELB | |
+| - ECR | |
+| - CloudFront | |
+| - S3 | |
+| - CloudWatch | |
+| - RDS | |
+| - Code Series | |
+
+2. 选手注意事项
+1) 使用机械及工具等时请注意安全，必要时请穿戴安全装备及服装等，以预防事故。
+2) 工作中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请遵守佩戴安全防护用品等安全守则。
+3) 工作中请注意工具的使用，并遵守安全守则，以预防事故。
+4) 比赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+5) 选手的账户存在费用限制，如果计费超过该限制，可能无法使用账户。
+6) 题目中给出的尖括号框 <> 表示变量，选手必须适当更改变量后使用。
+7) 将 EC2 实例的 TCP 80/443 出站设置为 anyopen，以便可以使用。
+8) 本任务的 Bastion 服务器会进行大部分评分，如果未创建实例或实例处于已停止状态，则无法评分，请特别注意。
+9) 任务结束时，请终止所有正在进行的测试，以免给服务器造成负载。
+10) 如无另行说明，请在 ap-northeast-2 区域创建资源。
+11) 第1页的示意图是抽象表示配置的图，详细配置应满足以下要求。（例如：可以存在 2 个以上子网。）
+12) 所有资源的名称、标签、变量和变量区分大小写。
+13) 题目中未给出的值，必须根据 AWS Well-Architected Framework 6 pillars 设置适当的值。
+14) 如果创建了不必要的资源，可能成为扣分因素。（例如：额外创建 VPC）
+
+云计算 第1任务 2 - 8
+
+3. 网络配置
+参考以下要求配置 VPC，以便对云基础设施进行网络级别的隔离和分离。在托管容器的子网（App Subnets）中，配置为仅通过 AWS 内部网络安全下载容器镜像。必须完成将 ECR 镜像下载到内部网络所需的全部配置。子网名称后的字母表示 Availability Zone。
+VPC 信息
+- VPC CIDR：10.1.0.0/16
+- VPC Tag：Name=wsi-vpc
+- Internet G/W Tag：Name=wsi-igw
+App 子网 A 信息
+- CIDR：10.1.0.0/24
+- Tag：Name=wsi-app-a
+- 外部通信：配置 NAT G/W 以便可访问互联网
+- Route table Tag：Name=wsi-app-a-rt
+- NAT G/W Tag：Name=wsi-natgw-a
+App 子网 B 信息
+- CIDR：10.1.1.0/24
+- Tag：Name=wsi-app-b
+- 外部通信：配置 NAT G/W 以便可访问互联网
+- Route table Tag：Name=wsi-app-b-rt
+- NAT G/W Tag：Name=wsi-natgw-b
+Public 子网 A 信息
+- CIDR：10.1.2.0/24
+- Tag：Name=wsi-public-a
+- 外部通信：配置 Internet G/W 以访问互联网
+- Route table Tag：Name=wsi-public-rt
+Public 子网 B 信息
+- CIDR：10.1.3.0/24
+- Tag：Name=wsi-public-b
+- 外部通信：配置 Internet G/W 以访问互联网
+- Route table Tag：Name=wsi-public-rt
+云计算 第1任务 3 - 8
+
+Data 子网 A 信息
+- CIDR：10.1.4.0/24
+- Tag：Name=wsi-data-a
+- 外部通信：无需访问互联网
+- Route table Tag：Name=wsi-data-rt
+Data 子网 B 信息
+- CIDR：10.1.5.0/24
+- Tag：Name=wsi-data-b
+- 外部通信：无需访问互联网
+- Route table Tag：Name=wsi-data-rt
+
+4. Bastion 服务器
+使用 EC2 配置 Bastion 服务器。为了访问 bastion 服务器，将 TCP 4272 端口用作 SSH。bastion 服务器配置 Security Group，以仅允许来自外部的 SSH 协议，如果添加其他 Security Group Ingress Rule，必须在 1 分钟内自动撤销。（现有规则不得被撤销。）
+- Instance type：t3.small
+- Subnet：Public subnet A
+- 安装包：awscli, jq, curl, git
+- Tag：Name=wsi-bastion
+- Security group name：wsi-bastion-sg（*仅使用指定的一个 Security Group。）
+- EC2 IAM Role：创建对所有资源具有 full access 的 role 并附加。
+role 名称设置为 wsi-bastion-role。
+
+5. 关系型数据库
+为了存储 Product 应用程序的数据，配置关系型数据库。应用程序支持 MySQL Community 引擎。基于应用程序操作说明设计并创建表，以避免查询出现延迟。为了正常运行，必须使用 insert.sql 文件插入数据，插入的数据不得任意修改或删除。此外，如果向表中插入任意数据，可能会导致性能下降，因此不要额外插入数据。
+- rds db identifier：wsi-rds-instance
+- instance type：db.t3.medium
+- Engine：MySQL Community 8.0
+- database name：dev
+- table name：product
+- columns：id(VARCHAR 255), name(VARCHAR 255)
+云计算 第1任务 4 - 8
+
+6. Web 应用程序
+有 Stress 和 Product 两个应用程序。提供的 binary 在基于 x86 的 EC2 的 Amazon Linux2 上构建并确认可运行。go version 为 go1.18.9 linux/amd64。应用程序运行时绑定的端口为 TCP/8080。所有应用程序都将 access log 保存到 log/app.log 文件（相对路径）。
+- Stress
+为了负载测试，提供注入 CPU 负载的 API。按照 Body 中传递的数字重复运算，以产生 CPU 负载。Request body 使用 json 格式，并使用名为 iterator 的 key 决定重复次数。
+
+| Path | Method | Request body | Response body |
+| --- | --- | --- | --- |
+| /v1/stress | POST | {"iterator": 10000} | {"message": "The cpu is loaded"} |
+| /v1/stress | GET | - | {"version": "v1.0"} |
+| /healthcheck | GET | - | {"status": "ok"} |
+
+- Product
+提供通过 Query String 中传递的字符串检查 product 是否存在的 API。如果传递名为 name 的 key，服务器会查询关系型数据库中存储的数据，并将结果响应用户。应用程序内部的查询以 "select id, name from dev.product where name = $name" 形式执行。Product 应用程序必须能够在 5 秒内响应。
+
+| Path | Method | Query String | Response body |
+| --- | --- | --- | --- |
+| /v1/product | GET | ?name=p-xxxxxxxx | {"message": "The product is well in database"} |
+| /healthcheck | GET | - | {"status": "ok"} |
+
+Product 应用程序在运行时读取 dbinfo 环境变量并连接到关系型数据库。dbinfo 环境变量的值必须序列化为 json，并且必须包含下表中的信息。环境变量值不得直接写在 Task Definition 中，必须读取存储在 Secrets Manager 中的值。用于存储环境变量值的 Secrets Manager 的 Secret 名称设置为 dbsecret。
+
+| Key | Data Type | Value |
+| --- | --- | --- |
+| username | string | 具有 db 访问权限的用户名称 |
+| password | string | 具有 db 访问权限的用户密码 |
+| engine | string | db 引擎（mysql or postgresql） |
+| host | string | 可读写 db 的地址 |
+| port | string | 可读写 db 的地址的端口号 |
+| dbname | string | 逻辑数据库名称（dev） |
+
+云计算 第1任务 5 - 8
+
+7. 容器编排
+通过 ECS 部署和管理容器。为了减少管理负担，使用 Fargate 计算类型。将 Stress 应用程序和 Product 应用程序分别部署为服务。将 Stress 应用程序配置为可根据 CPU load 自动扩缩容。所有
+
+应用程序必须配置为即使一个 Task 异常终止，也能无错误地提供服务。此外，在没有流量时，应仅维持考虑高可用性的最小数量 Task。扩缩容测试时，必须在 5 分钟以内完成 scale-out。
+- ECS Cluster name: wsi-ecs-cluster
+- Computing Type: Fargate
+- Service name: stress, product
+- CPU/Memory size: 0.5 vCPU / 1GB
+
+8. 负载均衡器
+配置 ALB，使外部能够访问 Stress 应用程序和 Product 应用程序。Stress 应用程序和 Product 应用程序必须配置为只能通过 ALB 访问。由于没有公共域名，无法通过 ACM 向 Listener 应用证书。为了在承受轻微性能下降的同时提高安全性，配置为外部可以通过 CloudFront 访问 ALB。ALB 配置为除 CloudFront 外不允许 HTTP 访问。访问控制需在 IP 层面配置，错误访问时必须发生 timeout 等错误。基于 Path 编写规则，仅允许必要的 API 访问，当访问不必要的 API 时，返回 404 错误和 "Contents Not Found" 消息。Path 路由时禁止使用 * 进行路由。
+- Network facing : Internet-facing
+- Listen : HTTP 80
+- ALB Name : wsi-alb
+- Tag : Name=wsi-alb
+
+8. S3
+通过 S3 存储并提供静态内容。静态内容必须跨 ap-northeast-2 区域和 us-east-1 区域存储。当在一个区域的存储桶中更新或新存储内容时，应自动复制到另一个区域。配置为不复制 Delete marker。将内容复制到其他区域时，必须在 1 分钟以内完成。所有内容在上传时都必须自动使用 KMS 的任意 CMK 加密。所有内容文件都以带有 /static/ 前缀的对象键（e.g. /static/index.html）上传。
+
+云计算第 1 次作业 6 - 8
+
+- 存储桶名称(ap-northeast-2): ap-wsi-static-<任意 4 位英文字母>
+- 存储桶名称(us-east-1): us-wsi-static-<任意 4 位英文字母>
+
+9. CloudFront
+通过 CloudFront 可以访问静态内容和应用程序。配置为能够缓存上传到 S3 的静态内容。当 us-east-1 区域的存储桶中没有内容时，配置为将请求转发到 ap-northeast-2 区域的存储桶。对于发往 ALB 的请求，不进行缓存，并且 Query String 也必须全部转发到 Origin。配置为用户通过 HTTP 访问 CloudFront 时也重定向到 HTTPS，从而只能通过 HTTPS 访问。
+- Origin : 配置为具有 S3 和 ALB 两个 origin
+- Edge : 配置为让韩国乃至全球用户都能高速访问
+- Tag : Name=wsi-cdn
+- 其他 : 为防止评分时出现异常运行，禁用 IPv6，并且只创建一个 CloudFront
+
+10. 日志
+通过 CloudWatch Logs 配置集中式日志记录解决方案。将 Stress 应用程序和 Product 应用程序中发生的访问日志保存到各自的日志组中。但是，对 /healthcheck 路径的访问日志不得保存到 CloudWatch Logs 组中。日志必须在 1 分钟以内收集到 CloudWatch Logs 中。
+- Stress 应用程序日志
+- 日志组名称 : /wsi/webapp/stress
+- 日志流名称 : <ecs task id>
+
+例) 37026c72b86a4847b71e2c86ebaa4fc9
+
+- Product 应用程序日志
+- 日志组名称 : /wsi/webapp/product
+- 日志流前缀 : <ecs task id>
+
+例) 75b8b7d4edc24c1d927c8432d83d6398
+
+12. CI/CD 流水线
+为 Stress 应用程序配置 CI/CD 流水线。创建名为 Stress 的 CodeCommit Repository，管理应用程序二进制文件和配置文件。将二进制文件和配置文件放置在 Bastion 主机的 /home/ec2-user/stress/ 路径下，在 main 分支上创建 commit 并 push 到 Repository。应用程序二进制文件不要更改名称，放在 Repository 的根路径下。用于容器构建的 dockerfile 名称命名为 Dockerfile，并放在 Repository 的根路径下。创建 push.sh 脚本文件，并配置为运行脚本时自动将变更 push 到 CodeCommit Repository。脚本文件应位于 /home/ec2-user。
+云计算第 1 次作业 7 - 8
+
+ex. 如下输入命令时，应自动 push 到 CodeCommit Repository。
+$ /home/ec2-user/push.sh "커밋 메시지"
+构建容器镜像时，扫描镜像，如果发现包括 CVE 在内的已知漏洞，则停止部署。部署使用 Blue/Green 无中断策略，当 main 分支发生 commit 时，应自动部署到正在运行的系统。可以使用已部署的二进制文件执行测试。部署必须在 5 分钟以内完成。但是，在评分之前，必须部署 stress-v1.0 文件夹下的二进制文件。
+- stress-v1.0 文件夹下的二进制文件：现有二进制文件
+- stress-v1.1 文件夹下的二进制文件：新版本的二进制文件
+
+云计算第 1 次作业 8 - 8

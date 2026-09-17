@@ -1,0 +1,948 @@
+# Source: /var/minis/shared/worldskills-cloud/github-repos/wsc2025-15-days-ago-task1-main/경기/과제지&배포파일/클라우드컴퓨팅_제1과제_vf.hwp
+
+----- BodyText/Section0 -----
+
+2025年度全国技能竞赛
+
+职业名称
+
+云计算
+
+任务名称
+
+解决方案架构
+
+任务编号
+
+第1任务
+
+比赛时间
+
+4小时
+
+编号
+
+评委
+
+确认
+
+(印)
+
+1. 需求
+
+你在 Worldskills 负责利用云解决方案构建可使应用程序运行的 IT 基础设施。必须考虑下图及给定需求，以及云的设计原则——高可用性、扩展性、成本、安全性等多种因素，构建基础设施。
+
+图表
+
+
+
+[云计算] 第1任务  - 
+
+
+
+Software Stack
+
+
+
+AWS
+
+开发语言/框架
+
+- VPC
+
+- EC2
+
+- ELB
+
+[云计算] 第1任务  - 
+
+- Fargate
+
+- ECS
+
+- ECR
+
+- S3
+
+Code series
+
+Secret Manager
+
+RDS
+
+IAM
+
+KMS
+
+CloudWatch
+
+- Golang/Gin
+
+Docker
+
+2. 选手注意事项
+
+  ※ 请考虑以下注意事项完成需求。
+
+  1) 使用机器及工具等时请注意安全，必要时请穿戴安全装备及服装等，预防事故。
+
+  2) 作业中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请佩戴安全防护用品，遵守安全规程。
+
+  3) 作业中请注意工具使用，遵守安全规程，预防事故。
+
+  4) 比赛开始前请通过轻度拉伸等放松紧张，使用作业工具时请注意安全。
+
+5) 题目中给出的尖括号 < > 表示变量，选手应适当更改后使用。
+
+6) Security Group 的 80/443 Outbound 允许 Anyopen 使用。
+
+7) Bastion EC2 用于评分。请确保不会因服务器连接问题而在评分中受到不利影响。
+
+8) 所有资源均配置在亚太地区/首尔(ap-northeast-2)区域。
+
+9) 创建不必要资源时，可能成为扣分因素。(e.g. 额外创建 VPC)
+
+10) 请注意，确保不会因 Tag 信息不匹配或权限问题而无法评分。
+
+11) 第1页的图表是抽象表示配置的图，详细配置应能够满足以下需求。(ex. 可以存在2个以上子网。)
+
+３. 网络配置
+
+参考以下条件和 Ref01 的表配置 VPC，以便在云基础设施内构建虚拟专用网络。在 Private Subnet 中，必须利用 VPC Endpoint，使镜像下载时仅通过内部 Network(Application-VPC) 进行下载。对于 ws25-hub-vpc 及 ws25-app-vpc，将内部产生的所有 Network Traffic 数据保存到 AWS CloudWatch 日志组。两个 VPC 为进行通信，必须建立 VPC Peering。配置为使部署 Bastion 实例的公有子网能够访问 DB。
+
+Peering connections Name: ws25-peering
+
+Network Traffic 数据日志组：
+
+ws25-hub-vpc : /ws25/flow/hub
+
+ws25-app-vpc : /ws25/flow/app
+
+4. Bastion
+
+使用 AWS EC2 创建 Bastion 实例。由于用于评分，重启时 IP 也不得更改，并且在 Linux 的 root 权限下使用 AWS CLI 时，必须能够使用 AWS 的所有权限。为增强安全性，必须将 SSH Port Number 更改为 10100，并且必须单独创建仅应用该入站规则的 Security Group 并连接。实例终止(删除)时，实例不得被终止。
+
+名称    ws25-ec2-bastion
+
+OS 镜像    Amazon Linux 2023
+
+实例类型    t3.small
+
+子网    ws25-hub-pub-c
+
+所需软件包    AWSCLIv2, cURL, jq
+
+5. 关系数据库
+
+为存储 Green、Red 应用程序的数据，配置 RDBMS。应用程序必须使用 Aurora (MySQL Compatible)。数据库必须保证高可用性，为此在其他 AZ 中创建副本及读取器节点。端口不得指定为 MySQL 的默认端口，DB 卷中存储的所有数据必须使用 KMS 加密。KMS 密钥名称为 ws25-kms，并配置为 90 天后自动轮换。为实现高效的数据库管理，必须能够监控 RDS 内部 DB 实例负载，并且监控必须仅用 CMK 加密。此外，必须能够将审计日志、错误日志、常规日志、实例日志导出到 CloudWatch。该 DB 必须能够回滚到 3 小时前，并且备份必须保留 34 天。必须只能通过 Bastion 服务器访问 DB 实例，并插入提供的 day1_table_v1.sql 文件来创建表。
+
+集群名称    ws25-rdb-cluster
+
+引擎    Aurora (MySQL Compatible)
+
+版本    MySQL 主版本(8.0 的默认值)
+
+端口号    10101
+
+DB 实例类    db.t4g.medium
+
+主用户名    <选手任意指定>
+
+主密码设置    <选手任意指定>
+
+初始数据库名称    day1
+
+6. 应用程序
+
+作为提供资料给出的应用程序有 Green、Red 两个，每个应用程序由 v1.0.0 及 v1.0.1 两个版本的 Binary 构成。提供的 Binary 均使用 Golang/Gin 开发，并在基于 x86_64 的系统上构建。应用程序有 2 个 API，并根据版本在 GET API 中提供不同的响应。应用程序绑定在 TCP/8080 端口号上运行。此外，容器镜像内必须能够进行健康检查。应用程序详细信息可参考 Ref02，使用 -h 选项运行 Binary 即可查看帮助。
+
+7. Secret 管理
+
+Green 及 Red 应用程序读取有关 DB 信息的环境变量，并连接到 Aurora 数据库。不要直接在任务定义中写明环境变量值，必须通过 Secret Manager 管理所有环境变量。此外，必须通过 5. 关系数据库项中创建的 KMS 密钥 ws25-kms 进行加密。
+
+应用程序 Secret 密钥名称: ws25/secret/key
+
+8. 容器镜像仓库
+
+为在 Registry 中存储容器镜像，将提供的 Application 制作成镜像并上传到 ECR。作为部署文件提供的镜像为 green/v1.0.0, green/v1.0.1, red/v1.0.0, red/v1.0.1，创建 green、red 两个仓库，镜像名称使用应用程序名(小写)，标签使用版本名进行上传。所有仓库中不得上传具有相同标签的镜像，请注意每个仓库不要上传带有 v1.0.0 和 v1.0.1 之外标签的镜像。推送时必须能够自动进行镜像扫描，并且不得扫描出 Low 级别以上漏洞。此外，对于 Red 应用程序，必须通过 5. 关系数据库项中创建的 KMS CMK 进行加密。用于 10. 日志记录的仓库可以自由配置，但除此之外不得存在不必要的仓库。v1.0.1 镜像用于 13. Continuous Delivery 项，可自由测试，但评分前必须使用 v1.0.0 镜像。
+
+9. 容器编排
+
+Green、Red 应用程序通过 ECS 服务管理。为了加密集群中运行任务的托管存储，必须选择 KMS CMK 即 ws25-kms 密钥。为了实现高效的基础设施管理，同时使用 Fargate 和 EC2 Compute Type。ECS 任务部署的子网为 ws25-app-pri 子网，必须始终保持与该子网可用区数量相同的任务数，并且必须跨所有可用区部署。所有任务在新版本服务部署期间必须能够在不中断服务的情况下使用。此外，容器内部必须能够进行健康检查。不配置与服务 Auto Scaling 相关的选项。
+
+集群名称: ws25-ecs-cluster
+
+计算类型:
+
+Green: EC2
+
+Red: Fargate
+
+EC2 实例
+
+名称: ws25-ecs-container-green
+
+类型: t3.medium
+
+任务定义名称: ws25-ecs-green-taskdef, ws25-ecs-red-taskdef
+
+服务名称    ws25-ecs-green, ws25-ecs-red
+
+部署类型    Blue/Green
+
+CPU/内存:
+
+Green: 1 vCPU / 1GB
+
+Red: 0.5vCPU / 1GB
+
+10. 日志记录
+
+配置为可将 Green 及 Red 应用程序产生的日志收集到 Amazon CloudWatch 进行分析。可以使用 Fluentd、Fluentbit，并作为 FireLens 日志路由器容器运行，必须能够保存有关两个应用程序内部的日志。但设置为不收集对 /health 端点的请求日志。如果配置错误，可能会在 12. 监控项中受到不利影响。
+
+Green 应用程序日志组名称    /ws25/logs/green
+
+Green Application Log Stream Name    Green-<ECS Task ID>
+
+Red Application Log Group Name    d/ws25/logs/red
+
+Red Application Log Stream Name    Red-<ECS Task ID>
+
+11. Load Balancing
+
+在配置使外部能够访问 Application 的同时，使用 Load Balancer 以实现负载均衡。访问 Application 时，必须仅经过 ws25-hub-vpc 的 Network Load Balancer 和 ws25-app-vpc 的 Network Load Balancer。所有负载均衡器都必须保证高可用性，并 Listen 80 端口。如果 3 个负载均衡器中有 1 个以上的负载均衡器或目标发生问题，导致无法连接到应用程序，则 11. Load Balancing 项可能无法评分。ws25-hub-vpc 的 NLB 与 ws25-app-vpc 的 NLB 连接时，必须仅通过 IP 通信，并且必须直接指定 IP。不能通过 VPC Endpoint、Lattice 等服务进行连接。
+
+Hub VPC – Network Load Balancer
+
+Load Balancer Name    ws25-hub-nlb
+
+Load Balancer Type    Network Load Balancer
+
+Load Balancer Scheme    Internet-facing
+
+Load Balancer Protocol    TCP
+
+Target Group Name    ws25-hub-nlb-tg
+
+Target Group Type    IP
+
+Application VPC – Network Load Balancer
+
+Load Balancer Name    ws25-app-nlb
+
+Load Balancer Type    Network Load Balancer
+
+Load Balancer Scheme    Internal
+
+Load Balancer Protocol    TCP
+
+Target Group Name    ws25-app-nlb-tg
+
+Target Group Type    Application Load Balancer
+
+Application VPC – Application Load Balancer
+
+Load Balancer Name    ws25-app-alb
+
+Load Balancer Type    Application Load Balancer
+
+Load Balancer Scheme    Internal
+
+Load Balancer Protocol    HTTP
+
+进入 /green 路径的请求必须转发到 Green 服务。
+
+进入 /red 路径的请求必须转发到 Red 服务。
+
+/health 路径必须用于 ws25-app-nlb 的健康检查。（Protocol: HTTP）
+
+进入 GET /error 路径的请求必须返回 500 状态码和
+<center><h1>500 Internal Server Error</h1></center>。
+
+对于除此之外不存在的路径的请求，必须返回 404 状态码和
+<center><h1>404 Not Found</h1></center>。
+
+12. Monitoring
+使用收集到的指标通过 CloudWatch 构建 Dashboard。
+
+如果 1 分钟内 ws25-app-alb 中出现 10 个以上的 4xx 错误，或出现 5 个以上的 5xx 错误，则配置为触发告警。此外，为了持续确认 ECS 集群的状态并收集和分析指标，将其注册到具有增强可观测性的 Container Insights 中。必须能够在 CloudWatch 的 Insights 选项卡中的 Container Insights 中查看关于集群的洞察。Metrics 的周期为 1 分钟，Dashboard 的 Metric 如有需要可以自行创建。Widget 类型可任意选择。
+
+Dashboard Name    ws25-metrics
+
+Dashboard Metrics：
+
+ws25-hub-vpc 与 ws25-app-vpc 的接受流量数量（Flow Log）
+
+/green 路径的 GET 请求数量、/green 路径的 POST 请求数量
+
+/red 路径的 GET 请求数量、/red 路径的 POST 请求数量
+
+Container Insights（使用“添加到仪表板”功能）
+
+ALB(ws25-app-alb) 自身的 4xx 数量、ALB(ws25-app-alb) 自身的 5xx 数量
+
+13. Continuous Delivery
+
+Green、Red 应用程序必须使用 CodeDeploy 将 v1.0.1 镜像部署到 ECS Service。创建要添加到管道的 CodeDeploy 应用程序和部署组。
+
+- Green Application Name     ws25-cd-green-app
+
+- Red Application Name     ws25-cd-red-app
+
+- Green Deployment Group Name     ws25-cd-green-dg
+
+- Red Deployment Group Name     ws25-cd-red-dg
+
+- Deployment Type     Blue/Green
+
+14. CD Pipeline
+
+构建管道以便快速部署应用程序。管道按 S3、CodeDeploy 的顺序进行，并由 EC2 Script 启动。管道所需的所有文件必须位于 ws25-ec2-bastion 的 /home/ec2-user/pipeline/artifact/<应用程序名> 目录中。参考以下要求。
+
+1. 为执行管道编写自动化脚本。脚本必须位于 /home/ec2-user/pipeline/ 中，并且需要 green.sh 和 red.sh 两个脚本。执行脚本时，将压缩 /home/ec2-user/pipeline/artifact/<应用程序名> 目录得到的 Zip 文件上传为 S3 Bucket 的 artifact.zip。所有文件必须位于目录顶部。
+
+2. 在管道中 S3 充当 Source 角色，当 artifact.zip 上传时必须自动启动管道。评分前两个 Bucket 必须为空。
+
+- S3 Green Bucket Name    ws25-cd-green-artifact-<비번호>
+
+S3 Red Bucket Name    ws25-cd-red-artifact-<비번호>
+
+3. 在管道中 CodeDeploy 充当 Deploy 角色。ECS 必须使用 Blue & Green 部署来部署应用程序。CodeDeploy 的等待时间必须为最小，并且必须在 3 分钟内完成部署。
+
+Green Pipeline Name    ws25-cd-green-pipeline
+
+Red Pipeline Name    ws25-cd-red-pipeline
+
+Ref01 * 资源名称后面的 a、b、c 字母表示 Availability Zone（可用区）。
+
+VPC 信息
+
+
+
+Name Tag
+
+CIDR
+
+ws25-hub-vpc
+
+172.28.0.0/16
+
+ws25-app-vpc
+
+10.200.0.0/16
+
+Subnet 信息
+
+
+
+Name Tag
+
+CIDR
+
+VPC
+
+ws25-hub-pub-a
+
+172.28.0.0/20
+
+ws25-hub-vpc
+
+ws25-hub-pub-c
+
+172.28.16.0/20
+
+ws25-hub-vpc
+
+ws25-app-pub-a
+
+10.200.10.0/24
+
+ws25-app-vpc
+
+ws25-app-pub-b
+
+10.200.11.0/24
+
+ws25-app-vpc
+
+ws25-app-pub-c
+
+10.200.12.0/24
+
+ws25-app-vpc
+
+ws25-app-pri-a
+
+10.200.20.0/24
+
+ws25-app-vpc
+
+ws25-app-pri-b
+
+10.200.21.0/24
+
+ws25-app-vpc
+
+ws25-app-pri-c
+
+10.200.22.0/24
+
+ws25-app-vpc
+
+ws25-app-db-a
+
+10.200.30.0/24
+
+ws25-app-vpc
+
+ws25-app-db-c
+
+10.200.31.0/24
+
+ws25-app-vpc
+
+Routing Table 信息
+
+
+
+Name Tag
+
+Subnet
+
+G/W
+
+ws25-hub-pub-rt
+
+ws25-hub-pub-a
+
+ws25-hub-pub-c
+
+Internet Gateway
+(ws25-hub-igw)
+
+ws25-app-pub-rt
+
+ws25-app-pub-a
+ws25-app-pub-b
+ws25-app-pub-c
+
+Internet Gateway
+(ws25-app-igw)
+
+ws25-app-pri-rt-a
+
+ws25-app-pri-a
+
+NAT Gateway
+(ws25-app-ngw-a)
+
+ws25-app-pri-rt-b
+
+ws25-app-pri-b
+
+NAT Gateway
+(ws25-app-ngw-c)
+
+ws25-app-pri-rt-c
+
+ws25-app-pri-c
+
+NAT Gateway
+(ws25-app-ngw-c)
+
+ws25-app-db-rt-a
+
+ws25-app-db-a
+
+NO INTERNET ACCESS
+
+ws25-app-db-rt-c
+
+ws25-app-db-c
+
+NO INTERNET ACCESS
+
+Ref02
+
+Green API 信息
+
+
+
+Path
+
+Request
+
+Response(v1.0.0)
+
+Response(v1.0.1)
+
+GET /health 
+
+-
+
+200 OK
+
+200 OK
+
+POST /green
+
+'{"x": "abcd", "y": 21}'
+
+{"id":"xx11abcd","status":"inserted"}
+
+{"id":"xx11abcd","status":"inserted"}
+
+GET /green 
+
+?id=xx11abcd
+
+{"version":"1.0.0","x":"abcd","y":21}
+
+{"version":"1.0.1","x":"abcd","y":21}
+
+Red API 信息
+
+
+
+Path
+
+Request
+
+Response(v1.0.0)
+
+Response(v1.0.1)
+
+GET /health 
+
+-
+
+200 OK
+
+200 OK
+
+POST /red
+
+'{"name": "kim"}'
+
+{"id":"yy11abcd","status":"inserted"}
+
+{"id":"yy11abcd","status":"inserted"}
+
+GET /red 
+
+?id=yy11abcd
+
+{"name": "kim", "version": "1.0.0"}
+
+{"name": "kim", "version": "1.0.1"}
+
+
+
+15. 发放材料清单
+
+职业名称
+
+云计算
+
+序号
+
+材料名称
+
+规格（尺寸）
+
+单位
+
+每人用量
+
+共同
+
+所需数量
+
+备注
+
+1
+
+AWS 账户
+
+初始化完成
+
+个
+
+1
+
+1
+
+共用为评审用途
+
+2
+
+AWS 账户
+
+初始化完成
+
+个
+
+1
+
+1
+
+共用为评审用途
+
+3
+
+AWS 账户
+
+初始化完成
+
+个
+
+1
+
+1
+
+共用为
+评审用途
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+10
+
+11
+
+12
+
+13
+
+14
+
+15
+
+16
+
+17
+
+18
+
+19
+
+20
+
+21
+
+22
+
+23
+
+24
+
+25
+
+16. 选手自带材料清单
+
+工种名称
+
+云计算
+
+序号
+
+材料名称
+
+规格（尺寸）
+
+单位
+
+每人所需数量
+
+共用所需数量
+
+备注
+
+1
+
+键盘、鼠标、耳机
+
+有线租赁
+
+个
+
+1
+
+0
+
+个人选择
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+10
+
+11
+
+12
+
+13
+
+14
+
+15
+
+16
+
+17
+
+18
+
+19
+
+20
+
+21
+
+22
+
+23
+
+24
+
+25
+
+17. 赛场设施清单
+
+工种名称
+
+云计算
+
+序号
+
+设施及设备名称
+
+规格（尺寸）
+
+单位
+
+每人数量
+
+共用数量
+
+备注
+
+1
+
+工作台
+
+1200x600x720mm
+
+1
+
+选手用
+
+2
+
+椅子
+
+办公椅
+
+1
+
+1
+
+评审用
+
+3
+
+电源
+
+4口多孔插座
+
+1
+
+4
+
+4
+
+计算机（PC）
+
+CPU：64bit 4Core 以上
+
+RAM：16GB 以上
+
+SSD：200GB 以上
+
+NIC：1Gbps 以上 x 1 Port
+
+GPU：HDMI 2 端口以上
+
+Keyboard：USB Type
+
+Mouse：USB Type
+
+1
+
+8
+
+每位选手 1
+
+评审用 4
+
+备用 4
+
+5
+
+显示器
+
+分辨率 1920x1080 以上
+
+2
+
+8
+
+每位选手 2
+
+评审用 4
+
+备用 4
+
+6
+
+OS
+
+Windows 10 Pro 以上
+
+1
+
+7
+
+软件
+
+MS Office 2019 以上
+
+1
+
+8
+
+软件
+
+Adobe Acrobat Reader
+
+v2019.008.20071 以上
+
+1
+
+9
+
+软件
+
+Chrome v77 以上
+
+1
+
+10
+
+软件
+
+Visual Studio Code
+
+v1.37.0 以上
+
+1
+
+11
+
+软件
+
+Hangul 2018 以上
+
+1
+
+12
+
+软件
+
+Python 3.9.1 以上
+
+1
+
+13
+
+软件
+
+PuTTY Utilities 最新版本
+
+1
+
+14
+
+软件
+
+OBS-Studio 31.0.1 以上
+
+1
+
+15
+
+Internet 线路
+
+每位选手保证 100Mbps 以上的互联网 1 条线路（如可能，为备份准备 2 条线路）
+
+1
+
+16
+
+打印机
+
+彩色激光多功能一体机，可打印 A3 及 A4
+
+2
+
+17
+
+路由器
+
+Cisco ISR4321/K9（或 Cisco C2911/K9）以上
+
+2
+
+18
+
+交换机
+
+Cisco WS-C2960S-48TS-L 以上
+
+1
+
+19
+
+网络施工
+
+用于连接集线器并提供互联网的 LAN Cable
+
+1
+
+10
+
+每位选手 1
+
+备用 10

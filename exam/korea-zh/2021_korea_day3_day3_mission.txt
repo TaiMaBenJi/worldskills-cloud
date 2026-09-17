@@ -1,0 +1,103 @@
+2021 大田广域市 第56届全国技能大赛 试题
+工种名称
+
+云计算
+
+试题名称
+
+比赛时间
+
+3小时
+
+编号
+
+Trouble-shooting
+
+1. 要求事项
+以下有 4 个独立的问题。请解决每个问题。
+1) User permission control
+Software Stack
+- AWS IAM
+- AWS EC2
+2) Lambda Troubleshooting
+Software Stack
+- Python / boto3
+- AWS Lambda
+3) Docker process
+Software Stack
+- ECR
+- Docker
+- EC2
+4) Log data
+Software Stack
+- 除日志文件外无其他内容
+
+云计算 第2试题 1 - 4
+
+试题编号
+评委
+确
+
+认
+
+第3试题
+(印)
+
+2. 选手注意事项
+1) 使用机械及工具等时请注意安全，必要时请佩戴安全装备及服装等，以预防事故。
+2) 作业中请注意预防烧伤、触电、擦伤等安全事故，使用工具或作业工具时请遵守佩戴安全防护用品等安全守则。
+3) 作业中使用工具时请注意，并遵守安全守则，预防事故。
+4) 比赛开始前请通过轻度拉伸等放松紧张情绪，使用作业工具时请注意安全。
+5) 选手账户存在费用限制。如果计费高于此限制，可能无法使用账户。
+6) 题目中给出的尖括号 <> 表示变量，选手应适当更改后使用。
+7) 为提高题目效率，Security Group 的 80/443 outbound 可设为 anyopen 使用。
+8) Bastion EC2 也可能用于评分。请勿将其终止，以免遭受不利影响。
+
+3. User permission control
+在一个 AWS 账户中创建并使用了多个 IAM 账户。应按账户分离权限，但当前拥有的 IAM Policy 存在问题。请修改 Policy 以满足以下条件。修改后，创建名为 koreaStudent 的 IAM Policy，以便在创建其他用户时使用。
+1) IAM 权限说明
+必须只能查看并修改本人 IAM 账户的 access key。即使是自己的账户，除 access key 之外也不得进行其他修改。查看自己账户的 Permissions 选项卡时，除权限错误外不应显示任何内容。并且不得查看或修改其他账户的 access key。
+2) EC2 权限说明
+只有 EC2 Tag 的 owner key 值设置为自己账户的 EC2，才能进行启动/停止/删除/标签修改。student01 账户必须无法对设置了 owner=student02 的 EC2 执行启动/停止/修改操作。对于 owner=student01 的情况，因为是自己的账户，必须能够执行这些操作。
+
+云计算 第2试题 2 - 4
+
+3) 基础设施创建
+为进行试题和评分，预先创建以下 EC2 和具有修改后权限的 IAM 账户。除指定信息外，其他信息可自由设置。
+A) day3-1-1 EC2
+- tag Name=day3-1-1
+- tag owner=student01
+B) day3-1-2 EC2
+- tag Name=day3-1-2
+- tag owner=student02
+C) student01 IAM user
+- 账户名：student01
+- Policy：执行试题时创建的 koreaStudent
+- 其他：需要设置为可在 AWS 控制台 Web 登录
+D) student02 IAM user
+- 账户名：student02
+- Policy：执行试题时创建的 koreaStudent
+- 其他：需要设置为可在 AWS 控制台 Web 登录
+
+4. Lambda Troubleshooting
+提供的 day3-2-lambda.py 脚本接收 region、bucket、text 3 个参数，并创建存储桶和文件。当前脚本存在问题，无法正常运行。请创建 day3-2-lambda 函数，修改该脚本的错误并部署。正常运行时，在传入的 region 区域中创建以 bucket 名称为名的 S3 存储桶。创建后，必须创建当前日期格式为 年月日_时分秒_log.txt 的文件。文件名中包含的日期必须基于韩国时间。按韩国时间 21年7月1日 14:10:01，以 region=ap-northeast-2、bucket=day3-2-999、text=hellow 为参数调用函数时，必须在 Seoul region 创建名为 day3-2-999 的存储桶，并创建名为 20210701_141001_log.txt 的文件。并且该文件内容必须为 hellow。评分时，如下设置参数，创建一个 Lambda test 并执行。
+
+云计算 第2试题 3 - 4
+
+5. Docker process
+创建名为 day3 的 Private ECR。然后通过提供的 app.py 文件和 Dockerfile 创建 Docker 镜像并上传到 ECR。提供的 Dockerfile 存在问题，导致构建和容器运行时应用程序不会立即执行。请修改它，上传镜像，并使 Docker 运行时应用程序立即执行。但必须将 Docker 镜像 python:3.7-alpine 原样用作 base image。上传 Docker 镜像后，创建一个 EC2，并部署该镜像以确认运行。app.py 具有 GET /healthcheck 和 GET /v1/mock API，正常运行时在 json 形式的 body 中返回 code 200。详情请参考提供的 app.py 代码。参考以下信息创建基础设施，未标明的 VPC 等信息可自由设置。评分时，在 EC2 中通过 docker run -d -p <转发端口>:8080/TCP <ECR path> 运行容器，并在 EC2 内通过端口转发调用 Docker 的 API 进行评分。
+- ECR 名称：day3
+- Docker 镜像标签：latest
+- Docker 基础镜像：python:3.7-alpine
+- EC2 Name tag：day3-3-ec2
+- EC2 Image version：Amazon Linux 2
+- EC2 安装包：docker, awscli, curl
+
+6. Log data
+day3-4-logs.zip 文件中保存着 ALB 的访问日志。该压缩文件中包含 28 个文件，每个文件有 1000 行访问日志内容。请分析日志内容，将以下各问题的答案填写在单独的答题纸上。
+1) 写出 LB 返回 302 响应码的总计数。
+2) 写出以 GET method 调用 /v1/user API 的总计数。
+3) 写出以 POST method 调用 /v1/user API 最多的 IP，以及该 IP 调用 POST /v1/user 的次数。
+4) 按收到 LB 返回的 302 响应码最多的顺序，写出 3 个 IP 以及各 IP 收到 302 响应码的次数。
+
+云计算 第2试题 4 - 4

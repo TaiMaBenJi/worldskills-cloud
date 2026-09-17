@@ -1,0 +1,301 @@
+地方技能竞赛 评分标准
+1. 评分时注意事项
+
+工种名称：云计算
+
+※ 评分时请注意以下事项。
+确认正在评分的服务器确实是选手的服务器。请按顺序进行评分；删除资源可能导致后续无法评分，请慎重进行。
+
+※ 评分标准表格必须按照规定格式填写。（评分网站录入需要）
+
+5 - 1
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. 评分标准表
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1) 主要项目分值分配
+
+| 任务 | 序号 | 主要项目 | 分值 | 评分方法-独立 | 评分方法-合议 | 比赛进行中 | 比赛结束后 | 备注 |
+|------|------|----------|------|--------------|--------------|------------|------------|------|
+| 第1任务 | 1 | Network | 10 | ○ | | ○ | | |
+| 第1任务 | 2 | Container | 20 | ○ | | ○ | | |
+| 第1任务 | 3 | Database | 10 | ○ | | ○ | | |
+| 第1任务 | 4 | Monitoring | 10 | ○ | | ○ | | |
+| 合计 | | | 50 | | | | | |
+
+2) 评分方法与标准
+
+| 任务 | 序号 | 主要项目 | 细分序号 | 检查项（评分方法） | 分值 |
+|------|------|----------|----------|--------------------|------|
+| 第1任务 | 1 | Network | 1 | VPC CIDR | 1 |
+| | | | 2 | Private internet access 1 | 1.5 |
+| | | | 3 | Private internet access 2 | 1.5 |
+| | | | 4 | Public internet access | 1.5 |
+| | | | 5 | Private zone | 1.5 |
+| | | | 6 | Public zone | 1.5 |
+| | | | 7 | LoadBalancer zone | 1.5 |
+| | 2 | Container | 1 | ECS Cluster | 0.5 |
+| | | | 2 | Gateway TaskDefinition | 1.5 |
+| | | | 3 | Product TaskDefinition | 1.5 |
+| | | | 4 | Gateway Service | 1.5 |
+| | | | 5 | Product Service | 1.5 |
+| | | | 6 | Gateway container image tag | 1.5 |
+| | | | 7 | Product container image tag | 1.5 |
+| | | | 8 | Gateway image security | 1.5 |
+| | | | 9 | Product image security | 1.5 |
+| | | | 10 | Container HA | 1.5 |
+| | | | 11 | Gateway Service HA | 1.5 |
+| | | | 12 | Product Service HA | 1.5 |
+| | | | 13 | ECS ServiceConnect 1 | 1.5 |
+| | | | 14 | ECS ServiceConnect 2 | 1.5 |
+| | 3 | Database | 1 | DynamoDB table | 1.5 |
+| | | | 2 | Table mode | 1 |
+| | | | 3 | Table protection | 1.5 |
+| | | | 4 | Table backup | 1.5 |
+| | | | 5 | Table encryption | 1.5 |
+| | | | 6 | Data inserting | 1.5 |
+| | | | 7 | Data reading | 1.5 |
+| | 4 | Monitoring | 1 | CloudWatch dashboard | 1.5 |
+| | | | 2 | Service metrics | 1 |
+| | | | 3 | CloudWatch alarm | 1.5 |
+| | | | 4 | Service error metric | 1.5 |
+| | | | 5 | Container Insights | 1.5 |
+| | | | 6 | CloudWatch LogGroup | 1.5 |
+| | | | 7 | Container logging | 1.5 |
+| 合计 | | | | | 50 |
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+【逐项评分方法详解】（含评分用命令，命令原样保留）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+【1-1】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出 "10.101.0.0/16"。
+$ aws ec2 describe-vpcs --filter Name=tag:Name,Values=ws-vpc --query "Vpcs[].CidrBlock"
+
+【1-2】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出以 "nat-" 开头的字符串。
+$ aws ec2 describe-route-tables --filter Name=tag:Name,Values=ws-priv-rt-a \
+--query "RouteTables[].Routes[].NatGatewayId"
+
+【1-3】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出以 "nat-" 开头的字符串。
+$ aws ec2 describe-route-tables --filter Name=tag:Name,Values=ws-priv-rt-c \
+--query "RouteTables[].Routes[].NatGatewayId"
+
+【1-4】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出以 "igw-" 开头的字符串。
+$ aws ec2 describe-route-tables --filter Name=tag:Name,Values=ws-pub-rt \
+--query "RouteTables[].Routes[].GatewayId"
+
+【1-5】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出 "ap-northeast-2a"。
+$ aws ec2 describe-subnets --filter Name=tag:Name,Values=ws-priv-a --query \
+"Subnets[].AvailabilityZone"
+
+【1-6】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出 "ap-northeast-2c"。
+$ aws ec2 describe-subnets --filter Name=tag:Name,Values=ws-pub-c --query \
+"Subnets[].AvailabilityZone"
+
+【1-7】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出 "ap-northeast-2a"、"ap-northeast-2c"。
+$ aws elbv2 describe-load-balancers --query \
+"LoadBalancers[?LoadBalancerName=='gateway-alb-pub'].AvailabilityZones[].ZoneName"
+
+【2-1】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出 "ws-cluster"。
+$ aws ecs describe-clusters --cluster ws-cluster --query "clusters[].clusterName"
+
+【2-2】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出 "gateway-td"。
+$ aws ecs describe-task-definition --task-definition gateway-td \
+--query "taskDefinition.containerDefinitions[].name"
+或
+$ aws ecs describe-services --cluster ws-cluster --services gateway-svc --query \
+"services[].taskDefinition" | awk -F"/" '{print $2}' \
+| awk -F":" '{print $1}'
+
+【2-3】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出 "product-td"。
+$ aws ecs describe-task-definition --task-definition product-td \
+--query "taskDefinition.containerDefinitions[].name"
+或
+$ aws ecs describe-services --cluster ws-cluster --services product-svc --query \
+"services[].taskDefinition" | awk -F"/" '{print $2}' \
+| awk -F":" '{print $1}'
+
+【2-4】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出 ACTIVE。
+$ aws ecs describe-services --cluster ws-cluster --services gateway-svc \
+--query "services[].status"
+
+【2-5】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出 ACTIVE。
+$ aws ecs describe-services --cluster ws-cluster --services product-svc \
+--query "services[].status"
+
+【2-6】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认镜像结尾不是 latest。
+（包含 latest 则扣分）
+$ aws ecs describe-task-definition --task-definition gateway-td \
+--query "taskDefinition.containerDefinitions[].image"
+
+【2-7】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认镜像结尾不是 latest。
+（包含 latest 则扣分）
+$ aws ecs describe-task-definition --task-definition product-td \
+--query "taskDefinition.containerDefinitions[].image"
+
+【2-8】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认未输出 "CRITICAL"、"HIGH"、"MEDIUM"、"LOW" 中的任何一项。（有输出则扣分）
+$ aws ecr describe-image-scan-findings --repository-name gateway \
+--image-id imageTag=v1.0.0 --query "imageScanFindings.findingSeverityCounts"
+
+【2-9】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认 "CRITICAL"、"HIGH"、"MEDIUM"、"LOW" 的值为 0。
+* 仅输出 null 的情况也认定为正确。
+* 只有在输出 "CRITICAL"、"HIGH"、"MEDIUM"、"LOW" 且值 ≥ 1 时才扣分。
+$ aws ecr describe-image-scan-findings --repository-name product \
+--image-id imageTag=v1.0.0 --query "imageScanFindings.findingSeverityCounts"
+
+【2-10】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出 ≥ 4 的数字。
+$ aws ecs describe-clusters --cluster ws-cluster --query "clusters[].runningTasksCount"
+
+【2-11】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出 2 个以上以 "subnet-" 开头的字符串。
+$ aws ecs describe-services --cluster ws-cluster --services gateway-svc \
+--query "services[].networkConfiguration.awsvpcConfiguration[].subnets[]"
+
+【2-12】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出 2 个以上以 "subnet-" 开头的字符串。
+$ aws ecs describe-services --cluster ws-cluster --services product-svc \
+--query "services[].networkConfiguration.awsvpcConfiguration[].subnets[]"
+
+【2-13】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 通过以下命令进入 Gateway 容器 ECS EXEC (SHELL)。
+$ ECS_TASK_ARN=$(aws ecs list-tasks --cluster ws-cluster --service-name gateway-svc | jq '.taskArns.[0]' | sed 's/"//g')
+$ aws ecs execute-command --cluster ws-cluster \
+--task $ECS_TASK_ARN \
+--container gateway \
+--interactive \
+--command "/bin/sh"
+3) 在 Gateway 容器 SHELL 中输入以下命令，确认存在映射到 CONN_PRODUCT 的 IP。
+$ export | grep -i CONN_PRODUCT
+
+【2-14】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 通过以下命令进入 Gateway 容器 ECS EXEC (SHELL)。
+$ ECS_TASK_ARN=$(aws ecs list-tasks --cluster ws-cluster --service-name gateway-svc | jq '.taskArns.[0]' | sed 's/"//g')
+$ aws ecs execute-command --cluster ws-cluster \
+--task $ECS_TASK_ARN \
+--container gateway \
+--interactive \
+--command "/bin/sh"
+3) 输入以下命令后，确认输出 {"status": "OK", "app": "product"}。
+$ curl http://product/health
+
+【3-1】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出 ACTIVE。
+$ aws dynamodb describe-table --table-name "product" --query "Table.TableStatus"
+
+【3-2】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出 PAY_PER_REQUEST。
+$ aws dynamodb describe-table --table-name "product" \
+--query "Table.BillingModeSummary.BillingMode"
+
+【3-3】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令后，确认输出 true。
+$ aws dynamodb describe-table --table-name "product" \
+--query "Table.DeletionProtectionEnabled"
+
+【3-4】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，确认存在 1 个以上 Backup。
+（只显示 "BackupSummaries": [] 视为错误）
+$ aws dynamodb list-backups --table-name product
+
+【3-5】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，确认输出 SSE 使用的 KMS Arn，并确认该 KMS 在选手的账户中。
+$ aws dynamodb describe-table --table-name product \
+--query "Table.SSEDescription.KMSMasterKeyArn"
+
+【3-6】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 输入以下命令，确认数据插入请求成功、result 为 added。
+3) 为后续评分，记录输出的 uuid。
+$ curl --silent -X POST -H "Content-Type: application/json" \
+-d '{"name": "mug", "owner": "jenkins_choi"}' http://${ALB}/v1/item
+
+【3-7】
+1) 通过 SSH 访问 Bastion 服务器。
+2) 使用 3-6 输出的 uuid 输入以下命令，确认输出 "Item exist"。
+$ curl --silent -X GET http://${ALB}/v1/item?uuid=<<3-6 输出的 ID>>
+
+【4-1】
+1) 使用浏览器访问 AWS 控制台。
+2) 进入 CloudWatch 页面，点击左侧选项卡中的 Dashboard（仪表盘）。
+3) 确认已创建名为 ProductService 的仪表盘。
+
+【4-2】
+1) 使用浏览器访问 AWS 控制台。
+2) 在 CloudWatch 中进入选手配置的 "ProductService" 仪表盘。
+3) 确认存在可查看 EC2 CPU、Network 的图表。
+4) 确认存在可查看 ALB 4xx、5xx 错误的图表。
+
+【4-3】
+1) 使用浏览器访问 AWS 控制台。
+2) 进入 CloudWatch 页面，点击左侧选项卡中的 All alarms（所有告警）。
+3) 确认已创建针对 ALB 4xx 的告警，且当前为正常（OK）状态。
+4) 通过 SSH 访问 Bastion，以较快速度（1 分钟内）输入以下命令 20 次以上。
+$ curl -X GET http://<ALB>/v1/errors4xx
+5) 在 AWS 控制台确认告警状态是否从 "正常(OK)" 变为其他状态。（curl 命令输入后最多等待 5 分钟）
+
+【4-4】
+1) 通过浏览器在 AWS 控制台进入 ProductService 仪表盘。
+2) 确认图表中 ALB 的 4xx 在输入上述命令的时间点是否升高。
+
+【4-5】
+1) 使用浏览器访问 AWS 控制台。
+2) 进入 CloudWatch 页面，点击左侧选项卡中的 Container Insights。
+3) 确认 Gateway 和 Product task 的 CPU Utilization、Memory Utilization。
+
+【4-6】
+1) 使用浏览器访问 AWS 控制台。
+2) 进入 CloudWatch 页面，点击左侧选项卡中的日志组。
+3) 确认存在 /ws/ecs/product、/ws/ecs/gateway 两个日志组。
+
+【4-7】
+1) 使用浏览器访问 AWS 控制台。
+2) 在 CloudWatch 日志组中点击 /ws/ecs/product。
+3) 搜索 "mug"，确认存在相关日志。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+【中文翻译说明】本文由 AI 从韩文原文翻译，评分命令原样保留（可直接复制使用）。
+原文件：2025_jibang_day1_day1_grad_day1_grad.txt
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
