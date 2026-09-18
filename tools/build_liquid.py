@@ -620,6 +620,11 @@ body.drawer-open .menu-btn .bars i:nth-child(3){{transform:translateY(-6px) rota
 .qz-btn{{display:inline-block;background:linear-gradient(150deg,#0a84ff,#0064d0);border:none;border-radius:12px;color:#fff;font-size:13.5px;font-weight:700;padding:11px 18px;margin-top:10px;cursor:pointer}}
 .qz-btn.sm{{padding:7px 14px;font-size:12.5px;margin:0}}
 .qz-btn:active{{transform:scale(.96)}}
+/* ===== lab & sim ===== */
+.lab-card{{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:13px;padding:11px 13px;margin:8px 0;cursor:pointer}}
+.lab-card.labdone{{background:rgba(48,209,88,.10);border-color:rgba(48,209,88,.45)}}
+#restView{{position:fixed;inset:0;z-index:170;display:none;align-items:center;justify-content:center;background:rgba(10,12,22,.75)}}
+#restView.on{{display:flex}}
 #boot{{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#050508;transition:opacity .45s}}
 #boot p{{margin:0;color:var(--dim);font-size:14px}}
 #boot small{{color:var(--dim2);font-size:11.5px}}
@@ -763,7 +768,10 @@ const BADGES=[
   {{id:'tut16',e:'📖',n:'教程通关',d:'读完教程全部 16 章'}},
   {{id:'quiz1',e:'📝',n:'初试身手',d:'完成第一次测验'}},
   {{id:'perfect',e:'💮',n:'满分学霸',d:'测验拿到满分'}},
-  {{id:'qmaster',e:'🎓',n:'考神',d:'累计完成 10 次测验'}}
+  {{id:'qmaster',e:'🎓',n:'考神',d:'累计完成 10 次测验'}},
+  {{id:'lab1',e:'⚒',n:'首次动手',d:'完成第 1 个实操任务'}},
+  {{id:'lab10',e:'🛠',n:'动手达人',d:'完成 10 个实操任务'}},
+  {{id:'sim1',e:'🏟',n:'沙场初体验',d:'完成 1 次世赛模拟'}}
 ];
 function loadGrow(){{
   try{{ const g=JSON.parse(localStorage.getItem('wg.grow')||'null'); if(g) return g; }}catch(e){{}}
@@ -874,6 +882,7 @@ function renderGrowth(){{
     +'<div class="badges">'+bx+'</div>'
     +(rec?'<button class="home-card small" style="margin-top:10px" data-doclink="'+rec+'"><b>📌 今日推荐：'+DOCS[rec].t+'</b></button>':'')
     +'<button class="home-card small" style="margin-top:8px" onclick="openQuizCenter()"><b>📝 考试中心 · 检验学习成果</b></button>'
+    +'<button class="home-card small" style="margin-top:8px" onclick="openLabCenter()"><b>⚒ 实战中心 · 动手实操与模拟赛</b></button>'
     +'</div>';
 }}
 /* ===== end growth ===== */
@@ -975,6 +984,67 @@ tutorial_16: {{t:'第16章 · 真题实战', q:[
   {{q:'比赛题面与评分标准有冲突时，以哪个为准？',o:['题面','评分标准','自己的直觉','问旁边的'],a:1,e:'韩国题面明文规定：以评分标准为准——它决定你的分数。'}}
 ]}}
 }};
+
+/* ===== Practice lab data ===== */
+const LAB_TASKS=[
+ {{c:'tutorial_01',t:'Linux 命令大练兵',d:'在 Linux 里完成：建用户、建目录树、改权限、装 Nginx、看日志——全程命令行。',v:'不看资料通过教程第 1 章的 10 题终极大检验',m:30}},
+ {{c:'tutorial_01',t:'摔倒了爬起来',d:'故意制造三个故障：rm 删一个文件、权限改成 000、停掉一个服务——然后全部修好。',v:'三种故障都能独立定位并修复',m:20}},
+ {{c:'tutorial_02',t:'让手机访问你的网站',d:'搭好 Nginx + 防火墙放行 + 云安全组放行，用手机浏览器打开你的页面。',v:'手机屏幕上出现你的网页',m:30}},
+ {{c:'tutorial_02',t:'网络排障三连',d:'用 ping / curl -v / ss 定位一次「网站打不开」，写清楚问题出在哪一层。',v:'能口头解释四层排查法',m:20}},
+ {{c:'tutorial_03',t:'systemd 正规军',d:'把自己的一个脚本变成 systemd 服务：自动重启 + 开机自启 + 日志可查。',v:'systemctl status 显示 active，重启机器后服务还在',m:30}},
+ {{c:'tutorial_03',t:'数据库小管家',d:'建库建用户授权，做一次 mysqldump 备份，再恢复到新库验证。',v:'恢复后的库数据完整',m:30}},
+ {{c:'tutorial_04',t:'自建 CA 发证书',d:'当一次发证机构：建根 CA、签服务证书、用 openssl verify 验证链。',v:'openssl verify 输出 OK',m:40}},
+ {{c:'tutorial_04',t:'网站挂上小绿锁',d:'给 Nginx 配 HTTPS + HTTP 自动跳转。',v:'浏览器地址栏出现锁图标',m:30}},
+ {{c:'tutorial_05',t:'搭一台 DNS 服务器',d:'装 BIND9，配正反解析，dig 查询全部通过。',v:'dig 正查反查都能返回正确结果',m:40}},
+ {{c:'tutorial_05',t:'主从 DNS 实验',d:'两台机器做主从 DNS，停掉主服务器，从服务器继续解析。',v:'主挂了从顶住',m:40}},
+ {{c:'tutorial_06',t:'双机负载均衡',d:'两台 Web + 一台 HAProxy，停掉一台后端观察自动剔除。',v:'故障自动转移，用户无感知',m:40}},
+ {{c:'tutorial_06',t:'VIP 漂移实验',d:'Keepalived 双机主备，停掉主调度器看 VIP 自动漂移。',v:'curl VIP 持续可用',m:40}},
+ {{c:'tutorial_07',t:'故障急诊室',d:'给自己制造 5 个故障（磁盘满/端口占用/权限/服务挂/证书过期），逐个修复并记录。',v:'写下 5 条维修记录',m:60}},
+ {{c:'tutorial_07',t:'排障演练场',d:'找一个同学/朋友互相埋雷：改坏对方环境的一条配置让对方修。',v:'对方 10 分钟内找到问题',m:30}},
+ {{c:'tutorial_08',t:'建一个小型域',d:'Windows Server 建域 + 建 OU/用户/组 + 另一台机器加域登录。',v:'用域账号登录成功',m:60}},
+ {{c:'tutorial_08',t:'组策略三连',d:'配 3 条 GPO：登录横幅、禁用命令提示符、统一环境变量。',v:'gpresult /r 能看到三条策略生效',m:40}},
+ {{c:'tutorial_09',t:'写一个巡检脚本',d:'脚本检查 CPU/内存/磁盘/服务状态，输出报告；配成每天定时运行。',v:'第二天查看巡检日志',m:40}},
+ {{c:'tutorial_09',t:'一键部署脚本',d:'把「装 Nginx + 配站点 + 放行防火墙」写成一个脚本，一条命令完成。',v:'脚本在干净机器上跑通',m:40}},
+ {{c:'tutorial_10',t:'容器化你的应用',d:'写 Dockerfile 打包一个自己的应用，构建镜像并运行。',v:'docker run 后能访问',m:40}},
+ {{c:'tutorial_10',t:'Compose 两件套',d:'用 docker-compose 一次拉起 Nginx + MySQL，数据卷持久化。',v:'删容器重建后数据还在',m:40}},
+ {{c:'tutorial_11',t:'应用上 K8s',d:'在 minikube/EKS 部署 3 副本应用 + Service + 自愈实验。',v:'删掉一个 Pod 自动补回',m:60}},
+ {{c:'tutorial_11',t:'K8s 排障三件套',d:'故意制造 ImagePullBackOff / CrashLoop / Pending 三种故障并用 describe+logs 定位。',v:'三种故障都能讲出根因',m:40}},
+ {{c:'tutorial_12',t:'云上第一台服务器',d:'（谨慎：会产生少量费用）AWS 开一台 EC2，配安全组，部署网站，然后销毁。',v:'部署成功+费用回零',m:60}},
+ {{c:'tutorial_12',t:'云架构搭建',d:'VPC 公私子网 + ALB + ASG 自动伸缩 + 告警。',v:'压测触发自动扩容',m:90}},
+ {{c:'tutorial_13',t:'Ansible 一键配十台',d:'用 Ansible 给 2 台以上服务器批量装 Nginx 并统一配置。',v:'ansible-playbook 跑两遍 changed=0（幂等）',m:40}},
+ {{c:'tutorial_13',t:'Terraform 建资源',d:'用 Terraform 从零创建一台云服务器并销毁。',v:'init/plan/apply/destroy 全流程走通',m:60}},
+ {{c:'tutorial_14',t:'监控仪表盘',d:'装 Prometheus+Grafana，做出能看到 CPU/内存/磁盘的仪表盘。',v:'Grafana 里图表实时刷新',m:60}},
+ {{c:'tutorial_14',t:'告警实战',d:'配一条「CPU>80% 持续5分钟」告警，用压测工具触发它。',v:'告警从 OK 变 Firing',m:40}},
+ {{c:'tutorial_15',t:'服务器武装',d:'SSH 加固（禁 root+密钥登录）+ fail2ban + 防火墙最小放行。',v:'新开终端验证仍能登录，扫描端口只剩 22/80/443',m:40}},
+ {{c:'tutorial_15',t:'安全体检报告',d:'按教程第 15 章的检查表给自己的服务器做一次完整体检并打分。',v:'产出体检报告（至少 10 项）',m:40}},
+ {{c:'tutorial_16',t:'真题裸做',d:'选一份韩国真题（题面 korea-zh 里的题面），限时 4 小时裸做，然后对照评分标准自评。',v:'失分表 ≥10 条',m:240}},
+ {{c:'tutorial_16',t:'失分清零',d:'把上一次真题裸做的所有失分点逐个攻克，重做一遍。',v:'重做得分提升 30% 以上',m:120}}
+];
+const SIMS=[
+ {{id:'mini',t:'⚡ 迷你模拟',dur:30,desc:'3 个基础任务 · 30 分钟 · 体验比赛节奏',tasks:[
+  {{t:'部署 Nginx 静态网站',d:'装 Nginx，放一个自定义首页',v:'curl localhost 返回你的页面'}},
+  {{t:'创建数据库与用户',d:'建库 appdb + 用户 appuser 并授权',v:'appuser 能查询库里的表'}},
+  {{t:'防火墙配置',d:'放行 22/80/443，其余默认拒绝',v:'ufw status 显示三条放行规则'}}
+ ]}},
+ {{id:'std',t:'🎯 标准模拟',dur:90,desc:'5 个进阶任务 · 90 分钟 · 向省赛看齐',tasks:[
+  {{t:'搭建 DNS 服务器',d:'正反解析全部配置正确',v:'dig 正查反查通过'}},
+  {{t:'部署 HTTPS 网站',d:'自签证书 + HTTP 跳转 HTTPS',v:'curl -k https 返回页面'}},
+  {{t:'两台后端 + 负载均衡',d:'HAProxy 轮询 + 健康检查',v:'停一台后端自动剔除'}},
+  {{t:'写备份脚本并配 cron',d:'每天凌晨备份指定目录并保留 7 天',v:'crontab -l 可见任务，手动跑通'}},
+  {{t:'容器化部署应用',d:'Dockerfile 构建 + 运行 + 数据卷',v:'docker ps 可见容器'}}
+ ]}},
+ {{id:'full',t:'🏆 全真模拟（4 小时）',dur:240,desc:'8 个任务 · 4 小时 · 世界赛 Module 风格',tasks:[
+  {{t:'系统基础',d:'建用户/组、sudo 授权、SSH 密钥登录、时间同步',v:'30 分钟内完成并验证'}},
+  {{t:'DNS 主从 + 双栈',d:'正反解析 + IPv6 + 主从复制',v:'主挂从顶'}},
+  {{t:'Web 服务',d:'Nginx + 虚拟主机 + HTTPS + 反向代理',v:'两个域名各返回不同站点'}},
+  {{t:'目录服务',d:'OpenLDAP 建 OU 与用户，客户端可登录',v:'ldapsearch 能查到用户'}},
+  {{t:'文件共享',d:'Samba 公共/内部共享权限配置',v:'权限矩阵全部符合要求'}},
+  {{t:'高可用',d:'HAProxy + Keepalived 双机',v:'VIP 漂移实验通过'}},
+  {{t:'自动化',d:'Ansible 批量配置所有节点',v:'剧本幂等（跑两遍 changed=0）'}},
+  {{t:'终检',d:'对照评分标准逐项自检全部服务',v:'出一张自检清单'}}
+ ]}}
+];
+/* ===== end lab data ===== */
 
 /* ===== Quiz system ===== */
 function getQuizScores(){{ try{{ return JSON.parse(localStorage.getItem('wg.quiz')||'{{}}'); }}catch(e){{ return {{}}; }} }}
@@ -1099,6 +1169,157 @@ function renderQuizResult(){{
   document.getElementById('quizBody').innerHTML=h;
 }}
 /* ===== end quiz ===== */
+/* ===== Practice / Sim engine ===== */
+function getLabDone(){{ try{{ return JSON.parse(localStorage.getItem('wg.lab')||'{{}}'); }}catch(e){{ return {{}}; }} }}
+function getSims(){{ try{{ return JSON.parse(localStorage.getItem('wg.sims')||'[]'); }}catch(e){{ return []; }} }}
+function openLabCenter(){{ const v=document.getElementById('labView'); if(!v) return; v.classList.add('on'); renderLabCenter(); }}
+function closeLab(){{ const v=document.getElementById('labView'); if(v) v.classList.remove('on'); }}
+function renderLabCenter(){{
+  SIM=null;
+  document.getElementById('labTitle').textContent='⚒ 实战中心';
+  const done=getLabDone();
+  const sims=getSims();
+  let h='';
+  h+='<div class="qz-item"><h4>🏟 世赛模拟</h4><p style="color:var(--dim);font-size:12.5px;margin:4px 0 0">全真节奏：选套餐 → 倒计时开始 → 在自己机器上做题，完成一项勾一项</p>';
+  for(let i=0;i<SIMS.length;i++){{
+    const s=SIMS[i];
+    h+='<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line2)">'
+      +'<div style="flex:1"><div style="font-size:14px;font-weight:700">'+s.t+'</div><div style="font-size:11.5px;color:var(--dim);margin-top:2px">'+s.desc+'</div></div>'
+      +'<button class="qz-btn sm" data-sim="'+s.id+'">开始</button></div>';
+  }}
+  if(sims.length){{
+    h+='<div style="margin-top:10px;font-size:11.5px;color:var(--dim2)">最近成绩：';
+    for(let i=0;i<Math.min(sims.length,5);i++){{ const r=sims[i]; h+='　'+r.t+' '+r.done+'/'+r.total; }}
+    h+='</div>';
+  }}
+  h+='</div>';
+  h+='<div class="qz-item"><h4>🔬 实操任务<span style="color:#30d158;font-size:11.5px;margin-left:8px">每个 +30 XP</span></h4><p style="color:var(--dim);font-size:12.5px;margin:4px 0 0">在你的电脑/虚拟机上真实动手做，做完点一下卡片勾选</p>';
+  const chs=Object.keys(QUIZ_BANK);
+  for(let ci=0;ci<chs.length;ci++){{
+    const ch=chs[ci];
+    h+='<div style="margin-top:14px;font-size:12px;color:var(--dim);font-weight:700">'+QUIZ_BANK[ch].t+'</div>';
+    for(let i=0;i<LAB_TASKS.length;i++){{
+      if(LAB_TASKS[i].c!==ch) continue;
+      const d=done[i];
+      h+='<div class="lab-card'+(d?' labdone':'')+'" data-lab="'+i+'">'
+        +'<div style="font-size:13.5px;font-weight:700">'+(d?'✅ ':'⬜ ')+LAB_TASKS[i].t+' <span style="color:var(--dim2);font-size:11px">'+LAB_TASKS[i].m+'min</span></div>'
+        +'<div style="font-size:12px;color:var(--dim);margin-top:3px;line-height:1.6">'+LAB_TASKS[i].d+'</div>'
+        +'<div style="font-size:11.5px;color:#7ef0c0;margin-top:3px">🎯 验收：'+LAB_TASKS[i].v+'</div>'
+        +'</div>';
+    }}
+  }}
+  h+='</div>';
+  document.getElementById('labBody').innerHTML=h;
+}}
+function getLabRewarded(){{ try{{ return JSON.parse(localStorage.getItem('wg.labXp')||'{{}}'); }}catch(e){{ return {{}}; }} }}
+function toggleLab(i){{
+  const done=getLabDone();
+  if(done[i]){{ delete done[i]; }}
+  else {{
+    done[i]=1;
+    const rw=getLabRewarded();
+    if(!rw[i]){{
+      rw[i]=1;
+      try{{ localStorage.setItem('wg.labXp',JSON.stringify(rw)); }}catch(e){{}}
+      const n=Object.keys(done).length;
+      if(navigator.vibrate){{ try{{navigator.vibrate(12);}}catch(e){{}} }}
+      try{{
+        addXP(30,'实操完成');
+        if(n===1) unlockBadge('lab1');
+        if(n>=10) unlockBadge('lab10');
+      }}catch(e){{}}
+    }}
+  }}
+  try{{ localStorage.setItem('wg.lab',JSON.stringify(done)); }}catch(e){{}}
+  renderLabCenter();
+}}
+let SIM=null;
+function fmtT(sec){{ const m=Math.floor(sec/60), s2=sec%60; return (m<10?'0':'')+m+':'+(s2<10?'0':'')+s2; }}
+function startSim(id){{
+  let s=null;
+  for(let i=0;i<SIMS.length;i++){{ if(SIMS[i].id===id) s=SIMS[i]; }}
+  if(!s) return;
+  SIM={{id:id,t:s.t,dur:s.dur,tasks:s.tasks,done:{{}},left:s.dur*60,timer:null}};
+  document.getElementById('labTitle').textContent='🏟 '+s.t;
+  renderSimRun();
+  if(SIM.timer) clearInterval(SIM.timer);
+  SIM.timer=setInterval(function(){{
+    if(!SIM) return;
+    SIM.left--;
+    const el=document.getElementById('simClock');
+    if(el) el.textContent=fmtT(Math.max(0,SIM.left));
+    if(SIM.left<=0){{ clearInterval(SIM.timer); SIM.timer=null; finishSim(true); }}
+  }},1000);
+  if(navigator.vibrate){{ try{{navigator.vibrate(20);}}catch(e){{}} }}
+}}
+function renderSimRun(){{
+  if(!SIM) return;
+  const t=SIM;
+  const dn=Object.keys(t.done).length;
+  let h='<div class="qz-item" style="text-align:center"><div id="simClock" style="font-size:42px;font-weight:800;color:#ffd60a">'+fmtT(t.left)+'</div>'
+   +'<p style="color:var(--dim);font-size:12px;margin:5px 0 0">在你的电脑/虚拟机上完成，做一项勾一项</p></div>';
+  h+='<div class="qz-item"><h4>📋 任务清单（'+dn+'/'+t.tasks.length+'）</h4>';
+  for(let i=0;i<t.tasks.length;i++){{
+    const k=t.tasks[i], d=t.done[i];
+    h+='<div class="lab-card'+(d?' labdone':'')+'" data-simt="'+i+'">'
+      +'<div style="font-size:13.5px;font-weight:700">'+(d?'✅ ':'⬜ ')+k.t+'</div>'
+      +'<div style="font-size:12px;color:var(--dim);margin-top:3px;line-height:1.6">'+k.d+'</div>'
+      +'<div style="font-size:11.5px;color:#7ef0c0;margin-top:3px">🎯 '+k.v+'</div>'
+      +'</div>';
+  }}
+  h+='<button class="qz-btn" style="width:100%;margin-top:12px" data-simfin="1">⏹ 结束模拟并结算</button>'
+   +'<button class="qz-btn" style="width:100%;margin-top:8px;background:rgba(255,255,255,.1)" data-simquit="1">放弃这次模拟</button>';
+  h+='</div>';
+  document.getElementById('labBody').innerHTML=h;
+}}
+function toggleSimTask(i){{
+  if(!SIM) return;
+  if(SIM.done[i]) delete SIM.done[i]; else SIM.done[i]=1;
+  if(navigator.vibrate){{ try{{navigator.vibrate(10);}}catch(e){{}} }}
+  renderSimRun();
+}}
+function finishSim(timeout){{
+  if(!SIM) return;
+  if(SIM.timer){{ clearInterval(SIM.timer); SIM.timer=null; }}
+  const doneN=Object.keys(SIM.done).length, total=SIM.tasks.length;
+  const gain=doneN*20+(doneN===total?50:0);
+  const rec={{t:SIM.t,done:doneN,total:total,ts:Date.now()}};
+  const sims=getSims(); sims.unshift(rec);
+  try{{ localStorage.setItem('wg.sims',JSON.stringify(sims.slice(0,10))); }}catch(e){{}}
+  try{{ addXP(gain, timeout?'时间到':'模拟结算'); unlockBadge('sim1'); saveGrow(); }}catch(e){{}}
+  const pct=Math.round(doneN/total*100);
+  let h='<div class="qz-item" style="text-align:center"><div style="font-size:42px">'+(pct>=100?'🏆':(pct>=60?'🎉':'💪'))+'</div>'
+   +'<h3 style="margin:8px 0;color:#ffd60a;font-size:19px">完成 '+doneN+' / '+total+' 项</h3>'
+   +(timeout?'<p style="color:#ff9f0a;font-size:13px;margin:4px 0">⏰ 时间到！</p>':'')
+   +'<p style="color:var(--dim);font-size:13px;margin:6px 0 0">获得 +'+gain+' XP'+(doneN===total?'（全勤奖励 +50）':'')+'</p>'
+   +'<button class="qz-btn" style="background:linear-gradient(150deg,#30d158,#1a9e42);width:100%;margin-top:14px" data-rest="1">☕ 休息 5 分钟</button>'
+   +'<button class="qz-btn" style="width:100%;margin-top:8px" data-sim="'+SIM.id+'">🔄 再来一次</button>'
+   +'<button class="qz-btn" style="width:100%;margin-top:8px;background:rgba(255,255,255,.1)" onclick="renderLabCenter()">返回实战中心</button></div>';
+  const sid=SIM.id;
+  SIM=null;
+  document.getElementById('labTitle').textContent='🏟 模拟结算';
+  document.getElementById('labBody').innerHTML=h;
+}}
+function startRest(){{
+  const rv=document.getElementById('restView'); if(!rv) return;
+  rv.classList.add('on');
+  let left=300;
+  const el=document.getElementById('restClock');
+  el.textContent=fmtT(left);
+  document.getElementById('restMsg').textContent='站起来走动一下，看看远处，喝口水';
+  if(window._restT) clearInterval(window._restT);
+  window._restT=setInterval(function(){{
+    left--;
+    el.textContent=fmtT(Math.max(0,left));
+    if(left<=0){{
+      clearInterval(window._restT); window._restT=null;
+      document.getElementById('restMsg').textContent='☕ 休息结束，回来继续吧！';
+      if(navigator.vibrate){{ try{{navigator.vibrate([40,80,40,80,40]);}}catch(e){{}} }}
+    }}
+  }},1000);
+}}
+function stopRest(){{ const rv=document.getElementById('restView'); if(rv) rv.classList.remove('on'); if(window._restT){{ clearInterval(window._restT); window._restT=null; }} }}
+/* ===== end lab ===== */
 function markRead(id){{
   if(id==='__home__') return;
   try{{
@@ -1152,8 +1373,24 @@ document.getElementById('nav').addEventListener('click',e=>{{
 let lastTouchAct=0;
 function act(el){{
   if(!el) return;
+  const qo=el.closest('[data-qi]');
+  if(qo){{ answerQuiz(+qo.dataset.qi); return; }}
+  const qn=el.closest('[data-qnext]');
+  if(qn){{ nextQuiz(); return; }}
   const qzEl=el.closest('[data-quiz]');
   if(qzEl){{ startQuiz(qzEl.dataset.quiz); return; }}
+  const lb=el.closest('[data-lab]');
+  if(lb){{ toggleLab(+lb.dataset.lab); return; }}
+  const sb=el.closest('[data-simt]');
+  if(sb){{ toggleSimTask(+sb.dataset.simt); return; }}
+  const s2=el.closest('[data-simfin]');
+  if(s2){{ finishSim(false); return; }}
+  const s3=el.closest('[data-simquit]');
+  if(s3){{ SIM=null; renderLabCenter(); return; }}
+  const s4=el.closest('[data-sim]');
+  if(s4){{ startSim(s4.dataset.sim); return; }}
+  const rs=el.closest('[data-rest]');
+  if(rs){{ startRest(); return; }}
   const tocEl=el.closest('[data-toc]');
   if(tocEl){{ const i=+tocEl.dataset.toc; if(tocItems[i]){{ try{{ tocItems[i].scrollIntoView({{behavior:'smooth',block:'start'}}); }}catch(e){{}} }} const tp=document.getElementById('tocPanel'); if(tp) tp.style.display='none'; return; }}
   if(el.classList && el.classList.contains('group-head')){{ toggleGroup(el); return; }}
@@ -1161,19 +1398,11 @@ function act(el){{
   if(el.dataset && el.dataset.doc){{ show(el.dataset.doc); return; }}
 }}
 document.addEventListener('click',e=>{{
-  const qo=e.target.closest('[data-qi]');
-  if(qo){{ answerQuiz(+qo.dataset.qi); return; }}
-  const qn=e.target.closest('[data-qnext]');
-  if(qn){{ nextQuiz(); return; }}
+  const hit=e.target.closest('[data-qi], [data-qnext], [data-toc], [data-doclink], [data-quiz], [data-lab], [data-sim], [data-simt], [data-simfin], [data-simquit], [data-rest]');
+  if(!hit) return;
   if(Date.now()-lastTouchAct<600) return;
-  const t=e.target.closest('[data-toc]');
-  if(t){{ const i=+t.dataset.toc; if(tocItems[i]){{ try{{ tocItems[i].scrollIntoView({{behavior:'smooth',block:'start'}}); }}catch(err){{}} }} const tp=document.getElementById('tocPanel'); if(tp) tp.style.display='none'; return; }}
-  const a=e.target.closest('[data-doclink]');
-  if(a){{ e.preventDefault(); show(a.dataset.doclink); return; }}
-  const qz=e.target.closest('[data-quiz]');
-  if(qz){{ startQuiz(qz.dataset.quiz); return; }}
-  const g=e.target.closest('.group-head');
-  if(g) return;
+  e.preventDefault();
+  act(hit);
 }});
 /* --- direct touch handling: never lose taps to scroll/animation --- */
 let tx0=0, ty0=0, tT0=0;
@@ -1183,13 +1412,9 @@ document.addEventListener('touchstart',function(e){{
 document.addEventListener('touchend',function(e){{
   const t=e.changedTouches[0]; if(!t) return;
   const dx=t.clientX-tx0, dy=t.clientY-ty0;
-  if(Math.abs(dx)>14 || Math.abs(dy)>14) return;   /* it was a scroll, not a tap */
+  if(Math.abs(dx)>14 || Math.abs(dy)>14) return;   /* scroll, not tap */
   if(Date.now()-tT0>900) return;                    /* long press */
-  const qo=e.target.closest('[data-qi]');
-  if(qo){{ lastTouchAct=Date.now(); try{{e.preventDefault();}}catch(err){{}} answerQuiz(+qo.dataset.qi); return; }}
-  const qn=e.target.closest('[data-qnext]');
-  if(qn){{ lastTouchAct=Date.now(); try{{e.preventDefault();}}catch(err){{}} nextQuiz(); return; }}
-  const hit=e.target.closest('[data-toc], [data-doclink], [data-quiz], .nav-item, .group-head');
+  const hit=e.target.closest('[data-qi], [data-qnext], [data-toc], [data-doclink], [data-quiz], [data-lab], [data-sim], [data-simt], [data-simfin], [data-simquit], [data-rest], .nav-item, .group-head');
   if(!hit) return;
   lastTouchAct=Date.now();
   try{{ e.preventDefault(); }}catch(err){{}}
@@ -1355,6 +1580,15 @@ window.addEventListener('scroll',()=>{{
 </script>
 <div id="xpFloat">+10 XP</div>
 <div id="celebrate"><div class="celebrate-card" id="celebrateCard"></div></div>
+<div id="restView"><div class="celebrate-card"><div class="big">☕</div><h3>休息一下</h3><div id="restClock" style="font-size:40px;font-weight:800;color:#ffd60a;margin:10px 0">05:00</div><p id="restMsg" style="color:var(--dim);font-size:13px">站起来走动一下，看看远处，喝口水</p><button class="qz-btn" style="margin-top:14px" onclick="stopRest()">回来继续</button></div></div>
+<div id="labView">
+  <div class="quiz-head">
+    <button class="tool-btn" onclick="closeLab()">✕</button>
+    <div id="labTitle" style="flex:1;font-weight:700;font-size:15px">实战中心</div>
+    <div id="labRight" style="color:var(--dim2);font-size:12px"></div>
+  </div>
+  <div class="quiz-body" id="labBody"></div>
+</div>
 <div id="quizView">
   <div class="quiz-head">
     <button class="tool-btn" onclick="closeQuiz()">✕</button>
