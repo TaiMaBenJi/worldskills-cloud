@@ -8,7 +8,7 @@
 # 关键约束（血泪）:
 #   - 设备侧 aapt2 link 要 1-3 分钟 → 后台跑 + BUILD_DONE 标记，不能只看产物是否存在
 #   - 设备侧 pm install 从 alpine-rootfs 路径读取（沙箱 /tmp = 设备 .../alpine-rootfs/tmp）
-#   - 签名用 tools/jars/uas.jar 内置 debug key（同 key 才能 -r 覆盖安装）
+#   - 签名用自有正式证书 tools/cloudstudy-release.keystore（口令 CloudStudy@2026，务必保管！）
 set -u
 TOOLS=/var/minis/shared/cloudstudy-apk/tools
 SRC=/var/minis/shared/cloudstudy-apk/src
@@ -62,12 +62,12 @@ log "== 5/8 合并 classes.dex"
 run python3 "$TOOLS/add_dex.py" "$WORK/out.apk" "$WORK/classes.dex" "$WORK/unsigned.apk"
 
 log "== 6/8 uber-apk-signer 签名"
-run java -jar "$TOOLS/jars/uas.jar" --apks "$WORK/unsigned.apk" --skipZipAlign
-SIGNED="$WORK/unsigned-debugSigned.apk"
+run java -jar /var/minis/shared/cloudstudy-apk/tools/jars/uas.jar --apks /tmp/cloudbuild/unsigned.apk --ks /var/minis/shared/cloudstudy-apk/tools/cloudstudy-release.keystore --ksAlias cloudstudy --ksPass 'CloudStudy@2026' --ksKeyPass 'CloudStudy@2026' --skipZipAlign
+SIGNED="$WORK/unsigned-signed.apk"
 [ -s "$SIGNED" ] || fail "签名产物缺失"
 
 log "== 7/8 安装到设备"
-android-shizuku-cli exec "pm install -r $DEVWORK/unsigned-debugSigned.apk" >> "$LOG" 2>&1 || fail "pm install"
+android-shizuku-cli exec "pm install -r $DEVWORK/unsigned-signed.apk" >> "$LOG" 2>&1 || fail "pm install"
 
 log "== 8/8 启动验证 + 归档"
 android-shizuku-cli exec "monkey -p com.cloudstudy.app -c android.intent.category.LAUNCHER 1" >> "$LOG" 2>&1
