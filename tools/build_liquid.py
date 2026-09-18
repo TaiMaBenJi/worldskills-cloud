@@ -342,6 +342,7 @@ for gkey, gtitle, gcolor, items in nav_groups:
         '<b>%s</b><span class="hc-count">%d 篇</span></button>' % (first_id, gcolor, gtitle, cnt))
 home_html = (
     '<p style="color:var(--dim)">共 <b>%d</b> 篇 · %d 个分组 · 点击任意分组进入，或使用顶部搜索框（支持全文搜索）</p>'
+    '<div id="grow-slot"></div>'
     '<div id="continue-slot"></div>'
     '<div id="recent-slot"></div>'
     '<div class="home-grid">%s</div>'
@@ -588,6 +589,23 @@ body.drawer-open .menu-btn .bars i:nth-child(3){{transform:translateY(-6px) rota
   .md h2{{font-size:17.5px}}
 }}
 .foot{{text-align:center;color:var(--dim2);font-size:11.5px;padding:26px 0 10px}}
+/* ===== growth system ===== */
+.grow-card{{background:linear-gradient(150deg,rgba(255,214,10,.10),rgba(191,90,242,.08));border:1px solid rgba(255,214,10,.28);border-radius:20px;padding:16px 18px;margin:14px 0}}
+.grow-top{{display:flex;align-items:baseline;gap:10px}}
+.grow-lv{{font-size:19px;font-weight:800;color:#ffd60a}}
+.grow-streak{{margin-left:auto;font-size:13px;color:#ff9f0a;font-weight:700}}
+.grow-bar{{height:10px;border-radius:6px;background:rgba(255,255,255,.1);margin:10px 0 6px;overflow:hidden}}
+.grow-bar i{{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#0a84ff,#bf5af2);width:0;transition:width .5s ease}}
+.grow-meta{{font-size:11.5px;color:var(--dim2)}}
+.badges{{margin-top:9px;font-size:17px;letter-spacing:3px}}
+.badges .off{{opacity:.22}}
+#xpFloat{{position:fixed;top:64px;right:16px;z-index:120;pointer-events:none;font-weight:800;color:#7ef0c0;font-size:15px;opacity:0;transform:translateY(6px);transition:opacity .25s,transform .25s}}
+#xpFloat.on{{opacity:1;transform:translateY(-14px)}}
+#celebrate{{position:fixed;inset:0;z-index:150;display:none;align-items:center;justify-content:center;background:rgba(10,12,22,.55)}}
+.celebrate-card{{background:linear-gradient(160deg,rgba(38,40,58,.98),rgba(20,22,34,.98));border:1px solid rgba(255,214,10,.5);border-radius:24px;padding:28px 40px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 60px rgba(255,214,10,.22)}}
+.celebrate-card .big{{font-size:42px}}
+.celebrate-card h3{{color:#ffd60a;margin:10px 0 4px;font-size:17px}}
+.celebrate-card p{{color:var(--dim);margin:4px 0 0;font-size:13px}}
 #boot{{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#050508;transition:opacity .45s}}
 #boot p{{margin:0;color:var(--dim);font-size:14px}}
 #boot small{{color:var(--dim2);font-size:11.5px}}
@@ -699,19 +717,156 @@ function renderBottomNav(id){{
    + (next?'<button class="dn-btn" data-doclink="'+next+'">'+cut(DOCS[next].t)+' →</button>':'<span style="flex:1"></span>');
   el.style.display='flex';
 }}
+/* ===== Growth system (gamification) ===== */
+const LEVELS=[
+  {{n:1,t:'见习云工',min:0}},
+  {{n:2,t:'云学徒',min:100}},
+  {{n:3,t:'云行者',min:300}},
+  {{n:4,t:'云骑士',min:600}},
+  {{n:5,t:'云专家',min:1000}},
+  {{n:6,t:'云大师',min:2000}},
+  {{n:7,t:'云传奇',min:4000}}
+];
+const BADGES=[
+  {{id:'first',e:'🌱',n:'启程',d:'首次打开学习中心'}},
+  {{id:'r1',e:'👣',n:'第一步',d:'阅读第 1 篇资料'}},
+  {{id:'r10',e:'🔟',n:'十篇斩',d:'阅读 10 篇资料'}},
+  {{id:'r50',e:'🏅',n:'半百',d:'阅读 50 篇资料'}},
+  {{id:'r100',e:'💯',n:'百篇斩',d:'阅读 100 篇资料'}},
+  {{id:'s3',e:'🔥',n:'三日之约',d:'连续学习 3 天'}},
+  {{id:'s7',e:'⚡',n:'一周不辍',d:'连续学习 7 天'}},
+  {{id:'s30',e:'👑',n:'月度自律',d:'连续学习 30 天'}},
+  {{id:'exam5',e:'🏆',n:'真题猎人',d:'阅读 5 篇真题'}},
+  {{id:'kr10',e:'🚀',n:'韩语征服者',d:'阅读 10 篇韩国真题'}},
+  {{id:'tut16',e:'📖',n:'教程通关',d:'读完教程全部 16 章'}}
+];
+function loadGrow(){{
+  try{{ const g=JSON.parse(localStorage.getItem('wg.grow')||'null'); if(g) return g; }}catch(e){{}}
+  return {{xp:0,streak:0,last:'',badges:[],reads:0,exam:0,kr:0,tut:{{}}}};
+}}
+let GROW=loadGrow();
+function saveGrow(){{ try{{ localStorage.setItem('wg.grow',JSON.stringify(GROW)); }}catch(e){{}} }}
+function levelOf(xp){{ let L=LEVELS[0]; for(let i=0;i<LEVELS.length;i++){{ if(xp>=LEVELS[i].min) L=LEVELS[i]; }} return L; }}
+function nextLevel(){{ for(let i=0;i<LEVELS.length;i++){{ if(GROW.xp<LEVELS[i].min) return LEVELS[i]; }} return null; }}
+function dayStr(offset){{
+  const d=new Date(); d.setDate(d.getDate()+(offset||0));
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}}
+function xpFloat(txt){{
+  const el=document.getElementById('xpFloat'); if(!el) return;
+  el.textContent=txt; el.classList.add('on');
+  setTimeout(function(){{ el.classList.remove('on'); }}, 1400);
+}}
+function celebrate(html){{
+  const cv=document.getElementById('celebrate'); if(!cv) return;
+  document.getElementById('celebrateCard').innerHTML=html;
+  cv.style.display='flex';
+  if(navigator.vibrate){{ try{{navigator.vibrate([30,60,30]);}}catch(e){{}} }}
+  setTimeout(function(){{ cv.style.display='none'; }}, 1900);
+}}
+function unlockBadge(id){{
+  if(GROW.badges.indexOf(id)>=0) return;
+  GROW.badges.push(id);
+  GROW.xp+=50;
+  saveGrow();
+  var found=null;
+  for(let i=0;i<BADGES.length;i++){{ if(BADGES[i].id===id) found=BADGES[i]; }}
+  if(found){{
+    setTimeout(function(){{
+      celebrate('<div class="big">'+found.e+'</div><h3>成就解锁 · '+found.n+'</h3><p>'+found.d+'　+50 XP</p>');
+    }}, 500);
+  }}
+}}
+function addXP(n,label,silent){{
+  const before=levelOf(GROW.xp).n;
+  GROW.xp+=n;
+  const after=levelOf(GROW.xp);
+  saveGrow();
+  if(!silent) xpFloat('+'+n+' XP'+(label?' · '+label:''));
+  if(after.n>before){{
+    setTimeout(function(){{
+      celebrate('<div class="big">🎉</div><h3>升级！Lv.'+after.n+' '+after.t+'</h3><p>累计 '+GROW.xp+' XP · 继续加油</p>');
+    }}, 900);
+  }}
+}}
+function checkStreak(){{
+  const t=dayStr(0);
+  if(GROW.last===t) return;
+  GROW.streak=(GROW.last===dayStr(-1))?GROW.streak+1:1;
+  GROW.last=t;
+  addXP(20,'每日打卡');
+  if(GROW.streak>=3) unlockBadge('s3');
+  if(GROW.streak>=7) unlockBadge('s7');
+  if(GROW.streak>=30) unlockBadge('s30');
+  saveGrow();
+}}
+function growthOnRead(id,isNew){{
+  if(!id||id==='__home__') return;
+  if(isNew){{
+    let gain=15;
+    if(id.indexOf('korea')>=0||id.indexOf('korean')>=0){{
+      GROW.kr++; gain=20;
+      if(GROW.kr>=10) unlockBadge('kr10');
+    }} else if(id.indexOf('exam')>=0||id.indexOf('cn-domestic')>=0){{
+      GROW.exam++; gain=20;
+      if(GROW.exam>=5) unlockBadge('exam5');
+    }}
+    const m=id.match(/tutorial_(\d\d)/);
+    if(m){{ GROW.tut[m[1]]=1; if(Object.keys(GROW.tut).length>=16) unlockBadge('tut16'); }}
+    GROW.reads++;
+    addXP(gain);
+    if(GROW.reads===1) unlockBadge('r1');
+    if(GROW.reads===10) unlockBadge('r10');
+    if(GROW.reads>=50) unlockBadge('r50');
+    if(GROW.reads>=100) unlockBadge('r100');
+  }} else {{
+    addXP(2,null,true);
+  }}
+  saveGrow();
+}}
+function renderGrowth(){{
+  const slot=document.getElementById('grow-slot'); if(!slot) return;
+  const L=levelOf(GROW.xp);
+  const nx=nextLevel();
+  const pct=nx?Math.max(3,Math.min(100,Math.round((GROW.xp-L.min)/(nx.min-L.min)*100))):100;
+  let bx='';
+  for(let i=0;i<BADGES.length;i++){{
+    bx+=(GROW.badges.indexOf(BADGES[i].id)>=0)? BADGES[i].e : '<span class="off">'+BADGES[i].e+'</span>';
+  }}
+  let rec=null;
+  try{{
+    const rd=JSON.parse(localStorage.getItem('wg.read')||'{{}}');
+    for(let i=1;i<=16 && !rec;i++){{
+      const key='tutorial_'+('0'+i).slice(-2);
+      const ks=Object.keys(DOCS);
+      for(let j=0;j<ks.length;j++){{ if(ks[j].indexOf(key)>=0 && !rd[ks[j]]){{ rec=ks[j]; break; }} }}
+    }}
+  }}catch(e){{}}
+  slot.innerHTML='<div class="grow-card">'
+    +'<div class="grow-top"><span class="grow-lv">Lv.'+L.n+' · '+L.t+'</span><span class="grow-streak">🔥 连续 '+GROW.streak+' 天</span></div>'
+    +'<div class="grow-bar"><i style="width:'+pct+'%"></i></div>'
+    +'<div class="grow-meta">'+GROW.xp+' XP'+(nx?' · 距 Lv.'+nx.n+' 还差 '+(nx.min-GROW.xp)+' XP':' · 已满级 🎓')+'　·　已读 '+GROW.reads+' 篇　·　成就 '+GROW.badges.length+'/'+BADGES.length+'</div>'
+    +'<div class="badges">'+bx+'</div>'
+    +(rec?'<button class="home-card small" style="margin-top:10px" data-doclink="'+rec+'"><b>📌 今日推荐：'+DOCS[rec].t+'</b></button>':'')
+    +'</div>';
+}}
+/* ===== end growth ===== */
 function markRead(id){{
   if(id==='__home__') return;
   try{{
     const rd=JSON.parse(localStorage.getItem('wg.read')||'{{}}');
+    const isNew=!rd[id];
     rd[id]=1; localStorage.setItem('wg.read',JSON.stringify(rd));
     let hist=JSON.parse(localStorage.getItem('wg.hist')||'[]');
     hist=hist.filter(function(x){{return x!==id;}}); hist.unshift(id); hist=hist.slice(0,8);
     localStorage.setItem('wg.hist',JSON.stringify(hist));
     const it=document.querySelector('.nav-item[data-doc="'+id+'"]');
     if(it) it.classList.add('read');
+    growthOnRead(id, isNew);
   }}catch(e){{}}
 }}
 function fillHome(){{
+  renderGrowth();
   const slot=document.getElementById('recent-slot'); if(!slot) return;
   try{{
     const rd=JSON.parse(localStorage.getItem('wg.read')||'{{}}');
@@ -927,6 +1082,7 @@ window.addEventListener('scroll',()=>{{
 (function(){{
   let fs=localStorage.getItem(LS_FS); if(fs) document.documentElement.style.setProperty('--fs',parseFloat(fs)+'px');
   try{{ const gs=JSON.parse(localStorage.getItem('wg.groups')||'{{}}'); document.querySelectorAll('.nav-group').forEach(function(g){{ if(g.dataset.g in gs){{ g.classList.toggle('closed', gs[g.dataset.g]); }} if(!g.classList.contains('closed')) buildGroupBody(g); }}); }}catch(e){{}}
+  try{{ if(!GROW.last) unlockBadge('first'); checkStreak(); }}catch(e){{}}
   const last=localStorage.getItem(LS_DOC);
   show('__home__');
   if(last && DOCS[last] && last!=='__home__'){{
@@ -937,6 +1093,8 @@ window.addEventListener('scroll',()=>{{
   if(bt){{ bt.style.opacity='0'; setTimeout(function(){{ bt.style.display='none'; }}, 480); }}
 }})();
 </script>
+<div id="xpFloat">+10 XP</div>
+<div id="celebrate"><div class="celebrate-card" id="celebrateCard"></div></div>
 <button id="toTop" onclick="window.scrollTo({{top:0,behavior:'smooth'}})">↑</button>
 <button id="tocBtn" onclick="toggleToc()" title="目录">📑</button>
 <div id="tocPanel"></div>
