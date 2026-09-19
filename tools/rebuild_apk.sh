@@ -37,6 +37,12 @@ cp -r "$SRC/smali" "$WORK/smali" || fail "cp smali"
 cp -r "$SRC/res/." "$WORK/res/" || fail "cp res"
 cp /var/minis/shared/worldskills-cloud/study.html "$WORK/assets/study.html" || fail "cp study.html"
 log "assets/study.html = $(stat -c %s "$WORK/assets/study.html") bytes"
+# 视频课（可选：存在 videos/ 目录时随 APK 打包；用 tar 管道避免 PRoot cp 不完整）
+if [ -d /var/minis/shared/worldskills-cloud/videos ]; then
+  mkdir -p "$WORK/assets"
+  (cd /var/minis/shared/worldskills-cloud && tar -cf - videos) | (cd "$WORK/assets" && tar -xf -) || fail "视频拷贝失败"
+  log "assets/videos = $(find "$WORK/assets/videos" -name '*.mp4' | wc -l) mp4, $(du -sk "$WORK/assets/videos" | cut -f1) KB"
+fi
 
 log "== 3/8 smali → classes.dex"
 cd "$WORK" || fail "cd work"
@@ -47,7 +53,7 @@ log "== 4/8 设备侧 aapt2 compile+link（后台 + 标记）"
 android-shizuku-cli exec "cd $DEVWORK && rm -f out.apk res.zip build.log && setsid sh build_dev.sh > build.log 2>&1 < /dev/null & echo LAUNCHED" >> "$LOG" 2>&1 \
   || fail "aapt2 派发失败（Shizuku 桥？）"
 i=0
-while [ "$i" -lt 150 ]; do
+while [ "$i" -lt 450 ]; do
   if grep -q BUILD_DONE "$WORK/build.log" 2>/dev/null; then break; fi
   if grep -qE 'COMPILE_FAIL|LINK_FAIL' "$WORK/build.log" 2>/dev/null; then
     fail "aapt2 内部失败: $(cat "$WORK/build.log")"
@@ -55,7 +61,7 @@ while [ "$i" -lt 150 ]; do
   i=$((i + 1))
   sleep 2
 done
-[ "$i" -lt 150 ] || fail "aapt2 超时（300s 未见 BUILD_DONE）"
+[ "$i" -lt 450 ] || fail "aapt2 超时（900s 未见 BUILD_DONE）"
 log "aapt2 完成，out.apk = $(stat -c %s "$WORK/out.apk") bytes"
 
 log "== 5/8 合并 classes.dex"
