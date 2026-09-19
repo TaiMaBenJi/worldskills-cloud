@@ -9,4 +9,7 @@ echo "== rebuild APK ==" >> $PL
 sh /var/minis/shared/cloudstudy-apk/tools/rebuild_apk.sh > /dev/null 2>&1
 RLOG=$(ls -t /var/minis/shared/cloudstudy-apk/tools/logs/rebuild.*.log | head -1)
 echo "[fin] APK: $(tail -1 $RLOG)" >> $PL
+echo "== GitHub final sync (30 videos + APK) ==" >> $PL
+cd /var/minis/shared/worldskills-cloud && python3 -u tools/gh_video_sync.py --full >> $PL 2>&1
+echo "[fin] GH sync rc=$?" >> $PL
 echo "COURSE FINISH DONE $(date '+%F %T')" >> $PL
