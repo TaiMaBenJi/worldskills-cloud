@@ -25,15 +25,15 @@ async def tts_all(jobs):
     async def one(text, out):
         async with sem:
             last = None
-            for attempt in range(8):
+            for attempt in range(10):
                 try:
                     c = edge_tts.Communicate(text, VOICE)
-                    await c.save(out)
+                    await asyncio.wait_for(c.save(out), timeout=30)
                     await asyncio.sleep(1.2)
                     return
                 except Exception as e:
                     last = e
-                    await asyncio.sleep(5 + attempt * 7)
+                    await asyncio.sleep(1.5 + attempt * 2)
             raise last
     await asyncio.gather(*[one(t, o) for t, o in jobs])
 
@@ -49,7 +49,7 @@ def build(ep):
     os.makedirs(fdir, exist_ok=True); os.makedirs(adir, exist_ok=True)
     os.makedirs(f'{ROOT}/out/{sub}', exist_ok=True)
     slides = ep['slides']; total = len(slides)
-    meta_base = {'ep_no': ep_no, 'ep_title': ep['title'], 'total': total}
+    meta_base = {'ep_no': ep.get('disp', ep_no), 'ep_title': ep['title'], 'total': total}
     print(f'== EP{ep_no} {ep["title"]} | {total} slides ==', flush=True)
     # 1) 渲染帧（跳过已存在，除非 REBUILD=1）
     rebuild = os.environ.get('REBUILD') == '1'
