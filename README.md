@@ -30,7 +30,7 @@
 ## 🚀 三种使用方式
 
 **① 装 App（推荐手机党）**
-从 [**Releases 页面**](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) 下载 `CloudStudy-完整版.apk` → 安装 → 打开「云计算学习」。
+从 [**Releases 页面**](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) 下载 `CloudStudy-Full.apk`（完整版）→ 安装 → 打开「云计算学习」。
 > 视频课、题库、资源库、实训室全部内置，无需联网；安装时系统提示"未知来源/风险应用"属正常侧载提示。
 
 **② 浏览器打开学习中心**
