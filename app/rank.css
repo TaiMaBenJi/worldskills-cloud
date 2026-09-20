@@ -1,0 +1,82 @@
+/* =====================================================================
+   app/rank.css · 「进阶之路」段位体系样式
+   （App 主页面浅色主题：卡片 / 段位卡 / 阶梯 / 晋级考核 / 晋升证书 / 提示条）
+   ===================================================================== */
+
+/* ---------- 首页 段位卡 ---------- */
+.rk-card{background:linear-gradient(150deg,rgba(26,111,232,.08),rgba(26,111,232,.02));border:1px solid rgba(26,111,232,.28);border-radius:20px;padding:16px 18px;margin:14px 0;cursor:pointer}
+.rk-card.ready{background:linear-gradient(150deg,rgba(255,214,10,.13),rgba(255,214,10,.03));border-color:rgba(255,214,10,.5)}
+.rk-top{display:flex;align-items:center;gap:10px}
+.rk-pill{display:inline-block;background:linear-gradient(150deg,#1a6fe8,#1557b0);color:#fff;font-size:12px;font-weight:800;padding:3px 10px;border-radius:999px;letter-spacing:.5px;flex:0 0 auto}
+.rk-pill.dim{background:rgba(0,0,0,.12);color:var(--dim)}
+.rk-name,.rk-t{font-size:17px;font-weight:800}
+.rk-cta{margin-left:auto;font-size:12.5px;color:var(--dim2);flex:0 0 auto}
+.rk-cap{color:var(--dim);font-size:12.5px;margin:7px 0 0;line-height:1.65}
+.rk-bar{height:8px;border-radius:5px;background:rgba(0,0,0,.06);margin:11px 0 6px;overflow:hidden}
+.rk-bar i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#1a6fe8,#8944d6);transition:width .5s ease;width:0}
+.rk-card.ready .rk-bar i{background:linear-gradient(90deg,#e0a800,#c99700)}
+.rk-meta{font-size:11.5px;color:var(--dim2)}
+.rk-ready{display:block;width:100%;margin-top:11px;background:rgba(255,214,10,.18);border:1px solid rgba(255,214,10,.55);color:#8a6a00;font-weight:800;font-size:13px;border-radius:12px;padding:11px;text-align:center;cursor:pointer;font-family:inherit}
+.rk-ready:active{transform:scale(.97)}
+
+/* ---------- 进阶之路 全屏页 ---------- */
+#rankView{position:fixed;inset:0;z-index:160;background:#f7f7f5;display:none;flex-direction:column}
+#rankView.on{display:flex}
+.rk-now .rk-nowtop{display:flex;align-items:center;gap:10px}
+.rk-stat{font-size:11.5px;color:var(--dim2);margin-top:9px;line-height:1.7}
+.rk-tag{font-size:11px;padding:2px 9px;border-radius:999px;background:rgba(0,0,0,.06);color:var(--dim2);margin-left:auto}
+.rk-tag.ok{background:rgba(48,209,88,.16);color:#1da851;font-weight:700}
+
+/* 条件行 */
+.rk-req{display:flex;align-items:baseline;gap:8px;padding:8px 0 2px;font-size:13px}
+.rk-req .ic{width:16px;flex:0 0 auto;font-weight:800;color:var(--dim2)}
+.rk-req.ok .ic{color:#1da851}
+.rk-req .bd{flex:1;line-height:1.55}
+.rk-req .pg{margin-left:auto;font-weight:700;color:var(--dim2);font-size:12px;flex:0 0 auto}
+.rk-req.ok .pg{color:#1da851}
+.rk-mini{height:5px;border-radius:3px;background:rgba(0,0,0,.05);overflow:hidden;margin:2px 0 4px}
+.rk-mini i{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,#1a6fe8,#1557b0)}
+.rk-mini.ok i{background:linear-gradient(90deg,#30d158,#1da851)}
+.rk-locktip{font-size:12px;color:var(--dim2);margin-top:10px;text-align:center;line-height:1.7}
+
+/* 阶梯 */
+.rk-lvrow{display:flex;align-items:center;gap:10px;padding:9px 2px;border-bottom:1px solid var(--line2);font-size:13.5px}
+.rk-lvrow:last-child{border-bottom:none}
+.rk-lvrow .rk-lvn{width:16px;flex:0 0 auto;color:#1da851;font-weight:800;text-align:center}
+.rk-lvrow .rk-lvname{flex:1}
+.rk-lvrow .rk-lvmeta{margin-left:auto;font-size:11.5px;color:var(--dim2);flex:0 0 auto}
+.rk-lvrow.done .rk-lvname{color:var(--dim)}
+.rk-lvrow.cur{background:rgba(26,111,232,.06);border-radius:10px;padding-left:8px;padding-right:8px}
+.rk-lvrow.cur .rk-lvname{font-weight:800;color:#1a6fe8}
+.rk-lvrow.next{background:rgba(255,214,10,.10);border-radius:10px;padding-left:8px;padding-right:8px}
+.rk-lvrow.next .rk-lvname{font-weight:800}
+.rk-lvrow.future{opacity:.45}
+.rk-lvrow.next .rk-lvmeta{color:#9a7500;font-weight:700}
+
+/* 实训模块进度 */
+.rk-mod{padding:8px 0 4px}
+.rk-modrow{display:flex;align-items:baseline;font-size:12.5px;gap:8px}
+.rk-modrow .pg{margin-left:auto;font-size:11.5px;color:var(--dim2)}
+
+/* 履历 */
+.rk-hrow{display:flex;align-items:baseline;gap:8px;padding:8px 2px;border-bottom:1px dashed var(--line2);font-size:13px}
+.rk-hrow:last-child{border-bottom:none}
+.rk-hrow .dt{margin-left:auto;font-size:11.5px;color:var(--dim2)}
+.rk-hrow.dim{color:var(--dim2);font-size:12.5px}
+.rk-empty{color:var(--dim2);font-size:12.5px;line-height:1.8;padding:4px 0}
+
+/* ---------- 晋升证书弹层 ---------- */
+#rkModal{position:fixed;inset:0;z-index:175;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.42);padding:22px}
+#rkModal.on{display:flex}
+.rk-cert{background:#ffffff;border:1px solid rgba(255,214,10,.55);border-radius:24px;padding:26px 24px 22px;text-align:center;max-width:340px;width:100%;box-shadow:0 2px 10px rgba(0,0,0,.08),0 0 60px rgba(255,214,10,.22)}
+.rk-seal{width:76px;height:76px;margin:0 auto;border:2px solid #c99700;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#c99700;background:linear-gradient(150deg,rgba(255,214,10,.14),rgba(255,214,10,.03))}
+.rk-seal b{font-size:27px;line-height:1.05;font-weight:800}
+.rk-seal span{font-size:10px;letter-spacing:2px;margin-top:1px}
+.rk-cert h3{margin:15px 0 6px;font-size:18px;color:#9a7500}
+.rk-cert .rk-cap{margin:0}
+.rk-cert .rk-sc{font-weight:700;color:var(--text);font-size:13px;margin:12px 0 2px}
+.rk-cert .rk-dt{color:var(--dim2);font-size:11.5px;margin:2px 0 0}
+
+/* ---------- 就绪提示条 ---------- */
+#rkToast{position:fixed;top:14px;left:50%;transform:translateX(-50%) translateY(-10px);z-index:180;background:#1f2328;color:#fff;font-size:12.5px;font-weight:700;padding:10px 18px;border-radius:999px;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;max-width:88vw;text-align:center;line-height:1.5;box-shadow:0 4px 18px rgba(0,0,0,.25)}
+#rkToast.on{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;cursor:pointer}
