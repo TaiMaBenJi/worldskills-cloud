@@ -36,6 +36,9 @@ DOCS = [
  (G_T,'第15章 · 安全加固','tutorial/15-安全加固-保姆级.md',None),
  (G_T,'第16章 · 真题实战','tutorial/16-真题实战-保姆级.md',None),
  (G_T,'第17章 · 机房管理','tutorial/17-机房管理-保姆级.md',None),
+ (G_T,'第18章 · 装机从零到极致','tutorial/18-装机从零到极致-保姆级.md','硬件全流程'),
+ (G_T,'第19章 · 编译原理','tutorial/19-编译原理-保姆级.md','亲手写编译器'),
+ (G_T,'第19章附录 · mini编译器完整代码','tutorial/19a-mini编译器完整代码.md','可运行'),
  (G_M,'精通 · 00 总纲','mastery/00-总纲-像说话一样掌握云计算.md','母语级方法论'),
  (G_M,'精通 · 01 疆域全景图','mastery/01-疆域全景图.md',None),
  (G_M,'精通 · 02 精通阶梯','mastery/02-精通阶梯与自测.md',None),
@@ -406,6 +409,7 @@ home_html = (
     '<div class="home-grid">%s</div>'
     '<h3>🚀 快速开始</h3>'
     '<div class="home-quick">'
+    '<button class="home-card small" data-resopen="1" style="border-color:rgba(26,111,232,.55);background:linear-gradient(150deg,rgba(26,111,232,.16),#fff)"><b>🌐 全网学习资源库 · 装机/计算机/编译原理</b></button>'
     '<button class="home-card small" data-doclink="tutorial_README-教程总览_md"><b>📖 从教程总览开始</b></button>'
     '<button class="home-card small" data-doclink="sprint_00-72小时冲刺作战手册_md"><b>⚡ 紧急冲刺手册</b></button>'
     '<button class="home-card small" data-doclink="test-projects_INDEX_md"><b>📋 赛题目录</b></button>'
@@ -650,19 +654,7 @@ body.drawer-open .menu-btn .bars i:nth-child(3){{transform:translateY(-6px) rota
   .md h2{{font-size:17.5px}}
 }}
 .foot{{text-align:center;color:var(--dim2);font-size:11.5px;padding:26px 0 10px}}
-/* ===== growth system ===== */
-.grow-card{{background:linear-gradient(150deg,rgba(255,214,10,.10),rgba(191,90,242,.08));border:1px solid rgba(255,214,10,.28);border-radius:20px;padding:16px 18px;margin:14px 0}}
-.grow-top{{display:flex;align-items:baseline;gap:10px}}
-.grow-lv{{font-size:19px;font-weight:800;color:#c99700}}
-.grow-streak{{margin-left:auto;font-size:13px;color:#d97706;font-weight:700}}
-.grow-bar{{height:10px;border-radius:6px;background:rgba(0,0,0,.05);margin:10px 0 6px;overflow:hidden}}
-.grow-bar i{{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#1a6fe8,#8944d6);width:0;transition:width .5s ease}}
-.grow-meta{{font-size:11.5px;color:var(--dim2)}}
-.badges{{margin-top:9px;font-size:17px;letter-spacing:3px}}
-.badges .off{{opacity:.22}}
-#xpFloat{{position:fixed;top:64px;right:16px;z-index:120;pointer-events:none;font-weight:800;color:#1da851;font-size:15px;opacity:0;transform:translateY(6px);transition:opacity .25s,transform .25s}}
-#xpFloat.on{{opacity:1;transform:translateY(-14px)}}
-#celebrate{{position:fixed;inset:0;z-index:150;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.3)}}
+/* ===== growth system → 段位体系（新样式由 app/rank.css 注入） ===== */
 .celebrate-card{{background:#ffffff;border:1px solid rgba(255,214,10,.5);border-radius:24px;padding:28px 40px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.07),0 0 60px rgba(255,214,10,.22)}}
 .celebrate-card .big{{font-size:42px}}
 .celebrate-card h3{{color:#c99700;margin:10px 0 4px;font-size:17px}}
@@ -705,6 +697,8 @@ body.drawer-open .menu-btn .bars i:nth-child(3){{transform:translateY(-6px) rota
 .nav-item.read::after{{content:'✓';font-size:10px;color:#1da851;margin-left:5px;flex:0 0 auto}}
 /* item animations removed: this WebView's compositor can freeze transform/opacity animations */
 /*@@LAB_CSS@@*/
+/*@@RANK_CSS@@*/
+/*@@RES_CSS@@*/
 </style>
 </head>
 <body>
@@ -806,153 +800,11 @@ function renderBottomNav(id){{
    + extra;
   el.style.display='flex';
 }}
-/* ===== Growth system (gamification) ===== */
-const LEVELS=[
-  {{n:1,t:'见习云工',min:0}},
-  {{n:2,t:'云学徒',min:100}},
-  {{n:3,t:'云行者',min:300}},
-  {{n:4,t:'云骑士',min:600}},
-  {{n:5,t:'云专家',min:1000}},
-  {{n:6,t:'云大师',min:2000}},
-  {{n:7,t:'云传奇',min:4000}}
-];
-const BADGES=[
-  {{id:'first',e:'🌱',n:'启程',d:'首次打开学习中心'}},
-  {{id:'r1',e:'👣',n:'第一步',d:'阅读第 1 篇资料'}},
-  {{id:'r10',e:'🔟',n:'十篇斩',d:'阅读 10 篇资料'}},
-  {{id:'r50',e:'🏅',n:'半百',d:'阅读 50 篇资料'}},
-  {{id:'r100',e:'💯',n:'百篇斩',d:'阅读 100 篇资料'}},
-  {{id:'s3',e:'🔥',n:'三日之约',d:'连续学习 3 天'}},
-  {{id:'s7',e:'⚡',n:'一周不辍',d:'连续学习 7 天'}},
-  {{id:'s30',e:'👑',n:'月度自律',d:'连续学习 30 天'}},
-  {{id:'exam5',e:'🏆',n:'真题猎人',d:'阅读 5 篇真题'}},
-  {{id:'kr10',e:'🚀',n:'韩语征服者',d:'阅读 10 篇韩国真题'}},
-  {{id:'tut16',e:'📖',n:'教程通关',d:'读完教程全部 17 章'}},
-  {{id:'quiz1',e:'📝',n:'初试身手',d:'完成第一次测验'}},
-  {{id:'perfect',e:'💮',n:'满分学霸',d:'测验拿到满分'}},
-  {{id:'qmaster',e:'🎓',n:'考神',d:'累计完成 10 次测验'}},
-  {{id:'lab1',e:'⚒',n:'首次动手',d:'完成第 1 个实操任务'}},
-  {{id:'lab10',e:'🛠',n:'动手达人',d:'完成 10 个实操任务'}},
-  {{id:'sim1',e:'🏟',n:'沙场初体验',d:'完成 1 次世赛模拟'}}
-];
-function loadGrow(){{
-  try{{ const g=JSON.parse(localStorage.getItem('wg.grow')||'null'); if(g) return g; }}catch(e){{}}
-  return {{xp:0,streak:0,last:'',badges:[],reads:0,exam:0,kr:0,tut:{{}}}};
-}}
-let GROW=loadGrow();
-function saveGrow(){{ try{{ localStorage.setItem('wg.grow',JSON.stringify(GROW)); }}catch(e){{}} }}
-function levelOf(xp){{ let L=LEVELS[0]; for(let i=0;i<LEVELS.length;i++){{ if(xp>=LEVELS[i].min) L=LEVELS[i]; }} return L; }}
-function nextLevel(){{ for(let i=0;i<LEVELS.length;i++){{ if(GROW.xp<LEVELS[i].min) return LEVELS[i]; }} return null; }}
-function dayStr(offset){{
-  const d=new Date(); d.setDate(d.getDate()+(offset||0));
-  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-}}
-function xpFloat(txt){{
-  const el=document.getElementById('xpFloat'); if(!el) return;
-  el.textContent=txt; el.classList.add('on');
-  setTimeout(function(){{ el.classList.remove('on'); }}, 1400);
-}}
-function celebrate(html){{
-  const cv=document.getElementById('celebrate'); if(!cv) return;
-  document.getElementById('celebrateCard').innerHTML=html;
-  cv.style.display='flex';
-  if(navigator.vibrate){{ try{{navigator.vibrate([30,60,30]);}}catch(e){{}} }}
-  setTimeout(function(){{ cv.style.display='none'; }}, 1900);
-}}
-function unlockBadge(id){{
-  if(GROW.badges.indexOf(id)>=0) return;
-  GROW.badges.push(id);
-  GROW.xp+=50;
-  saveGrow();
-  var found=null;
-  for(let i=0;i<BADGES.length;i++){{ if(BADGES[i].id===id) found=BADGES[i]; }}
-  if(found){{
-    setTimeout(function(){{
-      celebrate('<div class="big">'+found.e+'</div><h3>成就解锁 · '+found.n+'</h3><p>'+found.d+'　+50 XP</p>');
-    }}, 500);
-  }}
-}}
-function addXP(n,label,silent){{
-  const before=levelOf(GROW.xp).n;
-  GROW.xp+=n;
-  const after=levelOf(GROW.xp);
-  saveGrow();
-  if(!silent) xpFloat('+'+n+' XP'+(label?' · '+label:''));
-  if(after.n>before){{
-    setTimeout(function(){{
-      celebrate('<div class="big">🎉</div><h3>升级！Lv.'+after.n+' '+after.t+'</h3><p>累计 '+GROW.xp+' XP · 继续加油</p>');
-    }}, 900);
-  }}
-}}
-function checkStreak(){{
-  const t=dayStr(0);
-  if(GROW.last===t) return;
-  GROW.streak=(GROW.last===dayStr(-1))?GROW.streak+1:1;
-  GROW.last=t;
-  addXP(20,'每日打卡');
-  if(GROW.streak>=3) unlockBadge('s3');
-  if(GROW.streak>=7) unlockBadge('s7');
-  if(GROW.streak>=30) unlockBadge('s30');
-  saveGrow();
-}}
-function growthOnRead(id,isNew){{
-  if(!id||id==='__home__') return;
-  if(isNew){{
-    let gain=15;
-    if(id.indexOf('korea')>=0||id.indexOf('korean')>=0){{
-      GROW.kr++; gain=20;
-      if(GROW.kr>=10) unlockBadge('kr10');
-    }} else if(id.indexOf('exam')>=0||id.indexOf('cn-domestic')>=0){{
-      GROW.exam++; gain=20;
-      if(GROW.exam>=5) unlockBadge('exam5');
-    }}
-    const m=id.match(/tutorial_(\d\d)/);
-    if(m){{ GROW.tut[m[1]]=1; if(Object.keys(GROW.tut).length>=17) unlockBadge('tut16'); }}
-    GROW.reads++;
-    addXP(gain);
-    if(GROW.reads===1) unlockBadge('r1');
-    if(GROW.reads===10) unlockBadge('r10');
-    if(GROW.reads>=50) unlockBadge('r50');
-    if(GROW.reads>=100) unlockBadge('r100');
-  }} else {{
-    addXP(2,null,true);
-  }}
-  saveGrow();
-}}
-function renderGrowth(){{
-  const slot=document.getElementById('grow-slot'); if(!slot) return;
-  const L=levelOf(GROW.xp);
-  const nx=nextLevel();
-  const pct=nx?Math.max(3,Math.min(100,Math.round((GROW.xp-L.min)/(nx.min-L.min)*100))):100;
-  let bx='';
-  for(let i=0;i<BADGES.length;i++){{
-    bx+=(GROW.badges.indexOf(BADGES[i].id)>=0)? BADGES[i].e : '<span class="off">'+BADGES[i].e+'</span>';
-  }}
-  let rec=null;
-  try{{
-    const rd=JSON.parse(localStorage.getItem('wg.read')||'{{}}');
-    for(let i=1;i<=17 && !rec;i++){{
-      const key='tutorial_'+('0'+i).slice(-2);
-      const ks=Object.keys(DOCS);
-      for(let j=0;j<ks.length;j++){{ if(ks[j].indexOf(key)>=0 && !rd[ks[j]]){{ rec=ks[j]; break; }} }}
-    }}
-  }}catch(e){{}}
-  slot.innerHTML='<div class="grow-card">'
-    +'<div class="grow-top"><span class="grow-lv">Lv.'+L.n+' · '+L.t+'</span><span class="grow-streak">🔥 连续 '+GROW.streak+' 天</span></div>'
-    +'<div class="grow-bar"><i style="width:'+pct+'%"></i></div>'
-    +'<div class="grow-meta">'+GROW.xp+' XP'+(nx?' · 距 Lv.'+nx.n+' 还差 '+(nx.min-GROW.xp)+' XP':' · 已满级 🎓')+'　·　已读 '+GROW.reads+' 篇　·　成就 '+GROW.badges.length+'/'+BADGES.length+'</div>'
-    +'<div class="badges">'+bx+'</div>'
-    +(rec?'<button class="home-card small" style="margin-top:10px" data-doclink="'+rec+'"><b>📌 今日推荐：'+DOCS[rec].t+'</b></button>':'')
-    +'<button class="home-card small" style="margin-top:8px" onclick="openQuizCenter()"><b>📝 考试中心 · 检验学习成果</b></button>'
-    +'<button class="home-card small" style="margin-top:8px" onclick="openLabCenter()"><b>⚒ 实战中心 · 动手实操与模拟赛</b></button>'
-    +'</div>'
-    +'<div class="home-card" style="margin-top:14px;border-style:dashed">'
-    +'<b>⚔ 世赛训练场 · 真机操练（Minis 终端）</b>'
-    +'<p style="color:var(--dim);font-size:12.5px;margin:8px 0;line-height:1.7">手机里藏着一个完整比赛环境：3 台服务器节点 · 6 个比赛模块 · 评分脚本当场打分。在终端里运行：</p>'
-    +'<div style="font-family:monospace;font-size:12px;background:rgba(0,0,0,.35);border-radius:10px;padding:10px;color:#1da851;line-height:2;overflow-x:auto">wsarena status<span style="color:var(--dim2)"> &nbsp;# 看状态</span><br>wsarena sh srv1<span style="color:var(--dim2)"> &nbsp;# 进服务器操练</span><br>wsarena check web<span style="color:var(--dim2)"> &nbsp;# 评分打分</span></div>'
-    +'<p style="color:var(--dim);font-size:11.5px;margin:8px 0 0">模块：Web · DNS · 排障 · 数据库 · 负载均衡 · 机房管理 ｜ 全真模拟：wsarena exam full</p>'
-    +'</div>';
-}}
+/* ===== Growth system → 已升级为「进阶之路 · 段位体系」（实现见 app/rank.js） ===== */
+function renderGrowth(){{ try{{ if(window.Rank) Rank.render(); }}catch(e){{}} }}
+function growthOnRead(){{ try{{ if(window.Rank) Rank.touch(); }}catch(e){{}} }}
+function checkStreak(){{ try{{ if(window.Rank) Rank.streak(); }}catch(e){{}} }}
+function rankNotify(){{ try{{ if(window.Rank) Rank.event(); }}catch(e){{}} }}
 /* ===== end growth ===== */
 const QUIZ_BANK={{
 tutorial_01: {{t:'第1章 · Linux零基础', q:[
@@ -1058,6 +910,22 @@ tutorial_17: {{t:'第17章 · 机房管理', q:[
   {{q:'服务器「带外管理」（IPMI/iDRAC/iLO）的最大价值是？',o:['让网速更快','系统宕机/关机时仍能远程开关机、看屏幕、装系统、读温度','省电','给服务器加密'],a:1,e:'只要插着电就能管理——机房远程运维 80% 靠它；它的网口必须隔离在独立管理 VLAN。'}},
   {{q:'PXE 批量装机时，客户端从哪里获得引导文件和系统镜像？',o:['U 盘','装机服务器：DHCP 发 IP+引导地址，TFTP 传引导程序，HTTP/NFS 传镜像','互联网','打印机'],a:1,e:'配好 Kickstart/preseed 应答文件后全自动无人值守——30 台机器约 40 分钟装完。'}},
   {{q:'学校机房要统一更新系统（装新软件），正确顺序是？',o:['直接装完事','解除还原保护→装好验证→重新上保护→抽一台重启复核','关掉还原功能不管了','全部重装'],a:1,e:'顺序反了一宿白干；每次更新都要留一台没动的机器做对照，防止批量事故。'}}
+]}},
+tutorial_18: {{t:'第18章 · 装机从零到极致', q:[
+  {{q:'装机前最不能搞错的"第一条兼容性红线"是？',o:['CPU 插槽/代数与主板一致','内存容量够大','机箱颜色好看','键盘接口类型'],a:0,e:'LGA1700 装不进 AM5 主板——插槽错了后面全白搭，下单前第一项检查。'}},
+  {{q:'两条内存组建双通道，应该插主板的哪两个槽？',o:['1、2 槽','2、4 槽（A2/B2）','1、3 槽','随便插哪都行'],a:1,e:'优先第 2、4 槽（主板标注 A2/B2），双通道带宽提升对核显和游戏都很明显。'}},
+  {{q:'估算整机电源功率的正确姿势是？',o:['看机箱大小选','CPU 功耗 + 显卡功耗 + 100W 余量，再留 30% 冗余','按页面上最大的数字买最贵的','350W 万能'],a:1,e:'整机峰值会顶上去，冗余是保命的；电源是最不能省的部件，炸电源经常带走主板显卡。'}},
+  {{q:'机箱前面板 F_PANEL 里，哪组线不分正负随便插？',o:['开机键 PWR_SW','电源灯 PWR_LED','硬盘灯 HDD_LED','全部都分正负'],a:0,e:'开关本质是短接一下，两针不分方向；LED 分正负，接反了不亮（但不会烧）。'}},
+  {{q:'装完机验收时，BIOS 里最容易忘记但必须打开的是？',o:['屏保','内存的 XMP/EXPO','跑马灯','蓝牙'],a:1,e:'不开 XMP，6000MHz 内存会按 4800 保守跑——花钱买的高频全白费。'}},
+  {{q:'给 CPU 涂硅脂的正确方式是？',o:['越多越好，抹厚厚一层','薄薄一层/中间一点，压上去自然铺开','涂满 CPU 四周边缘','不需要硅脂'],a:1,e:'硅脂只负责填补金属表面的微观缝隙，太多反而降低导热还会挤出污染插槽。'}}
+]}},
+tutorial_19: {{t:'第19章 · 编译原理', q:[
+  {{q:'编译器的"前端"通常包括哪几个阶段？',o:['词法 / 语法 / 语义分析','优化 / 代码生成 / 链接','只有词法分析','加载和执行'],a:0,e:'前端跟着源语言走（词/句/义），后端跟着目标机器走——LLVM 让多语言共享后端就是靠这个分层。'}},
+  {{q:'词法分析的输出是什么？',o:['语法树','token 流','机器码','可执行文件'],a:1,e:'字符流 → token 流；语法分析再把 token 流组装成 AST（语法树）。'}},
+  {{q:'递归下降语法分析器的核心思想是？',o:['每条文法规则写成一个函数','递归到死循环为止','随机试错','查表拼字符串'],a:0,e:'每个非终结符对应一个函数，看到什么 token 就调什么函数——实战中最常用的手写解析套路。'}},
+  {{q:'"2+3*4" 里乘法先算，在文法里靠什么体现？',o:['运行时再判断','文法层次：乘法的规则嵌套在加法的规则内部','编译器的默认设置','随机顺序'],a:1,e:'运算优先级 = 文法层次。低优先级规则（add）包含高优先级规则（mul），树自然长得对。'}},
+  {{q:'字节码虚拟机（如 JVM）最典型的执行模型是？',o:['栈式机器','磁芯存储模型','打孔卡片模型','纯正则匹配'],a:0,e:'操作数压栈出栈：LOAD/PUSH 压栈，ADD 弹出两个、相加后把结果压回去。'}},
+  {{q:'把 if 编译成跳转指令时，"先占位、编译完再填真实地址"的技术叫？',o:['回填（backpatching）','压缩','加密','内存拷贝'],a:0,e:'生成 JZ 时还不知道 else 的地址，先留空占位，分支编译完后回填——本章代码里能直接看到这一手。'}}
 ]}},
 mastery_00: {{t:'精通·00 像说话一样掌握云计算', q:[
   {{q:'「像说话一样掌握云计算」最终要达成什么状态？',o:['背下所有命令','不假思索地调出知识（母语级直觉）','考最多证书','收藏最多教程'],a:1,e:'母语的特征是不经过思考就能用——专业知识练到本能反应，才是真掌握。'}},
@@ -1266,52 +1134,7 @@ room_08: {{t:'机房·08 职业路线', q:[
 }};
 
 /* ===== Practice lab data ===== */
-const LAB_TASKS=[
- {{c:'tutorial_01',t:'Linux 命令大练兵',d:'在 Linux 里完成：建用户、建目录树、改权限、装 Nginx、看日志——全程命令行。',v:'不看资料通过教程第 1 章的 10 题终极大检验',m:30}},
- {{c:'tutorial_01',t:'摔倒了爬起来',d:'故意制造三个故障：rm 删一个文件、权限改成 000、停掉一个服务——然后全部修好。',v:'三种故障都能独立定位并修复',m:20}},
- {{c:'tutorial_02',t:'让手机访问你的网站',d:'搭好 Nginx + 防火墙放行 + 云安全组放行，用手机浏览器打开你的页面。',v:'手机屏幕上出现你的网页',m:30}},
- {{c:'tutorial_02',t:'网络排障三连',d:'用 ping / curl -v / ss 定位一次「网站打不开」，写清楚问题出在哪一层。',v:'能口头解释四层排查法',m:20}},
- {{c:'tutorial_03',t:'systemd 正规军',d:'把自己的一个脚本变成 systemd 服务：自动重启 + 开机自启 + 日志可查。',v:'systemctl status 显示 active，重启机器后服务还在',m:30}},
- {{c:'tutorial_03',t:'数据库小管家',d:'建库建用户授权，做一次 mysqldump 备份，再恢复到新库验证。',v:'恢复后的库数据完整',m:30}},
- {{c:'tutorial_04',t:'自建 CA 发证书',d:'当一次发证机构：建根 CA、签服务证书、用 openssl verify 验证链。',v:'openssl verify 输出 OK',m:40}},
- {{c:'tutorial_04',t:'网站挂上小绿锁',d:'给 Nginx 配 HTTPS + HTTP 自动跳转。',v:'浏览器地址栏出现锁图标',m:30}},
- {{c:'tutorial_05',t:'搭一台 DNS 服务器',d:'装 BIND9，配正反解析，dig 查询全部通过。',v:'dig 正查反查都能返回正确结果',m:40}},
- {{c:'tutorial_05',t:'主从 DNS 实验',d:'两台机器做主从 DNS，停掉主服务器，从服务器继续解析。',v:'主挂了从顶住',m:40}},
- {{c:'tutorial_06',t:'双机负载均衡',d:'两台 Web + 一台 HAProxy，停掉一台后端观察自动剔除。',v:'故障自动转移，用户无感知',m:40}},
- {{c:'tutorial_06',t:'VIP 漂移实验',d:'Keepalived 双机主备，停掉主调度器看 VIP 自动漂移。',v:'curl VIP 持续可用',m:40}},
- {{c:'tutorial_07',t:'故障急诊室',d:'给自己制造 5 个故障（磁盘满/端口占用/权限/服务挂/证书过期），逐个修复并记录。',v:'写下 5 条维修记录',m:60}},
- {{c:'tutorial_07',t:'排障演练场',d:'找一个同学/朋友互相埋雷：改坏对方环境的一条配置让对方修。',v:'对方 10 分钟内找到问题',m:30}},
- {{c:'tutorial_08',t:'建一个小型域',d:'Windows Server 建域 + 建 OU/用户/组 + 另一台机器加域登录。',v:'用域账号登录成功',m:60}},
- {{c:'tutorial_08',t:'组策略三连',d:'配 3 条 GPO：登录横幅、禁用命令提示符、统一环境变量。',v:'gpresult /r 能看到三条策略生效',m:40}},
- {{c:'tutorial_09',t:'写一个巡检脚本',d:'脚本检查 CPU/内存/磁盘/服务状态，输出报告；配成每天定时运行。',v:'第二天查看巡检日志',m:40}},
- {{c:'tutorial_09',t:'一键部署脚本',d:'把「装 Nginx + 配站点 + 放行防火墙」写成一个脚本，一条命令完成。',v:'脚本在干净机器上跑通',m:40}},
- {{c:'tutorial_10',t:'容器化你的应用',d:'写 Dockerfile 打包一个自己的应用，构建镜像并运行。',v:'docker run 后能访问',m:40}},
- {{c:'tutorial_10',t:'Compose 两件套',d:'用 docker-compose 一次拉起 Nginx + MySQL，数据卷持久化。',v:'删容器重建后数据还在',m:40}},
- {{c:'tutorial_11',t:'应用上 K8s',d:'在 minikube/EKS 部署 3 副本应用 + Service + 自愈实验。',v:'删掉一个 Pod 自动补回',m:60}},
- {{c:'tutorial_11',t:'K8s 排障三件套',d:'故意制造 ImagePullBackOff / CrashLoop / Pending 三种故障并用 describe+logs 定位。',v:'三种故障都能讲出根因',m:40}},
- {{c:'tutorial_12',t:'云上第一台服务器',d:'（谨慎：会产生少量费用）AWS 开一台 EC2，配安全组，部署网站，然后销毁。',v:'部署成功+费用回零',m:60}},
- {{c:'tutorial_12',t:'云架构搭建',d:'VPC 公私子网 + ALB + ASG 自动伸缩 + 告警。',v:'压测触发自动扩容',m:90}},
- {{c:'tutorial_13',t:'Ansible 一键配十台',d:'用 Ansible 给 2 台以上服务器批量装 Nginx 并统一配置。',v:'ansible-playbook 跑两遍 changed=0（幂等）',m:40}},
- {{c:'tutorial_13',t:'Terraform 建资源',d:'用 Terraform 从零创建一台云服务器并销毁。',v:'init/plan/apply/destroy 全流程走通',m:60}},
- {{c:'tutorial_14',t:'监控仪表盘',d:'装 Prometheus+Grafana，做出能看到 CPU/内存/磁盘的仪表盘。',v:'Grafana 里图表实时刷新',m:60}},
- {{c:'tutorial_14',t:'告警实战',d:'配一条「CPU>80% 持续5分钟」告警，用压测工具触发它。',v:'告警从 OK 变 Firing',m:40}},
- {{c:'tutorial_15',t:'服务器武装',d:'SSH 加固（禁 root+密钥登录）+ fail2ban + 防火墙最小放行。',v:'新开终端验证仍能登录，扫描端口只剩 22/80/443',m:40}},
- {{c:'tutorial_15',t:'安全体检报告',d:'按教程第 15 章的检查表给自己的服务器做一次完整体检并打分。',v:'产出体检报告（至少 10 项）',m:40}},
- {{c:'tutorial_16',t:'真题裸做',d:'选一份韩国真题（题面 korea-zh 里的题面），限时 4 小时裸做，然后对照评分标准自评。',v:'失分表 ≥10 条',m:240}},
- {{c:'tutorial_16',t:'失分清零',d:'把上一次真题裸做的所有失分点逐个攻克，重做一遍。',v:'重做得分提升 30% 以上',m:120}},
- {{c:'tutorial_17',t:'机房巡检报告',d:'按第 17 章的日检清单模板，给一台服务器（或训练场节点 wsarena sh srv1）做一次完整巡检，产出书面报告。',v:'报告覆盖清单全部项目，至少发现/确认 1 个改进点',m:40}},
- {{c:'tutorial_17',t:'RAID 降级与重建实验',d:'用 mdadm 把几块虚拟盘做成 RAID1/RAID5，模拟一块盘故障，观察降级→换盘→重建全过程。',v:'能讲出降级和重建时的状态变化与风险',m:60}},
- {{c:'tutorial_17',t:'搭一台 PXE 装机服务器',d:'用 dnsmasq+HTTP 搭 PXE 服务器，用一台虚拟机做客户端完成一次全自动安装。',v:'客户端无人值守装完系统',m:90}},
- {{c:'room_00',t:'画出你的机房全景图',d:'凭记忆画出 00 篇的"机房管理知识树"（7 大块），对照原文补漏。',v:'7 大块全部画对，标出自己最弱的 2 块',m:20}},
- {{c:'room_01',t:'定级与差距分析',d:'完成 01 篇的 12 条快速自测，写下：当前级别 + 3 个待补能力 + 本季度目标。',v:'书面定级结论 + 3 个具体待补项',m:30}},
- {{c:'room_02',t:'电力与制冷计算书',d:'按 02 篇方法，为"20 台服务器 + 4 台网络设备"的机房完成：UPS 容量、电池需求、精密空调显冷量三项计算。',v:'计算书能给别人讲通（含每步依据）',m:60}},
- {{c:'room_03',t:'磁盘健康体检',d:'对任意一台机器跑 smartctl 全盘体检，解读关键属性，写一份"还能用多久"的判断。',v:'产出一页体检结论（含风险盘标记）',m:30}},
- {{c:'room_04',t:'PXE 最小实现',d:'用虚拟机搭 dnsmasq+httpd 最小 PXE，另一台 VM 网络启动进入引导菜单。',v:'客户端能从网络启动进入引导菜单',m:90}},
- {{c:'room_05',t:'综合巡检脚本 + cron',d:'写 ≥5 项检查的巡检脚本（时间/磁盘/服务/网络/日志），配置每天定时运行并留档。',v:'脚本连跑正常，日志有历史对比',m:40}},
- {{c:'room_06',t:'出入管理制度',d:'给自己熟悉的机房写一份《出入管理制度》（申请/陪同/记录/违规处理），500 字内可张贴。',v:'制度含 4 要素且能回答"外来工程师单人来怎么办"',m:30}},
- {{c:'room_07',t:'场景卡本地化 + 推演',d:'把 07 篇的 3 张场景卡改成"本地版"（真实电话/位置/设备名），找一个人做一次桌面推演。',v:'推演记录 1 份：发现 ≥2 个空白点',m:40}},
- {{c:'room_08',t:'面试十连',d:'从 08 篇面试题库抽 10 题（5 基础+3 场景+2 设计），录音作答，回听打分。',v:'每题能套 STAR 结构答满 60 秒',m:40}}
-];
+/* （原手动自测清单已移除：改为「实训全对榜」，只认模拟实训室实测 100 分） */
 const SIMS=[
  {{id:'mini',t:'⚡ 迷你模拟',dur:30,desc:'3 个基础任务 · 30 分钟 · 体验比赛节奏',tasks:[
   {{t:'部署 Nginx 静态网站',d:'装 Nginx，放一个自定义首页',v:'curl localhost 返回你的页面'}},
@@ -1357,7 +1180,7 @@ function renderQuizCenter(){{
   for(let x=0;x<ks.length;x++){{
     const k=ks[x], b=QUIZ_BANK[k], s=saved[k];
     h+='<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line2)">'
-      +'<div style="flex:1;font-size:13.5px">'+b.t+(s?'<span style="color:#1da851;font-size:11px"> · 最佳 '+s.best+'/'+s.total+'</span>':'')+'</div>'
+      +'<div style="flex:1;font-size:13.5px">'+b.t+(s?(s.best*4>=s.total*3?'<span style="color:#1da851;font-size:11px"> · ✅ 达标 '+s.best+'/'+s.total+'</span>':'<span style="color:var(--dim2);font-size:11px"> · 最佳 '+s.best+'/'+s.total+'</span>'):'')+'</div>'
       +'<button class="qz-btn sm" data-quiz="'+k+'">测验</button></div>';
   }}
   h+='</div>';
@@ -1421,25 +1244,17 @@ function nextQuiz(){{ if(!QZ) return; QZ.i++; renderQuizQ(); }}
 function renderQuizResult(){{
   const total=QZ.qs.length, cc=QZ.correct;
   const pct=Math.round(cc/total*100);
-  const gain=cc*5+(cc===total?20:0)+5;
   const sv=getQuizScores();
   const pk=QZ.id;
   const prev=sv[pk];
   if(!prev || cc>prev.best) sv[pk]={{best:cc,total:total}};
   try{{ localStorage.setItem('wg.quiz',JSON.stringify(sv)); }}catch(e){{}}
-  try{{
-    GROW.quizCount=(GROW.quizCount||0)+1;
-    addXP(gain,'测验得分');
-    unlockBadge('quiz1');
-    if(cc===total) unlockBadge('perfect');
-    if(GROW.quizCount>=10) unlockBadge('qmaster');
-    saveGrow();
-  }}catch(e){{}}
+  try{{ rankNotify(); }}catch(e){{}}
   const face=pct>=90?'🏆':(pct>=75?'🎉':(pct>=60?'👍':'📖'));
   const grade=pct>=90?'太强了！':(pct>=75?'很棒！':(pct>=60?'及格，继续加油':'再复习一下对应章节吧'));
   let h='<div class="qz-item" style="text-align:center"><div style="font-size:42px">'+face+'</div>'
     +'<h3 style="margin:8px 0;color:#c99700;font-size:19px">'+cc+' / '+total+'（'+pct+'%）</h3>'
-    +'<p style="color:var(--dim);font-size:13px">'+grade+'　获得 +'+gain+' XP</p>'
+    +'<p style="color:var(--dim);font-size:13px">'+grade+'　'+(QZ.id==='__all__'?'综合大考不计入段位 · 可用于自查水平':(pct>=75?'<b style="color:#1da851">已达标（≥75%）· 计入段位进度</b>':'达标线 75% · 再温习一次即可'))+'</p>'
     +'<button class="qz-btn" data-quiz="'+QZ.id+'">🔄 再考一次</button> '
     +'<button class="qz-btn" style="background:rgba(0,0,0,.05)" onclick="renderQuizCenter()">返回考试中心</button></div>';
   const wrongs=[];
@@ -1462,14 +1277,12 @@ function renderQuizResult(){{
 }}
 /* ===== end quiz ===== */
 /* ===== Practice / Sim engine ===== */
-function getLabDone(){{ try{{ return JSON.parse(localStorage.getItem('wg.lab')||'{{}}'); }}catch(e){{ return {{}}; }} }}
 function getSims(){{ try{{ return JSON.parse(localStorage.getItem('wg.sims')||'[]'); }}catch(e){{ return []; }} }}
 function openLabCenter(){{ const v=document.getElementById('labView'); if(!v) return; v.classList.add('on'); renderLabCenter(); }}
 function closeLab(){{ const v=document.getElementById('labView'); if(v) v.classList.remove('on'); }}
 function renderLabCenter(){{
   SIM=null;
   document.getElementById('labTitle').textContent='⚒ 实战中心';
-  const done=getLabDone();
   const sims=getSims();
   let h='';
   h+='<div class="qz-item"><h4>🏟 世赛模拟 · 计时开考</h4><p style="color:var(--dim);font-size:12.5px;margin:4px 0 0">选套餐 → 倒计时 → 在「模拟实训室」的 srv1 里答题 → 交卷自动判分（按钮直达同一系统）</p>';
@@ -1485,45 +1298,23 @@ function renderLabCenter(){{
     h+='</div>';
   }}
   h+='</div>';
-  h+='<div class="qz-item"><h4>🔬 实操任务<span style="color:#1da851;font-size:11.5px;margin-left:8px">每个 +30 XP</span></h4><p style="color:var(--dim);font-size:12.5px;margin:4px 0 0">在你的电脑/虚拟机上真实动手做，做完点一下卡片勾选</p>';
-  const chs=Object.keys(QUIZ_BANK);
-  for(let ci=0;ci<chs.length;ci++){{
-    const ch=chs[ci];
-    h+='<div style="margin-top:14px;font-size:12px;color:var(--dim);font-weight:700">'+QUIZ_BANK[ch].t+'</div>';
-    for(let i=0;i<LAB_TASKS.length;i++){{
-      if(LAB_TASKS[i].c!==ch) continue;
-      const d=done[i];
-      h+='<div class="lab-card'+(d?' labdone':'')+'" data-lab="'+i+'">'
-        +'<div style="font-size:13.5px;font-weight:700">'+(d?'✅ ':'⬜ ')+LAB_TASKS[i].t+' <span style="color:var(--dim2);font-size:11px">'+LAB_TASKS[i].m+'min</span></div>'
-        +'<div style="font-size:12px;color:var(--dim);margin-top:3px;line-height:1.6">'+LAB_TASKS[i].d+'</div>'
-        +'<div style="font-size:11.5px;color:#1da851;margin-top:3px">🎯 验收：'+LAB_TASKS[i].v+'</div>'
-        +'</div>';
-    }}
+  h+='<div class="qz-item"><h4>🏅 实训全对榜</h4><p style="color:var(--dim);font-size:12.5px;margin:4px 0 0">只认实测：在「模拟实训室」把场景做到 100 分（全对）才自动打勾，没有手动勾选。</p>';
+  let scns=[];
+  try{{ scns=(window.LabEngine&&LabEngine.SCENARIOS)||[]; }}catch(e){{}}
+  let prog2={{}}; try{{ prog2=JSON.parse(localStorage.getItem('wg.labprog')||'{{}}'); }}catch(e){{}}
+  let doneN=0;
+  for(let si=0;si<scns.length;si++){{
+    const sc=scns[si], rr=prog2[sc.id]||{{}}, bb=rr.best||0, ok=(bb>=100);
+    if(ok) doneN++;
+    h+='<div class="lab-card'+(ok?' labdone':'')+'" style="cursor:default">'
+      +'<div style="font-size:13.5px;font-weight:700">'+(ok?'✅ ':'⬜ ')+sc.title+' <span style="color:var(--dim2);font-size:11px">'+sc.mod+' · '+sc.min+'min</span></div>'
+      +'<div style="font-size:12px;color:'+(ok?'#1da851':'var(--dim)')+';margin-top:3px">'+(ok?'全对通过（100 分）':(bb>0?'未全对 · 当前最佳 '+bb+' 分':'未完成 · 去「模拟实训室」挑战'))+'</div>'
+      +'</div>';
   }}
+  if(scns.length) h+='<div style="margin-top:10px;font-size:11.5px;color:var(--dim2)">已全对 '+doneN+' / '+scns.length+' 个场景</div>';
+  else h+='<p style="color:var(--dim2);font-size:12px;margin:8px 0 0">实训室加载中…重启 App 后再进来看看</p>';
   h+='</div>';
   document.getElementById('labBody').innerHTML=h;
-}}
-function getLabRewarded(){{ try{{ return JSON.parse(localStorage.getItem('wg.labXp')||'{{}}'); }}catch(e){{ return {{}}; }} }}
-function toggleLab(i){{
-  const done=getLabDone();
-  if(done[i]){{ delete done[i]; }}
-  else {{
-    done[i]=1;
-    const rw=getLabRewarded();
-    if(!rw[i]){{
-      rw[i]=1;
-      try{{ localStorage.setItem('wg.labXp',JSON.stringify(rw)); }}catch(e){{}}
-      const n=Object.keys(done).length;
-      if(navigator.vibrate){{ try{{navigator.vibrate(12);}}catch(e){{}} }}
-      try{{
-        addXP(30,'实操完成');
-        if(n===1) unlockBadge('lab1');
-        if(n>=10) unlockBadge('lab10');
-      }}catch(e){{}}
-    }}
-  }}
-  try{{ localStorage.setItem('wg.lab',JSON.stringify(done)); }}catch(e){{}}
-  renderLabCenter();
 }}
 let SIM=null;
 function fmtT(sec){{ const m=Math.floor(sec/60), s2=sec%60; return (m<10?'0':'')+m+':'+(s2<10?'0':'')+s2; }}
@@ -1574,16 +1365,15 @@ function finishSim(timeout){{
   if(!SIM) return;
   if(SIM.timer){{ clearInterval(SIM.timer); SIM.timer=null; }}
   const doneN=Object.keys(SIM.done).length, total=SIM.tasks.length;
-  const gain=doneN*20+(doneN===total?50:0);
   const rec={{t:SIM.t,done:doneN,total:total,ts:Date.now()}};
   const sims=getSims(); sims.unshift(rec);
   try{{ localStorage.setItem('wg.sims',JSON.stringify(sims.slice(0,10))); }}catch(e){{}}
-  try{{ addXP(gain, timeout?'时间到':'模拟结算'); unlockBadge('sim1'); saveGrow(); }}catch(e){{}}
+  try{{ rankNotify(); }}catch(e){{}}
   const pct=Math.round(doneN/total*100);
   let h='<div class="qz-item" style="text-align:center"><div style="font-size:42px">'+(pct>=100?'🏆':(pct>=60?'🎉':'💪'))+'</div>'
    +'<h3 style="margin:8px 0;color:#c99700;font-size:19px">完成 '+doneN+' / '+total+' 项</h3>'
    +(timeout?'<p style="color:#d97706;font-size:13px;margin:4px 0">⏰ 时间到！</p>':'')
-   +'<p style="color:var(--dim);font-size:13px;margin:6px 0 0">获得 +'+gain+' XP'+(doneN===total?'（全勤奖励 +50）':'')+'</p>'
+   +'<p style="color:var(--dim);font-size:13px;margin:6px 0 0">'+(doneN===total?'全部完成，漂亮！':'把没做完的记下来，下次补齐')+'</p>'
    +'<button class="qz-btn" style="background:linear-gradient(150deg,#1da851,#1a9e42);width:100%;margin-top:14px" data-rest="1">☕ 休息 5 分钟</button>'
    +'<button class="qz-btn" style="width:100%;margin-top:8px" data-sim="'+SIM.id+'">🔄 再来一次</button>'
    +'<button class="qz-btn" style="width:100%;margin-top:8px;background:rgba(0,0,0,.05)" onclick="renderLabCenter()">返回实战中心</button></div>';
@@ -1665,14 +1455,14 @@ document.getElementById('nav').addEventListener('click',e=>{{
 let lastTouchAct=0;
 function act(el){{
   if(!el) return;
+  const rk=el.closest('[data-rk]');
+  if(rk){{ try{{ if(window.Rank) Rank.act(rk.dataset.rk); }}catch(e){{}} return; }}
   const qo=el.closest('[data-qi]');
   if(qo){{ answerQuiz(+qo.dataset.qi); return; }}
   const qn=el.closest('[data-qnext]');
   if(qn){{ nextQuiz(); return; }}
   const qzEl=el.closest('[data-quiz]');
   if(qzEl){{ startQuiz(qzEl.dataset.quiz); return; }}
-  const lb=el.closest('[data-lab]');
-  if(lb){{ toggleLab(+lb.dataset.lab); return; }}
   const sb=el.closest('[data-simt]');
   if(sb){{ toggleSimTask(+sb.dataset.simt); return; }}
   const s2=el.closest('[data-simfin]');
@@ -1690,7 +1480,7 @@ function act(el){{
   if(el.dataset && el.dataset.doc){{ show(el.dataset.doc); return; }}
 }}
 document.addEventListener('click',e=>{{
-  const hit=e.target.closest('[data-qi], [data-qnext], [data-toc], [data-doclink], [data-quiz], [data-lab], [data-sim], [data-simt], [data-simfin], [data-simquit], [data-rest]');
+  const hit=e.target.closest('[data-qi], [data-qnext], [data-toc], [data-doclink], [data-quiz], [data-sim], [data-simt], [data-simfin], [data-simquit], [data-rest], [data-rk]');
   if(!hit) return;
   if(Date.now()-lastTouchAct<600) return;
   e.preventDefault();
@@ -1706,7 +1496,7 @@ document.addEventListener('touchend',function(e){{
   const dx=t.clientX-tx0, dy=t.clientY-ty0;
   if(Math.abs(dx)>14 || Math.abs(dy)>14) return;   /* scroll, not tap */
   if(Date.now()-tT0>900) return;                    /* long press */
-  const hit=e.target.closest('[data-qi], [data-qnext], [data-toc], [data-doclink], [data-quiz], [data-lab], [data-sim], [data-simt], [data-simfin], [data-simquit], [data-rest], .nav-item, .group-head');
+  const hit=e.target.closest('[data-qi], [data-qnext], [data-toc], [data-doclink], [data-quiz], [data-sim], [data-simt], [data-simfin], [data-simquit], [data-rest], [data-rk], .nav-item, .group-head');
   if(!hit) return;
   lastTouchAct=Date.now();
   try{{ e.preventDefault(); }}catch(err){{}}
@@ -1859,7 +1649,7 @@ window.addEventListener('scroll',()=>{{
 (function(){{
   let fs=localStorage.getItem(LS_FS); if(fs) document.documentElement.style.setProperty('--fs',parseFloat(fs)+'px');
   try{{ const gs=JSON.parse(localStorage.getItem('wg.groups')||'{{}}'); document.querySelectorAll('.nav-group').forEach(function(g){{ if(g.dataset.g in gs){{ g.classList.toggle('closed', gs[g.dataset.g]); }} if(!g.classList.contains('closed')) buildGroupBody(g); }}); }}catch(e){{}}
-  try{{ if(!GROW.last) unlockBadge('first'); checkStreak(); }}catch(e){{}}
+  try{{ checkStreak(); }}catch(e){{}}
   const last=localStorage.getItem(LS_DOC);
   show('__home__');
   if(last && DOCS[last] && last!=='__home__'){{
@@ -1870,9 +1660,20 @@ window.addEventListener('scroll',()=>{{
   if(bt){{ bt.style.opacity='0'; setTimeout(function(){{ bt.style.display='none'; }}, 480); }}
 }})();
 /*@@LAB_JS@@*/
+/*@@RANK_JS@@*/
+/*@@RES_JS@@*/
+/*@@DIAG@@*/
 </script>
-<div id="xpFloat">+10 XP</div>
-<div id="celebrate"><div class="celebrate-card" id="celebrateCard"></div></div>
+<div id="rankView">
+  <div class="quiz-head">
+    <button class="tool-btn" data-rk="close">✕</button>
+    <div id="rankTitle" style="flex:1;font-weight:700;font-size:15px">进阶之路 · 段位体系</div>
+    <div id="rankSub" style="color:var(--dim2);font-size:12px"></div>
+  </div>
+  <div class="quiz-body" id="rankBody"></div>
+</div>
+<div id="rkModal"><div class="rk-cert" id="rkCert"></div></div>
+<div id="rkToast" data-rk="open"></div>
 <div id="restView"><div class="celebrate-card"><div class="big">☕</div><h3>休息一下</h3><div id="restClock" style="font-size:40px;font-weight:800;color:#c99700;margin:10px 0">05:00</div><p id="restMsg" style="color:var(--dim);font-size:13px">站起来走动一下，看看远处，喝口水</p><button class="qz-btn" style="margin-top:14px" onclick="stopRest()">回来继续</button></div></div>
 <div id="labView">
   <div class="quiz-head">
@@ -1927,6 +1728,7 @@ window.addEventListener('scroll',()=>{{
 <button id="toTop" onclick="window.scrollTo({{top:0,behavior:'smooth'}})">↑</button>
 <button id="tocBtn" onclick="toggleToc()" title="目录">📑</button>
 <div id="tocPanel"></div>
+<div id="resView"></div>
 </body>
 </html>'''
 
@@ -1944,7 +1746,68 @@ page = page.replace('/*@@LAB_CSS@@*/', _lab_css)
 page = page.replace('/*@@LAB_JS@@*/', _lab_js)
 print('lab injected:', len(_lab_css), '+', len(_lab_js), 'chars')
 
-out = BASE + '/study.html'
+# ---- 注入「进阶之路」段位体系（app/ 目录；构建后替换，避免 f-string 花括号转义） ----
+_app_dir = os.path.join(BASE, 'app')
+def _appread(fn):
+    _p = os.path.join(_app_dir, fn)
+    try:
+        with open(_p, encoding='utf-8') as _f: return _f.read()
+    except Exception as _e:
+        print('WARN app asset missing:', fn, _e); return ''
+_rk_css = _appread('rank.css'); _rk_js = _appread('rank.js')
+page = page.replace('/*@@RANK_CSS@@*/', _rk_css)
+page = page.replace('/*@@RANK_JS@@*/', _rk_js)
+print('rank injected:', len(_rk_css), '+', len(_rk_js), 'chars')
+
+# ---- 注入「全网学习资源库」（app/ 目录；数据必须先于脚本） ----
+_res_css = _appread('resource.css'); _res_js = _appread('resource.js'); _res_data = _appread('resource-data.js')
+_res_off = _appread('res-offline.js')
+page = page.replace('/*@@RES_CSS@@*/', _res_css)
+page = page.replace('/*@@RES_JS@@*/', _res_data + '\n' + _res_off + '\n' + _res_js)
+print('resource injected:', len(_res_css), '+', len(_res_js), '+', len(_res_data), '+', len(_res_off), 'chars')
+# ---- 临时诊断层（app/diag.js 存在时注入；删除文件即停用） ----
+try:
+    _dg_js = open(os.path.join(BASE, 'app', 'diag.js'), encoding='utf-8').read()
+    page = page.replace('/*@@DIAG@@*/', _dg_js)
+    print('diag injected:', len(_dg_js), 'chars')
+except Exception:
+    pass
+
+# ---- 视频引用模式：external=引用手机存储（轻量版）；assets=相对路径随 APK 打包（完整版） ----
+_VMODE = os.environ.get('VIDEO_MODE', 'external')
+if _VMODE == 'external':
+    _EXT = 'file:///sdcard/Android/media/com.cloudstudy.app/videos/'
+    _n1 = page.count('src=\\"videos/') + page.count('src="videos/')
+    page = page.replace('src=\\"videos/', 'src=\\"' + _EXT)
+    page = page.replace('src="videos/', 'src="' + _EXT)
+    page = page.replace('poster=\\"videos/', 'poster=\\"' + _EXT)
+    page = page.replace('poster="videos/', 'poster="' + _EXT)
+    print('videos externalized refs:', _n1)
+else:
+    print('videos mode: assets (relative refs kept for full apk)')
+
+# ---- 视频文件缺失兜底提示（分发给别人、未拷贝视频包时友好提示） ----
+_vfb = '''<script>
+(function(){
+  document.addEventListener('error', function(e){
+    var t = e.target || {};
+    if (t.tagName !== 'VIDEO' || t.getAttribute('data-fb') === '1') return;
+    t.setAttribute('data-fb','1');
+    var d = document.createElement('div');
+    d.textContent = '📦 此视频文件不在本机（分享版未附带）。请改用「▶ 在线」联网观看，或向分享者索取该视频文件。';
+    d.style.cssText = 'padding:12px;border:1px dashed rgba(0,0,0,.25);border-radius:12px;color:rgba(31,35,40,.65);font-size:13px;line-height:1.7;margin:8px 0';
+    if (t.parentNode) t.parentNode.insertBefore(d, t.nextSibling);
+  }, true);
+})();
+</script>'''
+_bidx = page.rfind('</body>')
+if _bidx >= 0:
+    page = page[:_bidx] + _vfb + '\n' + page[_bidx:]
+    print('vfb inserted at tail pos', _bidx, '/', len(page))
+
+out = os.environ.get('LIQ_OUT') or (BASE + '/study.html')
 open(out, 'w', encoding='utf-8').write(page)
 print('written:', out, len(page), 'bytes,', total_docs, 'docs')
 if '/*@@LAB' in page: print('WARN: lab markers left unresolved!')
+if '/*@@RANK' in page: print('WARN: rank markers left unresolved!')
+if '/*@@RES' in page: print('WARN: res markers left unresolved!')
