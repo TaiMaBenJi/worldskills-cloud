@@ -37,12 +37,8 @@ cp -r "$SRC/smali" "$WORK/smali" || fail "cp smali"
 cp -r "$SRC/res/." "$WORK/res/" || fail "cp res"
 cp /var/minis/shared/worldskills-cloud/study.html "$WORK/assets/study.html" || fail "cp study.html"
 log "assets/study.html = $(stat -c %s "$WORK/assets/study.html") bytes"
-# 视频课（可选：存在 videos/ 目录时随 APK 打包；用 tar 管道避免 PRoot cp 不完整）
-if [ -d /var/minis/shared/worldskills-cloud/videos ]; then
-  mkdir -p "$WORK/assets"
-  (cd /var/minis/shared/worldskills-cloud && tar -cf - videos) | (cd "$WORK/assets" && tar -xf -) || fail "视频拷贝失败"
-  log "assets/videos = $(find "$WORK/assets/videos" -name '*.mp4' | wc -l) mp4, $(du -sk "$WORK/assets/videos" | cut -f1) KB"
-fi
+# 视频已全部外置到手机存储（Android/media/com.cloudstudy.app/），不再打包进 APK
+log "视频外置模式：APK 不包含 videos/（视频文件位于手机存储，可从分享者处拷贝）"
 
 log "== 3/8 smali → classes.dex"
 cd "$WORK" || fail "cd work"
