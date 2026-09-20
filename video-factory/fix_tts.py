@@ -26,26 +26,25 @@ async def main(ep_script):
             todo.append(i)
     print(f'EP{ep_no}: {len(todo)} segments to fix', flush=True)
     fixed = 0
-    for i in todo:
+    sem = asyncio.Semaphore(2)
+    async def fix_one(i):
+        nonlocal fixed
         text = slides[i].get('narration', '')
         raw = f'{adir}/s{i:02d}.mp3'
-        ok = False
-        for attempt in range(14):
-            try:
-                c = edge_tts.Communicate(text, VOICE)
-                await asyncio.wait_for(c.save(raw), timeout=30)
-                if os.path.getsize(raw) > 1000:
-                    ok = True
-                    break
-            except Exception as e:
-                print(f'  s{i:02d} attempt{attempt+1}: {type(e).__name__}', flush=True)
-            await asyncio.sleep(1.5 + attempt * 2)
-        if ok:
-            fixed += 1
-            print(f'  s{i:02d} OK ({os.path.getsize(raw)}B)', flush=True)
-        else:
+        async with sem:
+            for attempt in range(14):
+                try:
+                    c = edge_tts.Communicate(text, VOICE)
+                    await asyncio.wait_for(c.save(raw), timeout=25)
+                    if os.path.getsize(raw) > 1000:
+                        fixed += 1
+                        print(f'  s{i:02d} OK ({os.path.getsize(raw)}B)', flush=True)
+                        return
+                except Exception as e:
+                    print(f'  s{i:02d} attempt{attempt+1}: {type(e).__name__}', flush=True)
+                await asyncio.sleep(1 + attempt * 1.2)
             print(f'  s{i:02d} STILL-FAILED', flush=True)
-        await asyncio.sleep(1.5)
+    await asyncio.gather(*[fix_one(i) for i in todo])
     still = [i for i in todo if not (os.path.exists(f'{adir}/s{i:02d}.mp3') and os.path.getsize(f'{adir}/s{i:02d}.mp3') > 1000)]
     print(f'EP{ep_no}: fixed={fixed}/{len(todo)} still_missing={still}', flush=True)
     return len(still)
