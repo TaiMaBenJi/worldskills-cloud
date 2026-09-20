@@ -11,11 +11,12 @@ def md2html(p):
     return markdown.markdown(src, extensions=['tables', 'fenced_code'])
 
 # ---------- document list: (group, title, relpath, subtitle) ----------
-G_SPRINT='sprint'; G_T='tutorial'; G_M='mastery'; G_CS='cs'; G_K='knowledge'; G_RM='room'; G_I='index'
+G_SPRINT='sprint'; G_T='tutorial'; G_M='mastery'; G_CS='cs'; G_K='knowledge'; G_RM='room'; G_I='index'; G_VEXT='vext'
 G_OFF='official'; G_EXL='examlyon'; G_EXK='examkr'; G_EXC='examcn'; G_EXKZ='examkrzh'
 DOCS = [
  (G_SPRINT,'⚡ 72小时冲刺作战手册','sprint/00-72小时冲刺作战手册.md','3天版·比赛应急'),
  (G_SPRINT,'⏱ 最快精通时间表','sprint/01-最快精通时间表.md','6个月路线·加速器'),
+ (G_T,'🎬 教程 · 视频课（18集）','tutorial/98-视频课-总览.md','边看边学·全离线'),
  (G_T,'教程总览','tutorial/README-教程总览.md','从这里开始'),
  (G_T,'第0章 · 开始之前','tutorial/00-开始之前-零基础先读我.md',None),
  (G_T,'第1章 · Linux零基础','tutorial/01-Linux零基础-保姆级.md',None),
@@ -60,6 +61,7 @@ DOCS = [
  (G_K,'10 · 前沿与超越','knowledge/10-前沿与超越.md',None),
  (G_K,'11 · 竞赛实战指南','knowledge/11-竞赛实战指南.md',None),
  (G_K,'12 · 认证与职业发展','knowledge/12-认证与职业发展.md',None),
+ (G_RM,'🎬 机房 · 视频课（12集）','room/09-视频课总览.md','边看边学·全离线'),
  (G_RM,'机房 · 00 总纲','room/00-总纲-从零到极致的机房之路.md','从零到极致'),
  (G_RM,'机房 · 01 阶梯与自测','room/01-阶梯与自测.md',None),
  (G_RM,'机房 · 02 基础设施修炼','room/02-基础设施修炼.md',None),
@@ -69,6 +71,8 @@ DOCS = [
  (G_RM,'机房 · 06 安全与合规','room/06-安全与合规修炼.md',None),
  (G_RM,'机房 · 07 应急与实战','room/07-应急与实战.md',None),
  (G_RM,'机房 · 08 职业路线','room/08-职业路线.md','考证·面试·就业'),
+ (G_VEXT,'🎬 进阶 · 视频课（27集）','video-ext/00-总览.md','精通·知识·冲刺'),
+ (G_VEXT,'🖼 全套图解册（57 集精选）','video-ext/01-图解册.md','一图流复习'),
  (G_I,'总导航（资料库说明）','README-总导航.md',None),
  (G_I,'赛题目录','test-projects/INDEX.md',None),
  (G_I,'工程仓库目录','github-repos/INDEX.md',None),
@@ -128,17 +132,18 @@ for f in sorted(glob.glob(BASE + '/test-projects/cn-domestic/*.md')):
     DOCS.append((G_EXC, title, 'test-projects/cn-domestic/' + fn, None))
 
 GROUPS = [
- (G_SPRINT,'紧急冲刺','#ff453a'),
- (G_T,'保姆级教程','#0a84ff'),
- (G_M,'精通之路','#bf5af2'),
- (G_CS,'计算机母语','#30d158'),
- (G_K,'知识体系','#ffd60a'),
+ (G_SPRINT,'紧急冲刺','#dc3545'),
+ (G_T,'保姆级教程','#1a6fe8'),
+ (G_M,'精通之路','#8944d6'),
+ (G_CS,'计算机母语','#1da851'),
+ (G_K,'知识体系','#c99700'),
  (G_RM,'机房管理','#5ac8fa'),
- (G_I,'资料索引','#64d2ff'),
- (G_OFF,'官方标准','#ff9f0a'),
- (G_EXL,'世界赛真题','#ff6482'),
- (G_EXKZ,'🇰🇷 韩国真题（中文）','#ff2d55'),
- (G_EXK,'韩国真题（原文对照）','#8e8e93'),
+ (G_VEXT,'🎬 进阶视频课','#8944d6'),
+ (G_I,'资料索引','#1a6fe8'),
+ (G_OFF,'官方标准','#d97706'),
+ (G_EXL,'世界赛真题','#db2777'),
+ (G_EXKZ,'🇰🇷 韩国真题（中文）','#db2777'),
+ (G_EXK,'韩国真题（原文对照）','#6b7280'),
  (G_EXC,'中国国赛真题','#5e5ce6'),
 ]
 
@@ -190,7 +195,7 @@ for repo in repo_map:
 for repo, rels in repo_map.items():
     gkey = 'repo_' + re.sub(r'[^a-zA-Z0-9]+', '_', repo)
     gtitle = '📦 ' + repo.replace('-main','')[:30]
-    GROUPS.append((gkey, gtitle, '#8e8e93'))
+    GROUPS.append((gkey, gtitle, '#6b7280'))
     for rel in rels:
         inner = rel.split('/', 2)[2]
         title = inner if len(inner) <= 52 else inner[:50] + '…'
@@ -316,6 +321,37 @@ for gkey, gtitle, gcolor in GROUPS:
             html = sanitize_html(html)
             html = rewrite_images(html, rel)
             words = len(raw)
+            # 章节配套视频课：章节文档顶部嵌入对应视频（若已打包）
+            _mv = re.match(r'tutorial/(\d\d)-', rel)
+            if _mv:
+                _vno = _mv.group(1)
+                _vrel = f'videos/course/ep{_vno}.mp4'
+                if os.path.exists(os.path.join(BASE, _vrel)):
+                    html = (f'<div style="margin:0 0 20px 0"><video controls preload="metadata" '
+                            f'poster="videos/course/covers/ep{_vno}.png" src="{_vrel}" '
+                            f'style="width:100%;border-radius:14px;background:#000"></video>'
+                            f'<p style="color:var(--dim);font-size:13px;margin:8px 0 0 2px">🎬 本章配套视频课 · 离线可播 · 看完视频再往下读</p></div>') + html
+            # 文档尾部图解（该章视频精选画面，存在才显示）
+            _gal = []
+            _galprefix = ''
+            if _mv:
+                _galprefix = f'course-ep{_mv.group(1)}'
+            else:
+                _rm = re.match(r'room/(\d\d)-', rel)
+                if _rm:
+                    _rmap = {'00':'room-ep01','01':'room-ep01','02':'room-ep02','03':'room-ep06','04':'room-ep07','05':'room-ep09','06':'room-ep05','07':'room-ep11','08':'room-ep12'}
+                    _galprefix = _rmap.get(_rm.group(1), '')
+                else:
+                    _mm = re.match(r'(mastery|cs-mastery|knowledge|sprint)/(\d\d)-', rel)
+                    if _mm:
+                        _pfx = {'mastery':'ext-m','cs-mastery':'ext-c','knowledge':'ext-k','sprint':'ext-s'}[_mm.group(1)]
+                        _galprefix = f'{_pfx}{_mm.group(2)}'
+            if _galprefix:
+                _gal = [f'videos/gallery/{_galprefix}-{i}.jpg' for i in range(3)]
+                _gal = [g for g in _gal if os.path.exists(os.path.join(BASE, g))]
+            if _gal:
+                html += ('<p style="color:var(--dim);font-size:13px;margin:26px 0 2px">📸 本章图解 · 视频课精选画面</p>'
+                         '<div class="doc-gallery">' + ''.join(f'<img src="{g}" alt="本章图解">' for g in _gal) + '</div>')
         elif size > 100*1024:
             html = ('<p>📦 <b>大文件未嵌入学习页</b>（%.1f MB）。完整文件在资料库中：<code>%s</code></p>'
                     '<p style="color:var(--dim)">可用文件管理器（或电脑）打开查看。</p>' % (size/1048576, rel))
@@ -351,6 +387,17 @@ for gkey, gtitle, gcolor, items in nav_groups:
     home_cards.append(
         '<button class="home-card" data-doclink="%s"><span class="hc-dot" style="background:%s"></span>'
         '<b>%s</b><span class="hc-count">%d 篇</span></button>' % (first_id, gcolor, gtitle, cnt))
+# —— 视频课快捷入口（文档存在即显示，高亮样式）——
+_vc_style = ' style="border-color:rgba(255,190,90,.5);background:linear-gradient(150deg,rgba(255,190,90,.20),#ffffff)"'
+vc_btns = ''
+if os.path.exists(BASE + '/room/09-视频课总览.md'):
+    vc_btns += '<button class="home-card small"%s data-doclink="room_09-视频课总览_md"><b>🎬 机房视频课（12 集）</b></button>' % _vc_style
+if os.path.exists(BASE + '/tutorial/98-视频课-总览.md'):
+    vc_btns += '<button class="home-card small"%s data-doclink="tutorial_98-视频课-总览_md"><b>🎬 教程视频课（18 集）</b></button>' % _vc_style
+if os.path.exists(BASE + '/video-ext/00-总览.md'):
+    vc_btns += '<button class="home-card small"%s data-doclink="video-ext_00-总览_md"><b>🎬 进阶视频课（27 集）</b></button>' % _vc_style
+if os.path.exists(BASE + '/video-ext/01-图解册.md'):
+    vc_btns += '<button class="home-card small"%s data-doclink="video-ext_01-图解册_md"><b>🖼 图解册 · 精选画面</b></button>' % _vc_style
 home_html = (
     '<p style="color:var(--dim)">共 <b>%d</b> 篇 · %d 个分组 · 点击任意分组进入，或使用顶部搜索框（支持全文搜索）</p>'
     '<div id="grow-slot"></div>'
@@ -364,30 +411,30 @@ home_html = (
     '<button class="home-card small" data-doclink="test-projects_INDEX_md"><b>📋 赛题目录</b></button>'
     '<button class="home-card small" data-doclink="mastery_00-总纲-像说话一样掌握云计算_md"><b>🧠 精通之路总纲</b></button>'
     '<button class="home-card small" data-doclink="room_00-总纲-从零到极致的机房之路_md"><b>🏭 机房管理 · 从零到极致</b></button>'
-    '</div>') % (total_docs, len(nav_groups), ''.join(home_cards))
+    '%s</div>') % (total_docs, len(nav_groups), ''.join(home_cards), vc_btns)
 
-docs_js = {'__home__': {'t': '🏠 全部内容总览', 'g': '主页', 'html': home_html, 'm': 2, 'c': '#0a84ff'}, **docs_js}
+docs_js = {'__home__': {'t': '🏠 全部内容总览', 'g': '主页', 'html': home_html, 'm': 2, 'c': '#1a6fe8'}, **docs_js}
 
 page = f'''<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#050508">
+<meta name="theme-color" content="#f7f7f5">
 <title>云计算 · 母语学习中心</title>
 <style>
 :root {{
-  --bg:#050508;
-  --text:#f5f5f7;
-  --dim:rgba(245,245,247,.62);
-  --dim2:rgba(245,245,247,.4);
-  --glass:rgba(255,255,255,.075);
-  --glass2:rgba(255,255,255,.11);
-  --line:rgba(255,255,255,.14);
-  --line2:rgba(255,255,255,.08);
-  --hl:rgba(255,255,255,.32);
-  --blue:#0a84ff;
-  --radius:22px;
+  --bg:#f7f7f5;
+  --text:#1f2328;
+  --dim:rgba(31,35,40,.66);
+  --dim2:rgba(31,35,40,.46);
+  --glass:rgba(0,0,0,.035);
+  --glass2:rgba(0,0,0,.055);
+  --line:rgba(0,0,0,.13);
+  --line2:rgba(0,0,0,.075);
+  --hl:rgba(0,0,0,.3);
+  --blue:#1a6fe8;
+  --radius:12px;
   --fs:16px;
 }}
 *{{box-sizing:border-box;-webkit-tap-highlight-color:transparent}}
@@ -401,11 +448,11 @@ body{{
 }}
 
 /* ---------- aurora background ---------- */
-.aurora{{position:fixed;inset:-20%;z-index:0;pointer-events:none;
+.aurora{{display:none;position:fixed;inset:-20%;pointer-events:none;
   background:
     radial-gradient(38% 44% at 18% 16%, rgba(94,92,230,.42), transparent 62%),
     radial-gradient(40% 48% at 82% 12%, rgba(255,55,95,.26), transparent 62%),
-    radial-gradient(46% 54% at 76% 78%, rgba(10,132,255,.34), transparent 66%),
+    radial-gradient(46% 54% at 76% 78%, rgba(26,111,232,.34), transparent 66%),
     radial-gradient(36% 44% at 12% 84%, rgba(48,209,88,.20), transparent 62%),
     radial-gradient(30% 36% at 50% 50%, rgba(191,90,242,.14), transparent 60%);
   filter:blur(52px) saturate(150%);
@@ -420,16 +467,16 @@ body{{
 /* ---------- glass primitives ---------- */
 button,.nav-item,.group-head,.home-card,.dn-btn,.sr-item,.tool-btn,a{{touch-action:manipulation;-webkit-tap-highlight-color:transparent}}
 button:focus{{outline:none}}
-button:focus-visible{{outline:2px solid #6cb2ff;outline-offset:2px}}
-.tool-btn:active{{transform:scale(.86);background:rgba(255,255,255,.22);transition-duration:.05s}}
-.group-head:active{{background:rgba(255,255,255,.1)}}
-.sr-item:active{{background:rgba(255,255,255,.15)}}
+button:focus-visible{{outline:2px solid #1a6fe8;outline-offset:2px}}
+.tool-btn:active{{transform:scale(.86);background:rgba(0,0,0,.04);transition-duration:.05s}}
+.group-head:active{{background:rgba(0,0,0,.05)}}
+.sr-item:active{{background:rgba(0,0,0,.08)}}
 #toTop:active,#tocBtn:active{{transform:scale(.88)}}
 #toTop,#tocBtn{{transition:transform .18s cubic-bezier(.34,1.56,.64,1),opacity .2s}}
 .glass{{
-  background:linear-gradient(150deg, rgba(255,255,255,.11), rgba(255,255,255,.05));
+  background:linear-gradient(150deg, rgba(0,0,0,.05), rgba(0,0,0,.03));
   border:1px solid var(--line);
-  box-shadow:0 10px 40px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.28), inset 0 -1px 0 rgba(255,255,255,.04);
+  box-shadow:0 2px 10px rgba(0,0,0,.07);
 }}
 
 /* ---------- layout ---------- */
@@ -440,32 +487,32 @@ button:focus-visible{{outline:2px solid #6cb2ff;outline-offset:2px}}
   transition:none;
 }}
 .side .panel{{border-radius:26px;flex:1;display:flex;flex-direction:column;overflow:hidden;
-  background:linear-gradient(160deg, rgba(38,40,56,.92), rgba(16,18,28,.92));
+  background:#ffffff;
   border:1px solid var(--line);
-  box-shadow:0 16px 50px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.22);
+  box-shadow:0 2px 10px rgba(0,0,0,.07);
 }}
 .brand{{padding:18px 18px 12px;display:flex;align-items:center;gap:10px}}
 .brand .logo{{width:34px;height:34px;border-radius:11px;flex:0 0 34px;
-  background:conic-gradient(from 210deg,#0a84ff,#bf5af2,#ff375f,#ffd60a,#30d158,#0a84ff);
-  box-shadow:0 4px 14px rgba(10,132,255,.5), inset 0 1px 0 rgba(255,255,255,.5);
+  background:conic-gradient(from 210deg,#1a6fe8,#8944d6,#db2777,#c99700,#1da851,#1a6fe8);
+  box-shadow:0 4px 14px rgba(26,111,232,.5);
 }}
 .brand h1{{font-size:15px;margin:0;font-weight:700;letter-spacing:.2px}}
 .brand p{{margin:0;font-size:11px;color:var(--dim2)}}
 
 .search{{margin:2px 14px 8px;display:flex;align-items:center;gap:8px;
-  background:rgba(255,255,255,.07);border:1px solid var(--line2);border-radius:14px;padding:8px 12px}}
+  background:rgba(0,0,0,.04);border:1px solid var(--line2);border-radius:14px;padding:8px 12px}}
 .search input{{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:13.5px}}
 .search input::placeholder{{color:var(--dim2)}}
 .search svg{{width:15px;height:15px;color:var(--dim2);flex:0 0 15px}}
 
 .nav{{overflow-y:auto;padding:4px 10px 18px;flex:1;overscroll-behavior:contain}}
 .nav::-webkit-scrollbar{{width:5px}}
-.nav::-webkit-scrollbar-thumb{{background:rgba(255,255,255,.16);border-radius:3px}}
+.nav::-webkit-scrollbar-thumb{{background:rgba(0,0,0,.08);border-radius:3px}}
 .nav-group{{margin-bottom:6px}}
 .group-head{{width:100%;display:flex;align-items:center;gap:8px;background:none;border:none;color:var(--dim);
   font-size:12px;font-weight:700;letter-spacing:.6px;padding:9px 8px;cursor:pointer;border-radius:12px}}
-.group-head:hover{{background:rgba(255,255,255,.05)}}
-.g-dot{{width:8px;height:8px;border-radius:50%;box-shadow:0 0 10px currentColor}}
+.group-head:hover{{background:rgba(0,0,0,.03)}}
+.g-dot{{width:8px;height:8px;border-radius:50%;box-shadow:none}}
 .chev{{width:14px;height:14px;margin-left:6px;transition:transform .3s}}
 .nav-group.closed .chev{{transform:rotate(-90deg)}}
 .nav-group.closed .group-body{{display:none}}
@@ -474,28 +521,28 @@ button:focus-visible{{outline:2px solid #6cb2ff;outline-offset:2px}}
   position:relative;overflow:hidden;}}
 .nav-item .dot{{width:6px;height:6px;border-radius:50%;flex:0 0 6px;opacity:.9}}
 .nav-item em{{margin-left:auto;font-style:normal;font-size:10.5px;color:var(--dim2);flex:0 0 auto}}
-.nav-item:hover{{background:rgba(255,255,255,.07);color:var(--text);transform:translateX(2px)}}
-.nav-item.active{{background:linear-gradient(140deg, rgba(10,132,255,.36), rgba(10,132,255,.16));
-  color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.3), 0 4px 16px rgba(10,132,255,.25);
-  border:1px solid rgba(120,180,255,.35);}}
-.nav-item.active em{{color:rgba(255,255,255,.75)}}
+.nav-item:hover{{background:rgba(0,0,0,.04);color:var(--text);transform:translateX(2px)}}
+.nav-item.active{{background:rgba(26,111,232,.10);
+  color:#1a6fe8;box-shadow:none;
+  border:1px solid rgba(96,150,235,.35);}}
+.nav-item.active em{{color:rgba(0,0,0,.1)}}
 .nav-item.hidden{{display:none}}
 
 /* ---------- main ---------- */
 .main{{flex:1;min-width:0;padding:14px 14px 90px;max-width:1020px;margin:0 auto;width:100%}}
 .topbar{{position:sticky;top:10px;z-index:30;display:flex;align-items:center;gap:10px;
   border-radius:20px;padding:10px 12px;margin-bottom:14px;
-  background:linear-gradient(150deg, rgba(42,44,60,.90), rgba(20,22,32,.90));
+  background:#ffffff;
   border:1px solid var(--line);
-  box-shadow:0 10px 34px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.26);}}
+  box-shadow:0 2px 10px rgba(0,0,0,.07);}}
 .menu-btn{{display:none;position:fixed;top:calc(16px + env(safe-area-inset-top,0px));left:14px;z-index:70;
   width:42px;height:42px;border-radius:14px;border:1px solid var(--line2);
-  background:rgba(44,46,62,.94);color:var(--text);cursor:pointer;align-items:center;justify-content:center;
+  background:#ffffff;color:var(--text);cursor:pointer;align-items:center;justify-content:center;
   transition:transform .18s cubic-bezier(.34,1.56,.64,1),background .2s;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
-  box-shadow:0 6px 20px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.22)}}
-body.drawer-open .menu-btn{{background:rgba(64,67,92,.96)}}
-.menu-btn:active{{transform:scale(.86);background:rgba(255,255,255,.22);transition-duration:.05s}}
+  box-shadow:0 2px 10px rgba(0,0,0,.07)}}
+body.drawer-open .menu-btn{{background:rgba(0,0,0,.05)}}
+.menu-btn:active{{transform:scale(.86);background:rgba(0,0,0,.04);transition-duration:.05s}}
 .bars{{display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center}}
 .bars i{{display:block;width:18px;height:2px;border-radius:2px;background:currentColor;
   transition:transform .3s cubic-bezier(.22,.61,.36,1),opacity .18s;transform-origin:center}}
@@ -506,24 +553,24 @@ body.drawer-open .menu-btn .bars i:nth-child(3){{transform:translateY(-6px) rota
 .crumb b{{font-size:14.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
 .crumb span{{font-size:11px;color:var(--dim2)}}
 .tools{{display:flex;align-items:center;gap:7px;flex:0 0 auto}}
-.tool-btn{{width:34px;height:34px;border-radius:12px;border:1px solid var(--line2);background:rgba(255,255,255,.08);
+.tool-btn{{width:34px;height:34px;border-radius:12px;border:1px solid var(--line2);background:rgba(0,0,0,.05);
   color:var(--text);cursor:pointer;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;
   transition:transform .18s cubic-bezier(.34,1.56,.64,1), background .2s}}
-.tool-btn:hover{{background:rgba(255,255,255,.16)}}
+.tool-btn:hover{{background:rgba(0,0,0,.08)}}
 .tool-btn:active{{transform:scale(.9)}}
 .pill{{font-size:11px;color:var(--dim);padding:5px 10px;border-radius:999px;border:1px solid var(--line2);
-  background:rgba(255,255,255,.05);white-space:nowrap}}
+  background:rgba(0,0,0,.03);white-space:nowrap}}
 
 .progress-track{{position:fixed;top:0;left:0;right:0;height:3px;z-index:100;background:transparent;pointer-events:none}}
-.progress-bar{{height:100%;width:0;background:linear-gradient(90deg,#0a84ff,#bf5af2,#ff375f);border-radius:0 3px 3px 0;
-  box-shadow:0 0 12px rgba(10,132,255,.8);transition:width .1s linear}}
+.progress-bar{{height:100%;width:0;background:linear-gradient(90deg,#1a6fe8,#8944d6,#db2777);border-radius:0 3px 3px 0;
+  box-shadow:none;transition:width .1s linear}}
 
 .card{{border-radius:24px;padding:26px 26px 34px;position:relative;max-width:100%;overflow:hidden;
-  background:linear-gradient(165deg, rgba(30,32,46,.86), rgba(12,14,22,.88));
+  background:#ffffff;
   border:1px solid var(--line);
-  box-shadow:0 18px 60px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.22);}}
+  box-shadow:0 2px 10px rgba(0,0,0,.07);}}
 .card-head{{display:flex;align-items:center;gap:10px;margin-bottom:6px}}
-.card-head .hbar{{width:4px;height:22px;border-radius:2px;background:var(--vc,#0a84ff);box-shadow:0 0 12px var(--vc,#0a84ff)}}
+.card-head .hbar{{width:4px;height:22px;border-radius:2px;background:var(--vc,#1a6fe8);box-shadow:none}}
 .card-head h2{{margin:0;font-size:20px;font-weight:800;letter-spacing:.2px}}
 .card-head .meta{{font-size:11.5px;color:var(--dim2);margin-left:auto;white-space:nowrap}}
 .card-in{{animation:fadeUp .3s ease}}
@@ -531,58 +578,60 @@ body.drawer-open .menu-btn .bars i:nth-child(3){{transform:translateY(-6px) rota
 
 /* ---------- markdown styles ---------- */
 .md h1{{font-size:26px;font-weight:800;letter-spacing:.3px;margin:8px 0 18px;line-height:1.35}}
-.md h2{{font-size:19.5px;font-weight:750;margin:34px 0 12px;color:#fff;line-height:1.4;
-  padding-left:12px;border-left:3px solid var(--vc,#0a84ff)}}
-.md h3{{font-size:16.5px;font-weight:700;margin:24px 0 8px;color:#dce8ff}}
+.md h2{{font-size:19.5px;font-weight:750;margin:34px 0 12px;color:#1f2328;line-height:1.4;
+  padding-left:12px;border-left:3px solid var(--vc,#1a6fe8)}}
+.md h3{{font-size:16.5px;font-weight:700;margin:24px 0 8px;color:#1a6fe8}}
 .md h4{{font-size:15px;font-weight:700;margin:18px 0 6px;color:var(--dim)}}
 .md p{{margin:10px 0}}
 .md p,.md li,.md td,.md th,.md h1,.md h2,.md h3,.md h4,.md blockquote,.md summary,.md a{{overflow-wrap:anywhere;word-break:break-word}}
-.md a{{color:#6cb2ff;text-decoration:none;border-bottom:1px solid rgba(108,178,255,.35);cursor:pointer}}
+.md a{{color:#1a6fe8;text-decoration:none;border-bottom:1px solid rgba(90,150,240,.35);cursor:pointer}}
 .md a.deadlink{{color:rgba(245,245,247,.4);border-bottom:1px dashed rgba(245,245,247,.25);cursor:not-allowed}}
-.md a.inlink{{color:#7cc0ff}}
+.md a.inlink{{color:#1a6fe8}}
 .md a.inlink::after{{content:" ↗";font-size:.8em;opacity:.7}}
-.md strong{{color:#fff}}
+.md strong{{color:#0f1216}}
 .md code{{font-family:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  background:rgba(120,170,255,.13);border:1px solid rgba(120,170,255,.2);
-  padding:1.5px 6px;border-radius:7px;font-size:.86em;color:#a8ccff}}
-.md pre{{background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.12);border-radius:16px;
+  background:rgba(96,150,235,.13);border:1px solid rgba(96,150,235,.2);
+  padding:1.5px 6px;border-radius:7px;font-size:.86em;color:#1a6fe8}}
+.md pre{{background:#f2f3f5;border:1px solid rgba(0,0,0,.09);border-radius:16px;
   padding:16px 18px;overflow-x:auto;margin:14px 0;max-width:100%;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.07), 0 6px 20px rgba(0,0,0,.3)}}
-.md pre code{{background:none;border:none;padding:0;color:#e8eefc;font-size:13px;line-height:1.75}}
+  box-shadow:0 2px 10px rgba(0,0,0,.07)}}
+.md pre code{{background:none;border:none;padding:0;color:#24292f;font-size:13px;line-height:1.75}}
+.doc-gallery{{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:10px 0 8px}}
+.doc-gallery img{{width:100%;border-radius:10px;border:1px solid var(--line2)}}
 .md table{{border-collapse:separate;border-spacing:0;width:100%;font-size:13.5px;display:block;overflow-x:auto;
   border:1px solid var(--line2);border-radius:14px;margin:14px 0}}
 .md th,.md td{{border-bottom:1px solid var(--line2);padding:9px 13px;text-align:left;white-space:nowrap}}
-.md th{{background:rgba(255,255,255,.07);font-weight:700}}
+.md th{{background:rgba(0,0,0,.04);font-weight:700}}
 .md tr:last-child td{{border-bottom:none}}
-.md blockquote{{margin:14px 0;padding:12px 18px;border-left:3px solid var(--vc,#0a84ff);
-  background:linear-gradient(90deg, rgba(10,132,255,.13), rgba(10,132,255,.03));border-radius:0 14px 14px 0;color:#dce6f5}}
+.md blockquote{{margin:14px 0;padding:12px 18px;border-left:3px solid var(--vc,#1a6fe8);
+  background:linear-gradient(90deg, rgba(26,111,232,.13), rgba(26,111,232,.03));border-radius:0 14px 14px 0;color:#1a6fe8}}
 .md ul,.md ol{{padding-left:22px;margin:10px 0}}
 .md li{{margin:5px 0}}
 .md hr{{border:none;border-top:1px solid var(--line2);margin:30px 0}}
-.md input[type=checkbox]{{margin-right:7px;accent-color:#0a84ff;transform:translateY(1px)}}
-.md details{{background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:14px;padding:10px 16px;margin:12px 0}}
-.md summary{{cursor:pointer;font-weight:700;color:#9dc4ff}}
+.md input[type=checkbox]{{margin-right:7px;accent-color:#1a6fe8;transform:translateY(1px)}}
+.md details{{background:rgba(0,0,0,.03);border:1px solid var(--line2);border-radius:14px;padding:10px 16px;margin:12px 0}}
+.md summary{{cursor:pointer;font-weight:700;color:#1a6fe8}}
 .md img{{max-width:100%;border-radius:14px}}
 .rawtext{{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-all;font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
-  font-size:12.5px;line-height:1.7;color:#dbe4f5;margin:0;max-width:100%}}
-.nav-group .group-head .cnt{{margin-left:auto;font-size:10px;color:var(--dim2);background:rgba(255,255,255,.08);padding:1px 7px;border-radius:99px}}
-.results{{display:none;margin:0 14px 8px;max-height:46vh;overflow-y:auto;background:rgba(20,22,34,.97);border:1px solid var(--line);border-radius:16px;padding:6px}}
+  font-size:12.5px;line-height:1.7;color:#1a6fe8;margin:0;max-width:100%}}
+.nav-group .group-head .cnt{{margin-left:auto;font-size:10px;color:var(--dim2);background:rgba(0,0,0,.05);padding:1px 7px;border-radius:99px}}
+.results{{display:none;margin:0 14px 8px;max-height:46vh;overflow-y:auto;background:#ffffff;border:1px solid var(--line);border-radius:16px;padding:6px}}
 .sr-item{{display:block;width:100%;text-align:left;background:none;border:none;color:var(--text);font-size:13px;padding:8px 10px;border-radius:10px;cursor:pointer}}
 .sr-item em{{display:block;font-style:normal;font-size:10.5px;color:var(--dim2);margin-top:1px}}
-.sr-item:hover{{background:rgba(255,255,255,.08)}}
+.sr-item:hover{{background:rgba(0,0,0,.05)}}
 .sr-empty{{padding:10px;color:var(--dim2);font-size:12.5px}}
 .home-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(46%,1fr));gap:10px;margin:16px 0}}
-.home-card{{position:relative;display:flex;flex-direction:column;gap:6px;align-items:flex-start;background:linear-gradient(150deg,rgba(255,255,255,.10),rgba(255,255,255,.04));border:1px solid var(--line);border-radius:18px;padding:14px;color:var(--text);font-size:13.5px;cursor:pointer;text-align:left;transition:transform .25s cubic-bezier(.34,1.56,.64,1),background .25s;overflow:hidden}}
-.home-card:hover{{transform:translateY(-3px);background:linear-gradient(150deg,rgba(255,255,255,.16),rgba(255,255,255,.06))}}
+.home-card{{position:relative;display:flex;flex-direction:column;gap:6px;align-items:flex-start;background:linear-gradient(150deg,rgba(0,0,0,.05),rgba(0,0,0,.03));border:1px solid var(--line);border-radius:18px;padding:14px;color:var(--text);font-size:13.5px;cursor:pointer;text-align:left;transition:transform .25s cubic-bezier(.34,1.56,.64,1),background .25s;overflow:hidden}}
+.home-card:hover{{transform:translateY(-3px);background:linear-gradient(150deg,rgba(0,0,0,.08),rgba(0,0,0,.04))}}
 .home-card:active{{transform:scale(.97)}}
 .home-card b{{font-size:13.5px;font-weight:700;line-height:1.4}}
-.home-card .hc-dot{{width:10px;height:10px;border-radius:50%;box-shadow:0 0 10px currentColor;flex:0 0 10px}}
+.home-card .hc-dot{{width:10px;height:10px;border-radius:50%;box-shadow:none;flex:0 0 10px}}
 .home-card .hc-count{{font-size:11px;color:var(--dim2)}}
 .home-card.small{{flex-direction:row;align-items:center;gap:8px;padding:12px 14px;font-size:13px}}
 .home-quick{{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}}
 #continue-slot{{margin:10px 0}}
-#continue-slot .home-card{{border-color:rgba(120,180,255,.4)}}
-#toTop{{position:fixed;right:16px;bottom:22px;width:46px;height:46px;border-radius:50%;display:none;align-items:center;justify-content:center;font-size:18px;color:#fff;cursor:pointer;background:linear-gradient(150deg,rgba(60,63,86,.95),rgba(28,30,44,.95));border:1px solid var(--line);box-shadow:0 10px 30px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.25);z-index:50}}
+#continue-slot .home-card{{border-color:rgba(96,150,235,.4)}}
+#toTop{{position:fixed;right:16px;bottom:22px;width:46px;height:46px;border-radius:50%;display:none;align-items:center;justify-content:center;font-size:18px;color:#333;cursor:pointer;background:#ffffff;border:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,.07);z-index:50}}
 
 .overlay{{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:40;opacity:0;pointer-events:none;transition:opacity .3s}}
 .overlay.show{{opacity:1;pointer-events:auto}}
@@ -591,7 +640,7 @@ body.drawer-open .menu-btn .bars i:nth-child(3){{transform:translateY(-6px) rota
   .menu-btn{{display:flex}}
   .topbar{{padding-left:64px}}
   .side{{position:fixed;left:-360px;top:0;z-index:60;width:min(84vw,320px);flex-basis:auto}}
-  .side .panel{{background:linear-gradient(165deg, rgba(36,38,54,.98), rgba(13,15,23,.98))}}
+  .side .panel{{background:#ffffff}}
   /* .side.open left handled by JS (slideSide) */
   .menu-btn{{display:flex}}
   .main{{padding:10px 10px 80px}}
@@ -604,56 +653,56 @@ body.drawer-open .menu-btn .bars i:nth-child(3){{transform:translateY(-6px) rota
 /* ===== growth system ===== */
 .grow-card{{background:linear-gradient(150deg,rgba(255,214,10,.10),rgba(191,90,242,.08));border:1px solid rgba(255,214,10,.28);border-radius:20px;padding:16px 18px;margin:14px 0}}
 .grow-top{{display:flex;align-items:baseline;gap:10px}}
-.grow-lv{{font-size:19px;font-weight:800;color:#ffd60a}}
-.grow-streak{{margin-left:auto;font-size:13px;color:#ff9f0a;font-weight:700}}
-.grow-bar{{height:10px;border-radius:6px;background:rgba(255,255,255,.1);margin:10px 0 6px;overflow:hidden}}
-.grow-bar i{{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#0a84ff,#bf5af2);width:0;transition:width .5s ease}}
+.grow-lv{{font-size:19px;font-weight:800;color:#c99700}}
+.grow-streak{{margin-left:auto;font-size:13px;color:#d97706;font-weight:700}}
+.grow-bar{{height:10px;border-radius:6px;background:rgba(0,0,0,.05);margin:10px 0 6px;overflow:hidden}}
+.grow-bar i{{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#1a6fe8,#8944d6);width:0;transition:width .5s ease}}
 .grow-meta{{font-size:11.5px;color:var(--dim2)}}
 .badges{{margin-top:9px;font-size:17px;letter-spacing:3px}}
 .badges .off{{opacity:.22}}
-#xpFloat{{position:fixed;top:64px;right:16px;z-index:120;pointer-events:none;font-weight:800;color:#7ef0c0;font-size:15px;opacity:0;transform:translateY(6px);transition:opacity .25s,transform .25s}}
+#xpFloat{{position:fixed;top:64px;right:16px;z-index:120;pointer-events:none;font-weight:800;color:#1da851;font-size:15px;opacity:0;transform:translateY(6px);transition:opacity .25s,transform .25s}}
 #xpFloat.on{{opacity:1;transform:translateY(-14px)}}
-#celebrate{{position:fixed;inset:0;z-index:150;display:none;align-items:center;justify-content:center;background:rgba(10,12,22,.55)}}
-.celebrate-card{{background:linear-gradient(160deg,rgba(38,40,58,.98),rgba(20,22,34,.98));border:1px solid rgba(255,214,10,.5);border-radius:24px;padding:28px 40px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 60px rgba(255,214,10,.22)}}
+#celebrate{{position:fixed;inset:0;z-index:150;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.3)}}
+.celebrate-card{{background:#ffffff;border:1px solid rgba(255,214,10,.5);border-radius:24px;padding:28px 40px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.07),0 0 60px rgba(255,214,10,.22)}}
 .celebrate-card .big{{font-size:42px}}
-.celebrate-card h3{{color:#ffd60a;margin:10px 0 4px;font-size:17px}}
+.celebrate-card h3{{color:#c99700;margin:10px 0 4px;font-size:17px}}
 .celebrate-card p{{color:var(--dim);margin:4px 0 0;font-size:13px}}
 /* ===== quiz ===== */
-#quizView{{position:fixed;inset:0;z-index:160;background:#050508;display:none;flex-direction:column}}
+#quizView{{position:fixed;inset:0;z-index:160;background:#f7f7f5;display:none;flex-direction:column}}
 #quizView.on{{display:flex}}
-.quiz-head{{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);background:rgba(20,22,34,.92)}}
+.quiz-head{{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);background:#ffffff}}
 .quiz-body{{flex:1;overflow-y:auto;padding:18px 16px 70px;max-width:640px;margin:0 auto;width:100%}}
-.qz-item{{background:linear-gradient(165deg,rgba(30,32,46,.9),rgba(14,16,24,.92));border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px}}
+.qz-item{{background:#ffffff;border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px}}
 .qz-item h4{{margin:0 0 6px;font-size:15px;line-height:1.6}}
-.qz-opt{{display:block;width:100%;text-align:left;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;color:var(--text);font-size:14px;cursor:pointer}}
-.qz-opt.right{{background:rgba(48,209,88,.22);border-color:#30d158}}
-.qz-opt.wrong{{background:rgba(255,69,58,.22);border-color:#ff453a}}
+.qz-opt{{display:block;width:100%;text-align:left;background:rgba(0,0,0,.04);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;color:var(--text);font-size:14px;cursor:pointer}}
+.qz-opt.right{{background:rgba(48,209,88,.22);border-color:#1da851}}
+.qz-opt.wrong{{background:rgba(255,69,58,.22);border-color:#dc3545}}
 .qz-exp{{font-size:12.5px;color:var(--dim);margin-top:8px;display:none;line-height:1.7}}
-.qz-btn{{display:inline-block;background:linear-gradient(150deg,#0a84ff,#0064d0);border:none;border-radius:12px;color:#fff;font-size:13.5px;font-weight:700;padding:11px 18px;margin-top:10px;cursor:pointer}}
+.qz-btn{{display:inline-block;background:linear-gradient(150deg,#1a6fe8,#1557b0);border:none;border-radius:12px;color:#fff;font-size:13.5px;font-weight:700;padding:11px 18px;margin-top:10px;cursor:pointer}}
 .qz-btn.sm{{padding:7px 14px;font-size:12.5px;margin:0}}
 .qz-btn:active{{transform:scale(.96)}}
 /* ===== lab & sim ===== */
-.lab-card{{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:13px;padding:11px 13px;margin:8px 0;cursor:pointer}}
+.lab-card{{background:rgba(0,0,0,.03);border:1px solid var(--line);border-radius:13px;padding:11px 13px;margin:8px 0;cursor:pointer}}
 .lab-card.labdone{{background:rgba(48,209,88,.10);border-color:rgba(48,209,88,.45)}}
-#restView{{position:fixed;inset:0;z-index:170;display:none;align-items:center;justify-content:center;background:rgba(10,12,22,.75)}}
+#restView{{position:fixed;inset:0;z-index:170;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.4)}}
 #restView.on{{display:flex}}
-#boot{{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#050508;transition:opacity .45s}}
+#boot{{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#f7f7f5;transition:opacity .45s}}
 #boot p{{margin:0;color:var(--dim);font-size:14px}}
 #boot small{{color:var(--dim2);font-size:11.5px}}
-.boot-ring{{width:54px;height:54px;border-radius:50%;border:3px solid rgba(255,255,255,.12);border-top-color:#0a84ff;animation:spin 1s linear infinite}}
+.boot-ring{{width:54px;height:54px;border-radius:50%;border:3px solid rgba(0,0,0,.07);border-top-color:#1a6fe8;animation:spin 1s linear infinite}}
 @keyframes spin{{to{{transform:rotate(360deg)}}}}
 .docnav{{display:flex;gap:8px;margin-top:28px;padding-top:18px;border-top:1px solid var(--line2)}}
-.dn-btn{{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(150deg,rgba(255,255,255,.09),rgba(255,255,255,.04));border:1px solid var(--line);border-radius:14px;color:var(--text);font-size:12.5px;padding:11px 10px;cursor:pointer;transition:transform .2s,background .2s;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;text-align:center}}
-.dn-btn:hover{{background:rgba(255,255,255,.14)}}
+.dn-btn{{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(150deg,rgba(0,0,0,.05),rgba(0,0,0,.03));border:1px solid var(--line);border-radius:14px;color:var(--text);font-size:12.5px;padding:11px 10px;cursor:pointer;transition:transform .2s,background .2s;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;text-align:center}}
+.dn-btn:hover{{background:rgba(0,0,0,.08)}}
 .dn-btn:active{{transform:scale(.97)}}
 .dn-btn.home{{flex:0 0 54px}}
-#tocBtn{{position:fixed;right:16px;bottom:84px;width:46px;height:46px;border-radius:50%;display:none;align-items:center;justify-content:center;font-size:17px;color:#fff;cursor:pointer;background:linear-gradient(150deg,rgba(60,63,86,.95),rgba(28,30,44,.95));border:1px solid var(--line);box-shadow:0 10px 30px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.25);z-index:50}}
-#tocPanel{{position:fixed;right:16px;bottom:140px;width:min(78vw,320px);max-height:56vh;overflow-y:auto;display:none;z-index:51;border-radius:18px;padding:10px;background:rgba(22,24,36,.97);border:1px solid var(--line);box-shadow:0 14px 44px rgba(0,0,0,.55)}}
+#tocBtn{{position:fixed;right:16px;bottom:84px;width:46px;height:46px;border-radius:50%;display:none;align-items:center;justify-content:center;font-size:17px;color:#333;cursor:pointer;background:#ffffff;border:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,.07);z-index:50}}
+#tocPanel{{position:fixed;right:16px;bottom:140px;width:min(78vw,320px);max-height:56vh;overflow-y:auto;display:none;z-index:51;border-radius:18px;padding:10px;background:#ffffff;border:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,.07)}}
 #tocPanel button{{display:block;width:100%;text-align:left;background:none;border:none;color:var(--text);font-size:12.5px;padding:7px 9px;border-radius:10px;cursor:pointer}}
-#tocPanel button:hover{{background:rgba(255,255,255,.08)}}
+#tocPanel button:hover{{background:rgba(0,0,0,.05)}}
 #tocPanel button.lv3{{padding-left:22px;color:var(--dim);font-size:12px}}
-#results mark{{background:rgba(255,214,10,.32);color:#fff;border-radius:3px;padding:0 2px}}
-.nav-item.read::after{{content:'✓';font-size:10px;color:#30d158;margin-left:5px;flex:0 0 auto}}
+#results mark{{background:rgba(255,214,10,.4);color:#5f4b00;border-radius:3px;padding:0 2px}}
+.nav-item.read::after{{content:'✓';font-size:10px;color:#1da851;margin-left:5px;flex:0 0 auto}}
 /* item animations removed: this WebView's compositor can freeze transform/opacity animations */
 </style>
 </head>
@@ -899,7 +948,7 @@ function renderGrowth(){{
     +'<div class="home-card" style="margin-top:14px;border-style:dashed">'
     +'<b>⚔ 世赛训练场 · 真机操练（Minis 终端）</b>'
     +'<p style="color:var(--dim);font-size:12.5px;margin:8px 0;line-height:1.7">手机里藏着一个完整比赛环境：3 台服务器节点 · 6 个比赛模块 · 评分脚本当场打分。在终端里运行：</p>'
-    +'<div style="font-family:monospace;font-size:12px;background:rgba(0,0,0,.35);border-radius:10px;padding:10px;color:#7ef0c0;line-height:2;overflow-x:auto">wsarena status<span style="color:var(--dim2)"> &nbsp;# 看状态</span><br>wsarena sh srv1<span style="color:var(--dim2)"> &nbsp;# 进服务器操练</span><br>wsarena check web<span style="color:var(--dim2)"> &nbsp;# 评分打分</span></div>'
+    +'<div style="font-family:monospace;font-size:12px;background:rgba(0,0,0,.35);border-radius:10px;padding:10px;color:#1da851;line-height:2;overflow-x:auto">wsarena status<span style="color:var(--dim2)"> &nbsp;# 看状态</span><br>wsarena sh srv1<span style="color:var(--dim2)"> &nbsp;# 进服务器操练</span><br>wsarena check web<span style="color:var(--dim2)"> &nbsp;# 评分打分</span></div>'
     +'<p style="color:var(--dim);font-size:11.5px;margin:8px 0 0">模块：Web · DNS · 排障 · 数据库 · 负载均衡 · 机房管理 ｜ 全真模拟：wsarena exam full</p>'
     +'</div>';
 }}
@@ -1307,7 +1356,7 @@ function renderQuizCenter(){{
   for(let x=0;x<ks.length;x++){{
     const k=ks[x], b=QUIZ_BANK[k], s=saved[k];
     h+='<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line2)">'
-      +'<div style="flex:1;font-size:13.5px">'+b.t+(s?'<span style="color:#30d158;font-size:11px"> · 最佳 '+s.best+'/'+s.total+'</span>':'')+'</div>'
+      +'<div style="flex:1;font-size:13.5px">'+b.t+(s?'<span style="color:#1da851;font-size:11px"> · 最佳 '+s.best+'/'+s.total+'</span>':'')+'</div>'
       +'<button class="qz-btn sm" data-quiz="'+k+'">测验</button></div>';
   }}
   h+='</div>';
@@ -1388,10 +1437,10 @@ function renderQuizResult(){{
   const face=pct>=90?'🏆':(pct>=75?'🎉':(pct>=60?'👍':'📖'));
   const grade=pct>=90?'太强了！':(pct>=75?'很棒！':(pct>=60?'及格，继续加油':'再复习一下对应章节吧'));
   let h='<div class="qz-item" style="text-align:center"><div style="font-size:42px">'+face+'</div>'
-    +'<h3 style="margin:8px 0;color:#ffd60a;font-size:19px">'+cc+' / '+total+'（'+pct+'%）</h3>'
+    +'<h3 style="margin:8px 0;color:#c99700;font-size:19px">'+cc+' / '+total+'（'+pct+'%）</h3>'
     +'<p style="color:var(--dim);font-size:13px">'+grade+'　获得 +'+gain+' XP</p>'
     +'<button class="qz-btn" data-quiz="'+QZ.id+'">🔄 再考一次</button> '
-    +'<button class="qz-btn" style="background:rgba(255,255,255,.1)" onclick="renderQuizCenter()">返回考试中心</button></div>';
+    +'<button class="qz-btn" style="background:rgba(0,0,0,.05)" onclick="renderQuizCenter()">返回考试中心</button></div>';
   const wrongs=[];
   for(let i=0;i<QZ.qs.length;i++){{ if(!QZ.answers[i].ok) wrongs.push({{q:QZ.qs[i],my:QZ.answers[i].idx}}); }}
   if(wrongs.length){{
@@ -1400,8 +1449,8 @@ function renderQuizResult(){{
       const q=wrongs[i].q, my=wrongs[i].my;
       h+='<div style="margin:10px 0;padding:12px;background:rgba(255,69,58,.07);border-radius:12px">'
         +'<div style="font-size:13.5px;font-weight:700;line-height:1.6">'+q.q+'</div>'
-        +'<div style="font-size:12.5px;color:#ff7b72;margin-top:6px">你选了：'+String.fromCharCode(65+my)+'. '+q.o[my]+'</div>'
-        +'<div style="font-size:12.5px;color:#30d158">正确答案：'+String.fromCharCode(65+q.a)+'. '+q.o[q.a]+'</div>'
+        +'<div style="font-size:12.5px;color:#dc3545;margin-top:6px">你选了：'+String.fromCharCode(65+my)+'. '+q.o[my]+'</div>'
+        +'<div style="font-size:12.5px;color:#1da851">正确答案：'+String.fromCharCode(65+q.a)+'. '+q.o[q.a]+'</div>'
         +'<div style="font-size:12px;color:var(--dim);margin-top:4px">💡 '+q.e+'</div></div>';
     }}
     h+='</div>';
@@ -1435,7 +1484,7 @@ function renderLabCenter(){{
     h+='</div>';
   }}
   h+='</div>';
-  h+='<div class="qz-item"><h4>🔬 实操任务<span style="color:#30d158;font-size:11.5px;margin-left:8px">每个 +30 XP</span></h4><p style="color:var(--dim);font-size:12.5px;margin:4px 0 0">在你的电脑/虚拟机上真实动手做，做完点一下卡片勾选</p>';
+  h+='<div class="qz-item"><h4>🔬 实操任务<span style="color:#1da851;font-size:11.5px;margin-left:8px">每个 +30 XP</span></h4><p style="color:var(--dim);font-size:12.5px;margin:4px 0 0">在你的电脑/虚拟机上真实动手做，做完点一下卡片勾选</p>';
   const chs=Object.keys(QUIZ_BANK);
   for(let ci=0;ci<chs.length;ci++){{
     const ch=chs[ci];
@@ -1446,7 +1495,7 @@ function renderLabCenter(){{
       h+='<div class="lab-card'+(d?' labdone':'')+'" data-lab="'+i+'">'
         +'<div style="font-size:13.5px;font-weight:700">'+(d?'✅ ':'⬜ ')+LAB_TASKS[i].t+' <span style="color:var(--dim2);font-size:11px">'+LAB_TASKS[i].m+'min</span></div>'
         +'<div style="font-size:12px;color:var(--dim);margin-top:3px;line-height:1.6">'+LAB_TASKS[i].d+'</div>'
-        +'<div style="font-size:11.5px;color:#7ef0c0;margin-top:3px">🎯 验收：'+LAB_TASKS[i].v+'</div>'
+        +'<div style="font-size:11.5px;color:#1da851;margin-top:3px">🎯 验收：'+LAB_TASKS[i].v+'</div>'
         +'</div>';
     }}
   }}
@@ -1498,7 +1547,7 @@ function renderSimRun(){{
   if(!SIM) return;
   const t=SIM;
   const dn=Object.keys(t.done).length;
-  let h='<div class="qz-item" style="text-align:center"><div id="simClock" style="font-size:42px;font-weight:800;color:#ffd60a">'+fmtT(t.left)+'</div>'
+  let h='<div class="qz-item" style="text-align:center"><div id="simClock" style="font-size:42px;font-weight:800;color:#c99700">'+fmtT(t.left)+'</div>'
    +'<p style="color:var(--dim);font-size:12px;margin:5px 0 0">在你的电脑/虚拟机上完成，做一项勾一项</p></div>';
   h+='<div class="qz-item"><h4>📋 任务清单（'+dn+'/'+t.tasks.length+'）</h4>';
   for(let i=0;i<t.tasks.length;i++){{
@@ -1506,11 +1555,11 @@ function renderSimRun(){{
     h+='<div class="lab-card'+(d?' labdone':'')+'" data-simt="'+i+'">'
       +'<div style="font-size:13.5px;font-weight:700">'+(d?'✅ ':'⬜ ')+k.t+'</div>'
       +'<div style="font-size:12px;color:var(--dim);margin-top:3px;line-height:1.6">'+k.d+'</div>'
-      +'<div style="font-size:11.5px;color:#7ef0c0;margin-top:3px">🎯 '+k.v+'</div>'
+      +'<div style="font-size:11.5px;color:#1da851;margin-top:3px">🎯 '+k.v+'</div>'
       +'</div>';
   }}
   h+='<button class="qz-btn" style="width:100%;margin-top:12px" data-simfin="1">⏹ 结束模拟并结算</button>'
-   +'<button class="qz-btn" style="width:100%;margin-top:8px;background:rgba(255,255,255,.1)" data-simquit="1">放弃这次模拟</button>';
+   +'<button class="qz-btn" style="width:100%;margin-top:8px;background:rgba(0,0,0,.05)" data-simquit="1">放弃这次模拟</button>';
   h+='</div>';
   document.getElementById('labBody').innerHTML=h;
 }}
@@ -1531,12 +1580,12 @@ function finishSim(timeout){{
   try{{ addXP(gain, timeout?'时间到':'模拟结算'); unlockBadge('sim1'); saveGrow(); }}catch(e){{}}
   const pct=Math.round(doneN/total*100);
   let h='<div class="qz-item" style="text-align:center"><div style="font-size:42px">'+(pct>=100?'🏆':(pct>=60?'🎉':'💪'))+'</div>'
-   +'<h3 style="margin:8px 0;color:#ffd60a;font-size:19px">完成 '+doneN+' / '+total+' 项</h3>'
-   +(timeout?'<p style="color:#ff9f0a;font-size:13px;margin:4px 0">⏰ 时间到！</p>':'')
+   +'<h3 style="margin:8px 0;color:#c99700;font-size:19px">完成 '+doneN+' / '+total+' 项</h3>'
+   +(timeout?'<p style="color:#d97706;font-size:13px;margin:4px 0">⏰ 时间到！</p>':'')
    +'<p style="color:var(--dim);font-size:13px;margin:6px 0 0">获得 +'+gain+' XP'+(doneN===total?'（全勤奖励 +50）':'')+'</p>'
-   +'<button class="qz-btn" style="background:linear-gradient(150deg,#30d158,#1a9e42);width:100%;margin-top:14px" data-rest="1">☕ 休息 5 分钟</button>'
+   +'<button class="qz-btn" style="background:linear-gradient(150deg,#1da851,#1a9e42);width:100%;margin-top:14px" data-rest="1">☕ 休息 5 分钟</button>'
    +'<button class="qz-btn" style="width:100%;margin-top:8px" data-sim="'+SIM.id+'">🔄 再来一次</button>'
-   +'<button class="qz-btn" style="width:100%;margin-top:8px;background:rgba(255,255,255,.1)" onclick="renderLabCenter()">返回实战中心</button></div>';
+   +'<button class="qz-btn" style="width:100%;margin-top:8px;background:rgba(0,0,0,.05)" onclick="renderLabCenter()">返回实战中心</button></div>';
   const sid=SIM.id;
   SIM=null;
   document.getElementById('labTitle').textContent='🏟 模拟结算';
@@ -1822,7 +1871,7 @@ window.addEventListener('scroll',()=>{{
 </script>
 <div id="xpFloat">+10 XP</div>
 <div id="celebrate"><div class="celebrate-card" id="celebrateCard"></div></div>
-<div id="restView"><div class="celebrate-card"><div class="big">☕</div><h3>休息一下</h3><div id="restClock" style="font-size:40px;font-weight:800;color:#ffd60a;margin:10px 0">05:00</div><p id="restMsg" style="color:var(--dim);font-size:13px">站起来走动一下，看看远处，喝口水</p><button class="qz-btn" style="margin-top:14px" onclick="stopRest()">回来继续</button></div></div>
+<div id="restView"><div class="celebrate-card"><div class="big">☕</div><h3>休息一下</h3><div id="restClock" style="font-size:40px;font-weight:800;color:#c99700;margin:10px 0">05:00</div><p id="restMsg" style="color:var(--dim);font-size:13px">站起来走动一下，看看远处，喝口水</p><button class="qz-btn" style="margin-top:14px" onclick="stopRest()">回来继续</button></div></div>
 <div id="labView">
   <div class="quiz-head">
     <button class="tool-btn" onclick="closeLab()">✕</button>
