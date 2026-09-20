@@ -1,0 +1,561 @@
+WorldSkills Occupational Standards - Cloud Computing
+
+Skip to main content
+
+            Menu
+
+Skills
+
+Countries
+
+What we do
+
+Latest
+
+Explore
+
+Log in
+
+Competitions
+
+Conference
+
+Projects
+
+Campaigns
+
+Home
+
+What we do
+
+Projects
+
+Occupational Standards
+
+WorldSkills Shanghai 2026
+
+Cloud Computing
+
+Cloud Computing
+
+WorldSkills Occupational Standards (WSOS)
+
+                                                    Occupation description and WSOS
+
+The name of the skill competition is
+
+Cloud Computing
+
+Description of the associated work role(s) or occupation(s)
+
+The field of cloud computing has evolved significantly, with new roles emerging to meet the growing demand for expertise in designing, implementing, and managing cloud-based solutions. Positions within this domain now encompass a broader range of responsibilities, including:
+
+Cloud Architect: Designs, implements, and manages the overall cloud solution architecture, utilizing existing machine learning (ML) and artificial intelligence (AI) services. This role does not involve creating new AI or ML models. These architects are responsible for defining the cloud strategy, selecting appropriate cloud platforms, and ensuring that the cloud solution aligns with business goals.
+
+DevOps Engineer: Ensures efficient deployment and management of cloud infrastructure, automating processes and improving collaboration between development and operations teams. DevOps engineers play a crucial role in bridging the gap between development and IT operations, automating tasks like infrastructure provisioning, code deployment, and testing.
+
+Cloud Developer: Develops cloud-native applications and services, leveraging the scalability, flexibility, and on-demand nature of cloud platforms. Cloud developers specialize in building applications that are specifically designed for cloud environments, taking advantage of features like serverless computing, microservices, and containers.
+
+Cloud Security Engineer: Protects cloud environments from security threats, implementing measures to safeguard data, infrastructure, and applications. Cloud security engineers are responsible for identifying and mitigating security risks, ensuring compliance with industry regulations, and protecting sensitive data.
+
+While traditional roles like Systems Administrators, Database Administrators, and Network Engineers still play important roles in cloud environments, the focus has shifted towards more specialized expertise. Cloud professionals now need to possess a deep understanding of cloud platforms and their capabilities.
+
+Key responsibilities within cloud computing roles include:
+
+Designing and implementing cloud architectures: Creating scalable, reliable, and secure cloud solutions that align with business objectives.
+
+Managing cloud infrastructure: Overseeing the deployment, configuration, and maintenance of cloud resources, including virtual machines, storage, and networking components.
+
+Developing cloud-native applications: Building applications that are optimized for cloud environments, taking advantage of features like scalability, elasticity, and serverless computing.
+
+Ensuring cloud security: Implementing security best practices to protect cloud data, infrastructure, and applications from unauthorized access, data breaches, and other threats.
+
+Migrating workloads to the cloud: Planning and executing the migration of existing applications and data to cloud platforms.
+
+Optimizing cloud costs: Identifying and implementing strategies to reduce cloud spending while maintaining performance and reliability.
+
+                                                    The WorldSkills Occupational Standards (WSOS)                                            
+
+General notes on the WSOS
+
+The WSOS specifies the knowledge, understanding, skills, and capabilities that underpin international best practice in technical and vocational performance. These are both specific to an occupational role and also transversal. Together they should reflect a shared global understanding of what the associated work role(s) or occupation(s) represent for industry and business (
+www.worldskills.org/WSOS
+).
+
+The skill competition is intended to reflect international best practice as described by the WSOS, to the extent that it can. The Standard is therefore a guide to the required training and preparation for the skill competition.
+
+In the skill competition the assessment of knowledge and understanding will take place through the assessment of performance. There will only be separate tests of knowledge and understanding where there is an overwhelming reason for these.
+
+The Standard is divided into distinct sections with headings and reference numbers added.
+
+Each section is assigned a percentage of the total marks to indicate its relative importance within the Standards. This is often referred to as the “weighting”. The sum of all the percentage marks is 100. The weightings determine the distribution of marks within the Marking Scheme.
+
+Through the Test Project, the Marking Scheme will assess only those skills and capabilities that are set out in the WorldSkills Occupational Standards. They will reflect the Standards as comprehensively as possible within the constraints of the skill competition.
+
+The Marking Scheme will follow the allocation of marks within the Standards to the extent practically possible. A variation of up to five percent is allowed, if this does not distort the weightings assigned by the Standards.
+
+WorldSkills Occupational Standards
+
+Section
+
+Relative importance (%)
+
+1
+
+Work organization and management
+
+10
+
+The individual needs to know and understand:
+
+The relationships between different technologies and areas of expertise used in a public cloud deployment
+
+Interoperability requirements for each aspect of a systems deployment within public cloud providers
+
+The requirements of each group of stakeholders in the design of an IT solution using public cloud services
+
+Methods of integrating an organization’s best practices and public cloud offerings to create application-specific deployments
+
+Methods of evaluating, comparing, and contrasting the wide range of possible solutions for each IT implementation
+
+Methods of determining which solution is optimal for each organization taking into account internal best practices, business requirements, existing infrastructure, and resource expertise
+
+The individual shall be able to:
+
+Identify common deployment models with public cloud providers and how those models can apply to organization-specific requirements
+
+Identify opportunities and create migration plans to phase-in public cloud deployments and reduce risks
+
+Create highly available, scalable, and secure IT architectural designs specific to each application, taking into account compute, storage, networking, database management, and deployment requirements
+
+Take advantage of public cloud provider solutions to reduce operational burden associated with service deployments
+
+2
+
+Communication and interpersonal skills
+
+5
+
+The individual needs to know and understand:
+
+How to communicate across organizational teams to identify infrastructure requirements and architectural opportunities
+
+How to engage with business units to identify best practices for deployment and create a migration path to the public cloud
+
+Methods and techniques for working with business stakeholders in meeting organizational and compliance related goals
+
+The basis for creating department and team-specific infrastructure designs that take advantage of public cloud capabilities and value-add services
+
+The individual shall be able to:
+
+Discover and document key requirements and how they relate to public cloud offerings
+
+Discover and document technology-specific opportunities to leverage public cloud offerings
+
+Translate business goals and objectives into briefs, designs, and plans, and present such documents to stakeholders and management teams
+
+Clearly map departmental and technology-specific requirements and goals to public cloud solutions
+
+Using project-specific migration plans, facilitate the implementation of an organizational transition to public cloud resources
+
+3
+
+Problem solving, innovation, and creativity
+
+20
+
+The individual needs to know and understand:
+
+The role and importance of each layer of infrastructure design including compute, storage, networking, database, caching, and application
+
+Various technology solutions to meet business objectives (e.g., different relational database solutions as well the use of NoSQL technologies for transactional data workloads)
+
+Various storage capabilities including block level replication, network block device sharing, shared/clustered file systems, object storage, and storage caching solutions
+
+Various network architectures to facilitate communication with existing/legacy applications and environments
+
+Automation methodologies and opportunities commonly used throughout the technical community
+
+Serverless, API, stacks
+
+The individual shall be able to:
+
+Evaluate, select, and implement foundational cloud computing services such as compute, network, and storage
+
+Evaluate, select, and implement advanced cloud computing services such as managed data services, caching services, and automated scaling and availability features
+
+Evaluate, select, and implement various network-related technologies to infrastructure design such as network communication protocols, sub netting, NAT, DNS, VPN, broadcast networking, and dynamic routing protocols
+
+Automate infrastructure creation and modification through the use of scripting or programming, and the use of infrastructure templates
+
+4
+
+Cybersecurity
+
+20
+
+The individual needs to know and understand:
+
+Best practices for securing systems and networks using authorizations, authentications, and accounting
+
+Best practices for developing secure deployment and the ongoing monitoring of traffic and assets
+
+Best practices for deploying, monitoring, and maintaining secure infrastructure
+
+Best practices for the creation and deployment of secure application designs for public cloud infrastructure
+
+The demarcation of responsibility for cybersecurity between cloud providers and public cloud customers
+
+The importance and intent of network traffic and resource isolation
+
+The individual shall be able to:
+
+Design and implement authentication processes at departmental and organizational level, controlling access to public cloud administrative capabilities and system access
+
+Develop policies and procedures for systems and application access to public cloud interfaces and services
+
+Implement policies and procedures for auditing of public cloud activities and access
+
+Create internal prescriptive guidance and requirements for procedures necessary to create, update, remove and access public cloud infrastructure and resources
+
+Implement service and technology specific cybersecurity controls on resources running within a public cloud environment as well as utilization of services provided by an IaaS vendor
+
+Engage with business, development, and leadership staff to identify, recommend, and implement cybersecurity best practices while ensuring an efficient user experience
+
+5
+
+Reliability, scalability, and elasticity
+
+15
+
+The individual needs to know and understand:
+
+How business requirements translate to operational objectives in relation to resource constraints addressed by the use of public cloud features and services
+
+The principles and architectures for different availability/deployment models such as disaster recovery, high availability, blue-green deployments, global load balancing, and pilot light deployments
+
+Application and service-specific availability requirements and nuances as they relate to systems and application availability
+
+Network data flow and the corresponding relationship to systems availability
+
+Organizational and departmental business and technology goals related to system survivability and data durability in the event of different failure scenarios
+
+How application, system, and network metrics can be used to define the implementation of available, scalable, and elastic architectures
+
+Different applications, systems, and protocol nuances and requirements necessary to automate the scaling, durability, and availability of infrastructure
+
+The individual shall be able to:
+
+Record, analyse, and interpret application, system, and network data to facilitate the recommendation of an appropriate architecture that sufficiently utilizes scalability and elasticity to meet the variable demands of internal and external users and system
+
+Implement different availability, scalability, and durability models in accordance with application and system design requirements
+
+Design availability models that meet the business requirements of an organization, taking into account allowed recovery time and allowable service interruption parameters
+
+Utilize public cloud services and features to aid the design and deployment of availability, durability, and scalability requirements
+
+6
+
+Performance and optimization
+
+10
+
+The individual needs to know and understand:
+
+Different infrastructure performance opportunities available through solutions such as caching, resource right-sizing, and vendor-provided services
+
+Performance requirements and possible bottlenecks with infrastructure design
+
+Vendor-specific pricing opportunities as they relate to different public cloud offerings for optimizing costs
+
+Opportunities available during the creation of new applications or redesign of existing applications to take advantage of public cloud offerings such as server-less computing and microservice orchestration
+
+The individual shall be able to:
+
+Analyse and interpret performance metrics from compute, storage, network, and application levels for use in public cloud infrastructure design objectives
+
+Utilize performance tuning techniques and packages to ensure optimal resource utilization
+
+Implement microservice strategies to capitalize on technology advances in areas like container development
+
+Pursue the decoupling of services to allow the separation of application components to facilitate a service-oriented architecture
+
+Recommend and implement database and storage solutions that best fit the needs of an application
+
+Implement serverless architecture
+
+7
+
+Operational considerations
+
+10
+
+The individual needs to know and understand:
+
+The requirements of systems and applications in order to maintain functionality and availability
+
+System, network, and application metrics and how they apply to infrastructure durability, availability, and performance
+
+Response requirements, protocols, and procedures for various incidents including cybersecurity, availability, and performance-related incidents­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­
+
+The individual shall be able to:
+
+Maintain functionality and availability within the requirements of a given system
+
+Maintain functionality and availability within the requirements of a given system’s applications
+
+Use the metrics of a given system, network, and applications to assess the durability, availability, and performance of the infrastructure
+
+Respond to cybersecurity, availability, and performance-related incidents by applying given requirements, protocols, and procedures
+
+8
+
+Sustainability
+
+10
+
+The individual needs to know and understand:
+
+The purpose and nature of sustainability goals for cloud computing; e.g., reducing the resources required for each operational and architectural transaction
+
+Design principles for architecting cloud workloads to maximise sustainability and minimize environmental impact
+
+Methods for estimating future impacts of workloads
+
+The sources of impacts: including customer use, eventual decommissioning, and retirement
+
+Methodologies for comparing productive output with the impacts (resources and emissions) per unit of work
+
+The purpose, value, and uses of Key Performance Indicators (KPIs) in relation to sustainability.
+
+Rationales and methods for maximizing utilization
+
+Innovation and trends in software and architectures to support sustainability
+
+The implications for cloud workload design of rapid innovation in hardware and software
+
+The implications for sustainability of shared managed services across a broad customer base
+
+The business case for offering sustainable solutions to customers
+
+The individual shall be able to:
+
+Architect cloud workloads to maximize sustainability and minimize environmental impact
+
+Measure the impact of given cloud workloads and model the future impact of workloads
+
+Identify and estimate the sources of impacts across the lifetime of given products
+
+Compare productive output of given products with their impacts, per work unit
+
+Create KPIs for given products’ improved productivity, evaluate the options for meeting the KPIs, including their cost implications, and estimate their relative impact over time
+
+Research new and alternative hardware and software to support energy efficiency, and identify their implications for design
+
+Review the implications for sustainability of using managed services across a wide customer base
+
+Explain and illustrate to customers their options for sustainable solutions, their relative cost benefit and wider implications
+
+Total
+
+100
+
+                                                    References for industry consultation                                            
+
+General notes
+
+WorldSkills is committed to ensuring that the WorldSkills Occupational Standards fully reflect the dynamism of internationally recognized best practice in industry and business. To do this WorldSkills approaches a number of organizations across the world that can offer feedback on the draft Description of the Associated Role and WorldSkills Occupational Standards on a two-yearly cycle.
+
+In parallel to this, WSI consults three international occupational classifications and databases:
+
+ISCO-08: (
+http://www.ilo.org/public/english/bureau/stat/isco/isco08/
+)
+
+ESCO: (
+https://ec.europa.eu/esco/portal/home
+ )
+
+O*NET OnLine (
+www.onetonline.org/
+)
+
+References
+
+Your WSOS (Section 2) appears most closely to relate to a junior version of IT System Architect:
+
+http://data.europa.eu/esco/occupation/e1c72b5f-4c5c-487c-a6df-e84b64a51dae
+
+or a junior version of Computer Network Architects:
+
+https://www.onetonline.org/link/summary/15-1143.00
+
+Junior version ILO 2511.
+
+The following table indicates which organizations were approached and provided valuable feedback for the Description of the Associated Role and WorldSkills Occupational Standards in place for WorldSkills Shanghai 2026.
+
+Organization
+
+Contact name
+
+Amazon Web Services
+
+Ji Cheng, AWS Academy Technical Program Manager
+
+Devoteam
+
+Nicolas Pellegrin, Consultant
+
+Iret, Inc.
+
+Kazutaka Goto, Executive Officer
+
+Microsoft
+
+Dennis Chung, Chief Security Officer
+
+Shanghai iddeal information industry CO., LTD
+
+Yuqing Xu, Department Manager
+
+Trenocate Japan Ltd.
+
+Jun Kubotamai, IT Trainer
+
+                    Last updated: 05.03.2026 07:22 (GMT)
+
+                    © 2026 WorldSkills International
+
+Home
+
+What we do
+
+Projects
+
+Occupational Standards
+
+WorldSkills Shanghai 2026
+
+Cloud Computing
+
+Search
+
+Search
+
+Search
+
+WorldSkills
+
+Skills
+
+Countries
+
+What we do
+
+Latest
+
+Explore
+
+Glossary 
+
+What we do
+
+Competitions
+
+Projects
+
+Conference
+
+Campaigns
+
+Our community
+
+Champions Trust
+
+Experts Faculty
+
+Latest
+
+News
+
+Events
+
+Resources
+
+Press releases
+
+Videos
+
+Photos
+
+Newsletter
+
+Social
+
+Facebook
+
+X
+
+YouTube
+
+Flickr
+
+Instagram
+
+TikTok
+
+LinkedIn
+
+About us
+
+Board
+
+Secretariat
+
+Vision and mission
+
+History
+
+General Assemblies
+
+Official Documents
+
+Annual Reports
+
+Final Reports
+
+Partners
+
+Our brand
+
+Press room
+
+Get involved
+
+How WorldSkills works
+
+Become a partner
+
+Become a member country
+
+How to compete
+
+WorldSkills Museum
+
+Info for
+
+Members
+
+Partners
+
+Journalists
+
+© 2026 WorldSkills International
+
+Privacy
+
+Terms
+
+Contact
+
+Log in
