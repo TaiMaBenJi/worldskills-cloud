@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>模拟实训室 · 独立预览</title>
+<link rel="stylesheet" href="lab.css">
+<style>
+body{background:#f7f7f5;color:#1f2328;font-family:-apple-system,"PingFang SC","Noto Sans SC",sans-serif;margin:0;padding:14px;font-size:15px}
+h2{margin:4px 0 10px}
+.qz-item{background:#fff;border:1px solid rgba(0,0,0,.13);border-radius:18px;padding:18px;margin-bottom:14px}
+.qz-btn{display:inline-block;background:linear-gradient(150deg,#1a6fe8,#1557b0);border:none;border-radius:12px;color:#fff;font-size:13.5px;font-weight:700;padding:11px 18px;margin-top:10px;cursor:pointer}
+#labView{position:fixed;inset:0;z-index:160;background:#f7f7f5;display:none;flex-direction:column}
+#labView.on{display:flex}
+.quiz-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid rgba(0,0,0,.13);background:#fff}
+.quiz-body{flex:1;overflow-y:auto;padding:18px 16px 70px;max-width:640px;margin:0 auto;width:100%}
+:root{--dim:rgba(31,35,40,.66);--dim2:rgba(31,35,40,.46);--line:rgba(0,0,0,.13);--line2:rgba(0,0,0,.075)}
+.tool-btn{background:none;border:none;color:#333;font-size:17px;cursor:pointer}
+</style>
+</head>
+<body>
+<h2>🧪 模拟实训室 · 预览</h2>
+<button class="qz-btn" onclick="openLabCenter()">打开实战中心（看注入板块）</button>
+<button class="qz-btn" style="background:rgba(0,0,0,.06);color:#1f2328" onclick="LabUI.openScenario('web1')">直接进 web1</button>
+
+<div id="labView">
+  <div class="quiz-head">
+    <button class="tool-btn" onclick="document.getElementById('labView').classList.remove('on')">✕</button>
+    <div id="labTitle" style="flex:1;font-weight:700;font-size:15px">实战中心</div>
+  </div>
+  <div class="quiz-body" id="labBody"></div>
+</div>
+
+<script>
+/* 主页面桩（study.html 里由原脚本提供，这里最小实现） */
+function renderLabCenter(){
+  document.getElementById('labTitle').textContent='⚒ 实战中心（预览桩）';
+  document.getElementById('labBody').innerHTML='<div class="qz-item"><h4>（原实战中心内容占位）</h4><p style="color:var(--dim)">模拟实训室板块应出现在这上面。</p></div>';
+}
+function openLabCenter(){ document.getElementById('labView').classList.add('on'); renderLabCenter(); }
+function closeLab(){}
+</script>
+<div id="termView">
+  <div class="tv-head">
+    <button class="tv-btn" id="tvBack">← 返回</button>
+    <div class="tv-title" id="tvTitle">模拟实训</div>
+    <div id="tvScore" style="font-size:11px;color:#8b949e;margin-right:2px"></div>
+    <button class="tv-btn" id="tvGradeBtn">📊 评分</button>
+  </div>
+  <div class="tv-scr" id="tvScr"></div>
+  <div class="tv-pad">
+    <div class="tv-chips" id="tvChips"></div>
+    <div class="tv-inrow">
+      <button class="tv-mini" id="tvHUp">⌃</button>
+      <button class="tv-mini" id="tvHDn">⌄</button>
+      <input id="tvIn" placeholder="输入命令，回车执行" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="go">
+      <button class="tv-run" id="tvRun">▶</button>
+    </div>
+    <div class="tv-tools">
+      <button class="tv-mini" id="tvBriefBtn">📋 任务</button>
+      <button class="tv-mini" id="tvFilesBtn">📝 文件</button>
+      <button class="tv-mini" id="tvDemoBtn">▶ 示范</button>
+      <button class="tv-mini" id="tvResetBtn">↺ 重开</button>
+    </div>
+  </div>
+  <div class="tv-panel" id="tvPanel"></div>
+</div>
+<div id="tvEdit">
+  <div class="tv-edit-card">
+    <div class="tv-edit-head"><span id="tvEditPath">file</span><button class="tv-btn" id="tvEditClose">✕</button></div>
+    <textarea id="tvEditArea" spellcheck="false"></textarea>
+    <div class="tv-edit-foot"><button class="tv-btn" id="tvEditCancel">取消</button><button class="tv-btn primary" id="tvEditSave">💾 保存</button></div>
+  </div>
+</div>
+<div id="tvToast"></div>
+<div id="tvConfirm"><div class="tv-edit-card sm"><div id="tvConfirmMsg"></div><div class="tv-edit-foot"><button class="tv-btn" id="tvConfirmNo">取消</button><button class="tv-btn primary" id="tvConfirmYes">确定</button></div></div></div>
+
+<script src="lab-engine.js"></script>
+<script src="lab-scenarios.js"></script>
+<script src="lab-ui.js"></script>
+</body>
+</html>
