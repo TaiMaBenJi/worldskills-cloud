@@ -21,19 +21,19 @@ def dur_of(path):
     return float(out.strip())
 
 async def tts_all(jobs):
-    sem = asyncio.Semaphore(2)
+    sem = asyncio.Semaphore(3)
     async def one(text, out):
         async with sem:
             last = None
             for attempt in range(10):
                 try:
                     c = edge_tts.Communicate(text, VOICE)
-                    await asyncio.wait_for(c.save(out), timeout=30)
+                    await asyncio.wait_for(c.save(out), timeout=25)
                     await asyncio.sleep(1.2)
                     return
                 except Exception as e:
                     last = e
-                    await asyncio.sleep(1.5 + attempt * 2)
+                    await asyncio.sleep(1 + attempt * 1.2)
             raise last
     await asyncio.gather(*[one(t, o) for t, o in jobs])
 
