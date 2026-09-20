@@ -61,7 +61,7 @@ DOCS = [
  (G_K,'10 · 前沿与超越','knowledge/10-前沿与超越.md',None),
  (G_K,'11 · 竞赛实战指南','knowledge/11-竞赛实战指南.md',None),
  (G_K,'12 · 认证与职业发展','knowledge/12-认证与职业发展.md',None),
- (G_RM,'🎬 机房 · 视频课（12集）','room/09-视频课总览.md','边看边学·全离线'),
+ (G_RM,'🎬 机房 · 视频课（15集）','room/09-视频课总览.md','边看边学·全离线'),
  (G_RM,'机房 · 00 总纲','room/00-总纲-从零到极致的机房之路.md','从零到极致'),
  (G_RM,'机房 · 01 阶梯与自测','room/01-阶梯与自测.md',None),
  (G_RM,'机房 · 02 基础设施修炼','room/02-基础设施修炼.md',None),
@@ -72,7 +72,7 @@ DOCS = [
  (G_RM,'机房 · 07 应急与实战','room/07-应急与实战.md',None),
  (G_RM,'机房 · 08 职业路线','room/08-职业路线.md','考证·面试·就业'),
  (G_VEXT,'🎬 进阶 · 视频课（27集）','video-ext/00-总览.md','精通·知识·冲刺'),
- (G_VEXT,'🖼 全套图解册（57 集精选）','video-ext/01-图解册.md','一图流复习'),
+ (G_VEXT,'🖼 全套图解册（59 集精选）','video-ext/01-图解册.md','一图流复习'),
  (G_I,'总导航（资料库说明）','README-总导航.md',None),
  (G_I,'赛题目录','test-projects/INDEX.md',None),
  (G_I,'工程仓库目录','github-repos/INDEX.md',None),
@@ -391,11 +391,11 @@ for gkey, gtitle, gcolor, items in nav_groups:
 _vc_style = ' style="border-color:rgba(255,190,90,.5);background:linear-gradient(150deg,rgba(255,190,90,.20),#ffffff)"'
 vc_btns = ''
 if os.path.exists(BASE + '/room/09-视频课总览.md'):
-    vc_btns += '<button class="home-card small"%s data-doclink="room_09-视频课总览_md"><b>🎬 机房视频课（12 集）</b></button>' % _vc_style
+    vc_btns += '<button class="home-card small"%s data-doclink="room_09-视频课总览_md"><b>🎬 机房视频课（15 集）</b></button>' % _vc_style
 if os.path.exists(BASE + '/tutorial/98-视频课-总览.md'):
     vc_btns += '<button class="home-card small"%s data-doclink="tutorial_98-视频课-总览_md"><b>🎬 教程视频课（18 集）</b></button>' % _vc_style
 if os.path.exists(BASE + '/video-ext/00-总览.md'):
-    vc_btns += '<button class="home-card small"%s data-doclink="video-ext_00-总览_md"><b>🎬 进阶视频课（27 集）</b></button>' % _vc_style
+    vc_btns += '<button class="home-card small"%s data-doclink="video-ext_00-总览_md"><b>🎬 进阶视频课（29 集）</b></button>' % _vc_style
 if os.path.exists(BASE + '/video-ext/01-图解册.md'):
     vc_btns += '<button class="home-card small"%s data-doclink="video-ext_01-图解册_md"><b>🖼 图解册 · 精选画面</b></button>' % _vc_style
 home_html = (
@@ -704,6 +704,7 @@ body.drawer-open .menu-btn .bars i:nth-child(3){{transform:translateY(-6px) rota
 #results mark{{background:rgba(255,214,10,.4);color:#5f4b00;border-radius:3px;padding:0 2px}}
 .nav-item.read::after{{content:'✓';font-size:10px;color:#1da851;margin-left:5px;flex:0 0 auto}}
 /* item animations removed: this WebView's compositor can freeze transform/opacity animations */
+/*@@LAB_CSS@@*/
 </style>
 </head>
 <body>
@@ -1471,7 +1472,7 @@ function renderLabCenter(){{
   const done=getLabDone();
   const sims=getSims();
   let h='';
-  h+='<div class="qz-item"><h4>🏟 世赛模拟</h4><p style="color:var(--dim);font-size:12.5px;margin:4px 0 0">全真节奏：选套餐 → 倒计时开始 → 在自己机器上做题，完成一项勾一项</p>';
+  h+='<div class="qz-item"><h4>🏟 世赛模拟 · 计时开考</h4><p style="color:var(--dim);font-size:12.5px;margin:4px 0 0">选套餐 → 倒计时 → 在「模拟实训室」的 srv1 里答题 → 交卷自动判分（按钮直达同一系统）</p>';
   for(let i=0;i<SIMS.length;i++){{
     const s=SIMS[i];
     h+='<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line2)">'
@@ -1868,6 +1869,7 @@ window.addEventListener('scroll',()=>{{
   const bt=document.getElementById('boot');
   if(bt){{ bt.style.opacity='0'; setTimeout(function(){{ bt.style.display='none'; }}, 480); }}
 }})();
+/*@@LAB_JS@@*/
 </script>
 <div id="xpFloat">+10 XP</div>
 <div id="celebrate"><div class="celebrate-card" id="celebrateCard"></div></div>
@@ -1888,12 +1890,61 @@ window.addEventListener('scroll',()=>{{
   </div>
   <div class="quiz-body" id="quizBody"></div>
 </div>
+<div id="termView">
+  <div class="tv-head">
+    <button class="tv-btn" id="tvBack">← 返回</button>
+    <div class="tv-title" id="tvTitle">模拟实训</div>
+    <div id="tvScore" style="font-size:11px;color:#8b949e;margin-right:2px"></div>
+    <button class="tv-btn" id="tvGradeBtn">📊 评分</button>
+  </div>
+  <div class="tv-scr" id="tvScr"></div>
+  <div class="tv-pad">
+    <div class="tv-chips" id="tvChips"></div>
+    <div class="tv-inrow">
+      <button class="tv-mini" id="tvHUp">⌃</button>
+      <button class="tv-mini" id="tvHDn">⌄</button>
+      <input id="tvIn" placeholder="输入命令，回车执行" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="go">
+      <button class="tv-run" id="tvRun">▶</button>
+    </div>
+    <div class="tv-tools">
+      <button class="tv-mini" id="tvBriefBtn">📋 任务</button>
+      <button class="tv-mini" id="tvFilesBtn">📝 文件</button>
+      <button class="tv-mini" id="tvDemoBtn">▶ 示范</button>
+      <button class="tv-mini" id="tvResetBtn">↺ 重开</button>
+    </div>
+  </div>
+  <div class="tv-panel" id="tvPanel"></div>
+</div>
+<div id="tvEdit">
+  <div class="tv-edit-card">
+    <div class="tv-edit-head"><span id="tvEditPath">file</span><button class="tv-btn" id="tvEditClose">✕</button></div>
+    <textarea id="tvEditArea" spellcheck="false"></textarea>
+    <div class="tv-edit-foot"><button class="tv-btn" id="tvEditCancel">取消</button><button class="tv-btn primary" id="tvEditSave">💾 保存</button></div>
+  </div>
+</div>
+<div id="tvToast"></div>
+<div id="tvConfirm"><div class="tv-edit-card sm"><div id="tvConfirmMsg"></div><div class="tv-edit-foot"><button class="tv-btn" id="tvConfirmNo">取消</button><button class="tv-btn primary" id="tvConfirmYes">确定</button></div></div></div>
 <button id="toTop" onclick="window.scrollTo({{top:0,behavior:'smooth'}})">↑</button>
 <button id="tocBtn" onclick="toggleToc()" title="目录">📑</button>
 <div id="tocPanel"></div>
 </body>
 </html>'''
 
+# ---- 注入「模拟实训室」引擎（lab/ 目录；构建后替换，避免 f-string 花括号转义） ----
+_lab_dir = os.path.join(BASE, 'lab')
+def _labread(fn):
+    _p = os.path.join(_lab_dir, fn)
+    try:
+        with open(_p, encoding='utf-8') as _f: return _f.read()
+    except Exception as _e:
+        print('WARN lab asset missing:', fn, _e); return ''
+_lab_css = _labread('lab.css')
+_lab_js = ';\n'.join([_labread('lab-engine.js'), _labread('lab-scenarios.js'), _labread('lab-ui.js')])
+page = page.replace('/*@@LAB_CSS@@*/', _lab_css)
+page = page.replace('/*@@LAB_JS@@*/', _lab_js)
+print('lab injected:', len(_lab_css), '+', len(_lab_js), 'chars')
+
 out = BASE + '/study.html'
 open(out, 'w', encoding='utf-8').write(page)
 print('written:', out, len(page), 'bytes,', total_docs, 'docs')
+if '/*@@LAB' in page: print('WARN: lab markers left unresolved!')
