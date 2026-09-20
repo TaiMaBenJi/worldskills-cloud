@@ -48,7 +48,7 @@ lines.append('|---|---|---|---|')
 total = 0.0
 durs = {}
 for no, title, feat in EPISODES:
-    d = dur_of(f'{ROOT}/out/ep{no}.mp4')
+    d = dur_of(f'{ROOT}/out/course/ep{no}.mp4')
     durs[no] = d
     total += d
     dl = f'{int(d//60)}:{int(d%60):02d}' if d else '—'
@@ -64,7 +64,7 @@ for no, title, feat in EPISODES:
     dl = f'{int(d//60)} 分 {int(d%60)} 秒' if d else ''
     lines.append(f'### 第 {no} 集 · {title}')
     lines.append('')
-    if os.path.exists(f'{ROOT}/out/ep{no}.mp4'):
+    if os.path.exists(f'{ROOT}/out/course/ep{no}.mp4'):
         lines.append(f'<video controls preload="metadata" poster="videos/course/covers/ep{no}.png" src="videos/course/ep{no}.mp4" style="width:100%;border-radius:14px;background:#000"></video>')
     else:
         lines.append('> 📦 **本集制作中，即将自动上线**——打开 App 稍后刷新即可看到。')
