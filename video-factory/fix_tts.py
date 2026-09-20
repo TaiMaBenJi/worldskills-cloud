@@ -33,13 +33,13 @@ async def main(ep_script):
         for attempt in range(14):
             try:
                 c = edge_tts.Communicate(text, VOICE)
-                await c.save(raw)
+                await asyncio.wait_for(c.save(raw), timeout=30)
                 if os.path.getsize(raw) > 1000:
                     ok = True
                     break
             except Exception as e:
                 print(f'  s{i:02d} attempt{attempt+1}: {type(e).__name__}', flush=True)
-            await asyncio.sleep(2 + attempt * 2.5)
+            await asyncio.sleep(1.5 + attempt * 2)
         if ok:
             fixed += 1
             print(f'  s{i:02d} OK ({os.path.getsize(raw)}B)', flush=True)
