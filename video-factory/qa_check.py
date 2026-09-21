@@ -3,7 +3,7 @@
 """QA 质检：批量检查 12 集视频的完整性"""
 import subprocess, os, json
 
-ROOT = '/var/minis/shared/room-video'
+ROOT = '/opt/tmbj/room-video'
 
 def sh(cmd):
     r = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=60)
