@@ -1,10 +1,11 @@
 /* =====================================================================
    app/rank.js · 「进阶之路」段位体系（替代旧 XP / 徽章机制）
    ---------------------------------------------------------------------
-   设计原则：段位不是攒出来的，是“考”出来的。
-     · 每级有明确的实证条件：章节测验达标（≥75%）、实训场景全对（100 分）、模拟赛达标
-     · 条件集齐 → 开考「晋级考核」（从你已达标章节随机抽题）→ ≥75% 才晋升
-     · 晋升记入技术履历；没有点击就送的 XP，没有徽章墙
+   设计原则：段位不是攒出来的，是“考”出来的，且标准高于国家/官方考试合格线。
+     · 每级对标国家技能等级 + 高含金量证书（1+X / 软考 / HCIA-HCIE / RHCE / 世赛）
+     · 实证条件：章节测验达标（≥75%）、考纲范围章节全达标、实训场景全对（100 分）、模拟赛达标
+     · 晋级考核：仅从该级证书考纲范围抽题 → 合格线 85%→95%（官方约 60%）
+     · 高等级设冷静期；每次成绩留档，晋升颁发唯一编号训练证书
    数据来源（均由 App 内其它模块写入 localStorage）：
      wg.quiz    {章节key:{best,total}}         —— 考试中心
      wg.labprog {场景id:{best,perfect,runs}}   —— 模拟实训室
@@ -32,32 +33,39 @@ function scenarios(){ try{ if(root.LabEngine&&root.LabEngine.SCENARIOS&&root.Lab
 
 /* ---------- 段位定义 ---------- */
 var LADDER=[
- {n:1,t:'见习云工',cap:'刚踏进门：知道 Linux、网络、服务器是什么',reqs:[]},
- {n:2,t:'云学徒',cap:'能上手：完成基础实验，看懂命令行输出',reqs:[
-   {k:'quiz',need:3,txt:'通过 3 章测验（≥75%）'},
-   {k:'lab',need:2,txt:'全对通过 2 个实训场景（100 分）'}]},
- {n:3,t:'云操作员',cap:'能按图施工：独立部署 Web / DNS / 数据库等标准服务',reqs:[
-   {k:'quiz',need:8,txt:'通过 8 章测验'},
+ {n:1,t:'见习云工',grade:'学徒工',cap:'起跑线：知道 Linux、网络、服务器是什么 — 世赛与证书之路的起点',certs:['校内选拔 · 世赛云计算入门'],scope:'零基础',reqs:[]},
+ {n:2,t:'云学徒',grade:'初级工（五级）',cap:'能上手：完成基础实验，看懂命令行输出 — 达到《1+X 云计算平台运维与开发（初级）》与 HCIA 的知识储备',certs:['1+X 云计算平台运维与开发（初级）','HCIA-Cloud Computing'],scope:'Linux · 网络基础',pass:85,qn:12,pool:['tutorial_01','tutorial_02'],reqs:[
+   {k:'quiz',need:3,txt:'通过 3 章测验（Linux/网络 · HCIA 考纲）'},
+   {k:'lab',need:2,txt:'全对通过 2 个实训场景（100 分）'},
+   {k:'scope',list:['tutorial_01','tutorial_02'],txt:'考纲范围内章节全部达标（Linux/网络基础）'}]},
+ {n:3,t:'云操作员',grade:'中级工（四级）',cap:'能按图施工：独立部署 Web / DNS / 数据库等标准服务 — 达到 1+X（中级）与 HCIA 合格线',certs:['1+X 云计算平台运维与开发（中级）','HCIA-Cloud Computing'],scope:'Linux · 网络 · Web · DNS',pass:85,qn:12,pool:['tutorial_01','tutorial_02','tutorial_03','tutorial_05','tutorial_10'],reqs:[
+   {k:'quiz',need:8,txt:'通过 8 章测验（1+X 中级考纲）'},
    {k:'lab',need:5,txt:'全对通过 5 个实训场景'},
-   {k:'sim',pid:'mini',min:60,txt:'迷你模拟 ≥60 分'}]},
- {n:4,t:'云工程师',cap:'能独立交付：多模块组合部署，模拟赛稳定发挥',reqs:[
-   {k:'quiz',need:14,txt:'通过 14 章测验'},
+   {k:'sim',pid:'mini',min:60,txt:'迷你模拟 ≥60 分'},
+   {k:'scope',list:['tutorial_01','tutorial_02','tutorial_03','tutorial_05','tutorial_10'],txt:'考纲范围内章节全部达标（Linux/网络/Web/DNS）'}]},
+ {n:4,t:'云工程师',grade:'高级工（三级）',cap:'能独立交付：多模块组合部署 — 对标「软考·网络工程师（中级）」与「HCIP-Cloud Computing」',certs:['软考·网络工程师（中级）','HCIP-Cloud Computing'],scope:'服务部署 · 证书 · DNS · 负载均衡 · 云平台',pass:90,qn:15,cool:300,pool:['tutorial_03','tutorial_04','tutorial_05','tutorial_06','tutorial_09','tutorial_12'],reqs:[
+   {k:'quiz',need:14,txt:'通过 14 章测验（软考中级 / HCIP 考纲）'},
    {k:'lab',need:8,txt:'全对通过 8 个实训场景'},
-   {k:'sim',pid:'mini',min:80,txt:'迷你模拟 ≥80 分'},
-   {k:'simAny',pids:['std','fix'],min:60,txt:'标准模拟 / 排障特训 ≥60 分'}]},
- {n:5,t:'高级云工程师',cap:'能扛事：排障、高可用、自动化都不在话下',reqs:[
-   {k:'quiz',need:21,txt:'通过 21 章测验'},
+   {k:'sim',pid:'mini',min:85,txt:'迷你模拟 ≥85 分'},
+   {k:'simAny',pids:['std','fix'],min:70,txt:'标准模拟 / 排障特训 ≥70 分'},
+   {k:'scope',list:['tutorial_03','tutorial_04','tutorial_05','tutorial_06','tutorial_09','tutorial_12'],txt:'考纲范围内章节全部达标（服务部署/证书/DNS/负载均衡/云平台）'}]},
+ {n:5,t:'高级云工程师',grade:'技师（二级）',cap:'能扛事：排障、高可用、自动化都不在话下 — 对标「RHCE」与「阿里云云计算 ACP」',certs:['RHCE','阿里云云计算 ACP','HCIP 实验水平'],scope:'高可用 · 排障 · 容器 · 自动化 · 监控',pass:90,qn:18,cool:300,pool:['tutorial_06','tutorial_07','tutorial_09','tutorial_10','tutorial_11','tutorial_13','tutorial_14'],reqs:[
+   {k:'quiz',need:21,txt:'通过 21 章测验（RHCE / HCIP 实验考纲）'},
    {k:'lab',need:12,txt:'全对通过 12 个实训场景'},
-   {k:'sim',pid:'std',min:80,txt:'标准模拟 ≥80 分'},
-   {k:'sim',pid:'fix',min:80,txt:'排障特训 ≥80 分'}]},
- {n:6,t:'云专家',cap:'能打硬仗：全真模拟从容应对，接近赛场水准',reqs:[
-   {k:'quiz',need:30,txt:'通过 30 章测验'},
+   {k:'sim',pid:'std',min:85,txt:'标准模拟 ≥85 分'},
+   {k:'sim',pid:'fix',min:85,txt:'排障特训 ≥85 分'},
+   {k:'scope',list:['tutorial_06','tutorial_07','tutorial_09','tutorial_10','tutorial_11','tutorial_13','tutorial_14'],txt:'考纲范围内章节全部达标（高可用/排障/容器/自动化/监控）'}]},
+ {n:6,t:'云专家',grade:'高级技师（一级）',cap:'能打硬仗：全真模拟从容应对 — 对标「HCIE-Cloud Computing」与「软考·系统架构设计师（高级）」',certs:['HCIE-Cloud Computing','软考·系统架构设计师（高级）','RHCA'],scope:'云原生 · 安全 · 真题 · 机房全栈',pass:95,qn:20,cool:600,pool:['tutorial_11','tutorial_13','tutorial_14','tutorial_15','tutorial_16','tutorial_17','room_','mastery_'],reqs:[
+   {k:'quiz',need:30,txt:'通过 30 章测验（HCIE / 软考高级考纲）'},
    {k:'lab',need:16,txt:'全对通过 16 个实训场景'},
-   {k:'sim',pid:'full',min:70,txt:'全真模拟 ≥70 分'}]},
- {n:7,t:'云宗师',cap:'能带队：全体系通关，具备世赛选手的底气',reqs:[
-   {k:'quiz',need:45,txt:'通过 45 章测验'},
+   {k:'sim',pid:'full',min:80,txt:'全真模拟 ≥80 分'},
+   {k:'scope',list:['tutorial_11','tutorial_13','tutorial_14','tutorial_15','tutorial_16','tutorial_17'],pct:90,txt:'考纲范围内章节全部达标（云原生/自动化/监控/安全/真题/机房 · 每章 ≥90%）'}]},
+ {n:7,t:'云宗师',grade:'特级技师 · 世赛方向',cap:'能带队：全体系通关，具备世界技能大赛国家集训队选手的底气',certs:['世赛国家集训队水平','HCIE + CKA/CKS 复合认证'],scope:'全体系 · 全真模拟',pass:95,qn:24,cool:600,pool:['tutorial_','room_','mastery_','cs_','know_'],reqs:[
+   {k:'quiz',need:45,txt:'通过 45 章测验（全考纲）'},
    {k:'lab',need:-1,txt:'完成全部实训场景'},
-   {k:'sim',pid:'full',min:85,txt:'全真模拟 ≥85 分'}]}
+   {k:'sim',pid:'full',min:90,txt:'全真模拟 ≥90 分'},
+   {k:'sim',pid:'fix',min:85,txt:'排障特训 ≥85 分'},
+   {k:'scope',list:['tutorial_01','tutorial_02','tutorial_03','tutorial_04','tutorial_05','tutorial_06','tutorial_07','tutorial_08','tutorial_09','tutorial_10','tutorial_11','tutorial_12','tutorial_13','tutorial_14','tutorial_15','tutorial_16','tutorial_17','tutorial_18','tutorial_19','tutorial_20'],pct:90,txt:'考纲范围内章节全部达标（保姆级主线全部章节 · 每章 ≥90%）'}]}
 ];
 function defByN(n){ for(var i=0;i<LADDER.length;i++){ if(LADDER[i].n===n) return LADDER[i]; } return null; }
 
@@ -95,6 +103,18 @@ function evalReqs(def,ctx){
   var out=[];
   for(var i=0;i<def.reqs.length;i++){
     var r=def.reqs[i], cur=0, need=1, txt=r.txt;
+    if(r.k==='scope'){
+      var lst=r.list||[], tot=0, okc=0, qq=LS('wg.quiz',{}), bks=Object.keys(bank());
+      for(var a=0;a<lst.length;a++){
+        for(var b2=0;b2<bks.length;b2++){
+          if(bks[b2].indexOf(lst[a])!==0) continue;
+          tot++;
+          var rq=qq[bks[b2]]; var minp=r.pct||75; if(rq&&rq.total&&rq.best*100>=rq.total*minp) okc++;
+        }
+      }
+      out.push({met:(tot>0&&okc>=tot), cur:okc, need:tot, frac:tot?Math.min(1,okc/tot):0, txt:(r.txt||'考纲范围内章节全部达标'), curTxt:okc+'/'+tot+' 章'});
+      continue;
+    }
     if(r.k==='quiz'){ cur=ctx.quiz; need=r.need; }
     else if(r.k==='lab'){ cur=ctx.lab; need=(r.need<0?ctx.labTotal:r.need); if(r.need<0) txt='全对通过全部 '+ctx.labTotal+' 个实训场景'; }
     else if(r.k==='sim'){ cur=ctx.simBest[r.pid]||0; need=r.min; }
@@ -132,11 +152,13 @@ function render(){
   if(nx){ var ev=evalReqs(nx,ctx); total=ev.length; for(var i=0;i<ev.length;i++){ if(ev[i].met) metN++; fracSum+=ev[i].frac; } metAll=(metN===total); }
   var pct=nx?(total?Math.round(fracSum/total*100):0):100;
   var meta=nx?('下一级 Lv.'+nx.n+' 「'+nx.t+'」 · '+metN+'/'+total+' 项达成'):'已达最高段位';
+  var certLine=nx?('🎯 对标：'+esc(nx.certs.join(' · '))):'';
   var h='<div class="rk-card'+(metAll?' ready':'')+'" data-rk="open">'
    +'<div class="rk-top"><span class="rk-pill">Lv.'+cur+'</span><b class="rk-name">'+cd.t+'</b><span class="rk-cta">进阶之路 ›</span></div>'
    +'<p class="rk-cap">'+cd.cap+'</p>'
    +'<div class="rk-bar"><i style="width:'+pct+'%"></i></div>'
    +'<div class="rk-meta">'+meta+'</div>'
+   +(certLine?'<div class="rk-certs">'+certLine+'</div>':'')
    +(metAll?'<button class="rk-ready" data-rk="trial">⚔ 晋级考核已就绪 — 立即开考</button>':'')
    +'</div>';
   h+='<button class="home-card small" style="margin-top:8px" onclick="openQuizCenter()"><b>📝 考试中心 · 检验学习成果</b></button>';
@@ -145,14 +167,14 @@ function render(){
   try{
     var rd=JSON.parse(localStorage.getItem('wg.read')||'{}');
     var dks=Object.keys(DOCS);
-    for(var ri=1;ri<=17&&!rec;ri++){
+    for(var ri=0;ri<=20&&!rec;ri++){
       var key='tutorial_'+('0'+ri).slice(-2);
       for(var rj=0;rj<dks.length;rj++){ if(dks[rj].indexOf(key)>=0&&!rd[dks[rj]]){ rec=dks[rj]; recT=DOCS[rec].t; break; } }
     }
   }catch(e){}
   if(rec) h+='<button class="home-card small" style="margin-top:8px" data-doclink="'+rec+'"><b>📌 今日推荐：'+esc(recT)+'</b></button>';
   h+='<div class="home-card" style="margin-top:14px;border-style:dashed">'
-   +'<b>⚔ 世赛训练场 · 真机操练（Minis 终端）</b>'
+   +'<b>⚔ 世赛训练场 · 真机操练（TMBJ 终端）</b>'
    +'<p style="color:var(--dim);font-size:12.5px;margin:8px 0;line-height:1.7">手机里藏着一个完整比赛环境：3 台服务器节点 · 6 个比赛模块 · 评分脚本当场打分。在终端里运行：</p>'
    +'<div style="font-family:monospace;font-size:12px;background:rgba(0,0,0,.35);border-radius:10px;padding:10px;color:#1da851;line-height:2;overflow-x:auto">wsarena status<span style="color:var(--dim2)"> &nbsp;# 看状态</span><br>wsarena sh srv1<span style="color:var(--dim2)"> &nbsp;# 进服务器操练</span><br>wsarena check web<span style="color:var(--dim2)"> &nbsp;# 评分打分</span></div>'
    +'<p style="color:var(--dim);font-size:11.5px;margin:8px 0 0">模块：Web · DNS · 排障 · 数据库 · 负载均衡 · 机房管理 ｜ 全真模拟：wsarena exam full</p>'
@@ -173,31 +195,38 @@ function renderLadder(){
   /* 当前段位 */
   h+='<div class="qz-item rk-now"><div class="rk-nowtop"><span class="rk-pill">Lv.'+cur+'</span><b class="rk-t">'+cd.t+'</b></div>'
    +'<p class="rk-cap">'+cd.cap+'</p>'
+   +'<div class="rk-certs">🎯 对标：'+esc((cd.certs||[]).join(' · '))+'　|　国家技能等级：'+esc(cd.grade||'')+'</div>'
    +'<div class="rk-stat">测验通过 '+ctx.quiz+'/'+ctx.quizTotal+' 章　·　实训全对 '+ctx.lab+'/'+ctx.labTotal+' 个　·　连续学习 '+s.streak+' 天　·　已读 '+readN+' 篇</div></div>';
   /* 下一级 */
   if(nx){
     var ev=evalReqs(nx,ctx), metAll=true;
     for(var i=0;i<ev.length;i++){ if(!ev[i].met) metAll=false; }
     h+='<div class="qz-item"><div class="rk-nowtop"><span class="rk-pill dim">Lv.'+nx.n+'</span><b class="rk-t">'+nx.t+'</b><span class="rk-tag'+(metAll?' ok':'')+'">'+(metAll?'考核已就绪':'当前目标')+'</span></div>'
-     +'<p class="rk-cap">'+nx.cap+'</p>';
+     +'<p class="rk-cap">'+nx.cap+'</p>'
+     +'<div class="rk-certs">🎯 对标：'+esc((nx.certs||[]).join(' · '))+'　|　国家技能等级：'+esc(nx.grade||'')+'</div>'
+     +'<div class="rk-grade">考核标准：'+esc((nx.certs||[]).join(' / '))+' 考试大纲范围 · 合格线 '+nx.pass+'%（高于官方合格线）· 成绩留档可查</div>';
     for(var j=0;j<ev.length;j++){ var e=ev[j];
       h+='<div class="rk-req'+(e.met?' ok':'')+'"><span class="ic">'+(e.met?'✓':'○')+'</span><span class="bd">'+esc(e.txt)+'</span><span class="pg">'+e.curTxt+'</span></div>'
        +'<div class="rk-mini'+(e.met?' ok':'')+'"><i style="width:'+Math.round(e.frac*100)+'%"></i></div>';
     }
+    var coolLeft=0;
+    if(nx.cool && s.coolLv===nx.n && (s.coolUntil||0)>Date.now()) coolLeft=Math.ceil((s.coolUntil-Date.now())/60000);
     h+= metAll
-      ? '<button class="qz-btn" data-rk="trial" style="width:100%;margin-top:14px">⚔ 参加晋级考核（12 题 · ≥75% 合格）</button>'
-      : '<div class="rk-locktip">条件全部达成后，晋级考核自动开启<br>考核题目从你已达标章节中随机抽取</div>';
+      ? (coolLeft
+          ? '<div class="rk-locktip">⏳ 冷静期剩余 '+coolLeft+' 分钟 — 复盘错题后再来<br>成绩已留档 · 计时结束即可重新开考</div>'
+          : '<button class="qz-btn" data-rk="trial" style="width:100%;margin-top:14px">⚔ 参加晋级考核 · 对标「'+esc(nx.certs[0])+'」（≥'+nx.pass+'% 合格）</button>')
+      : '<div class="rk-locktip">条件全部达成后，晋级考核自动开启<br>合格线 '+nx.pass+'%（高于官方合格线）· 范围外不抽题</div>';
     h+='</div>';
   } else {
     h+='<div class="qz-item" style="text-align:center"><div style="font-size:38px">🎓</div><h4 style="margin:8px 0 4px">已达最高段位</h4><p class="rk-cap" style="text-align:center">云宗师 — 全体系通关，具备世赛选手的底气</p></div>';
   }
   /* 段位阶梯 */
-  h+='<div class="qz-item"><h4>段位阶梯</h4>';
+  h+='<div class="qz-item"><h4>段位阶梯 · 国家级认证对标</h4>';
   for(var k=0;k<LADDER.length;k++){ var d=LADDER[k], pr=s.promos[d.n];
     var st=(d.n<cur)?'done':(d.n===cur?'cur':((d.n===cur+1)?'next':'future'));
     var mark=(d.n<=cur)?'✓':'';
     var meta= pr?('晋升 '+fmtDate(pr).slice(5)) : (st==='next'?'下一目标':'');
-    h+='<div class="rk-lvrow '+st+'"><span class="rk-lvn">'+mark+'</span><span class="rk-lvname">Lv.'+d.n+' '+d.t+'</span><span class="rk-lvmeta">'+meta+'</span></div>';
+    h+='<div class="rk-lvrow '+st+'"><span class="rk-lvn">'+mark+'</span><span class="rk-lvname">Lv.'+d.n+' '+d.t+'<i class="rk-lvcert">技能等级 '+esc(d.grade||'')+' · 对标 '+esc((d.certs||[]).join('/'))+'</i></span><span class="rk-lvmeta">'+meta+'</span></div>';
   }
   h+='</div>';
   /* 实训模块进度 */
@@ -219,7 +248,7 @@ function renderLadder(){
   h+='<div class="qz-item"><h4>技术履历</h4>';
   var any=false;
   for(var n2=2;n2<=LADDER.length;n2++){ if(s.promos[n2]){ any=true; var dd=defByN(n2);
-    h+='<div class="rk-hrow"><b>Lv.'+n2+' '+dd.t+'</b><span class="dt">'+fmtDate(s.promos[n2])+'</span></div>';
+    h+='<div class="rk-hrow"><b>Lv.'+n2+' '+dd.t+'</b><span class="dt">'+fmtDate(s.promos[n2])+((s.certs&&s.certs[n2])?(' · '+esc(s.certs[n2].id)):'')+'</span></div>';
   }}
   for(var t=0;t<Math.min(3,s.trials.length);t++){ var tr=s.trials[t];
     h+='<div class="rk-hrow dim"><span>晋级考核 · Lv.'+tr.lv+'</span><span class="dt">'+fmtDate(tr.ts).slice(5)+' · '+tr.pct+'% '+(tr.pass?'通过':'未通过')+'</span></div>';
@@ -231,25 +260,37 @@ function renderLadder(){
 
 /* ---------- 晋级考核（试炼） ---------- */
 var TR=null;
-function buildPool(){
-  var b=bank(), q=LS('wg.quiz',{}), pool=[], ks=Object.keys(b);
+function scopeHit(key, scopes){ for(var i=0;i<scopes.length;i++){ if(key.indexOf(scopes[i])===0) return true; } return false; }
+function buildPool(def){
+  var b=bank(), q=LS('wg.quiz',{}), pool=[], poolAll=[], ks=Object.keys(b);
+  var scopes=(def&&def.pool&&def.pool.length)?def.pool:null;
   for(var i=0;i<ks.length;i++){
     var r=q[ks[i]]; if(!(r&&r.total&&r.best*4>=r.total*3)) continue;
     var arr=b[ks[i]].q||[];
-    for(var j=0;j<arr.length;j++){ var it=arr[j]; pool.push({q:it.q,o:it.o,a:it.a,e:it.e,src:b[ks[i]].t}); }
+    for(var j=0;j<arr.length;j++){
+      var it={q:arr[j].q,o:arr[j].o,a:arr[j].a,e:arr[j].e,src:b[ks[i]].t};
+      poolAll.push(it);
+      if(!scopes||scopeHit(ks[i],scopes)) pool.push(it);
+    }
   }
+  if(pool.length<8) pool=poolAll; /* 对标范围题量不足 → 回退全部已达标章节 */
   return shuffle(pool);
 }
 function startTrial(){
   var s=state(), cur=currentLevel(s), nx=nextDef(cur);
   openLadder();
   if(!nx) return;
+  if(nx.cool && s.coolLv===nx.n && (s.coolUntil||0)>Date.now()){
+    toastFn('冷静期剩余 '+Math.ceil((s.coolUntil-Date.now())/60000)+' 分钟 — 复盘错题后再来');
+    renderLadder(); return;
+  }
   var ev=evalReqs(nx,collect()), metAll=true;
   for(var i=0;i<ev.length;i++){ if(!ev[i].met) metAll=false; }
   if(!metAll){ toastFn('条件未达成 — 先完成「'+nx.t+'」的全部要求'); renderLadder(); return; }
-  var pool=buildPool();
-  if(pool.length<8){ toastFn('已达标章节还太少，先去考试中心多通过几章'); renderLadder(); return; }
-  TR={lv:nx.n, qs:pool.slice(0,12), i:0, correct:0, wrongs:[], answered:false};
+  var pool=buildPool(nx);
+  if(pool.length<8){ toastFn('考纲范围内达标章节还太少 — 先去考试中心通过对应范围的章节'); renderLadder(); return; }
+  var qn=Math.min(nx.qn||12, pool.length);
+  TR={lv:nx.n, pass:(nx.pass||85), cool:(nx.cool||0), qs:pool.slice(0,qn), i:0, correct:0, wrongs:[], answered:false};
   renderTrial();
 }
 function renderTrial(){
@@ -260,7 +301,8 @@ function renderTrial(){
   var sub=$('rankSub'); if(sub) sub.textContent=(t.i+1)+' / '+t.qs.length;
   var q=t.qs[t.i], def=defByN(t.lv);
   var h='<div class="qz-item"><h4>⚔ 晋级考核 · Lv.'+t.lv+'「'+def.t+'」</h4>'
-   +'<p style="color:var(--dim);font-size:12px;margin:4px 0 0">题目从你已达标的章节中随机抽取 · 合格线 75% · 交卷即出结果</p></div>';
+   +'<p style="color:var(--dim);font-size:12px;margin:4px 0 0">考核范围对标：'+esc((def.certs||[]).join(' · '))+'</p>'
+   +'<p style="color:var(--dim2);font-size:11.5px;margin:2px 0 0">仅从考纲范围「'+(def.scope||'全部')+'」抽取 · 合格线 '+t.pass+'% · 全卷 '+t.qs.length+' 题</p></div>';
   h+='<div class="qz-item"><h4>Q'+(t.i+1)+'. '+esc(q.q)+'</h4>';
   for(var x=0;x<q.o.length;x++){ h+='<button class="qz-opt" id="rkOpt'+x+'" data-rk="ta:'+x+'">'+String.fromCharCode(65+x)+'. '+esc(q.o[x])+'</button>'; }
   h+='<div class="qz-exp" id="rkExp">💡 '+esc(q.e)+'</div>';
@@ -286,7 +328,7 @@ function nextTrial(){ var t=TR; if(!t) return; t.i++; renderTrial(); }
 function finishTrial(){
   var t=TR; if(!t) return;
   var total=t.qs.length, cc=t.correct, pct=total?Math.round(cc/total*100):0;
-  var pass=(pct>=75);
+  var pass=(pct>=(t.pass||85));
   var s=state();
   s.trials.unshift({lv:t.lv,pct:pct,pass:pass,ts:Date.now()});
   s.trials=s.trials.slice(0,30);
@@ -297,10 +339,11 @@ function finishTrial(){
     showCert(t.lv,pct,cc,total);
     return;
   }
+  if(t.cool){ s.coolUntil=Date.now()+t.cool*1000; s.coolLv=t.lv; }
   save(s);
   var h='<div class="qz-item" style="text-align:center"><div style="font-size:42px">'+(pct>=60?'💪':'📖')+'</div>'
    +'<h3 style="margin:8px 0;color:#c99700;font-size:19px">'+cc+' / '+total+'（'+pct+'%）</h3>'
-   +'<p style="color:var(--dim);font-size:13px">未达 75% 合格线 — 不着急，先把错题过一遍再来。</p>'
+   +'<p style="color:var(--dim);font-size:13px">未达 '+t.pass+'% 合格线 — 先把错题过一遍再来'+(t.cool?('（高等级设 '+Math.round(t.cool/60)+' 分钟冷静期）'):'')+'。</p>'
    +'<button class="qz-btn" data-rk="tr">🔄 再考一次</button> <button class="qz-btn" style="background:rgba(0,0,0,.05)" data-rk="tb">返回进阶之路</button></div>';
   if(t.wrongs.length){
     h+='<div class="qz-item"><h4>📋 错题回顾（'+t.wrongs.length+' 题）</h4>';
@@ -318,13 +361,21 @@ function finishTrial(){
   var body=$('rankBody'); if(body) body.innerHTML=h;
   TR=null;
 }
+function certNo(lv){ var y=new Date().getFullYear(); var r=('000'+(Math.floor(Math.random()*9000)+1000)).slice(-4); return 'CS-'+y+'-L'+lv+'-'+r; }
 function showCert(lv,pct,cc,total){
   var def=defByN(lv), el=$('rkCert'); if(!el) return;
+  var s=state(); s.certs=s.certs||{};
+  if(!s.certs[lv]){ s.certs[lv]={id:certNo(lv), ts:Date.now()}; save(s); }
+  var cn=s.certs[lv].id;
   el.innerHTML='<div class="rk-seal"><b>'+lv+'</b><span>LV.</span></div>'
    +'<h3>晋升 · '+def.t+'</h3>'
    +'<p class="rk-cap">'+esc(def.cap)+'</p>'
+   +'<p class="rk-certs">🎯 对标：'+esc((def.certs||[]).join(' · '))+'</p>'
+   +'<p class="rk-grade">国家技能等级：'+esc(def.grade||'')+'</p>'
    +'<p class="rk-sc">晋级考核 '+cc+'/'+total+' · '+pct+'%</p>'
+   +'<p class="rk-cno">证书编号 '+cn+'</p>'
    +'<p class="rk-dt">'+fmtDate(Date.now())+' · 记入技术履历</p>'
+   +'<p class="rk-disc">* CloudStudy 备考训练证明（按官方考纲范围考核）；正式认证请通过官方机构报考。</p>'
    +'<button class="qz-btn" data-rk="mok" style="width:100%;margin-top:16px">继续前进 →</button>';
   var m=$('rkModal'); if(m) m.classList.add('on');
   vibrate([30,60,30]);
