@@ -3,7 +3,7 @@
 """Build the Liquid-Glass style interactive study page (single file)."""
 import markdown, os, json, re, glob, html as htmlmod
 
-BASE = '/var/minis/shared/worldskills-cloud'
+BASE = os.environ.get('LIQ_BASE') or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def md2html(p):
     with open(p, encoding='utf-8') as f:
@@ -39,6 +39,7 @@ DOCS = [
  (G_T,'第18章 · 装机从零到极致','tutorial/18-装机从零到极致-保姆级.md','硬件全流程'),
  (G_T,'第19章 · 编译原理','tutorial/19-编译原理-保姆级.md','亲手写编译器'),
  (G_T,'第19章附录 · mini编译器完整代码','tutorial/19a-mini编译器完整代码.md','可运行'),
+ (G_T,'第20章 · 锐捷云平台基础','tutorial/20-锐捷云平台基础-试题A实战.md','B7 试题A · 实训真题'),
  (G_M,'精通 · 00 总纲','mastery/00-总纲-像说话一样掌握云计算.md','母语级方法论'),
  (G_M,'精通 · 01 疆域全景图','mastery/01-疆域全景图.md',None),
  (G_M,'精通 · 02 精通阶梯','mastery/02-精通阶梯与自测.md',None),
@@ -74,7 +75,7 @@ DOCS = [
  (G_RM,'机房 · 06 安全与合规','room/06-安全与合规修炼.md',None),
  (G_RM,'机房 · 07 应急与实战','room/07-应急与实战.md',None),
  (G_RM,'机房 · 08 职业路线','room/08-职业路线.md','考证·面试·就业'),
- (G_VEXT,'🎬 进阶 · 视频课（27集）','video-ext/00-总览.md','精通·知识·冲刺'),
+ (G_VEXT,'🎬 进阶 · 视频课（29集）','video-ext/00-总览.md','精通·知识·冲刺'),
  (G_VEXT,'🖼 全套图解册（59 集精选）','video-ext/01-图解册.md','一图流复习'),
  (G_I,'总导航（资料库说明）','README-总导航.md',None),
  (G_I,'赛题目录','test-projects/INDEX.md',None),
@@ -180,17 +181,33 @@ CODE_EXTS = ('.tf','.sh','.py','.go','.ps1','.yaml','.yml','.json','.js','.ts','
              '.hcl','.gradle','.mod','.env','.bak','.sample','.dist')
 CODE_NAMES = ('Makefile','Dockerfile','Vagrantfile','Jenkinsfile','Procfile')
 LOCK_FILES = {'package-lock.json','yarn.lock','go.sum','composer.lock'}
+# 非阅读材料（网页资产 / 证书密钥 / 锁文件），不进阅读库
+BAD_EXTS = ('.css','.scss','.svg','.eot','.woff','.woff2','.ttf','.otf','.map','.lock','.pem','.key','.crt','.cer','.p12','.pub','.ico','.png','.jpg','.jpeg','.gif','.webp','.zip','.gz','.tar','.tgz','.7z')
 for root, dirs, files in os.walk(BASE + '/github-repos'):
-    dirs[:] = [d for d in dirs if d not in ('.git','node_modules','.terraform')]
+    dirs[:] = [d for d in dirs if d not in ('.git','node_modules','.terraform','webfonts','assets','fonts')]
     pr = os.path.relpath(root, BASE).split('/')
     if len(pr) < 2: continue
     for fn in files:
         if fn in LOCK_FILES: continue
         low = fn.lower()
         if low.endswith(('.md','.txt')): continue
+        if low.endswith(BAD_EXTS): continue
+        if '.min.' in low or low.endswith('-min.js'): continue
         if not (any(low.endswith(e) for e in CODE_EXTS) or fn in CODE_NAMES or low.startswith('docker-compose')):
             continue
-        _add_rel(os.path.relpath(os.path.join(root, fn), BASE))
+        _p2 = os.path.join(root, fn)
+        try:
+            _sz2 = os.path.getsize(_p2)
+        except OSError:
+            continue
+        _cap = 300000 if low.endswith('.html') else 60000
+        if _sz2 > _cap: continue
+        try:
+            _head = open(_p2, 'rb').read(300)
+            if _head[:4] in (b'ssh-', b'ecds') or b'PRIVATE KEY' in _head: continue
+        except OSError:
+            continue
+        _add_rel(os.path.relpath(_p2, BASE))
 
 for repo in repo_map:
     repo_map[repo] = sorted(set(repo_map[repo]))
@@ -204,6 +221,24 @@ for repo, rels in repo_map.items():
         title = inner if len(inner) <= 52 else inner[:50] + '…'
         DOCS.append((gkey, title, rel, None))
 
+# ---- 剔除空骨架文档（<50 字节的空文件 / 仅标题残页，避免“点开是空白”） ----
+_pruned = []
+for g,t,rel,sub in DOCS:
+    _p = os.path.join(BASE, rel)
+    try:
+        _sz = os.path.getsize(_p)
+    except OSError:
+        _sz = 1
+    if 0 <= _sz < 50:
+        continue
+    _pruned.append((g,t,rel,sub))
+DOCS = _pruned
+
+# ---- per-group counts (为正文顶部「第 x/N 篇」章节条提供数据) ----
+_gcount = {}
+for _g, _t, _r, _s in DOCS:
+    _gcount[_g] = _gcount.get(_g, 0) + 1
+
 # ---- path map for internal links: normalized rel path -> doc id ----
 path_map = {}
 for g,t,rel,sub in DOCS:
@@ -213,7 +248,7 @@ for g,t,rel,sub in DOCS:
 def rewrite_links(html, doc_rel):
     def repl(m):
         href = m.group(1)
-        if re.match(r'^(https?:|mailto:|tel:|minis:|javascript:|#)', href):
+        if re.match(r'^(https?:|mailto:|tel:|javascript:|#)', href):
             return m.group(0)
         target = href.split('#')[0]
         if not target:
@@ -355,6 +390,18 @@ for gkey, gtitle, gcolor in GROUPS:
             if _gal:
                 html += ('<p style="color:var(--dim);font-size:13px;margin:26px 0 2px">📸 本章图解 · 视频课精选画面</p>'
                          '<div class="doc-gallery">' + ''.join(f'<img src="{g}" alt="本章图解">' for g in _gal) + '</div>')
+        elif rel.endswith('.html'):
+            raw = open(p, encoding='utf-8', errors='replace').read()
+            _txt = re.sub(r'<(script|style|noscript)[^>]*>.*?</\1>', ' ', raw, flags=re.S|re.I)
+            _txt = re.sub(r'<(br|/p|/div|/li|/h[1-6]|/tr|/table)[^>]*>', '\n', _txt, flags=re.I)
+            _txt = re.sub(r'<[^>]+>', ' ', _txt)
+            _txt = htmlmod.unescape(_txt)
+            _txt = re.sub(r'[ \t]+', ' ', _txt)
+            _txt = re.sub(r'\n\s*\n+', '\n\n', _txt).strip()
+            if len(_txt) < 200:
+                print('HTML-SKIP(empty):', rel); continue
+            html = '<pre class="rawtext">' + htmlmod.escape(_txt) + '</pre>'
+            words = len(_txt)
         elif size > 100*1024:
             html = ('<p>📦 <b>大文件未嵌入学习页</b>（%.1f MB）。完整文件在资料库中：<code>%s</code></p>'
                     '<p style="color:var(--dim)">可用文件管理器（或电脑）打开查看。</p>' % (size/1048576, rel))
@@ -365,59 +412,108 @@ for gkey, gtitle, gcolor in GROUPS:
             words = len(raw)
         mins = max(3, round(words/400))
         did = rel.replace('/','_').replace('.','_')
-        docs_js[did] = {'t': t, 'g': gtitle, 'gk': gkey, 'html': html, 'm': mins, 'c': gcolor}
-        items.append((did, t, mins))
+        # ---- 阅读辅助标记：英文原文 / 韩文原文 / 代码文件 ----
+        _ext = rel.rsplit('.',1)[-1].lower() if '.' in rel.rsplit('/',1)[-1] else ''
+        _plain = re.sub(r'<[^>]+>', '', html)
+        _pns = re.sub(r'\s', '', _plain)
+        _cnr, _ko = 1.0, 0
+        if _pns:
+            _cnr = len(re.findall(r'[\u4e00-\u9fff]', _plain)) / max(1, len(_pns))
+            _ko = len(re.findall(r'[\uac00-\ud7af]', _plain))
+        _cn_chars = len(re.findall(r'[\u4e00-\u9fff]', _plain))
+        _f = {}
+        if _ko >= 250 and _cn_chars < 600: _f['ko'] = 1
+        elif _ext in ('md','txt','html') and _cn_chars < 150 and _ko < 60 and len(_pns) >= 300: _f['en'] = 1
+        if _ext in ('py','sh','tf','yaml','yml','json','go','ps1','conf','ini','hcl','toml','service','rb','lua','pl','sql','c','h','java','cs','rs','php'):
+            _f['code'] = 1
+        _t2 = ('🇰🇷 ' if _f.get('ko') else ('🇬🇧 ' if _f.get('en') else '')) + t
+        # —— 章节感：正文顶部「第 x / N 篇」书签条（原始资料包不加，避免噪音）——
+        if (not gkey.startswith('repo_')) and gkey != G_EXK and _gcount.get(gkey, 0) >= 3:
+            html = ('<div class="dkicker">' + gtitle + ' · 第 ' + str(len(items) + 1) + ' / '
+                    + str(_gcount.get(gkey, 1)) + ' 篇 · 约 ' + str(mins) + ' 分钟</div>') + html
+        docs_js[did] = {'t': _t2, 'g': gtitle, 'gk': gkey, 'html': html, 'm': mins, 'c': gcolor, 'f': _f}
+        items.append((did, _t2, mins))
     if items:
         nav_groups.append((gkey, gtitle, gcolor, items))
 
-nav_html = []
-for gkey, gtitle, gcolor, items in nav_groups:
-    lis = ''.join(
-        f'<button class="nav-item" data-doc="{did}"><span class="dot" style="background:{gcolor}"></span>{t}<em>{m}min</em></button>'
-        for did, t, m in items)
-    nav_html.append(f'''<div class="nav-group closed" data-g="{gkey}">
+# ---- 侧栏：三大分区（主线课程 / 实战与真题 / 资料档案） ----
+def _mk_nav_group(gkey, gtitle, gcolor, items):
+    return f'''<div class="nav-group closed" data-g="{gkey}">
   <button class="group-head" onclick="toggleGroup(this)"><span class="g-dot" style="background:{gcolor}"></span>{gtitle}<span class="cnt">{len(items)}</span><svg viewBox="0 0 24 24" class="chev"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
   <div class="group-body" data-built="0"></div>
-</div>''')
+</div>'''
+
+_ng_map = {g[0]: g for g in nav_groups}
+COURSE_ORDER = [G_T, G_M, G_CS, G_K, G_RM, G_VEXT]
+EXAM_ORDER = [G_SPRINT, G_EXL, G_EXKZ, G_EXC, G_OFF, G_I]
+_arch_keys = [g[0] for g in nav_groups if g[0] not in COURSE_ORDER and g[0] not in EXAM_ORDER]
+_arch_repo_n = len([k for k in _arch_keys if k.startswith('repo_')])
+
+def _mk_nav_sec(sec, title, sub, keys, closed=False):
+    inner = ''.join(_mk_nav_group(*_ng_map[k]) for k in keys if k in _ng_map)
+    n = len([k for k in keys if k in _ng_map])
+    return ('<div class="nav-sec%s" data-sec="%s"><button class="sec-head" onclick="toggleSec(this)">%s'
+            '<span class="cnt">%d 组</span><span class="sub">%s</span></button>'
+            '<div class="sec-body">%s</div></div>') % (' closed' if closed else '', sec, title, n, sub, inner)
+
+nav_html = (_mk_nav_sec('course', '📚 主线课程', '从这里一章一章读', COURSE_ORDER)
+            + _mk_nav_sec('exam', '🧪 实战与真题', '考试 · 真题 · 标准', EXAM_ORDER)
+            + _mk_nav_sec('archive', '🗂 资料档案', '原始资料包 · 供检索', _arch_keys, closed=True))
 
 total_docs = len(docs_js)
 
-# ---- home overview doc ----
-home_cards = []
-for gkey, gtitle, gcolor, items in nav_groups:
-    first_id = items[0][0]
-    cnt = len(items)
-    home_cards.append(
-        '<button class="home-card" data-doclink="%s"><span class="hc-dot" style="background:%s"></span>'
-        '<b>%s</b><span class="hc-count">%d 篇</span></button>' % (first_id, gcolor, gtitle, cnt))
-# —— 视频课快捷入口（文档存在即显示，高亮样式）——
+# ---- home：学习驾驶舱（继续学习 → 今日计划 → 课程主线 → 快捷入口 → 最近 → 段位） ----
 _vc_style = ' style="border-color:rgba(255,190,90,.5);background:linear-gradient(150deg,rgba(255,190,90,.20),#ffffff)"'
-vc_btns = ''
-if os.path.exists(BASE + '/room/09-视频课总览.md'):
-    vc_btns += '<button class="home-card small"%s data-doclink="room_09-视频课总览_md"><b>🎬 机房视频课（15 集）</b></button>' % _vc_style
+_home_quick = (
+    '<button class="home-card small" id="ln-map-quick" data-lnact="map"><b>🗺️ 学习地图 · 全课程架构 + 智能复习</b></button>'
+    '<button class="home-card small" data-resopen="1" style="border-color:rgba(26,111,232,.55);background:linear-gradient(150deg,rgba(26,111,232,.16),#fff)"><b>🌐 全网学习资源库 · 装机/计算机/编译原理</b></button>')
 if os.path.exists(BASE + '/tutorial/98-视频课-总览.md'):
-    vc_btns += '<button class="home-card small"%s data-doclink="tutorial_98-视频课-总览_md"><b>🎬 教程视频课（18 集）</b></button>' % _vc_style
+    _home_quick += '<button class="home-card small"%s data-doclink="tutorial_98-视频课-总览_md"><b>🎬 教程视频课（18 集）</b></button>' % _vc_style
+if os.path.exists(BASE + '/room/09-视频课总览.md'):
+    _home_quick += '<button class="home-card small"%s data-doclink="room_09-视频课总览_md"><b>🎬 机房视频课（15 集）</b></button>' % _vc_style
 if os.path.exists(BASE + '/video-ext/00-总览.md'):
-    vc_btns += '<button class="home-card small"%s data-doclink="video-ext_00-总览_md"><b>🎬 进阶视频课（29 集）</b></button>' % _vc_style
-if os.path.exists(BASE + '/video-ext/01-图解册.md'):
-    vc_btns += '<button class="home-card small"%s data-doclink="video-ext_01-图解册_md"><b>🖼 图解册 · 精选画面</b></button>' % _vc_style
-home_html = (
-    '<p style="color:var(--dim)">共 <b>%d</b> 篇 · %d 个分组 · 点击任意分组进入，或使用顶部搜索框（支持全文搜索）</p>'
-    '<div id="grow-slot"></div>'
-    '<div id="continue-slot"></div>'
-    '<div id="recent-slot"></div>'
-    '<div class="home-grid">%s</div>'
-    '<h3>🚀 快速开始</h3>'
-    '<div class="home-quick">'
-    '<button class="home-card small" data-resopen="1" style="border-color:rgba(26,111,232,.55);background:linear-gradient(150deg,rgba(26,111,232,.16),#fff)"><b>🌐 全网学习资源库 · 装机/计算机/编译原理</b></button>'
-    '<button class="home-card small" data-doclink="tutorial_README-教程总览_md"><b>📖 从教程总览开始</b></button>'
-    '<button class="home-card small" data-doclink="sprint_00-72小时冲刺作战手册_md"><b>⚡ 紧急冲刺手册</b></button>'
+    _home_quick += '<button class="home-card small"%s data-doclink="video-ext_00-总览_md"><b>🚀 进阶视频课（29 集）</b></button>' % _vc_style
+_home_quick += (
+    '<button class="home-card small" data-doclink="sprint_00-72小时冲刺作战手册_md"><b>⚡ 72 小时冲刺手册</b></button>'
     '<button class="home-card small" data-doclink="test-projects_INDEX_md"><b>📋 赛题目录</b></button>'
-    '<button class="home-card small" data-doclink="mastery_00-总纲-像说话一样掌握云计算_md"><b>🧠 精通之路总纲</b></button>'
-    '<button class="home-card small" data-doclink="room_00-总纲-从零到极致的机房之路_md"><b>🏭 机房管理 · 从零到极致</b></button>'
-    '%s</div>') % (total_docs, len(nav_groups), ''.join(home_cards), vc_btns)
+    '<button class="home-card small" data-doclink="tutorial_20-锐捷云平台基础-试题A实战_md" style="border-color:rgba(150,80,255,.5);background:linear-gradient(150deg,rgba(150,80,255,.16),#fff)"><b>🧪 B7 锐捷云平台 · 试题A实战</b></button>')
 
-docs_js = {'__home__': {'t': '🏠 全部内容总览', 'g': '主页', 'html': home_html, 'm': 2, 'c': '#1a6fe8'}, **docs_js}
+home_html = (
+    '<div id="continue-slot" style="margin:0 0 12px"></div>'
+    '<div id="ln-plan" class="ln-plan-card" style="display:none"></div>'
+    '<div class="hsec"><b>📚 课程主线</b><span>像读一本书一样，一章一章读完云计算</span></div>'
+    '<div id="route-slot"></div>'
+    '<div class="hsec"><b>⚡ 快捷入口</b><span>地图 · 视频 · 冲刺 · 真题</span></div>'
+    '<div class="home-quick">' + _home_quick + '</div>'
+    '<div id="recent-slot"></div>'
+    '<div id="grow-slot"></div>'
+    '<button class="home-card small archive-entry" data-doclink="__archive__"><b>🗂 资料档案库 · 真题 / 官方标准 / %d 个原始资料包</b></button>' % _arch_repo_n
+)
+
+# ---- 资料档案页（33xx 篇原始资料不再堆在首页，收纳到此页） ----
+_arch_exam_cards, _arch_repo_cards = [], []
+for gkey, gtitle, gcolor, items in nav_groups:
+    if gkey in COURSE_ORDER: continue
+    _card = ('<button class="home-card" data-doclink="%s"><span class="hc-dot" style="background:%s"></span>'
+             '<b>%s</b><span class="hc-count">%d 篇</span></button>' % (items[0][0], gcolor, gtitle, len(items)))
+    if gkey.startswith('repo_'):
+        _arch_repo_cards.append(_card)
+    else:
+        _arch_exam_cards.append(_card)
+archive_html = (
+    '<p class="home-lead">🗂 这里是完整资料仓库：<b>真题、官方标准、原始资料包</b>都收在这里。<br>'
+    '平时按「📚 课程主线」一章一章读就好，想深挖某个方向时再回来翻这里。</p>'
+    '<h3>🎯 真题与标准</h3>'
+    '<div class="home-grid">%s</div>'
+    '<h3>📦 原始资料包 · %d 份（机器抓取，原样收录）</h3>'
+    '<p style="color:var(--dim);font-size:12.5px;margin:6px 0 12px">来自全球开源仓库的原始材料，命名 = 仓库名 + 文件路径。'
+    '想找什么直接用搜索框搜关键词，可以搜到里面的内容。</p>'
+    '<div class="home-grid">%s</div>'
+) % (''.join(_arch_exam_cards), _arch_repo_n, ''.join(_arch_repo_cards))
+
+docs_js = {'__home__': {'t': '🏠 首页 · 从今天开始', 'g': '主页', 'html': home_html, 'm': 2, 'c': '#1a6fe8'},
+           '__archive__': {'t': '🗂 资料档案库', 'g': '资料档案', 'html': archive_html, 'm': 3, 'c': '#6b7280'},
+           **docs_js}
 
 page = f'''<!DOCTYPE html>
 <html lang="zh-CN">
@@ -586,7 +682,7 @@ body.drawer-open .menu-btn .bars i:nth-child(3){{transform:translateY(-6px) rota
   padding-left:12px;border-left:3px solid var(--vc,#1a6fe8)}}
 .md h3{{font-size:16.5px;font-weight:700;margin:24px 0 8px;color:#1a6fe8}}
 .md h4{{font-size:15px;font-weight:700;margin:18px 0 6px;color:var(--dim)}}
-.md p{{margin:10px 0}}
+.md p{{margin:12px 0}}
 .md p,.md li,.md td,.md th,.md h1,.md h2,.md h3,.md h4,.md blockquote,.md summary,.md a{{overflow-wrap:anywhere;word-break:break-word}}
 .md a{{color:#1a6fe8;text-decoration:none;border-bottom:1px solid rgba(90,150,240,.35);cursor:pointer}}
 .md a.deadlink{{color:rgba(245,245,247,.4);border-bottom:1px dashed rgba(245,245,247,.25);cursor:not-allowed}}
@@ -610,7 +706,7 @@ body.drawer-open .menu-btn .bars i:nth-child(3){{transform:translateY(-6px) rota
 .md blockquote{{margin:14px 0;padding:12px 18px;border-left:3px solid var(--vc,#1a6fe8);
   background:linear-gradient(90deg, rgba(26,111,232,.13), rgba(26,111,232,.03));border-radius:0 14px 14px 0;color:#1a6fe8}}
 .md ul,.md ol{{padding-left:22px;margin:10px 0}}
-.md li{{margin:5px 0}}
+.md li{{margin:6px 0}}
 .md hr{{border:none;border-top:1px solid var(--line2);margin:30px 0}}
 .md input[type=checkbox]{{margin-right:7px;accent-color:#1a6fe8;transform:translateY(1px)}}
 .md details{{background:rgba(0,0,0,.03);border:1px solid var(--line2);border-radius:14px;padding:10px 16px;margin:12px 0}}
@@ -696,13 +792,96 @@ body.drawer-open .menu-btn .bars i:nth-child(3){{transform:translateY(-6px) rota
 #results mark{{background:rgba(255,214,10,.4);color:#5f4b00;border-radius:3px;padding:0 2px}}
 .nav-item.read::after{{content:'✓';font-size:10px;color:#1da851;margin-left:5px;flex:0 0 auto}}
 /* item animations removed: this WebView's compositor can freeze transform/opacity animations */
+/* ================================================================
+   V3 学习体验增强：首页驾驶舱 · 侧栏分区 · 沉浸阅读 · 章节条
+   ================================================================ */
+/* ---- 首页：分区标题 ---- */
+.hsec{{display:flex;align-items:baseline;gap:9px;margin:26px 0 10px;flex-wrap:wrap}}
+.hsec b{{font-size:16px;font-weight:800;letter-spacing:.2px}}
+.hsec span{{font-size:11.5px;color:var(--dim2)}}
+.home-lead{{color:var(--dim);font-size:13px;margin:2px 0 6px;line-height:1.85}}
+/* ---- 首页：继续学习 hero ---- */
+#continue-slot{{margin:0 0 12px}}
+.hero-card{{display:block;width:100%;text-align:left;cursor:pointer;border:1px solid rgba(26,111,232,.4);
+  border-radius:22px;padding:16px 16px 13px;
+  background:linear-gradient(135deg,rgba(26,111,232,.15),rgba(137,68,214,.10) 55%,#fff)}}
+.hero-card:active{{transform:scale(.985)}}
+.hero-top{{display:flex;align-items:center;gap:12px}}
+.hero-play{{flex:0 0 46px;width:46px;height:46px;border-radius:50%;background:linear-gradient(150deg,#1a6fe8,#1557b0);
+  color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;padding-left:3px;
+  box-shadow:0 4px 12px rgba(26,111,232,.35)}}
+.hero-tt{{flex:1;min-width:0}}
+.hero-tt b{{display:block;font-size:11.5px;color:#1557b0;letter-spacing:1px;margin-bottom:3px}}
+.hero-tt span{{display:block;font-size:15.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+.hero-pct{{font-size:14px;font-weight:800;color:#1557b0;flex:0 0 auto}}
+.hero-bar{{height:7px;border-radius:4px;background:rgba(26,111,232,.16);margin:13px 0 9px;overflow:hidden}}
+.hero-bar i{{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#1a6fe8,#8944d6)}}
+.hero-stats{{font-size:11.5px;color:var(--dim)}}
+.hero-stats b{{color:#1557b0}}
+/* ---- 首页：课程主线路线卡 ---- */
+#route-slot{{display:flex;flex-direction:column;gap:10px}}
+.rt-track{{border:1px solid var(--line);border-radius:18px;padding:13px 14px 12px;
+  background:linear-gradient(150deg,rgba(0,0,0,.035),rgba(0,0,0,.012))}}
+.rt-head{{display:flex;align-items:center;gap:11px;cursor:pointer}}
+.rt-ic{{font-size:21px;flex:0 0 auto}}
+.rt-tt{{flex:1;min-width:0}}
+.rt-tt b{{display:block;font-size:14px;font-weight:800}}
+.rt-tt span{{font-size:11px;color:var(--dim2)}}
+.rt-pct{{font-size:12.5px;font-weight:800;color:var(--dim)}}
+.rt-track.all .rt-pct{{color:#1da851}}
+.rt-bar{{height:5px;border-radius:3px;background:rgba(0,0,0,.07);margin:10px 0;overflow:hidden}}
+.rt-bar i{{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,#1a6fe8,#8944d6)}}
+.rt-go{{display:block;width:100%;text-align:left;cursor:pointer;border:1px solid rgba(26,111,232,.32);
+  background:rgba(26,111,232,.07);border-radius:13px;padding:10px 12px;font-size:13px;font-weight:700;color:#1557b0}}
+.rt-go:active{{transform:scale(.985)}}
+.rt-done{{font-size:12.5px;color:#1da851;font-weight:700;padding:2px 2px 0}}
+.rt-stages{{display:none;margin-top:10px;border-top:1px dashed var(--line2);padding-top:6px}}
+.rt-track.open .rt-stages{{display:block}}
+.rt-stage{{margin:9px 0 2px}}
+.rt-stage>b{{font-size:11.5px;color:var(--dim);letter-spacing:.3px}}
+.rt-doc{{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:none;
+  color:var(--text);font-size:12.5px;padding:7px 6px;border-radius:10px;cursor:pointer}}
+.rt-doc:active{{background:rgba(0,0,0,.05)}}
+.rt-doc .st{{flex:0 0 auto;font-size:11px;width:15px;text-align:center;color:var(--dim2)}}
+.rt-doc.done .st{{color:#1da851}}
+.rt-doc .nm{{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+/* ---- 首页：档案入口 ---- */
+.archive-entry{{border-style:dashed;margin-top:26px;color:var(--dim)}}
+/* ---- 侧栏分区 ---- */
+.nav-sec{{margin:0 0 2px}}
+.sec-head{{width:100%;display:flex;align-items:center;gap:7px;background:none;border:none;color:var(--text);
+  font-size:11.5px;font-weight:800;letter-spacing:1.1px;padding:11px 8px 7px;cursor:pointer;border-radius:10px}}
+.sec-head .cnt{{font-size:9.5px;color:var(--dim2);font-weight:600;background:rgba(0,0,0,.05);padding:1px 7px;border-radius:99px;letter-spacing:0}}
+.sec-head .sub{{font-size:10px;color:var(--dim2);font-weight:500;letter-spacing:0;margin-left:auto}}
+.nav-sec.closed .sec-body{{display:none}}
+/* ---- 正文章节条 ---- */
+.dkicker{{font-size:11.5px;color:var(--dim2);letter-spacing:.4px;margin:2px 0 16px;padding-bottom:10px;border-bottom:1px solid var(--line2)}}
+/* ---- 底部翻页按钮加强 ---- */
+.dn-btn b{{display:block;font-size:10.5px;color:var(--dim2);font-weight:600;letter-spacing:.5px;margin-bottom:1px}}
+.docnav{{gap:10px}}
+/* ---- 沉浸阅读模式 ---- */
+body.rmode .menu-btn{{display:none !important}}
+body.rmode .side{{display:none}}
+body.rmode .main{{max-width:880px;padding:8px 8px 90px}}
+body.rmode .topbar{{padding:8px 12px;border-radius:16px;top:6px;margin-bottom:10px}}
+body.rmode .crumb span{{display:none}}
+body.rmode .card{{border:none;box-shadow:none;background:transparent;padding:10px 6px 30px}}
+body.rmode .card-head{{display:none}}
+body.rmode .foot{{display:none}}
+body.rmode .md{{line-height:1.95}}
+body.rmode .md p{{margin:15px 0}}
+body.rmode .md h2{{margin:46px 0 16px;font-size:20px}}
+body.rmode .md h3{{margin:30px 0 10px}}
+body.rmode .card-in{{max-width:780px;margin:0 auto}}
+#rmBtn.on{{background:rgba(26,111,232,.14);border-color:rgba(26,111,232,.45);color:#1557b0}}
 /*@@LAB_CSS@@*/
 /*@@RANK_CSS@@*/
 /*@@RES_CSS@@*/
+/*@@LEARN_CSS@@*/
 </style>
 </head>
 <body>
-<div id="boot"><div class="boot-ring"></div><p>正在载入 {total_docs} 篇资料…</p><small>首次打开需要几秒，之后就很快了</small></div>
+<div id="boot"><div class="boot-ring"></div><p>正在整理你的学习空间…</p><small>第一次打开稍等几秒，之后秒开</small></div>
 <div class="aurora"></div>
 <div class="progress-track"><div class="progress-bar" id="pbar"></div></div>
 <div class="overlay" id="ovl" onclick="closeDrawer()"></div>
@@ -713,7 +892,7 @@ body.drawer-open .menu-btn .bars i:nth-child(3){{transform:translateY(-6px) rota
     <div class="panel">
       <div class="brand">
         <div class="logo"></div>
-        <div><h1>云计算 · 母语学习中心</h1><p>{total_docs} 篇资料 · 云 + 计算机科学</p></div>
+        <div><h1>云计算 · 母语学习中心</h1><p>离线学习中心 · 打开就走</p></div>
       </div>
       <div class="search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
@@ -731,6 +910,7 @@ body.drawer-open .menu-btn .bars i:nth-child(3){{transform:translateY(-6px) rota
 
       <div class="crumb" onclick="show('__home__')" style="cursor:pointer" title="回到首页"><b id="cr-title">载入中…</b><span id="cr-sub"></span></div>
       <div class="tools">
+        <button class="tool-btn" id="rmBtn" onclick="toggleRMode()" title="沉浸阅读（只剩文字）">📖</button>
         <button class="tool-btn" onclick="quickSearch()" title="搜索">🔍</button>
         <button class="tool-btn" onclick="fontStep(-1)" title="缩小字号">A-</button>
         <button class="tool-btn" onclick="fontStep(1)" title="放大字号">A+</button>
@@ -741,13 +921,13 @@ body.drawer-open .menu-btn .bars i:nth-child(3){{transform:translateY(-6px) rota
       <article class="md card-in" id="content">正在加载…</article>
       <div class="docnav" id="docnav"></div>
     </div>
-    <div class="foot">本地离线资料 · 液态玻璃版 · 阅读进度自动记忆</div>
+    <div class="foot">全部内容离线可用 · 阅读进度自动保存 · 学习数据只存在本机</div>
   </main>
 </div>
 
 <script>
 const DOCS = {json.dumps(docs_js, ensure_ascii=False)};
-const ORDER=Object.keys(DOCS).filter(function(k){{return k!=='__home__';}});
+const ORDER=Object.keys(DOCS).filter(function(k){{return k.indexOf('__')!==0;}});
 const BY_KEY={{}};
 Object.keys(DOCS).forEach(function(k){{ if(k==='__home__')return; const d=DOCS[k]; if(d.gk){{ (BY_KEY[d.gk]=BY_KEY[d.gk]||[]).push(k); }} }});
 const LS_DOC='wg.lastDoc', LS_FS='wg.fontSize';
@@ -771,7 +951,7 @@ function show(id, push){{
   document.documentElement.style.setProperty('--vc',d.c);
   resetSearch();
   revealInNav(id);
-  if(id!=='__home__') localStorage.setItem(LS_DOC,id);
+  if(id!=='__home__' && id.indexOf('__')!==0) localStorage.setItem(LS_DOC,id);
   renderBottomNav(id);
   markRead(id);
   buildToc();
@@ -794,9 +974,9 @@ function renderBottomNav(id){{
       if(id.indexOf(ks[x])===0){{ extra='<button class="dn-btn" data-quiz="'+ks[x]+'" style="flex:0 0 auto;padding:11px 13px">📝 测验</button>'; break; }}
     }}
   }}catch(e){{}}
-  el.innerHTML = (prev?'<button class="dn-btn" data-doclink="'+prev+'">← '+cut(DOCS[prev].t)+'</button>':'<span style="flex:1"></span>')
+  el.innerHTML = (prev?'<button class="dn-btn" data-doclink="'+prev+'"><b>← 上一章</b>'+cut(DOCS[prev].t)+'</button>':'<span style="flex:1"></span>')
    + '<button class="dn-btn home" data-doclink="__home__">🏠</button>'
-   + (next?'<button class="dn-btn" data-doclink="'+next+'">'+cut(DOCS[next].t)+' →</button>':'<span style="flex:1"></span>')
+   + (next?'<button class="dn-btn" data-doclink="'+next+'"><b>下一章 →</b>'+cut(DOCS[next].t)+'</button>':'<span style="flex:1"></span>')
    + extra;
   el.style.display='flex';
 }}
@@ -926,6 +1106,23 @@ tutorial_19: {{t:'第19章 · 编译原理', q:[
   {{q:'"2+3*4" 里乘法先算，在文法里靠什么体现？',o:['运行时再判断','文法层次：乘法的规则嵌套在加法的规则内部','编译器的默认设置','随机顺序'],a:1,e:'运算优先级 = 文法层次。低优先级规则（add）包含高优先级规则（mul），树自然长得对。'}},
   {{q:'字节码虚拟机（如 JVM）最典型的执行模型是？',o:['栈式机器','磁芯存储模型','打孔卡片模型','纯正则匹配'],a:0,e:'操作数压栈出栈：LOAD/PUSH 压栈，ADD 弹出两个、相加后把结果压回去。'}},
   {{q:'把 if 编译成跳转指令时，"先占位、编译完再填真实地址"的技术叫？',o:['回填（backpatching）','压缩','加密','内存拷贝'],a:0,e:'生成 JZ 时还不知道 else 的地址，先留空占位，分支编译完后回填——本章代码里能直接看到这一手。'}}
+]}},
+tutorial_20: {{t:'第20章 · 锐捷云平台基础', q:[
+  {{q:'B7《锐捷云平台基础》试题A 中，镜像名称和教室名称要求填什么？',o:['任意英文名','你的汉语姓名','学号','班级名'],a:1,e:'试卷原文：都填「名字（汉语）」——就是你自己的中文姓名。'}},
+  {{q:'试题要求的操作系统是什么？',o:['Windows 11 家庭版','Windows 10 22H2 专业版','Windows Server 2022','Windows 7'],a:1,e:'原文：要求系统使用 Windows 10 22H2 专业版——版本和专业版都不能错。'}},
+  {{q:'镜像配置要求是（处理器 / 内存 / 系统盘）？',o:['2核 / 2G / 40G','4核 / 4G / 60G','8核 / 8G / 100G','4核 / 8G / 60G'],a:1,e:'处理器 4、内存 4、系统盘 60；资源要「合理分配不超标」——多给也算错。'}},
+  {{q:'镜像的「操作系统名」（账户）要求是？',o:['admin','adminjf','Administrator','student'],a:1,e:'试卷原文：操作系统名 adminjf——建镜像时按平台字段照填。'}},
+  {{q:'镜像里必须安装的程序是？',o:['Office','VS','微信','Photoshop'],a:1,e:'「安装 VS 程序」——装进镜像里，再批量下发给学生机。'}},
+  {{q:'教师端和学生端的磁盘策略分别是？',o:['都有数据盘','教师无数据盘；学生无数据盘 + 无个性化','学生要数据盘','教师无数据盘；学生要个性化'],a:1,e:'原文：教师无数据盘需求；学生无个性化无数据盘需求。学生每次还原。'}},
+  {{q:'教室网络资源 IP 第 4 位怎么分配？',o:['教师端 1、学生端 2 起','教师端 100、学生端 101 起顺延','随机分配','教师端 100、学生端也 100'],a:1,e:'原文：教师端第 4 位 100；学生端 = 教师 +1 起——即 .101、.102 逐台顺延。'}},
+  {{q:'「学生端：教师+1 起」的正确理解是？',o:['所有学生都用 .101','从 .101 开始逐台 +1 顺延','学生从 .1 开始','学生用 .99 起'],a:1,e:'第一个学生 .101、第二个 .102……顺着排下去。'}},
+  {{q:'教师机主机名要求是？',o:['teacher','gyjsjs','jsj01','admin'],a:1,e:'一字不差：gyjsjs。'}},
+  {{q:'座位名前缀（含特殊符号）是？',o:['gyjszw','gyjszw-','gyjswz-','gyjs-zw'],a:1,e:'gyjszw-，注意带半角连字符「-」——特殊符号别漏。'}},
+  {{q:'最终验收「师生信息交互」要看哪两项？',o:['聊天 + 上网','文件分发 + 屏幕广播','打印 + 扫描','关机 + 重启'],a:1,e:'教师端发文件 / 广播，学生端要收到、要画面同步——两项都通才算过。'}},
+  {{q:'锐捷云后台报错的扣分规则是？',o:['每次扣 1 分','报错超过 2 次及以上，每次扣 10 分','不扣分','第一次仅警告'],a:1,e:'报错最贵！所以「不抢步、不多点」比什么都重要。'}},
+  {{q:'关于考试时间，哪个说法正确？',o:['所有操作都计时','镜像批量下发学生机时间不计入','超时直接零分','不限时'],a:1,e:'原文：时间不包含镜像批量下发学生机时间——下发慢不用慌，更不能中途强操作。'}},
+  {{q:'操作顺序正确的是？',o:['先建教室再制作镜像','先做出可用镜像 → 再建教室填网络 / 命名 → 下发 → 验证互动','先验证互动再建教室','顺序无所谓'],a:1,e:'没有可用镜像就建教室必报错；先镜像后教室，再下发、再验证。'}},
+  {{q:'操作中拿不准某个字段怎么填，正确做法是？',o:['随便填试试','先问统计员再填，不猜不试','填了再说','跳过不填'],a:1,e:'报错才扣分、问人不扣——不确定先问统计员，最终以统计员为准。'}}
 ]}},
 mastery_00: {{t:'精通·00 像说话一样掌握云计算', q:[
   {{q:'「像说话一样掌握云计算」最终要达成什么状态？',o:['背下所有命令','不假思索地调出知识（母语级直觉）','考最多证书','收藏最多教程'],a:1,e:'母语的特征是不经过思考就能用——专业知识练到本能反应，才是真掌握。'}},
@@ -1157,6 +1354,13 @@ const SIMS=[
   {{t:'高可用',d:'HAProxy + Keepalived 双机',v:'VIP 漂移实验通过'}},
   {{t:'自动化',d:'Ansible 批量配置所有节点',v:'剧本幂等（跑两遍 changed=0）'}},
   {{t:'终检',d:'对照评分标准逐项自检全部服务',v:'出一张自检清单'}}
+ ]}},
+ {{id:'fix',t:'🔧 排障特训',dur:60,desc:'5 个埋雷任务 · 60 分钟 · 修到全对为止',tasks:[
+  {{t:'Nginx 起不来',d:'启动报错，找到根因并修复，页面恢复',v:'systemctl 状态绿 + curl 正常'}},
+  {{t:'DNS 解析异常',d:'正查失败或解析错地址，修好配置',v:'dig 正反查全部正确'}},
+  {{t:'磁盘满连锁故障',d:'服务写入失败，清理并揪出元凶文件',v:'服务恢复 + df 有余量'}},
+  {{t:'防火墙误封',d:'SSH 或 HTTP 被挡，定位规则并放行',v:'外部可正常访问'}},
+  {{t:'证书过期',d:'HTTPS 报错，更新证书并重载服务',v:'curl 不再报证书错误'}}
  ]}}
 ];
 /* ===== end lab data ===== */
@@ -1246,8 +1450,7 @@ function renderQuizResult(){{
   const pct=Math.round(cc/total*100);
   const sv=getQuizScores();
   const pk=QZ.id;
-  const prev=sv[pk];
-  if(!prev || cc>prev.best) sv[pk]={{best:cc,total:total}};
+  if(pk!=='__srs__'){{ const prev=sv[pk]; if(!prev || cc>prev.best) sv[pk]={{best:cc,total:total}}; }}
   try{{ localStorage.setItem('wg.quiz',JSON.stringify(sv)); }}catch(e){{}}
   try{{ rankNotify(); }}catch(e){{}}
   const face=pct>=90?'🏆':(pct>=75?'🎉':(pct>=60?'👍':'📖'));
@@ -1403,7 +1606,7 @@ function startRest(){{
 function stopRest(){{ const rv=document.getElementById('restView'); if(rv) rv.classList.remove('on'); if(window._restT){{ clearInterval(window._restT); window._restT=null; }} }}
 /* ===== end lab ===== */
 function markRead(id){{
-  if(id==='__home__') return;
+  if(!id || id.indexOf('__')===0) return;
   try{{
     const rd=JSON.parse(localStorage.getItem('wg.read')||'{{}}');
     const isNew=!rd[id];
@@ -1415,17 +1618,20 @@ function markRead(id){{
     if(it) it.classList.add('read');
     growthOnRead(id, isNew);
   }}catch(e){{}}
+  try{{ updateNavPct(); }}catch(e){{}}
 }}
 function fillHome(){{
   renderGrowth();
+  try{{ renderHero(); }}catch(e){{}}
+  try{{ renderRoute(); }}catch(e){{}}
+  try{{ updateNavPct(); }}catch(e){{}}
   const slot=document.getElementById('recent-slot'); if(!slot) return;
   try{{
     const rd=JSON.parse(localStorage.getItem('wg.read')||'{{}}');
-    const n=Object.keys(rd).length; const total=Object.keys(DOCS).length-1;
-    let hist=JSON.parse(localStorage.getItem('wg.hist')||'[]').filter(function(k){{return DOCS[k];}});
-    let h='';
-    if(n>0) h+='<p style="color:var(--dim);margin:10px 0 0">📚 已读 <b>'+n+'</b> / '+total+' 篇</p>';
-    if(hist.length) h+='<h3>🕘 最近阅读</h3><div class="home-grid">'+hist.slice(0,6).map(function(k){{return '<button class="home-card small" data-doclink="'+k+'"><b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+DOCS[k].t.slice(0,30)+'</b></button>';}}).join('')+'</div>';
+    const n=Object.keys(rd).filter(function(k){{return k.indexOf('__')!==0;}}).length;
+    let hist=JSON.parse(localStorage.getItem('wg.hist')||'[]').filter(function(k){{return DOCS[k] && k.indexOf('__')!==0;}});
+    let h='<div class="hsec"><b>🕘 最近阅读</b><span>'+(n?('已读 '+n+' 篇 · 点一下接着读'):'读过的内容会出现在这里')+'</span></div>';
+    if(hist.length) h+='<div class="home-grid">'+hist.slice(0,6).map(function(k){{return '<button class="home-card small" data-doclink="'+k+'"><b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+DOCS[k].t.slice(0,30)+'</b></button>';}}).join('')+'</div>';
     slot.innerHTML=h;
   }}catch(e){{}}
 }}
@@ -1447,7 +1653,11 @@ function toggleToc(){{
 }}
 function quickSearch(){{ const s=document.getElementById('side'); if(!s.classList.contains('open')) openDrawer(); setTimeout(function(){{ const q=document.getElementById('q'); if(q) q.focus(); }}, 240); }}
 let scrollSaveT=null;
-function savePos(){{ try{{ if(!current||current==='__home__')return; const p=JSON.parse(localStorage.getItem('wg.pos')||'{{}}'); p[current]=Math.round(window.scrollY); const ks=Object.keys(p); if(ks.length>80){{ ks.slice(0,20).forEach(function(k){{ delete p[k]; }}); }} localStorage.setItem('wg.pos',JSON.stringify(p)); }}catch(e){{}} }}
+function savePos(){{ try{{ if(!current||current.indexOf('__')===0)return; const p=JSON.parse(localStorage.getItem('wg.pos')||'{{}}'); p[current]=Math.round(window.scrollY); const ks=Object.keys(p); if(ks.length>80){{ ks.slice(0,20).forEach(function(k){{ delete p[k]; }}); }} localStorage.setItem('wg.pos',JSON.stringify(p));
+  const h=document.documentElement; const pc=(h.scrollTop)/((h.scrollHeight-h.clientHeight)||1);
+  const pm=JSON.parse(localStorage.getItem('wg.pct')||'{{}}'); pm[current]=Math.min(1,Math.max(0,pc));
+  const k2=Object.keys(pm); if(k2.length>120){{ k2.slice(0,40).forEach(function(k){{ delete pm[k]; }}); }}
+  localStorage.setItem('wg.pct',JSON.stringify(pm)); }}catch(e){{}} }}
 document.getElementById('nav').addEventListener('click',e=>{{
   const b=e.target.closest('.nav-item');
   if(b) show(b.dataset.doc);
@@ -1590,11 +1800,15 @@ function toggleDrawer(){{ const s=document.getElementById('side'); if(s.classLis
   document.addEventListener('touchend',function(e){{ if(!edge)return; edge=false; const t=e.changedTouches[0]; const dx=t.clientX-ex, dy=t.clientY-ey; if(dx>60&&Math.abs(dx)>Math.abs(dy)*1.4&&Date.now()-et<500) openDrawer(); }},{{passive:true}});
 }})();
 
+const FS_STEPS=[15,16,17,18.5,20,22];
 function fontStep(d){{
-  let cur=parseFloat(localStorage.getItem(LS_FS)||'16');
-  cur=Math.min(21,Math.max(13,cur+d));
+  let cur=parseFloat(localStorage.getItem(LS_FS)||'17');
+  let i=0; for(let k=0;k<FS_STEPS.length;k++){{ if(FS_STEPS[k]<=cur) i=k; }}
+  i=Math.min(FS_STEPS.length-1,Math.max(0,i+d));
+  cur=FS_STEPS[i];
   localStorage.setItem(LS_FS,cur);
   document.documentElement.style.setProperty('--fs',cur+'px');
+  try{{ toast('字号 '+cur+'px'); }}catch(e){{}}
 }}
 function filterNav(q){{ /* lazy nav: filtering handled via results panel */ }}
 function hl(text,q){{ const i=text.toLowerCase().indexOf(q); if(i<0) return text; return text.slice(0,i)+'<mark>'+text.slice(i,i+q.length)+'</mark>'+text.slice(i+q.length); }}
@@ -1621,13 +1835,13 @@ function doResults(q){{
   if(!q){{ box.style.display='none'; box.innerHTML=''; return; }}
   const keys=Object.keys(DOCS); const out=[]; const max=25;
   for(let i=0;i<keys.length && out.length<max;i++){{
-    const k=keys[i]; if(k==='__home__') continue;
+    const k=keys[i]; if(k.indexOf('__')===0) continue;
     const d=DOCS[k];
     if(d.t.toLowerCase().indexOf(q)>=0) out.push('<button class="sr-item" data-doclink="'+k+'">📄 '+hl(d.t,q)+'<em>'+d.g+'</em></button>');
   }}
   if(out.length<max){{
     for(let i=0;i<keys.length && out.length<max;i++){{
-      const k=keys[i]; if(k==='__home__') continue;
+      const k=keys[i]; if(k.indexOf('__')===0) continue;
       const d=DOCS[k];
       if(d.t.toLowerCase().indexOf(q)>=0) continue;
       if(d.html && d.html.toLowerCase().indexOf(q)>=0) out.push('<button class="sr-item" data-doclink="'+k+'">🔍 '+d.t+'<em>内容匹配 · '+d.g+'</em></button>');
@@ -1647,21 +1861,133 @@ window.addEventListener('scroll',()=>{{
 
 /* boot */
 (function(){{
-  let fs=localStorage.getItem(LS_FS); if(fs) document.documentElement.style.setProperty('--fs',parseFloat(fs)+'px');
+  let fs=localStorage.getItem(LS_FS)||'17'; document.documentElement.style.setProperty('--fs',parseFloat(fs)+'px');
   try{{ const gs=JSON.parse(localStorage.getItem('wg.groups')||'{{}}'); document.querySelectorAll('.nav-group').forEach(function(g){{ if(g.dataset.g in gs){{ g.classList.toggle('closed', gs[g.dataset.g]); }} if(!g.classList.contains('closed')) buildGroupBody(g); }}); }}catch(e){{}}
+  try{{ const ss=JSON.parse(localStorage.getItem('wg.secs')||'{{}}'); document.querySelectorAll('.nav-sec').forEach(function(s){{ if(s.dataset.sec in ss){{ s.classList.toggle('closed', ss[s.dataset.sec]); }} }}); }}catch(e){{}}
   try{{ checkStreak(); }}catch(e){{}}
-  const last=localStorage.getItem(LS_DOC);
   show('__home__');
-  if(last && DOCS[last] && last!=='__home__'){{
-    const slot=document.getElementById('continue-slot');
-    if(slot) slot.innerHTML='<button class="home-card small" data-doclink="'+last+'">▶ 继续上次阅读：'+DOCS[last].t+'</button>';
-  }}
+  try{{ applyRMode(); }}catch(e){{}}
   const bt=document.getElementById('boot');
   if(bt){{ bt.style.opacity='0'; setTimeout(function(){{ bt.style.display='none'; }}, 480); }}
 }})();
+/* ======================= V3 学习体验增强 ======================= */
+/* 沉浸阅读 · 首页驾驶舱 · 课程主线进度 · 侧栏分区 */
+const LS_RM='wg.rmode';
+function _isRealDoc(){{ return !!(current && current.indexOf('__')!==0); }}
+function _vesc(s){{ return String(s).replace(/[&<>"]/g,function(c){{ return {{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}}[c]; }}); }}
+function _vcut(t){{ t=String(t||''); return t.length>24 ? t.slice(0,23)+'…' : t; }}
+function _vresolve(p){{ try{{ for(var i=0;i<ORDER.length;i++){{ if(ORDER[i].indexOf(p)===0) return ORDER[i]; }} }}catch(e){{}} return null; }}
+function _vds(id){{ try{{ if(window.Learn&&Learn.docStatus) return Learn.docStatus(id); }}catch(e){{}} var rd={{}}; try{{ rd=JSON.parse(localStorage.getItem('wg.read')||'{{}}'); }}catch(e){{}} return {{done:!!rd[id]}}; }}
+var _vtT=null;
+function _vtoast(msg){{
+  try{{
+    var el=document.getElementById('vtoast');
+    if(!el){{ el=document.createElement('div'); el.id='vtoast';
+      el.style.cssText='position:fixed;left:50%;bottom:96px;margin-left:-43%;width:86%;z-index:240;background:rgba(20,22,26,.92);color:#fff;padding:11px 18px;border-radius:999px;font-size:13px;text-align:center;line-height:1.5;pointer-events:none;box-sizing:border-box';
+      document.body.appendChild(el); }}
+    el.textContent=msg; el.style.display='block';
+    clearTimeout(_vtT); _vtT=setTimeout(function(){{ el.style.display='none'; }}, 2400);
+  }}catch(e){{}}
+}}
+function applyRMode(){{
+  try{{
+    var on=localStorage.getItem(LS_RM)==='1';
+    var b=document.getElementById('rmBtn'); if(b) b.classList.toggle('on', on);
+    document.body.classList.toggle('rmode', !!on && _isRealDoc());
+  }}catch(e){{}}
+}}
+function toggleRMode(){{
+  var on=localStorage.getItem(LS_RM)==='1';
+  try{{ localStorage.setItem(LS_RM, on?'0':'1'); }}catch(e){{}}
+  applyRMode();
+  _vtoast(on?'已退出沉浸阅读':'📖 沉浸阅读已开启：只剩文字，专心读');
+}}
+(function(){{ var _s0=show; show=function(id,push){{ _s0(id,push); try{{ applyRMode(); }}catch(e){{}} }}; }})();
+/* 侧栏分区开关 */
+function saveSecs(){{ try{{ var m={{}}; document.querySelectorAll('.nav-sec').forEach(function(s){{ m[s.dataset.sec]=s.classList.contains('closed'); }}); localStorage.setItem('wg.secs',JSON.stringify(m)); }}catch(e){{}} }}
+function toggleSec(el){{ var sec=el.parentElement; if(!sec) return; sec.classList.toggle('closed'); saveSecs(); }}
+function _openSecOf(id){{ try{{ var d=DOCS[id]; if(!d||!d.gk) return; var grp=document.querySelector('.nav-group[data-g="'+d.gk+'"]'); if(!grp) return; var sec=grp.closest('.nav-sec'); if(sec&&sec.classList.contains('closed')){{ sec.classList.remove('closed'); saveSecs(); }} }}catch(e){{}} }}
+(function(){{ var _rv=revealInNav; revealInNav=function(id){{ _openSecOf(id); _rv(id); }}; }})();
+(function(){{ var _od=openDrawer; openDrawer=function(){{ _openSecOf(current); _od(); }}; }})();
+/* 首页 hero：继续学习 */
+function renderHero(){{
+  var slot=document.getElementById('continue-slot'); if(!slot) return;
+  var last=null; try{{ last=localStorage.getItem(LS_DOC); }}catch(e){{}}
+  var n=0, pass=0, due=0;
+  try{{ var rd=JSON.parse(localStorage.getItem('wg.read')||'{{}}'); Object.keys(rd).forEach(function(k){{ if(k.indexOf('__')!==0) n++; }}); }}catch(e){{}}
+  try{{ var qz=JSON.parse(localStorage.getItem('wg.quiz')||'{{}}'); Object.keys(qz).forEach(function(k){{ if(k==='__srs__') return; var s=qz[k]; if(s&&s.total>0&&s.best*4>=s.total*3) pass++; }}); }}catch(e){{}}
+  try{{ due=(window.Learn&&Learn.dueCount)?Learn.dueCount():0; }}catch(e){{}}
+  var pct=0; try{{ var pm=JSON.parse(localStorage.getItem('wg.pct')||'{{}}'); pct=Math.round((pm[last]||0)*100); }}catch(e){{}}
+  var h='';
+  if(last && DOCS[last] && last.indexOf('__')!==0){{
+    h+='<button class="hero-card" data-doclink="'+last+'"><div class="hero-top"><span class="hero-play">▶</span>'
+     + '<div class="hero-tt"><b>继续学习</b><span>'+_vesc(DOCS[last].t)+'</span></div>'
+     + '<div class="hero-pct">'+(pct>0?pct+'%':'')+'</div></div>'
+     + '<div class="hero-bar"><i style="width:'+Math.max(6,pct)+'%"></i></div>';
+  }}else{{
+    var first=null; for(var i=0;i<ORDER.length;i++){{ if(ORDER[i].indexOf('tutorial_00-')===0){{ first=ORDER[i]; break; }} }}
+    h+='<button class="hero-card" data-doclink="'+(first||ORDER[0]||'__home__')+'"><div class="hero-top"><span class="hero-play">▶</span>'
+     + '<div class="hero-tt"><b>开始学习</b><span>第 0 章 · 开始之前 — 从这里启程</span></div></div>'
+     + '<div class="hero-bar"><i style="width:6%"></i></div>';
+  }}
+  h+='<div class="hero-stats">已读 '+n+' 篇 · 测验达标 '+pass+' 章'+(due?(' · <b>'+due+' 题待复习</b>'):'')+'</div></button>';
+  slot.innerHTML=h;
+}}
+/* 首页：课程主线（沿学习地图的 5 条线渲染，带进度与续读，点标题展开书目） */
+function _trackDocs(tk){{ var ids=[]; (tk.stages||[]).forEach(function(st){{ (st.docs||[]).forEach(function(p){{ var id=null; try{{ id=_vresolve(p); }}catch(e){{}} if(id&&DOCS[id]) ids.push(id); }}); }}); return ids; }}
+function renderRoute(){{
+  var slot=document.getElementById('route-slot'); if(!slot) return;
+  var tracks=(window.LN_TRACKS||[]); if(!tracks.length) return;
+  var h='';
+  for(var ti=0;ti<tracks.length;ti++){{
+    var tk=tracks[ti], ids=_trackDocs(tk); if(!ids.length) continue;
+    var done=0, nextId=null, stHtml='';
+    ids.forEach(function(id){{ var ok=false; try{{ ok=_vds(id).done; }}catch(e){{}} if(ok) done++; else if(!nextId) nextId=id; }});
+    var pct=Math.round(done/ids.length*100);
+    (tk.stages||[]).forEach(function(st){{
+      var rows='';
+      (st.docs||[]).forEach(function(p){{
+        var id=null; try{{ id=_vresolve(p); }}catch(e){{}} if(!id||!DOCS[id]) return;
+        var ok=false; try{{ ok=_vds(id).done; }}catch(e){{}}
+        rows+='<button class="rt-doc'+(ok?' done':'')+'" data-doclink="'+id+'"><span class="st">'+(ok?'✓':'○')+'</span><span class="nm">'+_vesc(DOCS[id].t)+'</span></button>';
+      }});
+      if(rows) stHtml+='<div class="rt-stage"><b>'+_vesc(st.name||'')+'</b>'+rows+'</div>';
+    }});
+    h+='<div class="rt-track'+(nextId?'':' all')+'">'
+     + '<div class="rt-head" data-rt="'+ti+'"><span class="rt-ic">'+(tk.icon||'📘')+'</span>'
+     + '<div class="rt-tt"><b>'+_vesc(tk.name)+'</b><span>进度 '+done+' / '+ids.length+' 篇</span></div>'
+     + '<span class="rt-pct">'+(nextId?pct+'%':'读完')+'</span></div>'
+     + '<div class="rt-bar"><i style="width:'+pct+'%"></i></div>';
+    if(nextId) h+='<button class="rt-go" data-doclink="'+nextId+'">▶ 继续：'+_vesc(_vcut(DOCS[nextId].t))+'</button>';
+    else h+='<div class="rt-done">✅ 这条主线已全部读完</div>';
+    h+='<div class="rt-stages">'+stHtml+'</div></div>';
+  }}
+  slot.innerHTML=h;
+}}
+document.addEventListener('click', function(e){{
+  var hd=(e.target && e.target.closest) ? e.target.closest('.rt-head') : null;
+  if(!hd) return;
+  var tr=hd.parentElement; if(tr) tr.classList.toggle('open');
+}});
+/* 侧栏课程进度 x/y */
+function updateNavPct(){{
+  try{{
+    var rd={{}}; try{{ rd=JSON.parse(localStorage.getItem('wg.read')||'{{}}'); }}catch(e){{}}
+    var g={{}};
+    Object.keys(DOCS).forEach(function(k){{ if(k.indexOf('__')===0) return; var d=DOCS[k]; if(!d.gk||d.gk.indexOf('repo_')===0) return; (g[d.gk]=g[d.gk]||[]).push(k); }});
+    Object.keys(g).forEach(function(gk){{
+      var ids=g[gk]; if(ids.length<3||ids.length>60) return;
+      var el=document.querySelector('.nav-group[data-g="'+gk+'"] .cnt'); if(!el) return;
+      var c=0; ids.forEach(function(k){{ if(rd[k]) c++; }});
+      el.textContent=c+'/'+ids.length;
+    }});
+  }}catch(e){{}}
+}}
 /*@@LAB_JS@@*/
 /*@@RANK_JS@@*/
 /*@@RES_JS@@*/
+/*@@LEARN_JS@@*/
+try{{ if(current==='__home__'){{ renderRoute(); renderHero(); updateNavPct(); }} }}catch(e){{}}
 /*@@DIAG@@*/
 </script>
 <div id="rankView">
@@ -1765,6 +2091,14 @@ _res_off = _appread('res-offline.js')
 page = page.replace('/*@@RES_CSS@@*/', _res_css)
 page = page.replace('/*@@RES_JS@@*/', _res_data + '\n' + _res_off + '\n' + _res_js)
 print('resource injected:', len(_res_css), '+', len(_res_js), '+', len(_res_data), '+', len(_res_off), 'chars')
+
+# ---- 注入「自主学习引擎」（app/：阅读视图 全文/要点 · 深度洞察 · 学习地图 · 间隔复习 · 系统自检） ----
+_ln_css = _appread('learn.css')
+_ln_data = _appread('learn-data.js'); _ln_js = _appread('learn.js')
+page = page.replace('/*@@LEARN_CSS@@*/', _ln_css)
+page = page.replace('/*@@LEARN_JS@@*/', _ln_data + '\n' + _ln_js)
+print('learn injected:', len(_ln_css), '+', len(_ln_data), '+', len(_ln_js), 'chars')
+
 # ---- 临时诊断层（app/diag.js 存在时注入；删除文件即停用） ----
 try:
     _dg_js = open(os.path.join(BASE, 'app', 'diag.js'), encoding='utf-8').read()
@@ -1811,3 +2145,4 @@ print('written:', out, len(page), 'bytes,', total_docs, 'docs')
 if '/*@@LAB' in page: print('WARN: lab markers left unresolved!')
 if '/*@@RANK' in page: print('WARN: rank markers left unresolved!')
 if '/*@@RES' in page: print('WARN: res markers left unresolved!')
+if '/*@@LEARN' in page: print('WARN: learn markers left unresolved!')
