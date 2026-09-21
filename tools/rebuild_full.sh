@@ -2,11 +2,11 @@
 # rebuild_full.sh —— 完整版 APK（视频课打包在内，一步到位分享；不安装到本机）
 # 产物: CloudStudy-完整版.apk（约 400MB，微信可直接发送）
 set -u
-TOOLS=/var/minis/shared/cloudstudy-apk/tools
-SRC=/var/minis/shared/cloudstudy-apk/src
+TOOLS=/opt/tmbj/cloudstudy-apk/tools
+SRC=/opt/tmbj/cloudstudy-apk/src
 WORK=/tmp/cloudbuild
-DEVWORK=/data/data/com.openminis.app/files/alpine-rootfs/tmp/cloudbuild
-OUT=/var/minis/shared/cloudstudy-apk/CloudStudy-完整版.apk
+DEVWORK=/data/data/com.tmbj.app/files/alpine-rootfs/tmp/cloudbuild
+OUT=/opt/tmbj/cloudstudy-apk/CloudStudy-完整版.apk
 LOGDIR="$TOOLS/logs"; mkdir -p "$LOGDIR"
 LOG="$LOGDIR/full.$(date +%Y%m%d-%H%M%S).log"; : > "$LOG"
 log() { echo "[$(date +%T)] $*" | tee -a "$LOG"; }
@@ -14,7 +14,7 @@ fail() { log "!! FAILED: $*"; echo "FULL_RESULT=FAIL" >> "$LOG"; exit 1; }
 run() { log "run: $*"; "$@" >> "$LOG" 2>&1 || fail "$*"; }
 
 log "== 1/7 构建 assets 模式页面（视频用相对路径，随 APK 打包） =="
-VIDEO_MODE=assets LIQ_OUT=/tmp/study_full.html timeout 900 python3 /var/minis/shared/worldskills-cloud/tools/build_liquid.py >> "$LOG" 2>&1 || fail "build_liquid"
+VIDEO_MODE=assets LIQ_OUT=/tmp/study_full.html timeout 900 python3 /opt/tmbj/worldskills-cloud/tools/build_liquid.py >> "$LOG" 2>&1 || fail "build_liquid"
 [ -s /tmp/study_full.html ] || fail "study_full.html 为空"
 log "study_full.html = $(stat -c %s /tmp/study_full.html) bytes"
 
@@ -25,7 +25,7 @@ cp "$SRC/AndroidManifest.xml" "$SRC/build_dev.sh" "$WORK/" || fail "cp 工程文
 cp -r "$SRC/smali" "$WORK/smali" || fail "cp smali"
 cp -r "$SRC/res/." "$WORK/res/" || fail "cp res"
 cp /tmp/study_full.html "$WORK/assets/study.html" || fail "cp study_full"
-(cd /var/minis/shared/worldskills-cloud && tar -cf - videos) | (cd "$WORK/assets" && tar -xf -) || fail "视频拷贝失败"
+(cd /opt/tmbj/worldskills-cloud && tar -cf - videos) | (cd "$WORK/assets" && tar -xf -) || fail "视频拷贝失败"
 log "assets/videos = $(find "$WORK/assets/videos" -name '*.mp4' | wc -l) mp4, $(du -sm "$WORK/assets/videos" | cut -f1) MB"
 
 log "== 3/7 smali → classes.dex =="
@@ -34,7 +34,7 @@ run java -jar "$TOOLS/jars/smali.jar" assemble "$WORK/smali" -o "$WORK/classes.d
 [ -s "$WORK/classes.dex" ] || fail "classes.dex 为空"
 
 log "== 4/7 设备侧 aapt2（-0 mp4 直通） =="
-android-shizuku-cli exec "cd $DEVWORK && rm -f out.apk res.zip build.log && setsid sh build_dev.sh > build.log 2>&1 < /dev/null & echo LAUNCHED" >> "$LOG" 2>&1 || fail "aapt2 派发失败"
+adb exec "cd $DEVWORK && rm -f out.apk res.zip build.log && setsid sh build_dev.sh > build.log 2>&1 < /dev/null & echo LAUNCHED" >> "$LOG" 2>&1 || fail "aapt2 派发失败"
 i=0
 while [ "$i" -lt 450 ]; do
   if grep -q BUILD_DONE "$WORK/build.log" 2>/dev/null; then break; fi
