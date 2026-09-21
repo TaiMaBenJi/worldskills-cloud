@@ -47,11 +47,11 @@
         ta.value = s; ta.style.cssText = 'position:fixed;opacity:0';
         document.body.appendChild(ta); ta.select();
         document.execCommand('copy'); ta.remove();
-        toast('✅ 已复制，去 B站 App 打开');
+        toast('✅ 链接已复制，可粘贴分享');
       } catch (e) { toast('复制失败，请长按选择'); }
     }
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(s).then(function () { toast('✅ 已复制，去 B站 App 打开'); }, fb);
+      navigator.clipboard.writeText(s).then(function () { toast('✅ 链接已复制，可粘贴分享'); }, fb);
     } else fb();
   }
   function openUrl(u) {
@@ -81,7 +81,7 @@
     var off = OFFLINE[x.b];
     var offTag = off ? '<span class="res-off">📥 已离线' + (off.items.length > 1 ? ' · ' + off.items.length + '集' : '') + '</span>' : '';
     var mainBtn = off
-      ? '<button class="res-btn ok" data-act="playlocal">▶ 本地</button>'
+      ? '<button class="res-btn ok" data-act="playlocal">▶ 本地</button><button class="res-btn primary" data-act="online">▶ 在线</button>'
       : '<button class="res-btn primary" data-act="online">▶ 在线</button>';
     var url = 'https://www.bilibili.com/video/' + x.b;
     return '<div class="res-card' + w + '" data-resb="' + esc(x.b) + '">'
@@ -106,10 +106,10 @@
 
   function tabsHtml() {
     var cnt = { all: ITEMS.length };
-    ['装机', '计算机', '编译原理', '进阶'].forEach(function (g) {
+    ['装机', '计算机', '编译原理', '进阶', '机房', '锐捷云平台'].forEach(function (g) {
       cnt[g] = ITEMS.filter(function (x) { return x.g === g; }).length;
     });
-    var defs = [['all', '🔥 全部'], ['装机', '🔧 装机'], ['计算机', '💻 计算机'], ['编译原理', '⚙ 编译原理'], ['进阶', '📈 进阶'], ['extra', '📦 平台·开源']];
+    var defs = [['all', '🔥 全部'], ['装机', '🔧 装机'], ['计算机', '💻 计算机'], ['编译原理', '⚙ 编译原理'], ['进阶', '📈 进阶'], ['机房', '🏫 机房管理'], ['锐捷云平台', '🖥 锐捷云平台'], ['extra', '📦 平台·开源']];
     return defs.map(function (d) {
       var n = '';
       if (d[0] !== 'extra') n = ' <small style="opacity:.7">' + (cnt[d[0]] || 0) + '</small>';
@@ -187,7 +187,7 @@
     el.innerHTML =
       '<div class="res-head">'
       + '<div class="res-top"><h2>🌐 全网学习资源库</h2><button class="res-x" data-resclose="1">✕</button></div>'
-      + '<div class="res-sub">装机 · 计算机 · 编译原理 · 进阶 —— B站全网检索 · <b>📥 离线已下载 · ▶ 在线直接播放（不跳转）</b></div>'
+      + '<div class="res-sub">装机 · 计算机 · 编译原理 · 进阶 · 机房管理 · 锐捷云平台 —— B站全网检索 · <b>📥 离线已下载 · ▶ 在线直接播放（不跳转）</b></div>'
       + '<div class="res-search"><input id="resQ" placeholder="搜索标题 / UP主…" value="' + esc(st.q) + '"></div>'
       + '</div>'
       + '<div class="res-tabs">' + tabsHtml() + '</div>'
@@ -282,10 +282,9 @@
     var d = document.createElement('div');
     d.id = 'resPlayer';
     d.innerHTML = '<div class="resP-head"><b id="resPTitle">播放</b>'
-      + '<button data-rpo="1" id="resPOpenB" style="display:none">↗</button>'
       + '<button data-rpx="1">✕</button></div>'
       + '<video id="resPlayerV" controls playsinline preload="metadata"></video>'
-      + '<div id="resPlayerF" style="display:none;flex:1;min-height:0;background:#000"><iframe id="resPlayerIf" allowfullscreen allow="autoplay; fullscreen; encrypted-media; picture-in-picture" style="width:100%;height:100%;border:0;display:block"></iframe></div>'
+      + '<div id="resPlayerF" style="display:none;flex:1;min-height:0;background:#000"><iframe id="resPlayerIf" sandbox="allow-scripts allow-same-origin allow-forms allow-presentation" allowfullscreen allow="autoplay; fullscreen; encrypted-media; picture-in-picture" style="width:100%;height:100%;border:0;display:block"></iframe></div>'
       + '<div class="resP-list" id="resPEps"></div>';
     document.body.appendChild(d);
     d.addEventListener('click', function (e) {
@@ -403,4 +402,10 @@
     if (el) el.classList.remove('on');
     closePlayer();
   };
+
+  /* 启动即挂载事件委托。
+     修复：bind() 此前只在 openResLib() 内部调用，而打开资源库的唯一入口
+     又依赖 bind() 挂载的 [data-resopen] 监听 → 首页卡片首次点击无监听器
+     响应（表现为「点不开」）。在脚本加载完毕时直接挂载即可闭环。 */
+  bind();
 })();
