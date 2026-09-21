@@ -6,10 +6,10 @@
 - 输出 tools/bili_raw.json
 用法: python3 bili_collect.py [每关键词页数，默认2]
 """
-import json, time, re, random, sys
+import json, time, re, random, sys, os
 import requests
 
-OUT = "/var/minis/shared/worldskills-cloud/tools/bili_raw.json"
+OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "bili_raw.json")
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
 
