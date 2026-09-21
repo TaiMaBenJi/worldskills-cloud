@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""补齐某集缺失/0字节的 TTS 音频段：单并发、慢速、多重试、可反复运行"""
+"""补齐某集缺失/0字节的配音音频段：单并发、慢速、多重试、可反复运行"""
 import sys, os, asyncio
 
-ROOT = os.environ.get('VIDEO_ROOT', '/var/minis/shared/room-video')
-sys.path.insert(0, '/var/minis/shared/room-video/lib')
+ROOT = os.environ.get('VIDEO_ROOT', '/opt/tmbj/room-video')
+sys.path.insert(0, '/opt/tmbj/room-video/lib')
 import edge_tts
 
 VOICE = 'zh-CN-YunxiNeural'
