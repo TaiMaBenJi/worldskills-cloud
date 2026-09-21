@@ -46,7 +46,7 @@ run java -jar "$TOOLS/jars/smali.jar" assemble "$WORK/smali" -o "$WORK/classes.d
 [ -s "$WORK/classes.dex" ] || fail "classes.dex 为空"
 
 log "== 4/8 设备侧 aapt2 compile+link（后台 + 标记）"
-adb exec "cd $DEVWORK && rm -f out.apk res.zip build.log && setsid sh build_dev.sh > build.log 2>&1 < /dev/null & echo LAUNCHED" >> "$LOG" 2>&1 \
+adb shell "cd $DEVWORK && rm -f out.apk res.zip build.log && setsid sh build_dev.sh > build.log 2>&1 < /dev/null & echo LAUNCHED" >> "$LOG" 2>&1 \
   || fail "aapt2 派发失败（Shizuku 桥？）"
 i=0
 while [ "$i" -lt 450 ]; do
@@ -69,12 +69,12 @@ SIGNED="$WORK/unsigned-signed.apk"
 [ -s "$SIGNED" ] || fail "签名产物缺失"
 
 log "== 7/8 安装到设备"
-adb exec "pm install -r $DEVWORK/unsigned-signed.apk" >> "$LOG" 2>&1 || fail "pm install"
+adb shell "pm install -r $DEVWORK/unsigned-signed.apk" >> "$LOG" 2>&1 || fail "pm install"
 
 log "== 8/8 启动验证 + 归档"
-adb exec "monkey -p com.cloudstudy.app -c android.intent.category.LAUNCHER 1" >> "$LOG" 2>&1
+adb shell "monkey -p com.cloudstudy.app -c android.intent.category.LAUNCHER 1" >> "$LOG" 2>&1
 sleep 3
-PID=$(adb exec 'pidof com.cloudstudy.app' 2>/dev/null | tr -d '\r')
+PID=$(adb shell 'pidof com.cloudstudy.app' 2>/dev/null | tr -d '\r')
 cp "$SIGNED" "$OUT" || fail "归档到 $OUT"
 log "RESULT=OK pid=${PID:-?} apk=$OUT size=$(stat -c %s "$OUT")"
 echo "REBUILD_RESULT=OK" >> "$LOG"
