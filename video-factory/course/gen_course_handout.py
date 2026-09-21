@@ -3,8 +3,8 @@
 """生成《保姆级教程 · 全台词讲义》md"""
 import importlib.util, os, glob
 
-ROOT = '/var/minis/shared/course-video'
-OUT = '/var/minis/shared/worldskills-cloud/tutorial/97-视频课-全讲义.md'
+ROOT = '/opt/tmbj/course-video'
+OUT = '/opt/tmbj/worldskills-cloud/tutorial/97-视频课-全讲义.md'
 
 lines = []
 lines.append('# 📖 保姆级教程 · 视频课全台词讲义')
@@ -49,7 +49,7 @@ for f in sorted(glob.glob(f'{ROOT}/scripts/t*.py')):
             lines.append('')
 lines.append('---')
 lines.append('')
-lines.append('*讲义由「星」从视频分镜脚本自动生成 · 与视频逐帧对应 · 2026*')
+lines.append('*讲义由「太马奔极」从视频分镜脚本自动生成 · 与视频逐帧对应 · 2026*')
 lines.append('')
 
 content = '\n'.join(lines)
