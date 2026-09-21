@@ -3,8 +3,8 @@
 """生成《机房管理·视频课》总览页 room/09-视频课总览.md（读取各集实际时长）"""
 import os, subprocess
 
-ROOT = '/var/minis/shared/room-video'
-OUT = '/var/minis/shared/worldskills-cloud/room/09-视频课总览.md'
+ROOT = '/opt/tmbj/room-video'
+OUT = '/opt/tmbj/worldskills-cloud/room/09-视频课总览.md'
 
 EPISODES = [
     ("01", "机房管理员是干什么的", "岗位认知：五大系统、管理员的一天、L0-L5 阶梯", "room/00 总纲 + room/01 阶梯与自测"),
@@ -82,7 +82,7 @@ lines.append('4. **考前**：直接跳转对应集数复习 + 考试中心刷�
 lines.append('')
 lines.append('---')
 lines.append('')
-lines.append('*视频由「星」制作 · 2026 · 配套图文教程 + 真机训练场*')
+lines.append('*视频由「太马奔极」制作 · 2026 · 配套图文教程 + 真机训练场*')
 lines.append('')
 
 content = '\n'.join(lines)
