@@ -52,7 +52,7 @@ VIDEO_ROOT=/path/to/project python3 build_episode.py scripts/your-ep.py
 
 - **设计系统**：深色科技风 + 强调色系统（青/橙/绿/紫/红），标题 58px、正文 40px、大数字 96px
 - **音频对齐**：每段旁白 `apad` 补齐 0.72s 尾静音 → 图片 concat 时间轴（duration 指令）与拼接音频精确对轨
-- **配音容错**：edge-tts 遇到概率性连接重置（Connection reset）时，`2 + 2.5n` 秒递增重试，单段最多 14 次
+- **配音容错**：配音引擎遇到概率性连接重置（Connection reset）时，`2 + 2.5n` 秒递增重试，单段最多 14 次
 - **配音服务整体不可达时的兜底（实测）**：`speech.platform.bing.com` 出现 `curl HTTP=000 / SSL exit 35` 时，重试救不回（fix_tts 只会一直循环）。离线备用音轨（已装，无需联网）：
   ```
   espeak-ng -v cmn -w seg.wav "要朗读的中文文本"     # 实测 4.8s / 212KB wav，中文可读（音色机械）
