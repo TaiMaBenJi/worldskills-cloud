@@ -13,7 +13,7 @@
 **测试**：`cd lab && node lab-test.js` （要求全绿再重建！）
 
 **开发坑（重要）**
-- Minis 浏览器**缓存子资源**：改了 js 后预览，必须换文件名（cp 成 `lab-ui-v3.js` 之类）+ 换页面文件名才能确保加载新版；`?v=` 只对页面本身有效，管不住 <script src>。
+- 浏览器**缓存子资源**：改了 js 后预览，必须换文件名（cp 成 `lab-ui-v3.js` 之类）+ 换页面文件名才能确保加载新版；`?v=` 只对页面本身有效，管不住 <script src>。
 - study.html 里所有 JS 是**同一朵 <script>**：lab 代码追加在主脚本之后，允许使用主脚本的 `addXP/unlockBadge/renderLabCenter/startSim` 等全局函数。
 - `lab-ui.js` 在 node 下直接 return（无 DOM）；浏览器在 DOMContentLoaded 时 `init()`，务必确认 `window._labUIBound===1` 再交互（外部脚本加载有竞态）。
 - 评分对勾（自动）在每条命令后静默执行；正式领奖在「📊 评分」按钮。
