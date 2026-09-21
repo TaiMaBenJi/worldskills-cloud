@@ -3,8 +3,8 @@
 """生成《教程·视频课》总览页 tutorial/98-视频课-总览.md"""
 import os, subprocess
 
-ROOT = '/var/minis/shared/course-video'
-OUT = '/var/minis/shared/worldskills-cloud/tutorial/98-视频课-总览.md'
+ROOT = '/opt/tmbj/course-video'
+OUT = '/opt/tmbj/worldskills-cloud/tutorial/98-视频课-总览.md'
 
 EPISODES = [
     ("00", "开始之前——写给不懂的你", "怎么用这套教程 + 学习的正确姿势"),
@@ -38,7 +38,7 @@ def dur_of(path):
 lines = []
 lines.append('# 🎬 保姆级教程 · 视频课（18 集）')
 lines.append('')
-lines.append('> **整套保姆级教程的视频版**：18 集微课，一章一集，AI 讲解 + 图解画面，手机离线随时看。')
+lines.append('> **整套保姆级教程的视频版**：18 集微课，一章一集，配音讲解 + 图解画面，手机离线随时看。')
 lines.append('> 看视频建框架，读图文抠细节，进训练场动手练——三位一体，学得最牢。')
 lines.append('')
 lines.append('## 📋 课程表')
@@ -83,7 +83,7 @@ lines.append('4. **专项**：学完第 17 集，接着看《机房管理专项 
 lines.append('')
 lines.append('---')
 lines.append('')
-lines.append('*视频由「星」制作 · 2026 · 配套图文教程 + 真机训练场*')
+lines.append('*视频由「太马奔极」制作 · 2026 · 配套图文教程 + 真机训练场*')
 lines.append('')
 
 content = '\n'.join(lines)
