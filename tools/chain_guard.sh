@@ -12,7 +12,7 @@ while true; do
   ok=0
   ip route 2>/dev/null | grep -m1 "^default" | grep -q "wlan" && ok=1
   if [ "$ok" = "0" ]; then
-    adb exec 'cmd wifi status' 2>/dev/null | grep -qi "wifi is connected" && ok=1
+    adb shell 'cmd wifi status' 2>/dev/null | grep -qi "wifi is connected" && ok=1
   fi
   [ "$ok" = "1" ] && break
   [ $((i % 10)) -eq 0 ] && log "仍在等待 WiFi... ($i 轮)"
@@ -33,6 +33,6 @@ sh tools/bs_install.sh >> "$LOG" 2>&1
 
 log "重建「完整版」APK（构建 → 安装到本机 → 更新下载目录）"
 sh tools/rebuild_full.sh >> "$LOG" 2>&1
-adb exec "pm install -r /data/data/com.tmbj.app/files/alpine-rootfs/tmp/cloudbuild/unsigned-signed.apk" >> "$LOG" 2>&1
-adb exec 'cp /data/data/com.tmbj.app/files/tmbj-global/shared/cloudstudy-apk/CloudStudy-完整版.apk /sdcard/Download/CloudStudy.apk && echo DOWNLOAD_OK' >> "$LOG" 2>&1
+adb shell "pm install -r /data/data/com.tmbj.app/files/alpine-rootfs/tmp/cloudbuild/unsigned-signed.apk" >> "$LOG" 2>&1
+adb shell 'cp /data/data/com.tmbj.app/files/tmbj-global/shared/cloudstudy-apk/CloudStudy-完整版.apk /sdcard/Download/CloudStudy.apk && echo DOWNLOAD_OK' >> "$LOG" 2>&1
 log "CHAIN DONE ✔ —— 最终完整版已构建、安装、并更新到下载目录"
