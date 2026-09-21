@@ -1,9 +1,9 @@
 #!/bin/sh
 # 健壮版：修复+构建 ep04-12 + 收尾（可反复运行，自动跳过已完成）
-cd /var/minis/shared/room-video
+cd /opt/tmbj/room-video
 PL=logs/fixfinish.log
 echo "FIXFINISH START $(date '+%F %T')" >> $PL
-mkdir -p /var/minis/shared/worldskills-cloud/videos/covers
+mkdir -p /opt/tmbj/worldskills-cloud/videos/covers
 
 for ep in 04 05 06 07 08 09 10 11 12; do
   if [ -s out/ep$ep.mp4 ]; then echo "skip $ep (done) $(date '+%H:%M:%S')" >> $PL; continue; fi
@@ -34,16 +34,16 @@ CNT=$(ls out/*.mp4 2>/dev/null | wc -l)
 echo "== ALL_MP4: $CNT/12 ==" >> $PL
 
 # ---- 收尾 ----
-cp out/*.mp4 /var/minis/shared/worldskills-cloud/videos/ 2>>$PL
+cp out/*.mp4 /opt/tmbj/worldskills-cloud/videos/ 2>>$PL
 for ep in 01 02 03 04 05 06 07 08 09 10 11 12; do
-  cp frames/ep$ep/slide_00.png /var/minis/shared/worldskills-cloud/videos/covers/ep$ep.png 2>/dev/null
+  cp frames/ep$ep/slide_00.png /opt/tmbj/worldskills-cloud/videos/covers/ep$ep.png 2>/dev/null
 done
-echo "== videos copied: $(ls /var/minis/shared/worldskills-cloud/videos/*.mp4 2>/dev/null | wc -l) ==" >> $PL
+echo "== videos copied: $(ls /opt/tmbj/worldskills-cloud/videos/*.mp4 2>/dev/null | wc -l) ==" >> $PL
 python3 gen_video_md.py >> $PL 2>&1
 python3 gen_handout.py >> $PL 2>&1
 python3 qa_check.py > logs/qa.log 2>&1
 echo "== QA done $(date '+%H:%M:%S')" >> $PL
-sh /var/minis/shared/cloudstudy-apk/tools/rebuild_apk.sh > /dev/null 2>&1
-RLOG=$(ls -t /var/minis/shared/cloudstudy-apk/tools/logs/rebuild.*.log | head -1)
+sh /opt/tmbj/cloudstudy-apk/tools/rebuild_apk.sh > /dev/null 2>&1
+RLOG=$(ls -t /opt/tmbj/cloudstudy-apk/tools/logs/rebuild.*.log | head -1)
 echo "[fin] APK: $(tail -1 $RLOG)" >> $PL
 echo "FIXFINISH_DONE $(date '+%F %T')" >> $PL
