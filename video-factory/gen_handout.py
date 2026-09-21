@@ -3,8 +3,8 @@
 """生成《机房视频课 · 全台词讲义》md —— 从 12 集脚本自动提取"""
 import importlib.util, os
 
-ROOT = '/var/minis/shared/room-video'
-OUT = '/var/minis/shared/worldskills-cloud/room/10-视频课全讲义.md'
+ROOT = '/opt/tmbj/room-video'
+OUT = '/opt/tmbj/worldskills-cloud/room/10-视频课全讲义.md'
 
 TITLES = {
     '01': '机房管理员是干什么的', '02': '走进机房：五大系统巡礼',
@@ -84,7 +84,7 @@ for i in range(1, 13):
             lines.append('')
 lines.append('---')
 lines.append('')
-lines.append('*讲义由「星」从视频分镜脚本自动生成 · 与视频内容逐帧对应 · 2026*')
+lines.append('*讲义由「太马奔极」从视频分镜脚本自动生成 · 与视频内容逐帧对应 · 2026*')
 lines.append('')
 
 content = '\n'.join(lines)
