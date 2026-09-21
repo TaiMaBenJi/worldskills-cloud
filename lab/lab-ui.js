@@ -69,7 +69,7 @@ function centerHTML(){
     }
   }
   h+='<div class="lab-sec-t">🖥 真机训练场（wsarena · 真内核真服务）</div>';
-  h+='<p class="lab-sub">模拟器给你打底之后，想玩真的？在 Minis 对话框直接发这些命令，真机环境（chroot 节点）即刻就绪：</p>';
+  h+='<p class="lab-sub">模拟器给你打底之后，想玩真的？在 TMBJ 对话框直接发这些命令，真机环境（chroot 节点）即刻就绪：</p>';
   h+='<div class="lab-demo-line">wsarena task 1 → 看任务书　·　wsarena sh srv1 → 进入节点　·　wsarena check web → 自动评分</div>';
   return h;
 }
