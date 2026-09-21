@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""单集视频构建流水线: 渲染帧 -> TTS 配音 -> 合成 MP4"""
+"""单集视频构建流水线: 渲染帧 -> 配音 -> 合成 MP4"""
 import sys, os, asyncio, subprocess
-sys.path.insert(0, '/var/minis/shared/room-video/lib')
+sys.path.insert(0, '/opt/tmbj/room-video/lib')
 from render import render_slide
 import edge_tts
 
-ROOT = os.environ.get('VIDEO_ROOT', '/var/minis/shared/room-video')
+ROOT = os.environ.get('VIDEO_ROOT', '/opt/tmbj/room-video')
 VOICE = 'zh-CN-YunxiNeural'
 PAD = 0.72
 
