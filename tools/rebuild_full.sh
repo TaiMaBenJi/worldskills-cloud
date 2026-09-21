@@ -34,7 +34,7 @@ run java -jar "$TOOLS/jars/smali.jar" assemble "$WORK/smali" -o "$WORK/classes.d
 [ -s "$WORK/classes.dex" ] || fail "classes.dex 为空"
 
 log "== 4/7 设备侧 aapt2（-0 mp4 直通） =="
-adb exec "cd $DEVWORK && rm -f out.apk res.zip build.log && setsid sh build_dev.sh > build.log 2>&1 < /dev/null & echo LAUNCHED" >> "$LOG" 2>&1 || fail "aapt2 派发失败"
+adb shell "cd $DEVWORK && rm -f out.apk res.zip build.log && setsid sh build_dev.sh > build.log 2>&1 < /dev/null & echo LAUNCHED" >> "$LOG" 2>&1 || fail "aapt2 派发失败"
 i=0
 while [ "$i" -lt 450 ]; do
   if grep -q BUILD_DONE "$WORK/build.log" 2>/dev/null; then break; fi
