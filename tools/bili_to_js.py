@@ -3,7 +3,7 @@
 """bili_raw.json -> app/resource-data.js（含平台/开源/工具箱精选）"""
 import json, os
 
-BASE = "/var/minis/shared/worldskills-cloud"
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 raw = json.load(open(BASE + "/tools/bili_raw.json", encoding="utf-8"))
 
 CAP = {"装机": 220, "计算机": 220, "编译原理": 160, "进阶": 160}
