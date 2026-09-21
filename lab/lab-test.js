@@ -170,7 +170,7 @@ console.log('');
 
 /* ==================== 15. 全场景验证 ==================== */
 console.log('== 15. 场景库全量验证（初始分 < 100，示范解法 = 100） ==');
-require('/var/minis/shared/worldskills-cloud/lab/lab-scenarios.js');
+require('./lab-scenarios.js');
 var SCN=E.SCENARIOS;
 var scnFail=0, scnWarn=0;
 for(var si=0;si<SCN.length;si++){
