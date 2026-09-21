@@ -6,8 +6,8 @@
 """
 import re, os, sys
 
-TUT = '/var/minis/shared/worldskills-cloud/tutorial'
-OUTDIR = '/var/minis/shared/course-video/scripts'
+TUT = '/opt/tmbj/worldskills-cloud/tutorial'
+OUTDIR = '/opt/tmbj/course-video/scripts'
 SERIES = '云计算保姆级教程 · 从零到实战'
 ACCENTS = [(56,189,248),(251,191,36),(52,211,153),(167,139,250),(248,113,113)]
 
