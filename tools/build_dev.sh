@@ -1,5 +1,5 @@
 #!/system/bin/sh
-cd /data/data/com.openminis.app/files/alpine-rootfs/tmp/cloudbuild
+cd /data/data/com.tmbj.app/files/alpine-rootfs/tmp/cloudbuild
 AAPT=/data/local/tmp/aapt2/bin/aapt2
 export LD_LIBRARY_PATH=/data/local/tmp/aapt2/lib
 echo "STEP1 compile"
