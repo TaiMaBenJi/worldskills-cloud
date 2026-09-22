@@ -26,7 +26,6 @@
 | 📦 **资源库**（760 条） | B站精选学习视频：装机 / 计算机 / 编译原理 / 进阶，支持搜索 / 已看 / 收藏 | 内置 App 与 study.html |
 | 🫧 **离线学习中心** | 单文件 `study.html`：3200+ 篇资料全文检索、阅读进度记忆、液态玻璃界面、完全离线 | [Releases 下载](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) |
 | 📱 **安卓 App** | 完整版（411 MB）：62 集视频课 + 全部内容打包，安装即用；轻量版 3 MB：页面 / 题库 / 实训室 | [Releases 下载](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) |
-| 🎯 **多赛项训练基地** | 一门精通，多门开练：信息网络布线全套训练（手册 / 40 题互动题库 / 测量报告判读 / 链路预算计算）+ 网络系统管理 32 分制实操赛题（DNS / Samba / NFS / FTP / systemd，评分脚本自动判分、一键清场重做）+ 云计算 WSL 真机训练场 | [`multiskill/`](multiskill/) |
 
 ## 🚀 三种使用方式
 
@@ -46,7 +45,6 @@
 worldskills-cloud/
 ├── app/                 # 安卓 App（APK）+ 学习引擎源码（段位体系 / 资源库）
 ├── lab/                 # 模拟实训室引擎（22 场景 + 4 套模拟赛卷）
-├── multiskill/          # 多赛项训练基地（网络布线 / 网络系统管理实操赛题 + 评分脚本）
 ├── docs/                # 教程与知识体系（Markdown 源）
 │   ├── tutorial/        #   20 章保姆级教程 + 附录
 │   ├── mastery/         #   精通之路 7 篇
@@ -105,8 +103,6 @@ python3 tools/build_liquid.py
 - [x] 视频课 62 集（机房管理 / 保姆级教程 / 进阶专题）
 - [x] 资源库：760 条 B站精选
 - [x] 段位体系 + 模拟实训室（22 场景 / 4 套模拟赛卷）
-- [x] 多赛项训练基地：网络布线全套训练 + 网络系统管理 32 分制实操赛题（评分脚本判分）
-- [ ] multiskill 新增：信息安全 / 网站设计与开发训练场（路线图已就绪）
 - [ ] 收录更多国家/地区赛题（中 / 英 / 日 / 葡…）
 - [ ] B站课程下载队列收尾（约 15 门大课）
 
