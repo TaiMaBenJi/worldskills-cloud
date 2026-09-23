@@ -25,12 +25,12 @@
 | 🧪 **模拟实训室** | 22 个实战场景 + 4 套模拟赛卷，浏览器内真操作、自动评分 | [`lab/`](lab/) |
 | 📦 **资源库**（760 条） | B站精选学习视频：装机 / 计算机 / 编译原理 / 进阶，支持搜索 / 已看 / 收藏 | 内置 App 与 study.html |
 | 🫧 **离线学习中心** | 单文件 `study.html`：3200+ 篇资料全文检索、阅读进度记忆、液态玻璃界面、完全离线 | [Releases 下载](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) |
-| 📱 **安卓 App** | 完整版（411 MB）：62 集视频课 + 全部内容打包，安装即用；轻量版 3 MB：页面 / 题库 / 实训室 | [Releases 下载](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) |
+| 📱 **安卓 App（411 MB · 唯一版本）** | 62 集视频课 + 教程 / 题库 / 资源库 / 实训室全部内置，安装即用、完全离线 | [Releases 下载](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) |
 
 ## 🚀 三种使用方式
 
 **① 装 App（推荐手机党）**
-从 [**Releases 页面**](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) 下载 `CloudStudy-Full.apk`（完整版）→ 安装 → 打开「云计算学习」。
+从 [**Releases 页面**](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) 下载 `CloudStudy-Full.apk`（唯一完整版 · 411 MB）→ 安装 → 打开「云计算学习」。
 > 视频课、题库、资源库、实训室全部内置，无需联网；安装时系统提示"未知来源/风险应用"属正常侧载提示。
 
 **② 浏览器打开学习中心**
@@ -43,7 +43,7 @@
 
 ```
 worldskills-cloud/
-├── app/                 # 安卓 App（APK）+ 学习引擎源码（段位体系 / 资源库）
+├── app/                 # 学习引擎源码（段位体系 / 资源库）· APK 见 Releases
 ├── lab/                 # 模拟实训室引擎（22 场景 + 4 套模拟赛卷）
 ├── docs/                # 教程与知识体系（Markdown 源）
 │   ├── tutorial/        #   20 章保姆级教程 + 附录
@@ -74,7 +74,7 @@ python3 tools/build_liquid.py
 
 ### 构建安卓 App
 
-`tools/rebuild_apk.sh`（轻量版）/ `tools/rebuild_full.sh`（完整版）展示完整流程：
+`tools/rebuild_full.sh`（唯一完整版 · 一键构建脚本）展示完整流程：
 1. 生成 `study.html` → 放入 `assets/`
 2. 编写 `AndroidManifest.xml` + 最小 WebView Activity（smali 模板见 `tools/apk-template/`）
 3. 用 `smali.jar` 汇编 classes.dex
