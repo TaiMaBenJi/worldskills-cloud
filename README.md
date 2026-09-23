@@ -24,19 +24,23 @@
 | 🏆 **韩国赛题中文库**（59 份） | 2021–2025 韩国技能竞赛云计算真题：题面 + 评分标准（全中文翻译，评分命令可直接照用） | [`exam/korea-zh/`](exam/korea-zh/) |
 | 🧪 **模拟实训室** | 22 个实战场景 + 4 套模拟赛卷，浏览器内真操作、自动评分 | [`lab/`](lab/) |
 | 📦 **资源库**（760 条） | B站精选学习视频：装机 / 计算机 / 编译原理 / 进阶，支持搜索 / 已看 / 收藏 | 内置 App 与 study.html |
-| 🫧 **离线学习中心** | 单文件 `study.html`：3200+ 篇资料全文检索、阅读进度记忆、液态玻璃界面、完全离线 | [Releases 下载](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) |
+| 🫧 **离线学习中心** | 单文件 `study.html`：3200+ 篇资料全文检索、阅读进度记忆、国家平台级扁平界面、完全离线 | [Releases 下载](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) |
 | 📱 **安卓 App（411 MB · 唯一版本）** | 62 集视频课 + 教程 / 题库 / 资源库 / 实训室全部内置，安装即用、完全离线 | [Releases 下载](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) |
+| 🪟 **Windows 版（13 MB）** | 单文件 `CloudStudy.exe`，双击自动释放学习中心并用浏览器打开，免安装 | [Releases 下载](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) |
 
-## 🚀 三种使用方式
+## 🚀 四种使用方式
 
 **① 装 App（推荐手机党）**
 从 [**Releases 页面**](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) 下载 `CloudStudy-Full.apk`（唯一完整版 · 411 MB）→ 安装 → 打开「云计算学习」。
 > 视频课、题库、资源库、实训室全部内置，无需联网；安装时系统提示"未知来源/风险应用"属正常侧载提示。
 
 **② 浏览器打开学习中心**
-从 [**Releases 页面**](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) 下载 `study.html`（14 MB 单文件）→ 任意浏览器直接打开。
+从 [**Releases 页面**](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) 下载 `study.html`（13 MB 单文件）→ 任意浏览器直接打开。
 
-**③ 直接读文档**
+**③ Windows 双击即用**
+从 [**Releases 页面**](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) 下载 `CloudStudy.exe` → 双击 → 自动打开学习中心（免安装，内嵌最新界面）。
+
+**④ 直接读文档**
 从 [`docs/tutorial/00-开始之前`](docs/tutorial/00-开始之前-零基础先读我.md) 开始，按顺序阅读。
 
 ## 📂 目录结构
@@ -103,6 +107,8 @@ python3 tools/build_liquid.py
 - [x] 视频课 62 集（机房管理 / 保姆级教程 / 进阶专题）
 - [x] 资源库：760 条 B站精选
 - [x] 段位体系 + 模拟实训室（22 场景 / 4 套模拟赛卷）
+- [x] 国家平台级 UI 全面重塑 v3（扁平简约 · 白卡片 · 蓝色下划线导航 · 沉浸阅读）
+- [x] Windows 版 CloudStudy.exe（单文件免安装）
 - [ ] 收录更多国家/地区赛题（中 / 英 / 日 / 葡…）
 - [ ] B站课程下载队列收尾（约 15 门大课）
 
