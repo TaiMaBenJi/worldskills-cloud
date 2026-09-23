@@ -1,0 +1,32 @@
+/* ================================================================
+   国家平台风 · 末层修正：把 app 注入样式的渐变/玻璃残留统一压平
+   ================================================================ */
+/* ---- 自主学习引擎 learn.css ---- */
+.ln-chip.on{background:var(--blue-tint);border-color:rgba(43,92,217,.4)}
+.ln-chip.gold{background:#fdf7e8;border-color:rgba(176,125,16,.4);color:#8a6a00}
+.ln-card{background:#ffffff;border-radius:10px}
+.ln-ins-item{background:#fffaf0}
+.ln-think{background:#f6f3fe;border-left-color:#7c5cd9}
+.ln-prog>i{background:var(--blue)}
+.ln-doc.read{background:var(--blue-tint);border-color:rgba(43,92,217,.35)}
+.ln-doc.done{background:#eaf7f1;border-color:rgba(15,157,108,.4)}
+.ln-banner.ok{background:#eaf7f1;border-color:rgba(15,157,108,.4);color:#0c7a53}
+.ln-banner.warn{background:#fdf7e8;border-color:rgba(176,125,16,.4);color:#8a6a00}
+.ln-plan-card{background:#ffffff;border-color:rgba(124,92,217,.35);border-radius:12px}
+/* ---- 段位体系 rank.css ---- */
+.rk-card{background:var(--blue-tint);border-color:rgba(43,92,217,.3);border-radius:10px}
+.rk-card.ready{background:#fdf7e8;border-color:rgba(176,125,16,.4)}
+.rk-pill{background:var(--blue);border-radius:5px}
+.rk-bar i{background:var(--blue)}
+.rk-card.ready .rk-bar i{background:#b07d10}
+.rk-mini i{background:var(--blue)}
+.rk-mini.ok i{background:var(--green)}
+.rk-seal{border-color:#b07d10;color:#b07d10;background:#fdf7e8}
+.rk-certs{color:#8a6a00;background:#fdf7e8;border-color:rgba(176,125,16,.32)}
+/* ---- 资源库 resource.css ---- */
+.res-head{background:#ffffff}
+/* ---- 首页快捷入口 · 扁平色条（smartedu 式色彩分区） ---- */
+.home-card.qk-video{border-left:4px solid #d97706}
+.home-card.qk-res{border-left:4px solid var(--blue)}
+.home-card.qk-b7{border-left:4px solid #7c5cd9}
+
