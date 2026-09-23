@@ -463,10 +463,10 @@ nav_html = (_mk_nav_sec('course', '📚 主线课程', '从这里一章一章读
 total_docs = len(docs_js)
 
 # ---- home：学习驾驶舱（继续学习 → 今日计划 → 课程主线 → 快捷入口 → 最近 → 段位） ----
-_vc_style = ' style="border-color:rgba(255,190,90,.5);background:linear-gradient(150deg,rgba(255,190,90,.20),#ffffff)"'
+_vc_style = ' qk-video'
 _home_quick = (
     '<button class="home-card small" id="ln-map-quick" data-lnact="map"><b>🗺️ 学习地图 · 全课程架构 + 智能复习</b></button>'
-    '<button class="home-card small" data-resopen="1" style="border-color:rgba(26,111,232,.55);background:linear-gradient(150deg,rgba(26,111,232,.16),#fff)"><b>🌐 全网学习资源库 · 装机/计算机/编译原理</b></button>')
+    '<button class="home-card small qk-res" data-resopen="1"><b>🌐 全网学习资源库 · 装机/计算机/编译原理</b></button>')
 if os.path.exists(BASE + '/tutorial/98-视频课-总览.md'):
     _home_quick += '<button class="home-card small"%s data-doclink="tutorial_98-视频课-总览_md"><b>🎬 教程视频课（18 集）</b></button>' % _vc_style
 if os.path.exists(BASE + '/room/09-视频课总览.md'):
@@ -476,7 +476,7 @@ if os.path.exists(BASE + '/video-ext/00-总览.md'):
 _home_quick += (
     '<button class="home-card small" data-doclink="sprint_00-72小时冲刺作战手册_md"><b>⚡ 72 小时冲刺手册</b></button>'
     '<button class="home-card small" data-doclink="test-projects_INDEX_md"><b>📋 赛题目录</b></button>'
-    '<button class="home-card small" data-doclink="tutorial_20-锐捷云平台基础-试题A实战_md" style="border-color:rgba(150,80,255,.5);background:linear-gradient(150deg,rgba(150,80,255,.16),#fff)"><b>🧪 B7 锐捷云平台 · 试题A实战</b></button>')
+    '<button class="home-card small qk-b7" data-doclink="tutorial_20-锐捷云平台基础-试题A实战_md"><b>🧪 B7 锐捷云平台 · 试题A实战</b></button>')
 
 home_html = (
     '<div id="continue-slot" style="margin:0 0 12px"></div>'
@@ -520,364 +520,15 @@ page = f'''<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f7f7f5">
-<title>云计算 · 母语学习中心</title>
+<meta name="theme-color" content="#f4f6fa">
+<title>智慧云学习平台 · 世赛云计算离线学习中心</title>
 <style>
-:root {{
-  --bg:#f7f7f5;
-  --text:#1f2328;
-  --dim:rgba(31,35,40,.66);
-  --dim2:rgba(31,35,40,.46);
-  --glass:rgba(0,0,0,.035);
-  --glass2:rgba(0,0,0,.055);
-  --line:rgba(0,0,0,.13);
-  --line2:rgba(0,0,0,.075);
-  --hl:rgba(0,0,0,.3);
-  --blue:#1a6fe8;
-  --radius:12px;
-  --fs:16px;
-}}
-*{{box-sizing:border-box;-webkit-tap-highlight-color:transparent}}
-html,body{{margin:0;padding:0}}
-body{{
-  background:var(--bg); color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","PingFang SC","HarmonyOS Sans SC","Noto Sans SC",sans-serif;
-  font-size:var(--fs); line-height:1.78;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
-}}
-
-/* ---------- aurora background ---------- */
-.aurora{{display:none;position:fixed;inset:-20%;pointer-events:none;
-  background:
-    radial-gradient(38% 44% at 18% 16%, rgba(94,92,230,.42), transparent 62%),
-    radial-gradient(40% 48% at 82% 12%, rgba(255,55,95,.26), transparent 62%),
-    radial-gradient(46% 54% at 76% 78%, rgba(26,111,232,.34), transparent 66%),
-    radial-gradient(36% 44% at 12% 84%, rgba(48,209,88,.20), transparent 62%),
-    radial-gradient(30% 36% at 50% 50%, rgba(191,90,242,.14), transparent 60%);
-  filter:blur(52px) saturate(150%);
-  animation:aur 36s ease-in-out infinite alternate;
-}}
-@keyframes aur {{
-  0%{{transform:translate3d(-2%,-2%,0) scale(1)}}
-  50%{{transform:translate3d(3%,2%,0) scale(1.06)}}
-  100%{{transform:translate3d(-1%,3%,0) scale(1.02)}}
-}}
-
-/* ---------- glass primitives ---------- */
-button,.nav-item,.group-head,.home-card,.dn-btn,.sr-item,.tool-btn,a{{touch-action:manipulation;-webkit-tap-highlight-color:transparent}}
-button:focus{{outline:none}}
-button:focus-visible{{outline:2px solid #1a6fe8;outline-offset:2px}}
-.tool-btn:active{{transform:scale(.86);background:rgba(0,0,0,.04);transition-duration:.05s}}
-.group-head:active{{background:rgba(0,0,0,.05)}}
-.sr-item:active{{background:rgba(0,0,0,.08)}}
-#toTop:active,#tocBtn:active{{transform:scale(.88)}}
-#toTop,#tocBtn{{transition:transform .18s cubic-bezier(.34,1.56,.64,1),opacity .2s}}
-.glass{{
-  background:linear-gradient(150deg, rgba(0,0,0,.05), rgba(0,0,0,.03));
-  border:1px solid var(--line);
-  box-shadow:0 2px 10px rgba(0,0,0,.07);
-}}
-
-/* ---------- layout ---------- */
-.app{{position:relative;display:flex;min-height:100vh}}
-.side{{
-  position:sticky;top:0;height:100vh;width:296px;flex:0 0 296px;
-  padding:14px;display:flex;flex-direction:column;gap:12px;
-  transition:none;
-}}
-.side .panel{{border-radius:26px;flex:1;display:flex;flex-direction:column;overflow:hidden;
-  background:#ffffff;
-  border:1px solid var(--line);
-  box-shadow:0 2px 10px rgba(0,0,0,.07);
-}}
-.brand{{padding:18px 18px 12px;display:flex;align-items:center;gap:10px}}
-.brand .logo{{width:34px;height:34px;border-radius:11px;flex:0 0 34px;
-  background:conic-gradient(from 210deg,#1a6fe8,#8944d6,#db2777,#c99700,#1da851,#1a6fe8);
-  box-shadow:0 4px 14px rgba(26,111,232,.5);
-}}
-.brand h1{{font-size:15px;margin:0;font-weight:700;letter-spacing:.2px}}
-.brand p{{margin:0;font-size:11px;color:var(--dim2)}}
-
-.search{{margin:2px 14px 8px;display:flex;align-items:center;gap:8px;
-  background:rgba(0,0,0,.04);border:1px solid var(--line2);border-radius:14px;padding:8px 12px}}
-.search input{{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:13.5px}}
-.search input::placeholder{{color:var(--dim2)}}
-.search svg{{width:15px;height:15px;color:var(--dim2);flex:0 0 15px}}
-
-.nav{{overflow-y:auto;padding:4px 10px 18px;flex:1;overscroll-behavior:contain}}
-.nav::-webkit-scrollbar{{width:5px}}
-.nav::-webkit-scrollbar-thumb{{background:rgba(0,0,0,.08);border-radius:3px}}
-.nav-group{{margin-bottom:6px}}
-.group-head{{width:100%;display:flex;align-items:center;gap:8px;background:none;border:none;color:var(--dim);
-  font-size:12px;font-weight:700;letter-spacing:.6px;padding:9px 8px;cursor:pointer;border-radius:12px}}
-.group-head:hover{{background:rgba(0,0,0,.03)}}
-.g-dot{{width:8px;height:8px;border-radius:50%;box-shadow:none}}
-.chev{{width:14px;height:14px;margin-left:6px;transition:transform .3s}}
-.nav-group.closed .chev{{transform:rotate(-90deg)}}
-.nav-group.closed .group-body{{display:none}}
-.nav-item{{width:100%;display:flex;align-items:center;gap:9px;background:none;border:none;color:var(--dim);
-  font-size:13.5px;text-align:left;padding:8px 10px 8px 12px;border-radius:13px;cursor:pointer;
-  position:relative;overflow:hidden;}}
-.nav-item .dot{{width:6px;height:6px;border-radius:50%;flex:0 0 6px;opacity:.9}}
-.nav-item em{{margin-left:auto;font-style:normal;font-size:10.5px;color:var(--dim2);flex:0 0 auto}}
-.nav-item:hover{{background:rgba(0,0,0,.04);color:var(--text);transform:translateX(2px)}}
-.nav-item.active{{background:rgba(26,111,232,.10);
-  color:#1a6fe8;box-shadow:none;
-  border:1px solid rgba(96,150,235,.35);}}
-.nav-item.active em{{color:rgba(0,0,0,.1)}}
-.nav-item.hidden{{display:none}}
-
-/* ---------- main ---------- */
-.main{{flex:1;min-width:0;padding:14px 14px 90px;max-width:1020px;margin:0 auto;width:100%}}
-.topbar{{position:sticky;top:10px;z-index:30;display:flex;align-items:center;gap:10px;
-  border-radius:20px;padding:10px 12px;margin-bottom:14px;
-  background:#ffffff;
-  border:1px solid var(--line);
-  box-shadow:0 2px 10px rgba(0,0,0,.07);}}
-.menu-btn{{display:none;position:fixed;top:calc(16px + env(safe-area-inset-top,0px));left:14px;z-index:70;
-  width:42px;height:42px;border-radius:14px;border:1px solid var(--line2);
-  background:#ffffff;color:var(--text);cursor:pointer;align-items:center;justify-content:center;
-  transition:transform .18s cubic-bezier(.34,1.56,.64,1),background .2s;
-  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
-  box-shadow:0 2px 10px rgba(0,0,0,.07)}}
-body.drawer-open .menu-btn{{background:rgba(0,0,0,.05)}}
-.menu-btn:active{{transform:scale(.86);background:rgba(0,0,0,.04);transition-duration:.05s}}
-.bars{{display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center}}
-.bars i{{display:block;width:18px;height:2px;border-radius:2px;background:currentColor;
-  transition:transform .3s cubic-bezier(.22,.61,.36,1),opacity .18s;transform-origin:center}}
-body.drawer-open .menu-btn .bars i:nth-child(1){{transform:translateY(6px) rotate(45deg)}}
-body.drawer-open .menu-btn .bars i:nth-child(2){{opacity:0}}
-body.drawer-open .menu-btn .bars i:nth-child(3){{transform:translateY(-6px) rotate(-45deg)}}
-.crumb{{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}}
-.crumb b{{font-size:14.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-.crumb span{{font-size:11px;color:var(--dim2)}}
-.tools{{display:flex;align-items:center;gap:7px;flex:0 0 auto}}
-.tool-btn{{width:34px;height:34px;border-radius:12px;border:1px solid var(--line2);background:rgba(0,0,0,.05);
-  color:var(--text);cursor:pointer;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;
-  transition:transform .18s cubic-bezier(.34,1.56,.64,1), background .2s}}
-.tool-btn:hover{{background:rgba(0,0,0,.08)}}
-.tool-btn:active{{transform:scale(.9)}}
-.pill{{font-size:11px;color:var(--dim);padding:5px 10px;border-radius:999px;border:1px solid var(--line2);
-  background:rgba(0,0,0,.03);white-space:nowrap}}
-
-.progress-track{{position:fixed;top:0;left:0;right:0;height:3px;z-index:100;background:transparent;pointer-events:none}}
-.progress-bar{{height:100%;width:0;background:linear-gradient(90deg,#1a6fe8,#8944d6,#db2777);border-radius:0 3px 3px 0;
-  box-shadow:none;transition:width .1s linear}}
-
-.card{{border-radius:24px;padding:26px 26px 34px;position:relative;max-width:100%;overflow:hidden;
-  background:#ffffff;
-  border:1px solid var(--line);
-  box-shadow:0 2px 10px rgba(0,0,0,.07);}}
-.card-head{{display:flex;align-items:center;gap:10px;margin-bottom:6px}}
-.card-head .hbar{{width:4px;height:22px;border-radius:2px;background:var(--vc,#1a6fe8);box-shadow:none}}
-.card-head h2{{margin:0;font-size:20px;font-weight:800;letter-spacing:.2px}}
-.card-head .meta{{font-size:11.5px;color:var(--dim2);margin-left:auto;white-space:nowrap}}
-.card-in{{animation:fadeUp .3s ease}}
-@keyframes fadeUp{{from{{opacity:.35}}to{{opacity:1}}}}
-
-/* ---------- markdown styles ---------- */
-.md h1{{font-size:26px;font-weight:800;letter-spacing:.3px;margin:8px 0 18px;line-height:1.35}}
-.md h2{{font-size:19.5px;font-weight:750;margin:34px 0 12px;color:#1f2328;line-height:1.4;
-  padding-left:12px;border-left:3px solid var(--vc,#1a6fe8)}}
-.md h3{{font-size:16.5px;font-weight:700;margin:24px 0 8px;color:#1a6fe8}}
-.md h4{{font-size:15px;font-weight:700;margin:18px 0 6px;color:var(--dim)}}
-.md p{{margin:12px 0}}
-.md p,.md li,.md td,.md th,.md h1,.md h2,.md h3,.md h4,.md blockquote,.md summary,.md a{{overflow-wrap:anywhere;word-break:break-word}}
-.md a{{color:#1a6fe8;text-decoration:none;border-bottom:1px solid rgba(90,150,240,.35);cursor:pointer}}
-.md a.deadlink{{color:rgba(245,245,247,.4);border-bottom:1px dashed rgba(245,245,247,.25);cursor:not-allowed}}
-.md a.inlink{{color:#1a6fe8}}
-.md a.inlink::after{{content:" ↗";font-size:.8em;opacity:.7}}
-.md strong{{color:#0f1216}}
-.md code{{font-family:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  background:rgba(96,150,235,.13);border:1px solid rgba(96,150,235,.2);
-  padding:1.5px 6px;border-radius:7px;font-size:.86em;color:#1a6fe8}}
-.md pre{{background:#f2f3f5;border:1px solid rgba(0,0,0,.09);border-radius:16px;
-  padding:16px 18px;overflow-x:auto;margin:14px 0;max-width:100%;
-  box-shadow:0 2px 10px rgba(0,0,0,.07)}}
-.md pre code{{background:none;border:none;padding:0;color:#24292f;font-size:13px;line-height:1.75}}
-.doc-gallery{{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:10px 0 8px}}
-.doc-gallery img{{width:100%;border-radius:10px;border:1px solid var(--line2)}}
-.md table{{border-collapse:separate;border-spacing:0;width:100%;font-size:13.5px;display:block;overflow-x:auto;
-  border:1px solid var(--line2);border-radius:14px;margin:14px 0}}
-.md th,.md td{{border-bottom:1px solid var(--line2);padding:9px 13px;text-align:left;white-space:nowrap}}
-.md th{{background:rgba(0,0,0,.04);font-weight:700}}
-.md tr:last-child td{{border-bottom:none}}
-.md blockquote{{margin:14px 0;padding:12px 18px;border-left:3px solid var(--vc,#1a6fe8);
-  background:linear-gradient(90deg, rgba(26,111,232,.13), rgba(26,111,232,.03));border-radius:0 14px 14px 0;color:#1a6fe8}}
-.md ul,.md ol{{padding-left:22px;margin:10px 0}}
-.md li{{margin:6px 0}}
-.md hr{{border:none;border-top:1px solid var(--line2);margin:30px 0}}
-.md input[type=checkbox]{{margin-right:7px;accent-color:#1a6fe8;transform:translateY(1px)}}
-.md details{{background:rgba(0,0,0,.03);border:1px solid var(--line2);border-radius:14px;padding:10px 16px;margin:12px 0}}
-.md summary{{cursor:pointer;font-weight:700;color:#1a6fe8}}
-.md img{{max-width:100%;border-radius:14px}}
-.rawtext{{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-all;font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
-  font-size:12.5px;line-height:1.7;color:#1a6fe8;margin:0;max-width:100%}}
-.nav-group .group-head .cnt{{margin-left:auto;font-size:10px;color:var(--dim2);background:rgba(0,0,0,.05);padding:1px 7px;border-radius:99px}}
-.results{{display:none;margin:0 14px 8px;max-height:46vh;overflow-y:auto;background:#ffffff;border:1px solid var(--line);border-radius:16px;padding:6px}}
-.sr-item{{display:block;width:100%;text-align:left;background:none;border:none;color:var(--text);font-size:13px;padding:8px 10px;border-radius:10px;cursor:pointer}}
-.sr-item em{{display:block;font-style:normal;font-size:10.5px;color:var(--dim2);margin-top:1px}}
-.sr-item:hover{{background:rgba(0,0,0,.05)}}
-.sr-empty{{padding:10px;color:var(--dim2);font-size:12.5px}}
-.home-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(46%,1fr));gap:10px;margin:16px 0}}
-.home-card{{position:relative;display:flex;flex-direction:column;gap:6px;align-items:flex-start;background:linear-gradient(150deg,rgba(0,0,0,.05),rgba(0,0,0,.03));border:1px solid var(--line);border-radius:18px;padding:14px;color:var(--text);font-size:13.5px;cursor:pointer;text-align:left;transition:transform .25s cubic-bezier(.34,1.56,.64,1),background .25s;overflow:hidden}}
-.home-card:hover{{transform:translateY(-3px);background:linear-gradient(150deg,rgba(0,0,0,.08),rgba(0,0,0,.04))}}
-.home-card:active{{transform:scale(.97)}}
-.home-card b{{font-size:13.5px;font-weight:700;line-height:1.4}}
-.home-card .hc-dot{{width:10px;height:10px;border-radius:50%;box-shadow:none;flex:0 0 10px}}
-.home-card .hc-count{{font-size:11px;color:var(--dim2)}}
-.home-card.small{{flex-direction:row;align-items:center;gap:8px;padding:12px 14px;font-size:13px}}
-.home-quick{{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}}
-#continue-slot{{margin:10px 0}}
-#continue-slot .home-card{{border-color:rgba(96,150,235,.4)}}
-#toTop{{position:fixed;right:16px;bottom:22px;width:46px;height:46px;border-radius:50%;display:none;align-items:center;justify-content:center;font-size:18px;color:#333;cursor:pointer;background:#ffffff;border:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,.07);z-index:50}}
-
-.overlay{{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:40;opacity:0;pointer-events:none;transition:opacity .3s}}
-.overlay.show{{opacity:1;pointer-events:auto}}
-
-@media (max-width:900px) {{
-  .menu-btn{{display:flex}}
-  .topbar{{padding-left:64px}}
-  .side{{position:fixed;left:-360px;top:0;z-index:60;width:min(84vw,320px);flex-basis:auto}}
-  .side .panel{{background:#ffffff}}
-  /* .side.open left handled by JS (slideSide) */
-  .menu-btn{{display:flex}}
-  .main{{padding:10px 10px 80px}}
-  .card{{padding:18px 16px 30px;border-radius:20px}}
-  .topbar{{top:8px;border-radius:18px}}
-  .md h1{{font-size:22px}}
-  .md h2{{font-size:17.5px}}
-}}
-.foot{{text-align:center;color:var(--dim2);font-size:11.5px;padding:26px 0 10px}}
-/* ===== growth system → 段位体系（新样式由 app/rank.css 注入） ===== */
-.celebrate-card{{background:#ffffff;border:1px solid rgba(255,214,10,.5);border-radius:24px;padding:28px 40px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.07),0 0 60px rgba(255,214,10,.22)}}
-.celebrate-card .big{{font-size:42px}}
-.celebrate-card h3{{color:#c99700;margin:10px 0 4px;font-size:17px}}
-.celebrate-card p{{color:var(--dim);margin:4px 0 0;font-size:13px}}
-/* ===== quiz ===== */
-#quizView{{position:fixed;inset:0;z-index:160;background:#f7f7f5;display:none;flex-direction:column}}
-#quizView.on{{display:flex}}
-.quiz-head{{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);background:#ffffff}}
-.quiz-body{{flex:1;overflow-y:auto;padding:18px 16px 70px;max-width:640px;margin:0 auto;width:100%}}
-.qz-item{{background:#ffffff;border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px}}
-.qz-item h4{{margin:0 0 6px;font-size:15px;line-height:1.6}}
-.qz-opt{{display:block;width:100%;text-align:left;background:rgba(0,0,0,.04);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;color:var(--text);font-size:14px;cursor:pointer}}
-.qz-opt.right{{background:rgba(48,209,88,.22);border-color:#1da851}}
-.qz-opt.wrong{{background:rgba(255,69,58,.22);border-color:#dc3545}}
-.qz-exp{{font-size:12.5px;color:var(--dim);margin-top:8px;display:none;line-height:1.7}}
-.qz-btn{{display:inline-block;background:linear-gradient(150deg,#1a6fe8,#1557b0);border:none;border-radius:12px;color:#fff;font-size:13.5px;font-weight:700;padding:11px 18px;margin-top:10px;cursor:pointer}}
-.qz-btn.sm{{padding:7px 14px;font-size:12.5px;margin:0}}
-.qz-btn:active{{transform:scale(.96)}}
-/* ===== lab & sim ===== */
-.lab-card{{background:rgba(0,0,0,.03);border:1px solid var(--line);border-radius:13px;padding:11px 13px;margin:8px 0;cursor:pointer}}
-.lab-card.labdone{{background:rgba(48,209,88,.10);border-color:rgba(48,209,88,.45)}}
-#restView{{position:fixed;inset:0;z-index:170;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.4)}}
-#restView.on{{display:flex}}
-#boot{{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#f7f7f5;transition:opacity .45s}}
-#boot p{{margin:0;color:var(--dim);font-size:14px}}
-#boot small{{color:var(--dim2);font-size:11.5px}}
-.boot-ring{{width:54px;height:54px;border-radius:50%;border:3px solid rgba(0,0,0,.07);border-top-color:#1a6fe8;animation:spin 1s linear infinite}}
-@keyframes spin{{to{{transform:rotate(360deg)}}}}
-.docnav{{display:flex;gap:8px;margin-top:28px;padding-top:18px;border-top:1px solid var(--line2)}}
-.dn-btn{{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(150deg,rgba(0,0,0,.05),rgba(0,0,0,.03));border:1px solid var(--line);border-radius:14px;color:var(--text);font-size:12.5px;padding:11px 10px;cursor:pointer;transition:transform .2s,background .2s;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;text-align:center}}
-.dn-btn:hover{{background:rgba(0,0,0,.08)}}
-.dn-btn:active{{transform:scale(.97)}}
-.dn-btn.home{{flex:0 0 54px}}
-#tocBtn{{position:fixed;right:16px;bottom:84px;width:46px;height:46px;border-radius:50%;display:none;align-items:center;justify-content:center;font-size:17px;color:#333;cursor:pointer;background:#ffffff;border:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,.07);z-index:50}}
-#tocPanel{{position:fixed;right:16px;bottom:140px;width:min(78vw,320px);max-height:56vh;overflow-y:auto;display:none;z-index:51;border-radius:18px;padding:10px;background:#ffffff;border:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,.07)}}
-#tocPanel button{{display:block;width:100%;text-align:left;background:none;border:none;color:var(--text);font-size:12.5px;padding:7px 9px;border-radius:10px;cursor:pointer}}
-#tocPanel button:hover{{background:rgba(0,0,0,.05)}}
-#tocPanel button.lv3{{padding-left:22px;color:var(--dim);font-size:12px}}
-#results mark{{background:rgba(255,214,10,.4);color:#5f4b00;border-radius:3px;padding:0 2px}}
-.nav-item.read::after{{content:'✓';font-size:10px;color:#1da851;margin-left:5px;flex:0 0 auto}}
-/* item animations removed: this WebView's compositor can freeze transform/opacity animations */
-/* ================================================================
-   V3 学习体验增强：首页驾驶舱 · 侧栏分区 · 沉浸阅读 · 章节条
-   ================================================================ */
-/* ---- 首页：分区标题 ---- */
-.hsec{{display:flex;align-items:baseline;gap:9px;margin:26px 0 10px;flex-wrap:wrap}}
-.hsec b{{font-size:16px;font-weight:800;letter-spacing:.2px}}
-.hsec span{{font-size:11.5px;color:var(--dim2)}}
-.home-lead{{color:var(--dim);font-size:13px;margin:2px 0 6px;line-height:1.85}}
-/* ---- 首页：继续学习 hero ---- */
-#continue-slot{{margin:0 0 12px}}
-.hero-card{{display:block;width:100%;text-align:left;cursor:pointer;border:1px solid rgba(26,111,232,.4);
-  border-radius:22px;padding:16px 16px 13px;
-  background:linear-gradient(135deg,rgba(26,111,232,.15),rgba(137,68,214,.10) 55%,#fff)}}
-.hero-card:active{{transform:scale(.985)}}
-.hero-top{{display:flex;align-items:center;gap:12px}}
-.hero-play{{flex:0 0 46px;width:46px;height:46px;border-radius:50%;background:linear-gradient(150deg,#1a6fe8,#1557b0);
-  color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;padding-left:3px;
-  box-shadow:0 4px 12px rgba(26,111,232,.35)}}
-.hero-tt{{flex:1;min-width:0}}
-.hero-tt b{{display:block;font-size:11.5px;color:#1557b0;letter-spacing:1px;margin-bottom:3px}}
-.hero-tt span{{display:block;font-size:15.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-.hero-pct{{font-size:14px;font-weight:800;color:#1557b0;flex:0 0 auto}}
-.hero-bar{{height:7px;border-radius:4px;background:rgba(26,111,232,.16);margin:13px 0 9px;overflow:hidden}}
-.hero-bar i{{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#1a6fe8,#8944d6)}}
-.hero-stats{{font-size:11.5px;color:var(--dim)}}
-.hero-stats b{{color:#1557b0}}
-/* ---- 首页：课程主线路线卡 ---- */
-#route-slot{{display:flex;flex-direction:column;gap:10px}}
-.rt-track{{border:1px solid var(--line);border-radius:18px;padding:13px 14px 12px;
-  background:linear-gradient(150deg,rgba(0,0,0,.035),rgba(0,0,0,.012))}}
-.rt-head{{display:flex;align-items:center;gap:11px;cursor:pointer}}
-.rt-ic{{font-size:21px;flex:0 0 auto}}
-.rt-tt{{flex:1;min-width:0}}
-.rt-tt b{{display:block;font-size:14px;font-weight:800}}
-.rt-tt span{{font-size:11px;color:var(--dim2)}}
-.rt-pct{{font-size:12.5px;font-weight:800;color:var(--dim)}}
-.rt-track.all .rt-pct{{color:#1da851}}
-.rt-bar{{height:5px;border-radius:3px;background:rgba(0,0,0,.07);margin:10px 0;overflow:hidden}}
-.rt-bar i{{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,#1a6fe8,#8944d6)}}
-.rt-go{{display:block;width:100%;text-align:left;cursor:pointer;border:1px solid rgba(26,111,232,.32);
-  background:rgba(26,111,232,.07);border-radius:13px;padding:10px 12px;font-size:13px;font-weight:700;color:#1557b0}}
-.rt-go:active{{transform:scale(.985)}}
-.rt-done{{font-size:12.5px;color:#1da851;font-weight:700;padding:2px 2px 0}}
-.rt-stages{{display:none;margin-top:10px;border-top:1px dashed var(--line2);padding-top:6px}}
-.rt-track.open .rt-stages{{display:block}}
-.rt-stage{{margin:9px 0 2px}}
-.rt-stage>b{{font-size:11.5px;color:var(--dim);letter-spacing:.3px}}
-.rt-doc{{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:none;
-  color:var(--text);font-size:12.5px;padding:7px 6px;border-radius:10px;cursor:pointer}}
-.rt-doc:active{{background:rgba(0,0,0,.05)}}
-.rt-doc .st{{flex:0 0 auto;font-size:11px;width:15px;text-align:center;color:var(--dim2)}}
-.rt-doc.done .st{{color:#1da851}}
-.rt-doc .nm{{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-/* ---- 首页：档案入口 ---- */
-.archive-entry{{border-style:dashed;margin-top:26px;color:var(--dim)}}
-/* ---- 侧栏分区 ---- */
-.nav-sec{{margin:0 0 2px}}
-.sec-head{{width:100%;display:flex;align-items:center;gap:7px;background:none;border:none;color:var(--text);
-  font-size:11.5px;font-weight:800;letter-spacing:1.1px;padding:11px 8px 7px;cursor:pointer;border-radius:10px}}
-.sec-head .cnt{{font-size:9.5px;color:var(--dim2);font-weight:600;background:rgba(0,0,0,.05);padding:1px 7px;border-radius:99px;letter-spacing:0}}
-.sec-head .sub{{font-size:10px;color:var(--dim2);font-weight:500;letter-spacing:0;margin-left:auto}}
-.nav-sec.closed .sec-body{{display:none}}
-/* ---- 正文章节条 ---- */
-.dkicker{{font-size:11.5px;color:var(--dim2);letter-spacing:.4px;margin:2px 0 16px;padding-bottom:10px;border-bottom:1px solid var(--line2)}}
-/* ---- 底部翻页按钮加强 ---- */
-.dn-btn b{{display:block;font-size:10.5px;color:var(--dim2);font-weight:600;letter-spacing:.5px;margin-bottom:1px}}
-.docnav{{gap:10px}}
-/* ---- 沉浸阅读模式 ---- */
-body.rmode .menu-btn{{display:none !important}}
-body.rmode .side{{display:none}}
-body.rmode .main{{max-width:880px;padding:8px 8px 90px}}
-body.rmode .topbar{{padding:8px 12px;border-radius:16px;top:6px;margin-bottom:10px}}
-body.rmode .crumb span{{display:none}}
-body.rmode .card{{border:none;box-shadow:none;background:transparent;padding:10px 6px 30px}}
-body.rmode .card-head{{display:none}}
-body.rmode .foot{{display:none}}
-body.rmode .md{{line-height:1.95}}
-body.rmode .md p{{margin:15px 0}}
-body.rmode .md h2{{margin:46px 0 16px;font-size:20px}}
-body.rmode .md h3{{margin:30px 0 10px}}
-body.rmode .card-in{{max-width:780px;margin:0 auto}}
-#rmBtn.on{{background:rgba(26,111,232,.14);border-color:rgba(26,111,232,.45);color:#1557b0}}
+/*@@NATION_CSS@@*/
 /*@@LAB_CSS@@*/
 /*@@RANK_CSS@@*/
 /*@@RES_CSS@@*/
 /*@@LEARN_CSS@@*/
+/*@@NATION_FIX@@*/
 </style>
 </head>
 <body>
@@ -892,7 +543,7 @@ body.rmode .card-in{{max-width:780px;margin:0 auto}}
     <div class="panel">
       <div class="brand">
         <div class="logo"></div>
-        <div><h1>云计算 · 母语学习中心</h1><p>离线学习中心 · 打开就走</p></div>
+        <div><h1>智慧云学习平台</h1><p>世赛云计算 · 全离线学习中心</p></div>
       </div>
       <div class="search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
@@ -917,11 +568,11 @@ body.rmode .card-in{{max-width:780px;margin:0 auto}}
       </div>
     </div>
     <div class="card glass" id="card">
-      <div class="card-head"><div class="hbar" id="hbar"></div><h2 id="doc-title">云计算 · 母语学习中心</h2><span class="meta" id="doc-meta"></span></div>
+      <div class="card-head"><div class="hbar" id="hbar"></div><h2 id="doc-title">智慧云学习平台</h2><span class="meta" id="doc-meta"></span></div>
       <article class="md card-in" id="content">正在加载…</article>
       <div class="docnav" id="docnav"></div>
     </div>
-    <div class="foot">全部内容离线可用 · 阅读进度自动保存 · 学习数据只存在本机</div>
+    <div class="foot">世赛云计算学习资料整理项目 · 全部内容离线可用 · 阅读进度自动保存 · 学习数据仅存本机</div>
   </main>
 </div>
 
@@ -2099,6 +1750,12 @@ page = page.replace('/*@@LEARN_CSS@@*/', _ln_css)
 page = page.replace('/*@@LEARN_JS@@*/', _ln_data + '\n' + _ln_js)
 print('learn injected:', len(_ln_css), '+', len(_ln_data), '+', len(_ln_js), 'chars')
 
+# ---- 注入「国家平台级视觉系统」（app/：扁平简约 · 白卡片 · 蓝色下划线导航 · 沉浸阅读） ----
+_nt_css = _appread('nation-core.css'); _nt_fix = _appread('nation-fix.css')
+page = page.replace('/*@@NATION_CSS@@*/', _nt_css)
+page = page.replace('/*@@NATION_FIX@@*/', _nt_fix)
+print('nation injected:', len(_nt_css), '+', len(_nt_fix), 'chars')
+
 # ---- 临时诊断层（app/diag.js 存在时注入；删除文件即停用） ----
 try:
     _dg_js = open(os.path.join(BASE, 'app', 'diag.js'), encoding='utf-8').read()
@@ -2146,3 +1803,4 @@ if '/*@@LAB' in page: print('WARN: lab markers left unresolved!')
 if '/*@@RANK' in page: print('WARN: rank markers left unresolved!')
 if '/*@@RES' in page: print('WARN: res markers left unresolved!')
 if '/*@@LEARN' in page: print('WARN: learn markers left unresolved!')
+if '/*@@NATION' in page: print('WARN: nation markers left unresolved!')
