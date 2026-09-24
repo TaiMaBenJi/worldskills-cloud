@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>信息网络布线 · 40 题互动题库</title>
+<style>
+  :root{--bg:#0b1020;--card:#131a2e;--line:#26314f;--txt:#e8edf7;--sub:#9aa7c4;
+    --ok:#10b981;--bad:#ef4444;--accent:#f59e0b}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);font-family:"Microsoft YaHei",system-ui,sans-serif;line-height:1.75;padding:32px 18px}
+  .wrap{max-width:900px;margin:0 auto}
+  h1{font-size:24px;margin-bottom:4px}
+  .sub{color:var(--sub);font-size:13.5px;margin-bottom:18px}
+  #scorebar{position:sticky;top:0;z-index:9;background:rgba(11,16,32,.92);backdrop-filter:blur(6px);
+    border:1px solid var(--line);border-radius:12px;padding:10px 18px;display:flex;gap:18px;align-items:center;margin-bottom:20px;font-size:14px}
+  #scorebar .v{font-size:18px;font-weight:800;color:var(--accent)}
+  .chip{font-size:12px;color:var(--sub);border:1px solid var(--line);border-radius:999px;padding:2px 10px}
+  button{cursor:pointer}
+  #submit{background:var(--accent);color:#0b1020;border:0;font-weight:800;font-size:15px;padding:8px 22px;border-radius:10px}
+  #retry{display:none;background:transparent;color:var(--txt);border:1px solid var(--line);font-size:13px;padding:7px 16px;border-radius:10px;margin-left:8px}
+  .q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:14px}
+  .q .cat{font-size:11.5px;color:var(--accent);letter-spacing:1px}
+  .q h3{font-size:15.5px;margin:4px 0 12px;font-weight:600}
+  .opt{display:block;border:1px solid var(--line);border-radius:10px;padding:9px 14px;margin:7px 0;cursor:pointer;font-size:14px;color:var(--txt);background:transparent;width:100%;text-align:left;font-family:inherit}
+  .opt:hover{border-color:var(--accent)}
+  .opt.sel{border-color:var(--accent);background:rgba(245,158,11,.1)}
+  .exp{display:none;margin-top:10px;border-left:3px solid var(--accent);background:rgba(245,158,11,.07);padding:8px 12px;font-size:13.5px;color:var(--sub);border-radius:0 8px 8px 0}
+  .q.ok{border-color:var(--ok)} .q.ok .opt.right{border-color:var(--ok);background:rgba(16,185,129,.12);color:#d1fae5}
+  .q.bad{border-color:var(--bad)} .q.bad .opt.right{border-color:var(--ok);background:rgba(16,185,129,.12)}
+  .q .verdict{display:none;font-size:13px;font-weight:700;margin-top:8px}
+  .q.ok .verdict{color:var(--ok);display:block}
+  .q.bad .verdict{color:var(--bad);display:block}
+  #result{display:none;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:20px;text-align:center}
+  #result .big{font-size:42px;font-weight:900}
+  #result .pass{color:var(--ok)} #result .np{color:var(--bad)}
+  #result .note{color:var(--sub);font-size:13.5px;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📡 信息网络布线 · 互动题库</h1>
+  <div class="sub">40 题 · 每题 2.5 分共 100 分 · 60 分及格 · 点击选项作答，交卷后逐题出解析（对照《知识手册》§8 速记卡查漏）</div>
+
+  <div id="scorebar">
+    <span>已选 <b id="picked">0</b>/40</span>
+    <span class="chip">标准架构 8 题</span><span class="chip">铜缆 12 题</span>
+    <span class="chip">光纤 12 题</span><span class="chip">测试计算 8 题</span>
+    <span style="margin-left:auto"><button id="submit">交卷判分</button><button id="retry">重做一遍</button></span>
+  </div>
+
+  <div id="result"></div>
+  <div id="quiz"></div>
+</div>
+
+<script>
+const QS = [
+/* ============ 标准与架构 ============ */
+{c:"标准架构",q:"GB 50311-2016 是哪类规范？",o:["综合布线系统工程设计规范","综合布线工程验收规范","布线产品标准","光缆施工安全规程"],a:0,
+ e:"GB 50311 管设计，GB/T 50312 管验收测试——这对「兄弟标准」是国标体系最高频考点。"},
+{c:"标准架构",q:"综合布线系统的 7 个部分中，不包括以下哪项？",o:["工作区子系统","干线子系统","城域传输网","进线间"],a:2,
+ e:"7 部分：工作区、配线（水平）、干线（垂直）、建筑群、设备间、进线间、管理。城域传输网属于运营商网络。"},
+{c:"标准架构",q:"永久链路（Permanent Link）的最大长度是？",o:["90 m","100 m","95 m","500 m"],a:0,
+ e:"永久链路 ≤90m；信道（含两端跳线）≤100m。90/100 这组数字是布线第一考点。"},
+{c:"标准架构",q:"信道（Channel）的最大长度是？",o:["90 m","100 m","105 m","150 m"],a:1,
+ e:"信道 = 永久链路 90m + 两端跳线共约 10m = 100m。"},
+{c:"标准架构",q:"楼层之间（设备间→楼层配线间）的干线子系统，首选传输介质是？",o:["同轴电缆","光缆（辅以大对数铜缆）","Cat5e 双绞线","电话线"],a:1,
+ e:"干线走光：带宽大、距离远、无电磁干扰。语音等低速业务才用大对数铜缆。"},
+{c:"标准架构",q:"「管理」子系统贯穿全系统，它的核心手段是？",o:["加大线径","标识标签与色标管理（跳线/文档）","全部走无线","提高电压"],a:1,
+ e:"管理 = 标识、色标、记录文档、跳线规范，让几十年的布线系统可维护可追溯。"},
+{c:"标准架构",q:"ANSI/TIA-568 系列中，管平衡双绞线元部件的是？",o:["TIA-568.0-D","TIA-568.1-D","TIA-568.2-D","TIA-568.3-D"],a:2,
+ e:".0 总则、.1 设计路径、.2 铜缆部件、.3 光纤部件。"},
+{c:"标准架构",q:"进线间的主要作用是？",o:["员工进出打卡","外部线缆（运营商/园区）引入建筑及入口设施安装","存放备用水晶头","安装空调"],a:1,
+ e:"进线间 = 外部进线的「入境口岸」，注意与设备间（核心机房）区分。"},
+
+/* ============ 铜缆 ============ */
+{c:"铜缆",q:"Cat6A（超六类）的带宽是？",o:["100 MHz","250 MHz","500 MHz","2000 MHz"],a:2,
+ e:"Cat5e=100、Cat6=250、Cat6A=500、Cat7=600、Cat8=2000 MHz。"},
+{c:"标准架构",q:"Cat6 在常规环境下跑 10GBASE-T 的最大距离约为？",o:["100 m","37~55 m","300 m","10 m"],a:1,
+ e:"六类万兆只能 37~55m（受外部串扰影响取值）；要万兆 100m 上 Cat6A。"},
+{c:"铜缆",q:"Cat8 支持的最长信道距离是？",o:["100 m","50 m","30 m","5 m"],a:2,
+ e:"8 类用 2000MHz 带宽换 25/40G 速率，但信道仅 30m——定位是机房内短连接。"},
+{c:"铜缆",q:"按 T568B 线序，第 3 针脚是？",o:["白橙","绿","白绿","蓝"],a:2,
+ e:"T568B 口诀：白橙 橙 白绿 蓝 白蓝 绿 白棕 棕。第 3 = 白绿。"},
+{c:"铜缆",q:"1000BASE-T（千兆）至少使用几对线传输？",o:["1 对","2 对","4 对","8 对"],a:2,
+ e:"百兆 2 对（1-2、3-6）；千兆/万兆 4 对全用、双向并行。"},
+{c:"铜缆",q:"交叉线的正确描述是？",o:["两端都用 568B","一端 568A、一端 568B","两端线序随机","剥皮对折即可"],a:1,
+ e:"一 A 一 B = 交叉；同端同序 = 直通。现代网卡自协商（Auto MDI/MDIX），基本全用直通线。"},
+{c:"铜缆",q:"串绕（Split Pair）故障的典型测试表现是？",o:["LENGTH 超长","NEXT（串扰）严重劣化 FAIL","回损变好","PING 变快"],a:1,
+ e:"串绕 = 把两根不同对的线绞成一对，破坏绞距抵消 → 近端串扰爆炸，长距离完全不通。剥皮后没按对分组是根源。"},
+{c:"铜缆",q:"信道时延偏差（Delay Skew）的上限约为？",o:["5 ns","50 ns","500 ns","5 µs"],a:1,
+ e:"信道 ≤50ns。并行传输 4 对线，时延差太大万兆就「对不齐」。"},
+{c:"铜缆",q:"回损（Return Loss）FAIL 最可能的原因是？",o:["线缆阻抗失配/受压变形/弯折过度","长度超 100m","水晶头颜色不对","标签贴歪"],a:0,
+ e:"回损测的是 100Ω 标称阻抗的偏离：受压、打折、接头工艺差都会造成反射。"},
+{c:"铜缆",q:"Fluke 测的长度总不准，应优先检查？",o:["NVP（额定传输速率）设置","仪器电池","室温","测试员身高"],a:0,
+ e:"长度是电学测量，依赖 NVP（典型 ~69%）。用一段已知长度的线校准 NVP 再测。"},
+{c:"铜缆",q:"屏蔽记法 U/FTP 表示？",o:["完全没有屏蔽","无总屏蔽层、每线对铝箔屏蔽","丝网总屏蔽+每对箔屏","只有水晶头屏蔽"],a:1,
+ e:"x/yTP：x=总屏蔽（U/F/S/SF），y=线对屏蔽（U/F）。U/FTP = 对屏蔽无总屏蔽。"},
+{c:"铜缆",q:"屏蔽布线系统的接地要求是？",o:["不用接地","只接一端","两端等电位接地","接火线"],a:2,
+ e:"屏蔽层必须两端等电位接地，否则不但不抗干扰，反而成为接收干扰的「天线」。"},
+
+/* ============ 光纤 ============ */
+{c:"光纤",q:"G.652 单模光纤的芯径是？",o:["9/125 µm","50/125 µm","62.5/125 µm","100/140 µm"],a:0,
+ e:"单模 9µm 黄色外皮；多模 50 或 62.5µm。芯径是单模/多模第一判别特征。"},
+{c:"光纤",q:"多模系统主用工作波长是？",o:["850 nm","1310 nm","1550 nm","650 nm"],a:0,
+ e:"多模 850/1300nm（VCSEL 用 850）；单模 1310/1550nm。"},
+{c:"光纤",q:"单模光纤 1310nm 窗口的典型衰减约为？",o:["0.35 dB/km","3.5 dB/km","35 dB/km","0.02 dB/km"],a:0,
+ e:"单模 0.35@1310、0.20@1550 dB/km；多模 3.5(OM3)/3.0(OM4) dB/km@850。数量级差 10 倍，别选混。"},
+{c:"光纤",q:"OM4 在 850nm 的典型衰减是？",o:["3.5 dB/km","3.0 dB/km","0.35 dB/km","0.03 dB/km"],a:1,
+ e:"OM3=3.5、OM4=3.0 dB/km@850nm。OM4 又贵又好，万兆能跑 400m。"},
+{c:"光纤",q:"10GBASE-SR 采用 OM4 多模的最大距离是？",o:["300 m","400 m","10 km","40 km"],a:1,
+ e:"SR + OM3=300m、OM4=400m；LR 单模=10km；ER=40km。"},
+{c:"光纤",q:"熔接（fusion splice）的典型损耗是？",o:["0.02~0.08 dB","0.5~1 dB","3~5 dB","10 dB"],a:0,
+ e:"熔接 0.02~0.08dB（验收上限常按 0.3dB）；冷接 0.1~0.3dB；活动连接器成对 ≤0.75dB。"},
+{c:"光纤",q:"TIA 标准中单个活动连接器（成对研磨端面）损耗上限是？",o:["0.1 dB","0.3 dB","0.75 dB","3 dB"],a:2,
+ e:"连接器对 ≤0.75dB、熔接点 ≤0.3dB——这两个上限值在链路预算里当保守参数用。"},
+{c:"光纤",q:"APC 型光纤连接器的特征是？",o:["8° 斜面端面、绿色外壳","金色圆头","纯平端面蓝色","无线结构"],a:0,
+ e:"APC=8°斜面+绿色；UPC=近平面+蓝色。APC 回损 ≥60dB，用于 CATV/射频类高反射敏感系统。"},
+{c:"光纤",q:"UPC 与 APC 连接器直接对接的后果是？",o:["毫无影响","接触不良：损耗大、反射尖峰，严禁混接","速度翻倍","自动兼容"],a:1,
+ e:"两种端面几何互不兼容，硬对接会损伤端面并造成高损耗高反射。转换需用跳线/法兰转接。"},
+{c:"光纤",q:"黄色外皮的光缆一般是？",o:["多模","单模","数据线","电源线"],a:1,
+ e:"黄=单模，橙=多模（OM2 及以下），水绿（Aqua）=OM3/OM4 激光优化多模。"},
+{c:"光纤",q:"单模光模块的光源类型是？",o:["LED","VCSEL","激光器 LD（DFB）","白炽灯"],a:2,
+ e:"单模芯径小耦合难 → 用激光器 LD；多模用 VCSEL（或老式 LED），成本更低。"},
+{c:"光纤",q:"OM3/OM4 激光优化多模跳线的外皮颜色是？",o:["橙色","水绿色（Aqua）","黄色","灰色"],a:1,
+ e:"Aqua 水绿 = OM3/OM4 的标志色，机房里一眼认出万兆多模。"},
+
+/* ============ 测试与计算 ============ */
+{c:"测试计算",q:"链路认证验收测总损耗的标准方法是？",o:["插入损耗法（稳定光源+光功率计）","目视红光笔","万用表","掐一下"],a:0,
+ e:"OLTS 插入损耗法给出认证数值；OTDR 负责定位诊断。定位靠 OTDR，定值靠 OLTS。"},
+{c:"测试计算",q:"OTDR 的主要用途是？",o:["给光纤充电","定位事件（断点/熔接点/连接器）的位置与损耗","测量网速","熔接光纤"],a:1,
+ e:"OTDR 靠背向散射「看」全程，距离+损耗一起出——排障第一神器。"},
+{c:"测试计算",q:"OTDR 测出的所有位置都系统性偏短，最可能的原因是？",o:["折射率 IOR 设大了","天气太热","操作员手抖","光缆太新"],a:0,
+ e:"位置 = 光速×时间/折射率。IOR 设得比实际大 → 算出的长度偏短，且是成比例的系统性偏差。"},
+{c:"测试计算",q:"OTDR 起始段有盲区，测近端事件应？",o:["加发射光纤（盲区光纤/发射缆）","使劲晃仪表","直接无视所有事件","换红色的光"],a:0,
+ e:"仪表前面接一段 500m~1km 发射缆，把被测链路「推」出盲区，还能顺带测出首端连接器损耗。"},
+{c:"测试计算",q:"OTDR 末端大反射尖峰之后又出现一段「假曲线」，这是？",o:["另一根真实光缆","鬼影（ghost），非真实事件","光纤第二次业务","仪器坏"],a:1,
+ e:"强反射来回震荡形成鬼影。缩短测试距离/降低功率/检查末端端面即可消除。"},
+{c:"测试计算",q:"【计算】5km 单模 1310nm（0.35dB/km），2 个连接器（各按 0.75dB）、1 个熔接点（0.3dB），链路总损耗是？",o:["3.55 dB","1.75 dB","5.30 dB","2.80 dB"],a:0,
+ e:"5×0.35 + 2×0.75 + 1×0.3 = 1.75+1.5+0.3 = 3.55 dB。"},
+{c:"测试计算",q:"【计算】光模块发射 −2dBm、接收灵敏度 −20dBm；链路实际损耗 12dB，功率余量是多少？",o:["6 dB","10 dB","18 dB","22 dB"],a:0,
+ e:"允许 = −2−(−20) = 18dB；余量 = 18−12 = 6dB ≥3dB，达标。"},
+{c:"测试计算",q:"工程上验收光链路，功率余量的合格惯例是？",o:["≥3 dB","≥0.1 dB","≥30 dB","可以为负"],a:0,
+ e:"留 2~3dB 余量应对老化/维修/温度波动，工程惯例取 3dB。余量为负 = 必不通。"},
+];
+
+let picked = new Array(QS.length).fill(null);
+const quizEl = document.getElementById('quiz');
+
+function render(){
+  quizEl.innerHTML = QS.map((it,i)=>`
+    <div class="q" id="q${i}">
+      <span class="cat">${it.c}</span>
+      <h3>${i+1}. ${it.q}</h3>
+      ${it.o.map((o,j)=>`<button class="opt" data-q="${i}" data-o="${j}" onclick="pick(${i},${j})">${'ABCD'[j]}. ${o}</button>`).join('')}
+      <div class="exp">💡 ${it.e}</div>
+      <div class="verdict"></div>
+    </div>`).join('');
+}
+function pick(i,j){
+  if(quizEl.querySelector(`#q${i}`).classList.contains('ok')||quizEl.querySelector(`#q${i}`).classList.contains('bad'))return;
+  picked[i]=j;
+  quizEl.querySelectorAll(`#q${i} .opt`).forEach(b=>b.classList.remove('sel'));
+  quizEl.querySelector(`#q${i} [data-o="${j}"]`).classList.add('sel');
+  document.getElementById('picked').textContent = picked.filter(x=>x!==null).length;
+}
+document.getElementById('submit').onclick = ()=>{
+  if(picked.filter(x=>x!==null).length<QS.length && !confirm(`还有 ${QS.length-picked.filter(x=>x!==null).length} 题没答，确定交卷？`)) return;
+  let score=0;
+  QS.forEach((it,i)=>{
+    const box=quizEl.querySelector(`#q${i}`), v=box.querySelector('.verdict');
+    box.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel'));
+    box.querySelector(`[data-o="${it.a}"]`).classList.add('right');
+    if(picked[i]===it.a){score+=2.5; box.classList.add('ok'); v.textContent='✅ 正确 +2.5 分';}
+    else{box.classList.add('bad'); v.textContent=`❌ 错误（你选 ${picked[i]===null?'—':'ABCD'[picked[i]]}，正确 ${'ABCD'[it.a]}）`;}
+    box.querySelector('.exp').style.display='block';
+  });
+  const pass=score>=60, r=document.getElementById('result');
+  r.style.display='block';
+  r.innerHTML=`<div class="big ${pass?'pass':'np'}">${score} / 100</div>
+    <div class="note">${pass?'✅ 及格！错的题看解析，对照知识手册补漏。':'❌ 未及格（60 分及格）。回《知识手册》把错题对应章节再看一遍，再战。'}<br>标准架构：${subScore(0,8)} · 铜缆：${subScore(8,20)} · 光纤：${subScore(20,32)} · 测试计算：${subScore(32,40)}</div>`;
+  r.scrollIntoView({behavior:'smooth'});
+};
+function subScore(s,e){let n=0;for(let i=s;i<e;i++)if(picked[i]===QS[i].a)n+=2.5;return n+'分';}
+document.getElementById('retry').onclick=()=>{picked.fill(null);document.getElementById('result').style.display='none';
+  document.getElementById('picked').textContent=0;render();window.scrollTo(0,0);};
+render();
+</script>
+</body>
+</html>
