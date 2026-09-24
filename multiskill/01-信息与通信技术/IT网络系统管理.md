@@ -120,3 +120,10 @@ IT网络系统管理项目考察选手为企业交付并维护一整套信息基
 
 本篇为独立整理的学习框架与经验总结，仅供自学交流；所用软件版本与授权方式请遵循各厂商规定。
 赛项设置、标准文本与评分细节以世界技能组织及当届竞赛官方文件为准。
+
+## 配套资源
+
+- 项目图解：[精通路线图](01-%E4%BF%A1%E6%81%AF%E4%B8%8E%E9%80%9A%E4%BF%A1%E6%8A%80%E6%9C%AF/IT%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86-%E8%B7%AF%E7%BA%BF%E5%9B%BE.svg) · [核心能力域](01-%E4%BF%A1%E6%81%AF%E4%B8%8E%E9%80%9A%E4%BF%A1%E6%8A%80%E6%9C%AF/IT%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86-%E8%83%BD%E5%8A%9B%E5%9F%9F.svg)
+- 模拟训练：[在线交互训练（十题评分）](https://cdn.jsdelivr.net/gh/TaiMaBenJi/worldskills-cloud@main/01-%E4%BF%A1%E6%81%AF%E4%B8%8E%E9%80%9A%E4%BF%A1%E6%8A%80%E6%9C%AF/IT%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86-%E6%A8%A1%E6%8B%9F%E8%AE%AD%E7%BB%83.html)，同目录也有独立 HTML 文件可离线打开
+- 总纲课视频：[观看或下载](https://github.com/TaiMaBenJi/worldskills-cloud/releases/download/training-videos/IT%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86-%E6%80%BB%E7%BA%B2%E8%AF%BE.mp4)（约两至三分钟，中文解说）
+- 以上配套内容为独立整理的学习辅助，赛项标准以世界技能组织官方文件为准。
