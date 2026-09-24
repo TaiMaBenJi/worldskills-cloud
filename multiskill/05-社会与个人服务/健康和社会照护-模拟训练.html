@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>健康和社会照护 · 模拟训练</title>
+<style>
+:root{--bg:#f4f6fa;--text:#182338;--dim:#5b6b85;--dim2:#8a97ad;--line:#dfe6f0;--line2:#e9eef6;--blue:#2b5cd9;--blue-deep:#2450c0;--blue-tint:#edf2fd;--green:#0f9d6c;--red:#cf3830;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","HarmonyOS Sans SC","Source Han Sans SC","Noto Sans SC",sans-serif;font-size:16px;line-height:1.8;-webkit-font-smoothing:antialiased}
+.wrap{max-width:720px;margin:0 auto;padding:14px 14px 60px}
+.head{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px}
+.head h1{margin:0 0 4px;font-size:19px;font-weight:800}
+.head p{margin:0;color:var(--dim);font-size:13px}
+.meta{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.chip{font-size:12px;color:var(--blue);background:var(--blue-tint);border:1px solid rgba(43,92,217,.3);border-radius:6px;padding:2px 10px}
+.track{height:6px;background:var(--line2);border-radius:3px;overflow:hidden;margin-top:12px}
+.track i{display:block;height:100%;width:0;background:var(--blue);transition:width .3s}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(24,35,56,.04)}
+.qnum{font-size:12px;color:var(--dim2);letter-spacing:1px}
+.qtext{font-size:15.5px;font-weight:700;margin:4px 0 12px;line-height:1.7}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:8px;padding:11px 14px;margin:8px 0;color:var(--text);font-size:14px;cursor:pointer}
+.opt:hover{border-color:rgba(43,92,217,.5)}
+.opt.right{background:#eaf7f1;border-color:var(--green);font-weight:700}
+.opt.wrong{background:#fdeeed;border-color:var(--red)}
+.opt:disabled{cursor:default}
+.seqpool{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.seqchip{background:var(--blue-tint);border:1px solid rgba(43,92,217,.35);border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer;color:var(--blue-deep)}
+.seqchip.used{opacity:.35;pointer-events:none}
+.seqbuild{min-height:48px;border:1px dashed var(--line);border-radius:8px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.seqbuild .seqchip{cursor:pointer;background:#fff}
+.explain{display:none;margin-top:10px;background:var(--blue-tint);border-left:4px solid var(--blue);border-radius:0 8px 8px 0;padding:10px 14px;font-size:13px;color:#31519e;line-height:1.8}
+.btn{display:inline-block;background:var(--blue);border:none;border-radius:8px;color:#fff;font-size:14px;font-weight:700;padding:11px 20px;cursor:pointer;margin-top:12px}
+.btn:active{background:var(--blue-deep)}
+.btn.ghost{background:#fff;color:var(--blue);border:1px solid rgba(43,92,217,.4)}
+.result{display:none;text-align:center;padding:26px 16px}
+.result .score{font-size:44px;font-weight:800;color:var(--blue)}
+.result .grade{font-size:17px;font-weight:800;margin:6px 0}
+.result p{color:var(--dim);font-size:13px;margin:6px 0}
+.foot{color:var(--dim2);font-size:11.5px;text-align:center;margin-top:20px;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>健康和社会照护 · 模拟训练</h1>
+    <p>十个情景训练任务，覆盖评估沟通、照护计划、转移协助与感染防控等核心环节，满分一百分，六十分合格。做完每题请对照解析回读总纲对应部分。</p>
+    <div class="meta"><span class="chip" id="prog">进度 0 / 10</span><span class="chip" id="scoreChip">得分 0</span><span class="chip">满分 100 分</span></div>
+    <div class="track"><i id="bar"></i></div>
+  </div>
+  <div id="list"></div>
+  <div class="card result" id="result">
+    <div class="score" id="finalScore">0</div>
+    <div class="grade" id="finalGrade"></div>
+    <p id="finalNote"></p>
+    <button class="btn" onclick="location.reload()">重新训练</button>
+  </div>
+  <div class="foot">健康和社会照护 · 世界技能大赛全技能精通库<br>训练成绩仅在本机浏览器内计算，不上传任何数据</div>
+</div>
+<script>
+const QS = [{"type":"single","q":"照护服务的起点，最规范的第一次接触应该做什么。","options":["直接按统一流程给每位被照护者做同样的护理","与被照护者及家属沟通，评估其身体状况、能力、意愿与生活习惯，建立个性化照护计划","只听家属安排","照着上一家的方案抄"],"answer":1,"explain":"以人为中心的照护从评估开始：身体状况、自理能力、意愿与偏好共同决定计划内容，个性化是本项目的核心评分理念。"},{"type":"single","q":"协助行动不便者从床转移到轮椅，最优先的安全措施是哪一项。","options":["动作快一点省力","评估其能力、固定轮椅与刹车、必要时使用转移辅助工具并指导配合方式","抱起来最快","让老人自己跳过去"],"answer":1,"explain":"转移前评估与准备（刹车、角度、工具、口令）决定安全。鼓励被照护者做力所能及的部分，也是能力维护的要求。"},{"type":"single","q":"被照护者拒绝服药，正确的应对是哪一项。","options":["把药混进饭里偷偷喂","耐心倾听原因，解释目的与影响，与其商量可行的替代方案并记录上报","强制灌下去","不吃了就算了不用记录"],"answer":1,"explain":"意愿必须被尊重，强硬或隐瞒都违反伦理。查明拒绝原因（副作用、误解、情绪），沟通协商并如实记录上报。"},{"type":"single","q":"处理被照护者的排泄物与污染敷料时，正确的感染防控做法是哪一项。","options":["包起来扔进普通垃圾桶","戴手套按规程处理，污染物按医疗废物分类处置，随后执行手卫生","直接冲进下水道","交给家属处理"],"answer":1,"explain":"标准预防要求污染物分类处置、操作后手卫生（含脱手套后）。这是感染链阻断的基础，也是评分的强制项。"},{"type":"single","q":"与听力下降的老年被照护者沟通，最合适的做法是哪一项。","options":["提高音量喊话","面对面对视、放慢语速清晰表达，辅以手势与书面提示，确认对方理解","只跟家属说","写一大篇专业术语"],"answer":1,"explain":"沟通要适配对方能力：面对面对视利用唇读，慢速清楚比单纯大声有效，确认理解闭环是关键动作。"},{"type":"order","q":"为卧床被照护者更换体位的规范流程，请按正确顺序排列。","steps":["解释目的并评估身体条件","准备枕头等辅助用品","协助翻身并摆舒适功能位，观察受压皮肤","记录时间与皮肤状况并定时再更换"],"answer":[0,1,2,3],"explain":"解释取得配合，物品先行，翻身同时查皮肤（压疮预防），最后记录并形成定时翻身制度。"},{"type":"order","q":"发现被照护者摔倒在地，请按正确顺序排列处置动作。","steps":["保持镇静评估意识与伤情，不急于扶起","呼叫支援并按伤情处置","协助安全转移并持续观察","记录事件经过并按规定上报"],"answer":[0,1,2,3],"explain":"跌倒后立即扶起可能加重骨折或二次损伤。先评估再处置，之后观察、记录、上报，是事件管理闭环。"},{"type":"judge","q":"照护记录只需在下班前凭记忆补写即可，白天发生的事不会忘。","answer":false,"explain":"照护记录必须及时、客观、如实书写，凭记忆补写会失真。记录既是服务质量，也是法律层面的证据。"},{"type":"judge","q":"尊重被照护者的隐私，包括操作时遮挡身体、不随意谈论其个人情况。","answer":true,"explain":"隐私与尊严保护贯穿所有操作：拉帘遮挡、征得同意、信息保密，都是评估的重要维度。"},{"type":"judge","q":"协助进食时应鼓励被照护者自己完成力所能及的动作，照护者只做必要的辅助。","answer":true,"explain":"维持剩余能力是照护目标之一，包办代替会加速能力退化。辅助到位但不过度，正是专业性的体现。"}];
+let score = 0, done = 0;
+const el = {};
+function $(id){return document.getElementById(id)}
+function render(){
+  const list = $('list');
+  QS.forEach(function(q, i){
+    const c = document.createElement('div'); c.className = 'card';
+    let h = '<div class="qnum">第 ' + (i+1) + ' 题 · ' + typeName(q.type) + '</div><div class="qtext">' + q.q + '</div>';
+    if (q.type === 'single' || q.type === 'judge') {
+      const opts = q.type === 'judge' ? ['正确', '错误'] : q.options;
+      h += opts.map(function(o, j){ return '<button class="opt" data-i="' + i + '" data-j="' + j + '">' + o + '</button>'; }).join('');
+    } else if (q.type === 'order') {
+      h += '<div class="seqbuild" id="build-' + i + '"></div><div class="seqpool" id="pool-' + i + '">'
+        + q.steps.map(function(s, j){ return '<span class="seqchip" data-i="' + i + '" data-j="' + j + '">' + s + '</span>'; }).join('')
+        + '</div><button class="btn ghost" data-check="' + i + '" style="margin-top:4px">确认顺序</button>';
+    }
+    h += '<div class="explain" id="ex-' + i + '">' + q.explain + '</div>';
+    c.innerHTML = h; list.appendChild(c);
+  });
+  list.addEventListener('click', onClick);
+}
+function typeName(t){ return t === 'single' ? '情景单选' : (t === 'judge' ? '判断' : '工序排序'); }
+function answered(i){ return QS[i]._done; }
+function onClick(e){
+  const t = e.target;
+  if (t.classList.contains('opt')) {
+    const i = +t.dataset.i, j = +t.dataset.j;
+    if (answered(i)) return;
+    QS[i]._done = true;
+    const btns = t.parentNode.querySelectorAll('.opt');
+    btns.forEach(function(b){ b.disabled = true; });
+    const right = (QS[i].type === 'judge') ? (j === 0 ? QS[i].answer : !QS[i].answer) : (j === QS[i].answer);
+    btns[right ? j : QS[i].answer].classList.add('right');
+    if (!right) t.classList.add('wrong'); else score++;
+    finish(i, right);
+  } else if (t.classList.contains('seqchip')) {
+    const i = +t.dataset.i;
+    if (answered(i)) return;
+    const pool = $('pool-' + i), build = $('build-' + i);
+    if (t.parentNode === pool) { build.appendChild(t); } else { pool.appendChild(t); }
+  } else if (t.dataset && t.dataset.check !== undefined) {
+    const i = +t.dataset.check;
+    if (answered(i)) return;
+    const build = $('build-' + i);
+    const picked = [].map.call(build.querySelectorAll('.seqchip'), function(x){ return +x.dataset.j; });
+    if (picked.length !== QS[i].steps.length) return;
+    QS[i]._done = true;
+    build.querySelectorAll('.seqchip').forEach(function(x){ x.style.pointerEvents = 'none'; });
+    const right = picked.join(',') === QS[i].answer.join(',');
+    build.style.borderColor = right ? 'var(--green)' : 'var(--red)';
+    if (right) score++;
+    finish(i, right);
+  }
+}
+function finish(i){
+  done++;
+  $('ex-' + i).style.display = 'block';
+  $('prog').textContent = '进度 ' + done + ' / ' + QS.length;
+  $('scoreChip').textContent = '得分 ' + score;
+  $('bar').style.width = (done * 100 / QS.length) + '%';
+  if (done === QS.length) {
+    const pct = score * 100 / QS.length;
+    const g = pct >= 90 ? '精通' : (pct >= 75 ? '熟练' : (pct >= 60 ? '合格' : '不合格'));
+    $('finalScore').textContent = score * 10 + ' 分';
+    $('finalGrade').textContent = '评级：' + g;
+    $('finalNote').textContent = pct >= 60 ? '可继续研读总纲薄弱部分，隔日重训巩固。' : '建议回到总纲对照自测清单补齐基础，再来挑战。';
+    $('result').style.display = 'block';
+    $('result').scrollIntoView({behavior: 'smooth'});
+  }
+}
+render();
+</script>
+</body>
+</html>
