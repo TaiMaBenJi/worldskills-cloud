@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>砌筑 · 模拟训练</title>
+<style>
+:root{--bg:#f4f6fa;--text:#182338;--dim:#5b6b85;--dim2:#8a97ad;--line:#dfe6f0;--line2:#e9eef6;--blue:#2b5cd9;--blue-deep:#2450c0;--blue-tint:#edf2fd;--green:#0f9d6c;--red:#cf3830;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","HarmonyOS Sans SC","Source Han Sans SC","Noto Sans SC",sans-serif;font-size:16px;line-height:1.8;-webkit-font-smoothing:antialiased}
+.wrap{max-width:720px;margin:0 auto;padding:14px 14px 60px}
+.head{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px}
+.head h1{margin:0 0 4px;font-size:19px;font-weight:800}
+.head p{margin:0;color:var(--dim);font-size:13px}
+.meta{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.chip{font-size:12px;color:var(--blue);background:var(--blue-tint);border:1px solid rgba(43,92,217,.3);border-radius:6px;padding:2px 10px}
+.track{height:6px;background:var(--line2);border-radius:3px;overflow:hidden;margin-top:12px}
+.track i{display:block;height:100%;width:0;background:var(--blue);transition:width .3s}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(24,35,56,.04)}
+.qnum{font-size:12px;color:var(--dim2);letter-spacing:1px}
+.qtext{font-size:15.5px;font-weight:700;margin:4px 0 12px;line-height:1.7}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:8px;padding:11px 14px;margin:8px 0;color:var(--text);font-size:14px;cursor:pointer}
+.opt:hover{border-color:rgba(43,92,217,.5)}
+.opt.right{background:#eaf7f1;border-color:var(--green);font-weight:700}
+.opt.wrong{background:#fdeeed;border-color:var(--red)}
+.opt:disabled{cursor:default}
+.seqpool{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.seqchip{background:var(--blue-tint);border:1px solid rgba(43,92,217,.35);border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer;color:var(--blue-deep)}
+.seqchip.used{opacity:.35;pointer-events:none}
+.seqbuild{min-height:48px;border:1px dashed var(--line);border-radius:8px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.seqbuild .seqchip{cursor:pointer;background:#fff}
+.explain{display:none;margin-top:10px;background:var(--blue-tint);border-left:4px solid var(--blue);border-radius:0 8px 8px 0;padding:10px 14px;font-size:13px;color:#31519e;line-height:1.8}
+.btn{display:inline-block;background:var(--blue);border:none;border-radius:8px;color:#fff;font-size:14px;font-weight:700;padding:11px 20px;cursor:pointer;margin-top:12px}
+.btn:active{background:var(--blue-deep)}
+.btn.ghost{background:#fff;color:var(--blue);border:1px solid rgba(43,92,217,.4)}
+.result{display:none;text-align:center;padding:26px 16px}
+.result .score{font-size:44px;font-weight:800;color:var(--blue)}
+.result .grade{font-size:17px;font-weight:800;margin:6px 0}
+.result p{color:var(--dim);font-size:13px;margin:6px 0}
+.foot{color:var(--dim2);font-size:11.5px;text-align:center;margin-top:20px;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>砌筑 · 模拟训练</h1>
+    <p>十个情景训练任务，覆盖识图放样、组砌灰缝、异形构造与自检验收，满分一百分，六十分合格。做完每题请对照解析回读总纲对应部分。</p>
+    <div class="meta"><span class="chip" id="prog">进度 0 / 10</span><span class="chip" id="scoreChip">得分 0</span><span class="chip">满分 100 分</span></div>
+    <div class="track"><i id="bar"></i></div>
+  </div>
+  <div id="list"></div>
+  <div class="card result" id="result">
+    <div class="score" id="finalScore">0</div>
+    <div class="grade" id="finalGrade"></div>
+    <p id="finalNote"></p>
+    <button class="btn" onclick="location.reload()">重新训练</button>
+  </div>
+  <div class="foot">砌筑 · 世界技能大赛全技能精通库<br>训练成绩仅在本机浏览器内计算，不上传任何数据</div>
+</div>
+<script>
+const QS = [{"type":"single","q":"你拿到一张中等复杂度的砌筑图纸，准备开工。按总纲的赛场铁律，落第一铲灰之前最该完成的是哪件事。","options":["直接开砌，边砌边想细部做法","先读图列出工序与材料清单，完成放样与排砖方案，想清楚每个部位的量法与量具","先把整批砂浆全部拌好再研究图纸","先砌一段试试手感，方案以后再补"],"answer":1,"explain":"砌筑赛场铁律是先算后砌、边砌边校。评分按验收测量逐项给分，开工前必须想清楚每个部位的量法与量具；不做排砖方案，砌到顶部出现半砖窄条或对缝，观感分会整体崩掉。"},{"type":"single","q":"关于砌筑砂浆的使用，下列说法正确的是哪个。","options":["配比与稠度凭手感调整即可，不影响墙体质量","砂浆停放越久越好，用前加水重拌更省料","配比与稠度失控会导致灰缝忽厚忽薄、砌筑吃力走形，拌制要有配比记录并随拌随用","稠度越大越好，揉砖更轻松"],"answer":2,"explain":"砂浆随意是总纲明确的常见失误：配比与稠度失控直接导致灰缝不匀与墙体走形。拌制要有配比记录与手感标准，随拌随用，已失去塑性的砂浆不得加水复拌凑合使用。"},{"type":"single","q":"砌筑中为什么要上下皮错缝搭接、杜绝通缝。","options":["只是为了省砂浆","通缝使砖块间缺乏咬合，削弱墙体整体性，也是验收与观感的明确扣分项","通缝只影响美观，验收不查","通缝便于后期开槽布线"],"answer":1,"explain":"一顺一丁、三顺一丁、梅花丁等组砌法的核心就是上下皮错缝搭接。通缝降低墙体整体性，转角与丁字墙还要按咬砌规则处理，这是组砌方法的底线要求。"},{"type":"single","q":"砌到第四皮时用靠尺检查，发现底层已有明显偏差。此时最妥当的处理是哪个。","options":["不管它，砌完再说，面层能盖住","趁砂浆尚未硬化立即拆返调整，并恢复三层一校的检查节奏","把整段墙全部推倒重来","加大以后各皮灰缝厚度把墙掰回来"],"answer":1,"explain":"底层小偏差会随砌筑逐皮放大，发现超偏必须趁砂浆未硬立即调整，这正是坚持三层一校的意义。放任不管偏差持续放大，硬掰与全部推倒都会造成更大失分。"},{"type":"single","q":"砌筑一段弧形墙，要保证弧线顺畅、不出折角与波浪，关键做法是哪个。","options":["凭眼睛估计弧度，砌完整体修凿","按半径放样逐皮收分，并用样板块逐皮校验弧线","把弧线简化成多段直线拼接","全部用切割成楔形的砖硬凑"],"answer":1,"explain":"弧形墙的正确工艺是按半径放样、逐皮收分，用样板块逐皮校验，避免折角与波浪。凭感觉或事后修凿达不到毫米级精度，赛场要求异形模块一次成型不需返工。"},{"type":"order","q":"请把一段标准墙体的完整砌筑流程按正确顺序排列。","steps":["弹线放样并完成排砖撂底","立皮数杆、挂准线并拌制砂浆","逐皮砌筑，三层一校控制垂直与灰缝","勾缝成型、清洁墙面并做好成品保护"],"answer":[0,1,2,3],"explain":"标准顺序是先放样排砖确定各皮砖层与灰缝分配，再立皮数杆挂准线建立标高与平直基准，随后逐皮砌筑边砌边校，最后勾缝与收尾。跳过放样直接开砌是赛场大忌。"},{"type":"order","q":"从拿到竞赛图纸到墙体交付，请把下列工作按正确顺序排列。","steps":["读图并列出工序清单与材料清单","确定放样基准，完成足尺放线与排砖方案","按组砌方法逐皮砌筑并随时校验","按测量表逐项自检，修补缺陷并清理场地"],"answer":[0,1,2,3],"explain":"竞赛级读图拆解要求先列工序与材料清单，再定放样基准与开工顺序；砌筑中边砌边校，收尾阶段按测量表逐项自评。这一顺序保证返工最少，也为自检修补留足时间。"},{"type":"judge","q":"墙体成型后极难修改，返工即失分，因此读图与排砖方案往往比手速更决定名次。","answer":true,"explain":"砌筑是典型的不可逆工序，砂浆不等人，墙上的每一皮都是不可撤销的记录。先算后砌、把功夫花在放样与排砖上，才能做到整套任务全程无返工。"},{"type":"judge","q":"砍砖与切割时只要尺寸对了，断面与棱角质量无所谓。","answer":false,"explain":"切割与砍砖要求看线落刀、棱角完整、断面平整并控制损耗。破损断面直接影响砌缝密合与墙面观感，操作时还要做好切割防护。"},{"type":"judge","q":"砂浆已经初凝时加水重新拌合，可以继续正常使用，不影响灰缝质量。","answer":false,"explain":"砂浆有使用时效，必须随拌随用。初凝后加水复拌会破坏已形成的水化结构，粘结强度报废，导致灰缝酥松、墙体质量无法保证，拌制前应按用量估算。"}];
+let score = 0, done = 0;
+const el = {};
+function $(id){return document.getElementById(id)}
+function render(){
+  const list = $('list');
+  QS.forEach(function(q, i){
+    const c = document.createElement('div'); c.className = 'card';
+    let h = '<div class="qnum">第 ' + (i+1) + ' 题 · ' + typeName(q.type) + '</div><div class="qtext">' + q.q + '</div>';
+    if (q.type === 'single' || q.type === 'judge') {
+      const opts = q.type === 'judge' ? ['正确', '错误'] : q.options;
+      h += opts.map(function(o, j){ return '<button class="opt" data-i="' + i + '" data-j="' + j + '">' + o + '</button>'; }).join('');
+    } else if (q.type === 'order') {
+      h += '<div class="seqbuild" id="build-' + i + '"></div><div class="seqpool" id="pool-' + i + '">'
+        + q.steps.map(function(s, j){ return '<span class="seqchip" data-i="' + i + '" data-j="' + j + '">' + s + '</span>'; }).join('')
+        + '</div><button class="btn ghost" data-check="' + i + '" style="margin-top:4px">确认顺序</button>';
+    }
+    h += '<div class="explain" id="ex-' + i + '">' + q.explain + '</div>';
+    c.innerHTML = h; list.appendChild(c);
+  });
+  list.addEventListener('click', onClick);
+}
+function typeName(t){ return t === 'single' ? '情景单选' : (t === 'judge' ? '判断' : '工序排序'); }
+function answered(i){ return QS[i]._done; }
+function onClick(e){
+  const t = e.target;
+  if (t.classList.contains('opt')) {
+    const i = +t.dataset.i, j = +t.dataset.j;
+    if (answered(i)) return;
+    QS[i]._done = true;
+    const btns = t.parentNode.querySelectorAll('.opt');
+    btns.forEach(function(b){ b.disabled = true; });
+    const right = (QS[i].type === 'judge') ? (j === 0 ? QS[i].answer : !QS[i].answer) : (j === QS[i].answer);
+    btns[right ? j : QS[i].answer].classList.add('right');
+    if (!right) t.classList.add('wrong'); else score++;
+    finish(i, right);
+  } else if (t.classList.contains('seqchip')) {
+    const i = +t.dataset.i;
+    if (answered(i)) return;
+    const pool = $('pool-' + i), build = $('build-' + i);
+    if (t.parentNode === pool) { build.appendChild(t); } else { pool.appendChild(t); }
+  } else if (t.dataset && t.dataset.check !== undefined) {
+    const i = +t.dataset.check;
+    if (answered(i)) return;
+    const build = $('build-' + i);
+    const picked = [].map.call(build.querySelectorAll('.seqchip'), function(x){ return +x.dataset.j; });
+    if (picked.length !== QS[i].steps.length) return;
+    QS[i]._done = true;
+    build.querySelectorAll('.seqchip').forEach(function(x){ x.style.pointerEvents = 'none'; });
+    const right = picked.join(',') === QS[i].answer.join(',');
+    build.style.borderColor = right ? 'var(--green)' : 'var(--red)';
+    if (right) score++;
+    finish(i, right);
+  }
+}
+function finish(i){
+  done++;
+  $('ex-' + i).style.display = 'block';
+  $('prog').textContent = '进度 ' + done + ' / ' + QS.length;
+  $('scoreChip').textContent = '得分 ' + score;
+  $('bar').style.width = (done * 100 / QS.length) + '%';
+  if (done === QS.length) {
+    const pct = score * 100 / QS.length;
+    const g = pct >= 90 ? '精通' : (pct >= 75 ? '熟练' : (pct >= 60 ? '合格' : '不合格'));
+    $('finalScore').textContent = score * 10 + ' 分';
+    $('finalGrade').textContent = '评级：' + g;
+    $('finalNote').textContent = pct >= 60 ? '可继续研读总纲薄弱部分，隔日重训巩固。' : '建议回到总纲对照自测清单补齐基础，再来挑战。';
+    $('result').style.display = 'block';
+    $('result').scrollIntoView({behavior: 'smooth'});
+  }
+}
+render();
+</script>
+</body>
+</html>
