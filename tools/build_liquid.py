@@ -561,8 +561,8 @@ page = f'''<!DOCTYPE html>
 
       <div class="crumb" onclick="show('__home__')" style="cursor:pointer" title="回到首页"><b id="cr-title">载入中…</b><span id="cr-sub"></span></div>
       <div class="tools">
-        <button class="tool-btn" id="rmBtn" onclick="toggleRMode()" title="沉浸阅读（只剩文字）">📖</button>
-        <button class="tool-btn" onclick="quickSearch()" title="搜索">🔍</button>
+        <button class="tool-btn" id="rmBtn" onclick="toggleRMode()" title="沉浸阅读（只剩文字）">阅</button>
+        <button class="tool-btn" onclick="quickSearch()" title="搜索">搜</button>
         <button class="tool-btn" onclick="fontStep(-1)" title="缩小字号">A-</button>
         <button class="tool-btn" onclick="fontStep(1)" title="放大字号">A+</button>
       </div>
@@ -596,7 +596,7 @@ function show(id, push){{
   document.getElementById('doc-title').textContent=d.t;
   document.getElementById('cr-title').textContent=d.t;
   document.getElementById('cr-sub').textContent=d.g + ' · 约 '+d.m+' 分钟';
-  document.getElementById('doc-meta').textContent='≈'+d.m+' min';
+  document.getElementById('doc-meta').textContent=d.m+' 分钟';
   document.getElementById('hbar').style.background=d.c;
   document.getElementById('hbar').style.setProperty('--vc',d.c);
   document.documentElement.style.setProperty('--vc',d.c);
@@ -625,9 +625,9 @@ function renderBottomNav(id){{
       if(id.indexOf(ks[x])===0){{ extra='<button class="dn-btn" data-quiz="'+ks[x]+'" style="flex:0 0 auto;padding:11px 13px">📝 测验</button>'; break; }}
     }}
   }}catch(e){{}}
-  el.innerHTML = (prev?'<button class="dn-btn" data-doclink="'+prev+'"><b>← 上一章</b>'+cut(DOCS[prev].t)+'</button>':'<span style="flex:1"></span>')
+  el.innerHTML = (prev?'<button class="dn-btn" data-doclink="'+prev+'"><b>上一章</b>'+cut(DOCS[prev].t)+'</button>':'<span style="flex:1"></span>')
    + '<button class="dn-btn home" data-doclink="__home__">🏠</button>'
-   + (next?'<button class="dn-btn" data-doclink="'+next+'"><b>下一章 →</b>'+cut(DOCS[next].t)+'</button>':'<span style="flex:1"></span>')
+   + (next?'<button class="dn-btn" data-doclink="'+next+'"><b>下一章</b>'+cut(DOCS[next].t)+'</button>':'<span style="flex:1"></span>')
    + extra;
   el.style.display='flex';
 }}
@@ -1702,7 +1702,7 @@ try{{ if(current==='__home__'){{ renderRoute(); renderHero(); updateNavPct(); }}
 </div>
 <div id="tvToast"></div>
 <div id="tvConfirm"><div class="tv-edit-card sm"><div id="tvConfirmMsg"></div><div class="tv-edit-foot"><button class="tv-btn" id="tvConfirmNo">取消</button><button class="tv-btn primary" id="tvConfirmYes">确定</button></div></div></div>
-<button id="toTop" onclick="window.scrollTo({{top:0,behavior:'smooth'}})">↑</button>
+<button id="toTop" onclick="window.scrollTo({{top:0,behavior:'smooth'}})">回到顶部</button>
 <button id="tocBtn" onclick="toggleToc()" title="目录">📑</button>
 <div id="tocPanel"></div>
 <div id="resView"></div>
@@ -1750,7 +1750,7 @@ page = page.replace('/*@@LEARN_CSS@@*/', _ln_css)
 page = page.replace('/*@@LEARN_JS@@*/', _ln_data + '\n' + _ln_js)
 print('learn injected:', len(_ln_css), '+', len(_ln_data), '+', len(_ln_js), 'chars')
 
-# ---- 注入「国家平台级视觉系统」（app/：扁平简约 · 白卡片 · 蓝色下划线导航 · 沉浸阅读） ----
+# ---- 注入「视觉系统 v3」（app/：扁平简约 · 白卡片 · 分区导航 · 沉浸阅读） ----
 _nt_css = _appread('nation-core.css'); _nt_fix = _appread('nation-fix.css')
 page = page.replace('/*@@NATION_CSS@@*/', _nt_css)
 page = page.replace('/*@@NATION_FIX@@*/', _nt_fix)
@@ -1785,7 +1785,7 @@ _vfb = '''<script>
     if (t.tagName !== 'VIDEO' || t.getAttribute('data-fb') === '1') return;
     t.setAttribute('data-fb','1');
     var d = document.createElement('div');
-    d.textContent = '📦 此视频文件不在本机（分享版未附带）。请改用「▶ 在线」联网观看，或向分享者索取该视频文件。';
+    d.textContent = '此视频文件不在本机（分享版未附带）。请改用「在线」联网观看，或向分享者索取该视频文件。';
     d.style.cssText = 'padding:12px;border:1px dashed rgba(0,0,0,.25);border-radius:12px;color:rgba(31,35,40,.65);font-size:13px;line-height:1.7;margin:8px 0';
     if (t.parentNode) t.parentNode.insertBefore(d, t.nextSibling);
   }, true);
@@ -1795,6 +1795,15 @@ _bidx = page.rfind('</body>')
 if _bidx >= 0:
     page = page[:_bidx] + _vfb + '\n' + page[_bidx:]
     print('vfb inserted at tail pos', _bidx, '/', len(page))
+
+# ---- 全文清除特殊符号（emoji 与装饰符、变体选择符、零宽连接符），输出纯文字排版 ----
+import re as _re_strip
+_EMOJI = _re_strip.compile(
+    '[\U0001F000-\U0001FAFF\U00002600-\U000027BF\U00002B00-\U00002BFF'
+    '\U00002934-\U00002935\U0000FE00-\U0000FE0F\U0000200D\U000020E3] ?')
+_nsf = len(_EMOJI.findall(page))
+page = _EMOJI.sub('', page)
+print('special symbols stripped:', _nsf)
 
 out = os.environ.get('LIQ_OUT') or (BASE + '/study.html')
 open(out, 'w', encoding='utf-8').write(page)
