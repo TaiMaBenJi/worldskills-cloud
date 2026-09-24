@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>家具制作 · 模拟训练</title>
+<style>
+:root{--bg:#f4f6fa;--text:#182338;--dim:#5b6b85;--dim2:#8a97ad;--line:#dfe6f0;--line2:#e9eef6;--blue:#2b5cd9;--blue-deep:#2450c0;--blue-tint:#edf2fd;--green:#0f9d6c;--red:#cf3830;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","HarmonyOS Sans SC","Source Han Sans SC","Noto Sans SC",sans-serif;font-size:16px;line-height:1.8;-webkit-font-smoothing:antialiased}
+.wrap{max-width:720px;margin:0 auto;padding:14px 14px 60px}
+.head{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px}
+.head h1{margin:0 0 4px;font-size:19px;font-weight:800}
+.head p{margin:0;color:var(--dim);font-size:13px}
+.meta{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.chip{font-size:12px;color:var(--blue);background:var(--blue-tint);border:1px solid rgba(43,92,217,.3);border-radius:6px;padding:2px 10px}
+.track{height:6px;background:var(--line2);border-radius:3px;overflow:hidden;margin-top:12px}
+.track i{display:block;height:100%;width:0;background:var(--blue);transition:width .3s}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(24,35,56,.04)}
+.qnum{font-size:12px;color:var(--dim2);letter-spacing:1px}
+.qtext{font-size:15.5px;font-weight:700;margin:4px 0 12px;line-height:1.7}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:8px;padding:11px 14px;margin:8px 0;color:var(--text);font-size:14px;cursor:pointer}
+.opt:hover{border-color:rgba(43,92,217,.5)}
+.opt.right{background:#eaf7f1;border-color:var(--green);font-weight:700}
+.opt.wrong{background:#fdeeed;border-color:var(--red)}
+.opt:disabled{cursor:default}
+.seqpool{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.seqchip{background:var(--blue-tint);border:1px solid rgba(43,92,217,.35);border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer;color:var(--blue-deep)}
+.seqchip.used{opacity:.35;pointer-events:none}
+.seqbuild{min-height:48px;border:1px dashed var(--line);border-radius:8px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.seqbuild .seqchip{cursor:pointer;background:#fff}
+.explain{display:none;margin-top:10px;background:var(--blue-tint);border-left:4px solid var(--blue);border-radius:0 8px 8px 0;padding:10px 14px;font-size:13px;color:#31519e;line-height:1.8}
+.btn{display:inline-block;background:var(--blue);border:none;border-radius:8px;color:#fff;font-size:14px;font-weight:700;padding:11px 20px;cursor:pointer;margin-top:12px}
+.btn:active{background:var(--blue-deep)}
+.btn.ghost{background:#fff;color:var(--blue);border:1px solid rgba(43,92,217,.4)}
+.result{display:none;text-align:center;padding:26px 16px}
+.result .score{font-size:44px;font-weight:800;color:var(--blue)}
+.result .grade{font-size:17px;font-weight:800;margin:6px 0}
+.result p{color:var(--dim);font-size:13px;margin:6px 0}
+.foot{color:var(--dim2);font-size:11.5px;text-align:center;margin-top:20px;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>家具制作 · 模拟训练</h1>
+    <p>十个情景训练任务，覆盖拆料加工、榫卯接合、装配五金与表面处理，满分一百分，六十分合格。做完每题请对照解析回读总纲对应部分。</p>
+    <div class="meta"><span class="chip" id="prog">进度 0 / 10</span><span class="chip" id="scoreChip">得分 0</span><span class="chip">满分 100 分</span></div>
+    <div class="track"><i id="bar"></i></div>
+  </div>
+  <div id="list"></div>
+  <div class="card result" id="result">
+    <div class="score" id="finalScore">0</div>
+    <div class="grade" id="finalGrade"></div>
+    <p id="finalNote"></p>
+    <button class="btn" onclick="location.reload()">重新训练</button>
+  </div>
+  <div class="foot">家具制作 · 世界技能大赛全技能精通库<br>训练成绩仅在本机浏览器内计算，不上传任何数据</div>
+</div>
+<script>
+const QS = [{"type":"single","q":"部件加工时，为什么强调先把基准面刨准，再谈其他尺寸。","options":["基准面只是为了外观好看","基准面是后续所有尺寸的依据，第一面刨不准，后续厚度宽度全部跟着错","基准面刨不刨准对装配没有影响","先锯长度再刨基准更省料"],"answer":1,"explain":"先基准后尺寸、先直角后长度是木工精度链的源头。一件柜子动辄上百个尺寸，基准面上任何误差都会沿工序向后传递，源头错了全线超差。"},{"type":"single","q":"柜体装配上胶前，总纲反复强调的必做动作是什么。","options":["直接点胶一次装配到位，节省时间","所有接合必须先干装试配检查，确认无误后再上胶","上胶后再校核对角线","先用钉子把所有角固定住"],"answer":1,"explain":"直接点胶装配出错无法挽回，干装试配能在上胶前暴露尺寸与角度问题。装配逻辑是先柜身后门板、先内后外，避免死装。"},{"type":"single","q":"下料前为什么要看料选料，关注含水率与纹理方向。","options":["只是行业习惯","含水率与纹理方向直接决定变形开裂风险，下料前看料、留余量、定伸缩缝是成品稳定的前提","纹理只影响颜色深浅，可以忽略","含水率越高越好加工，反而有利"],"answer":1,"explain":"木材随含水率变化胀缩，纹理方向影响刨削质量与受力。忽视木材特性导致变形开裂后沿装配传递，几乎无法补救，选料纪律直接影响成品上限。"},{"type":"single","q":"门与抽屉装好后发现缝隙宽窄不一，最该优先检查调整的是哪一项。","options":["把缝隙全部打腻子填平","铰链与滑轨的安装调平，反复开合微调直到缝隙一致","把门板锯掉一条","换一套更大的铰链"],"answer":1,"explain":"铰链滑轨调平草率是观感分大坑。赛场用塞尺检查缝隙一致性，五金功能还要现场演示，装配完必须反复开合微调；打腻子与切门板都是破坏性补救，必失分。"},{"type":"single","q":"关于砂光与表面处理，下列做法正确的是哪个。","options":["跳过中间目数，直接用最细砂纸一次磨到位","按目数递进砂光，每道之间除尘，涂层控制流平与厚度","涂层越厚越显高档","砂光后不必除尘，直接涂装"],"answer":1,"explain":"砂光跳目数、除尘不净、涂层过厚是最后一道工序毁掉前面所有努力的典型失误。递进砂光与洁净基层才能保证涂层均匀、手感细腻。"},{"type":"order","q":"按图完成一件带门带抽屉的小柜，请把工作按正确顺序排列。","steps":["读图拆料，列部件清单并规划用料与纹理","部件加工，刨基准面并控制厚度宽度与方正","接合干装试配后装配柜体，安装调平门板与抽屉","递进砂光与表面处理，量具逐项自检记录"],"answer":[0,1,2,3],"explain":"先读图拆料定基准，部件加工保证方正，装配遵循先柜身后门板、先内后外，表面处理收尾。顺序颠倒会出现表面做完再拆装、损伤成品的连锁失分。"},{"type":"order","q":"手工制作一组直角榫接合，请把工序按正确顺序排列。","steps":["按部件尺寸画线，确定榫头榫眼位置","凿削榫眼、锯割榫头，控制配合紧度","干装试配，检查密合度与方正","修整后上胶装配并校核"],"answer":[0,1,2,3],"explain":"手工接合的标准节奏是画线、加工、试配、装配。跳过干装直接上胶，一旦配合过紧撑裂或缝隙不匀，就无法挽回。"},{"type":"judge","q":"一件柜子动辄上百处接合，任何一处超差都会沿工序向后传递，所以基准与干装习惯决定成败。","answer":true,"explain":"精度沿工序链传递是家具制作的基本规律，基准意识、干装验证的习惯与工序时间的精确分配，正是总纲指出的真正分水岭。"},{"type":"judge","q":"胶合时只要用力夹紧就行，开放时间与环境温湿无关紧要。","answer":false,"explain":"胶种有各自的开放时间与加压时机，环境温湿直接影响胶层质量。错过开放时间或夹具布置不当都会导致胶合不牢，拼板还要控制木纹排布与胶层厚度。"},{"type":"judge","q":"胶合与涂层的等待期可以排进日程表，穿插加工其他部件以提高工效。","answer":true,"explain":"总纲要求把胶合与涂层的等待期排进日程，学会多件并行的穿插作业，这正是按工序倒排时间的工效方法，等待不等于空耗。"}];
+let score = 0, done = 0;
+const el = {};
+function $(id){return document.getElementById(id)}
+function render(){
+  const list = $('list');
+  QS.forEach(function(q, i){
+    const c = document.createElement('div'); c.className = 'card';
+    let h = '<div class="qnum">第 ' + (i+1) + ' 题 · ' + typeName(q.type) + '</div><div class="qtext">' + q.q + '</div>';
+    if (q.type === 'single' || q.type === 'judge') {
+      const opts = q.type === 'judge' ? ['正确', '错误'] : q.options;
+      h += opts.map(function(o, j){ return '<button class="opt" data-i="' + i + '" data-j="' + j + '">' + o + '</button>'; }).join('');
+    } else if (q.type === 'order') {
+      h += '<div class="seqbuild" id="build-' + i + '"></div><div class="seqpool" id="pool-' + i + '">'
+        + q.steps.map(function(s, j){ return '<span class="seqchip" data-i="' + i + '" data-j="' + j + '">' + s + '</span>'; }).join('')
+        + '</div><button class="btn ghost" data-check="' + i + '" style="margin-top:4px">确认顺序</button>';
+    }
+    h += '<div class="explain" id="ex-' + i + '">' + q.explain + '</div>';
+    c.innerHTML = h; list.appendChild(c);
+  });
+  list.addEventListener('click', onClick);
+}
+function typeName(t){ return t === 'single' ? '情景单选' : (t === 'judge' ? '判断' : '工序排序'); }
+function answered(i){ return QS[i]._done; }
+function onClick(e){
+  const t = e.target;
+  if (t.classList.contains('opt')) {
+    const i = +t.dataset.i, j = +t.dataset.j;
+    if (answered(i)) return;
+    QS[i]._done = true;
+    const btns = t.parentNode.querySelectorAll('.opt');
+    btns.forEach(function(b){ b.disabled = true; });
+    const right = (QS[i].type === 'judge') ? (j === 0 ? QS[i].answer : !QS[i].answer) : (j === QS[i].answer);
+    btns[right ? j : QS[i].answer].classList.add('right');
+    if (!right) t.classList.add('wrong'); else score++;
+    finish(i, right);
+  } else if (t.classList.contains('seqchip')) {
+    const i = +t.dataset.i;
+    if (answered(i)) return;
+    const pool = $('pool-' + i), build = $('build-' + i);
+    if (t.parentNode === pool) { build.appendChild(t); } else { pool.appendChild(t); }
+  } else if (t.dataset && t.dataset.check !== undefined) {
+    const i = +t.dataset.check;
+    if (answered(i)) return;
+    const build = $('build-' + i);
+    const picked = [].map.call(build.querySelectorAll('.seqchip'), function(x){ return +x.dataset.j; });
+    if (picked.length !== QS[i].steps.length) return;
+    QS[i]._done = true;
+    build.querySelectorAll('.seqchip').forEach(function(x){ x.style.pointerEvents = 'none'; });
+    const right = picked.join(',') === QS[i].answer.join(',');
+    build.style.borderColor = right ? 'var(--green)' : 'var(--red)';
+    if (right) score++;
+    finish(i, right);
+  }
+}
+function finish(i){
+  done++;
+  $('ex-' + i).style.display = 'block';
+  $('prog').textContent = '进度 ' + done + ' / ' + QS.length;
+  $('scoreChip').textContent = '得分 ' + score;
+  $('bar').style.width = (done * 100 / QS.length) + '%';
+  if (done === QS.length) {
+    const pct = score * 100 / QS.length;
+    const g = pct >= 90 ? '精通' : (pct >= 75 ? '熟练' : (pct >= 60 ? '合格' : '不合格'));
+    $('finalScore').textContent = score * 10 + ' 分';
+    $('finalGrade').textContent = '评级：' + g;
+    $('finalNote').textContent = pct >= 60 ? '可继续研读总纲薄弱部分，隔日重训巩固。' : '建议回到总纲对照自测清单补齐基础，再来挑战。';
+    $('result').style.display = 'block';
+    $('result').scrollIntoView({behavior: 'smooth'});
+  }
+}
+render();
+</script>
+</body>
+</html>
