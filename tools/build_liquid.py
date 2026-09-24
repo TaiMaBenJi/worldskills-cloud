@@ -1703,7 +1703,7 @@ try{{ if(current==='__home__'){{ renderRoute(); renderHero(); updateNavPct(); }}
 <div id="tvToast"></div>
 <div id="tvConfirm"><div class="tv-edit-card sm"><div id="tvConfirmMsg"></div><div class="tv-edit-foot"><button class="tv-btn" id="tvConfirmNo">取消</button><button class="tv-btn primary" id="tvConfirmYes">确定</button></div></div></div>
 <button id="toTop" onclick="window.scrollTo({{top:0,behavior:'smooth'}})">回到顶部</button>
-<button id="tocBtn" onclick="toggleToc()" title="目录">📑</button>
+<button id="tocBtn" onclick="toggleToc()" title="目录">目录</button>
 <div id="tocPanel"></div>
 <div id="resView"></div>
 </body>
