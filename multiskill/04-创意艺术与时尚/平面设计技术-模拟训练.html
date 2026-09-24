@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>平面设计技术 · 模拟训练</title>
+<style>
+:root{--bg:#f4f6fa;--text:#182338;--dim:#5b6b85;--dim2:#8a97ad;--line:#dfe6f0;--line2:#e9eef6;--blue:#2b5cd9;--blue-deep:#2450c0;--blue-tint:#edf2fd;--green:#0f9d6c;--red:#cf3830;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","HarmonyOS Sans SC","Source Han Sans SC","Noto Sans SC",sans-serif;font-size:16px;line-height:1.8;-webkit-font-smoothing:antialiased}
+.wrap{max-width:720px;margin:0 auto;padding:14px 14px 60px}
+.head{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px}
+.head h1{margin:0 0 4px;font-size:19px;font-weight:800}
+.head p{margin:0;color:var(--dim);font-size:13px}
+.meta{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.chip{font-size:12px;color:var(--blue);background:var(--blue-tint);border:1px solid rgba(43,92,217,.3);border-radius:6px;padding:2px 10px}
+.track{height:6px;background:var(--line2);border-radius:3px;overflow:hidden;margin-top:12px}
+.track i{display:block;height:100%;width:0;background:var(--blue);transition:width .3s}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(24,35,56,.04)}
+.qnum{font-size:12px;color:var(--dim2);letter-spacing:1px}
+.qtext{font-size:15.5px;font-weight:700;margin:4px 0 12px;line-height:1.7}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:8px;padding:11px 14px;margin:8px 0;color:var(--text);font-size:14px;cursor:pointer}
+.opt:hover{border-color:rgba(43,92,217,.5)}
+.opt.right{background:#eaf7f1;border-color:var(--green);font-weight:700}
+.opt.wrong{background:#fdeeed;border-color:var(--red)}
+.opt:disabled{cursor:default}
+.seqpool{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.seqchip{background:var(--blue-tint);border:1px solid rgba(43,92,217,.35);border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer;color:var(--blue-deep)}
+.seqchip.used{opacity:.35;pointer-events:none}
+.seqbuild{min-height:48px;border:1px dashed var(--line);border-radius:8px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.seqbuild .seqchip{cursor:pointer;background:#fff}
+.explain{display:none;margin-top:10px;background:var(--blue-tint);border-left:4px solid var(--blue);border-radius:0 8px 8px 0;padding:10px 14px;font-size:13px;color:#31519e;line-height:1.8}
+.btn{display:inline-block;background:var(--blue);border:none;border-radius:8px;color:#fff;font-size:14px;font-weight:700;padding:11px 20px;cursor:pointer;margin-top:12px}
+.btn:active{background:var(--blue-deep)}
+.btn.ghost{background:#fff;color:var(--blue);border:1px solid rgba(43,92,217,.4)}
+.result{display:none;text-align:center;padding:26px 16px}
+.result .score{font-size:44px;font-weight:800;color:var(--blue)}
+.result .grade{font-size:17px;font-weight:800;margin:6px 0}
+.result p{color:var(--dim);font-size:13px;margin:6px 0}
+.foot{color:var(--dim2);font-size:11.5px;text-align:center;margin-top:20px;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>平面设计技术 · 模拟训练</h1>
+    <p>十个情景训练任务，覆盖版式、字体、色彩、排版工程与印前规范等核心环节，满分一百分，六十分合格。做完每题请对照解析回读总纲对应部分。</p>
+    <div class="meta"><span class="chip" id="prog">进度 0 / 10</span><span class="chip" id="scoreChip">得分 0</span><span class="chip">满分 100 分</span></div>
+    <div class="track"><i id="bar"></i></div>
+  </div>
+  <div id="list"></div>
+  <div class="card result" id="result">
+    <div class="score" id="finalScore">0</div>
+    <div class="grade" id="finalGrade"></div>
+    <p id="finalNote"></p>
+    <button class="btn" onclick="location.reload()">重新训练</button>
+  </div>
+  <div class="foot">平面设计技术 · 世界技能大赛全技能精通库<br>训练成绩仅在本机浏览器内计算，不上传任何数据</div>
+</div>
+<script>
+const QS = [{"type":"single","q":"一份海报要拿去印刷，文件色彩模式最该用的是哪一种。","options":["RGB，颜色更鲜艳","CMYK，并按印刷条件做色彩管理","索引颜色省空间","黑白灰度"],"answer":1,"explain":"印刷用四色油墨呈色，RGB 色域更宽直接印刷会失真。印前转 CMYK 并按纸张与印刷条件校色是基本规范。"},{"type":"single","q":"正文字体排印中，最影响长时间阅读舒适度的组合是哪一项。","options":["字号越大越好，行距越紧越好","合适的字号搭配 1.4 至 1.6 倍左右的行距，栏宽控制在不易丢行的范围","全部用粗体醒目","行距字距全部拉满"],"answer":1,"explain":"可读性来自字号、行距与栏宽的节奏配合。过密易串行，过大松散，粗体只用于强调而非正文。"},{"type":"single","q":"客户要求logo在深色背景上使用，交付时最规范的做法是哪一项。","options":["直接把原图反相了事","提供专门优化的反白版本，并确认细节在深底上的可识别性","让客户自己想办法","换成彩色渐变"],"answer":1,"explain":"反白与单色版本属于 logo 规范交付的基本内容，需专门核对笔画在深底的识别度，不能简单反相敷衍。"},{"type":"single","q":"印前检查中发现图片有效分辨率远低于印刷要求，正确的处理是哪一项。","options":["在软件里把分辨率放大到 300 就没事了","与客户沟通更换高清原图，插值放大的画质损失要提前说明","直接印刷碰运气","把图片缩小印小一点"],"answer":1,"explain":"插值放大不增加真实细节，印出来发虚。正确做法是获取高质量原图，或提前告知风险调整方案。"},{"type":"single","q":"版式设计使用网格系统的主要目的是哪一项。","options":["让画面塞得更满","建立秩序与一致性，让信息层级清晰并提升阅读效率","限制创意","方便偷懒套模板"],"answer":1,"explain":"网格是组织信息的工具，让元素对位有据、层级分明；好的设计在网格纪律与灵活破格之间取得平衡。"},{"type":"order","q":"一个印刷品项目从接单到交付印厂，请按正确顺序排列。","steps":["明确需求并做版式设计","校对内容与色彩并打样确认","完成印前规范检查（出血、分辨率、转曲）","交付印厂并跟进印刷效果"],"answer":[0,1,2,3],"explain":"设计先行，校对打样确认效果，印前检查堵住技术漏洞，最后交付跟进。跳过打样与印前检查是事故高发点。"},{"type":"order","q":"多页画册在排版软件中的标准工作流程，请按正确顺序排列。","steps":["设置页面尺寸、主页与分栏网格","建立段落样式与字符样式","置入图文并套用样式排版","输出前检查链接图与溢流文本"],"answer":[0,1,2,3],"explain":"先搭框架再建样式，图文套用样式保证一致性，输出前必须清查链接与溢流文本，这是排版工程纪律。"},{"type":"judge","q":"文字转曲（轮廓化）是印前的常见要求，目的是避免印厂缺少字体导致文字错排。","answer":true,"explain":"转曲把文字变图形，不再依赖对方字体环境；但转曲后不可再改字，须在最终定稿后执行并保留可编辑源文件。"},{"type":"judge","q":"出血设置是为了印刷裁切时留出余量，重要文字与logo应放在出血区域内。","answer":false,"explain":"出血是给裁切留的余量区，背景色块要延到出血，而文字与重要元素必须放在安全距离内，否则会被裁掉。"},{"type":"judge","q":"专色（如烫金使用的色版）与四色印刷是两种不同工艺，文件中需要用专色版单独处理。","answer":true,"explain":"专色是独立色版对应特定油墨或工艺，须在文件中正确命名与分色，混在四色里印不出预期效果。"}];
+let score = 0, done = 0;
+const el = {};
+function $(id){return document.getElementById(id)}
+function render(){
+  const list = $('list');
+  QS.forEach(function(q, i){
+    const c = document.createElement('div'); c.className = 'card';
+    let h = '<div class="qnum">第 ' + (i+1) + ' 题 · ' + typeName(q.type) + '</div><div class="qtext">' + q.q + '</div>';
+    if (q.type === 'single' || q.type === 'judge') {
+      const opts = q.type === 'judge' ? ['正确', '错误'] : q.options;
+      h += opts.map(function(o, j){ return '<button class="opt" data-i="' + i + '" data-j="' + j + '">' + o + '</button>'; }).join('');
+    } else if (q.type === 'order') {
+      h += '<div class="seqbuild" id="build-' + i + '"></div><div class="seqpool" id="pool-' + i + '">'
+        + q.steps.map(function(s, j){ return '<span class="seqchip" data-i="' + i + '" data-j="' + j + '">' + s + '</span>'; }).join('')
+        + '</div><button class="btn ghost" data-check="' + i + '" style="margin-top:4px">确认顺序</button>';
+    }
+    h += '<div class="explain" id="ex-' + i + '">' + q.explain + '</div>';
+    c.innerHTML = h; list.appendChild(c);
+  });
+  list.addEventListener('click', onClick);
+}
+function typeName(t){ return t === 'single' ? '情景单选' : (t === 'judge' ? '判断' : '工序排序'); }
+function answered(i){ return QS[i]._done; }
+function onClick(e){
+  const t = e.target;
+  if (t.classList.contains('opt')) {
+    const i = +t.dataset.i, j = +t.dataset.j;
+    if (answered(i)) return;
+    QS[i]._done = true;
+    const btns = t.parentNode.querySelectorAll('.opt');
+    btns.forEach(function(b){ b.disabled = true; });
+    const right = (QS[i].type === 'judge') ? (j === 0 ? QS[i].answer : !QS[i].answer) : (j === QS[i].answer);
+    btns[right ? j : QS[i].answer].classList.add('right');
+    if (!right) t.classList.add('wrong'); else score++;
+    finish(i, right);
+  } else if (t.classList.contains('seqchip')) {
+    const i = +t.dataset.i;
+    if (answered(i)) return;
+    const pool = $('pool-' + i), build = $('build-' + i);
+    if (t.parentNode === pool) { build.appendChild(t); } else { pool.appendChild(t); }
+  } else if (t.dataset && t.dataset.check !== undefined) {
+    const i = +t.dataset.check;
+    if (answered(i)) return;
+    const build = $('build-' + i);
+    const picked = [].map.call(build.querySelectorAll('.seqchip'), function(x){ return +x.dataset.j; });
+    if (picked.length !== QS[i].steps.length) return;
+    QS[i]._done = true;
+    build.querySelectorAll('.seqchip').forEach(function(x){ x.style.pointerEvents = 'none'; });
+    const right = picked.join(',') === QS[i].answer.join(',');
+    build.style.borderColor = right ? 'var(--green)' : 'var(--red)';
+    if (right) score++;
+    finish(i, right);
+  }
+}
+function finish(i){
+  done++;
+  $('ex-' + i).style.display = 'block';
+  $('prog').textContent = '进度 ' + done + ' / ' + QS.length;
+  $('scoreChip').textContent = '得分 ' + score;
+  $('bar').style.width = (done * 100 / QS.length) + '%';
+  if (done === QS.length) {
+    const pct = score * 100 / QS.length;
+    const g = pct >= 90 ? '精通' : (pct >= 75 ? '熟练' : (pct >= 60 ? '合格' : '不合格'));
+    $('finalScore').textContent = score * 10 + ' 分';
+    $('finalGrade').textContent = '评级：' + g;
+    $('finalNote').textContent = pct >= 60 ? '可继续研读总纲薄弱部分，隔日重训巩固。' : '建议回到总纲对照自测清单补齐基础，再来挑战。';
+    $('result').style.display = 'block';
+    $('result').scrollIntoView({behavior: 'smooth'});
+  }
+}
+render();
+</script>
+</body>
+</html>
