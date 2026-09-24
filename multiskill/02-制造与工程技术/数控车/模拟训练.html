@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>数控车 · 模拟训练</title>
+<style>
+:root{--bg:#f4f6fa;--text:#182338;--dim:#5b6b85;--dim2:#8a97ad;--line:#dfe6f0;--line2:#e9eef6;--blue:#2b5cd9;--blue-deep:#2450c0;--blue-tint:#edf2fd;--green:#0f9d6c;--red:#cf3830;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","HarmonyOS Sans SC","Source Han Sans SC","Noto Sans SC",sans-serif;font-size:16px;line-height:1.8;-webkit-font-smoothing:antialiased}
+.wrap{max-width:720px;margin:0 auto;padding:14px 14px 60px}
+.head{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px}
+.head h1{margin:0 0 4px;font-size:19px;font-weight:800}
+.head p{margin:0;color:var(--dim);font-size:13px}
+.meta{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.chip{font-size:12px;color:var(--blue);background:var(--blue-tint);border:1px solid rgba(43,92,217,.3);border-radius:6px;padding:2px 10px}
+.track{height:6px;background:var(--line2);border-radius:3px;overflow:hidden;margin-top:12px}
+.track i{display:block;height:100%;width:0;background:var(--blue);transition:width .3s}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(24,35,56,.04)}
+.qnum{font-size:12px;color:var(--dim2);letter-spacing:1px}
+.qtext{font-size:15.5px;font-weight:700;margin:4px 0 12px;line-height:1.7}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:8px;padding:11px 14px;margin:8px 0;color:var(--text);font-size:14px;cursor:pointer}
+.opt:hover{border-color:rgba(43,92,217,.5)}
+.opt.right{background:#eaf7f1;border-color:var(--green);font-weight:700}
+.opt.wrong{background:#fdeeed;border-color:var(--red)}
+.opt:disabled{cursor:default}
+.seqpool{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.seqchip{background:var(--blue-tint);border:1px solid rgba(43,92,217,.35);border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer;color:var(--blue-deep)}
+.seqchip.used{opacity:.35;pointer-events:none}
+.seqbuild{min-height:48px;border:1px dashed var(--line);border-radius:8px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.seqbuild .seqchip{cursor:pointer;background:#fff}
+.explain{display:none;margin-top:10px;background:var(--blue-tint);border-left:4px solid var(--blue);border-radius:0 8px 8px 0;padding:10px 14px;font-size:13px;color:#31519e;line-height:1.8}
+.btn{display:inline-block;background:var(--blue);border:none;border-radius:8px;color:#fff;font-size:14px;font-weight:700;padding:11px 20px;cursor:pointer;margin-top:12px}
+.btn:active{background:var(--blue-deep)}
+.btn.ghost{background:#fff;color:var(--blue);border:1px solid rgba(43,92,217,.4)}
+.result{display:none;text-align:center;padding:26px 16px}
+.result .score{font-size:44px;font-weight:800;color:var(--blue)}
+.result .grade{font-size:17px;font-weight:800;margin:6px 0}
+.result p{color:var(--dim);font-size:13px;margin:6px 0}
+.foot{color:var(--dim2);font-size:11.5px;text-align:center;margin-top:20px;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>数控车 · 模拟训练</h1>
+    <p>十个数控车模拟训练任务，覆盖工序安排、恒线速、刀补修调、薄壁装夹与螺纹检验，满分一百分，六十分合格。做完每题请对照解析回读总纲对应部分。</p>
+    <div class="meta"><span class="chip" id="prog">进度 0 / 10</span><span class="chip" id="scoreChip">得分 0</span><span class="chip">满分 100 分</span></div>
+    <div class="track"><i id="bar"></i></div>
+  </div>
+  <div id="list"></div>
+  <div class="card result" id="result">
+    <div class="score" id="finalScore">0</div>
+    <div class="grade" id="finalGrade"></div>
+    <p id="finalNote"></p>
+    <button class="btn" onclick="location.reload()">重新训练</button>
+  </div>
+  <div class="foot">数控车 · 世界技能大赛全技能精通库<br>训练成绩仅在本机浏览器内计算，不上传任何数据</div>
+</div>
+<script>
+const QS = [{"type":"single","q":"一根轴需要车外圆、切槽、车螺纹并倒角，考虑基准与牙型保护，最合理的工序安排是哪个。","options":["先车螺纹，再切槽，最后车外圆","先粗精车外圆与台阶，再切槽，最后车螺纹并倒角","切槽与车螺纹交替穿插进行","全部车完后统一修毛刺时补倒角"],"answer":1,"explain":"外圆是螺纹与切槽的尺寸基准，必须先成形；切槽为螺纹提供退刀空间；螺纹放在精车之后加工，避免后续工序碰伤牙型。工序排错一步，后面全部返工。"},{"type":"single","q":"关于恒线速与恒转速控制的取舍，下列说法正确的是哪个。","options":["车大端面时用恒转速，越靠近中心表面线速度越高","车大端面时用恒线速，直径减小时转速自动升高，表面速度保持一致","恒线速控制会让表面粗糙度变差","切槽必须禁用恒线速否则必然扎刀"],"answer":1,"explain":"恒线速下主轴按设定线速度自动调整转速，端面直径减小时转速升高，表面切削速度一致，有利于表面质量均匀。大端面还应设置最高转速钳制，防止超速危险。"},{"type":"single","q":"精车后实测外圆直径比图纸大 0.06 毫米，正确的修调操作是哪个。","options":["在 X 向磨损补正中输入负 0.06 毫米，执行精车程序后复测","重新装夹并全部重新对刀","输入正 0.06 毫米让尺寸再变大","直接改程序里的目标坐标值"],"answer":0,"explain":"直径偏大说明刀尖未切到位置，X 向磨损补正输入负 0.06 后复切，直径减小 0.06 毫米。重对刀与改程序既耗时又引入新误差，小步修调复测才是常态。"},{"type":"single","q":"车削薄壁套类零件时控制夹紧变形，最合理的方案是哪个。","options":["加大三爪夹紧力防止打滑","采用扇形软爪或胀紧芯轴增大接触面积并控制夹紧力","加工中随时敲紧卡盘","用加长扳手把卡盘拧到最紧"],"answer":1,"explain":"夹紧力集中在卡爪接触处会迫使薄壁内孔变形，卸下后回弹超差。扇形软爪与胀紧装夹把力分散到大面积，卸夹检验不可省，这是总纲薄壁专项的核心内容。"},{"type":"single","q":"对三角形外螺纹的中径做较精确的检验，应选用哪种方法。","options":["目测牙型是否完整","三针测量法","用卡尺量外径后推算","凭旋合时的晃动感判断"],"answer":1,"explain":"三针测量把量针放入牙槽，通过测量跨距换算中径，精度高且可量化；环规塞规只能做合格性判定，外径无法推算中径，目测与手感都不是检验依据。"},{"type":"order","q":"请把试切法对刀到正式加工的标准顺序排列。","steps":["手动试切端面或外圆，沿该方向输入 Z 向或 X 向刀补","用单段方式执行程序试切一小段","实测试切尺寸并与图纸值比较","按偏差修调磨损补正，确认后进入自动加工"],"answer":[0,1,2,3],"explain":"试切建补、单段验证、实测比较、修调确认，是数控车对刀的标准闭环。总纲要求单段验证每一把刀，跳过任何一步都会把误差带进正式加工。"},{"type":"order","q":"请把配合件从读图到交付的正确策略顺序排列。","steps":["读图时先确定配合尺寸的公差带取位","先加工非配合件，配合件留出精车余量","精车配合尺寸并在线测量确认","现场旋合或试装，按涂色与间隙结果修配"],"answer":[0,1,2,3],"explain":"总纲要求读图先定公差带取位，加工先保配合尺寸，测量时外圆内孔螺纹三线并行，把试装修配时间留在计划内。配合件历来是分差最大处。"},{"type":"judge","q":"镗孔修调时可以一次给满修调量，孔径超差后再反向修回来。","answer":false,"explain":"内孔材料车掉后无法回收，孔径一旦车大即超差报废。总纲把内孔盲扩列为典型避坑项，小步修调并复测才是内孔尺寸控制的常态。"},{"type":"judge","q":"赛场首切螺纹前必须做空行程验证与中径预判，防止乱扣造成大额失分。","answer":true,"explain":"螺纹不预演是总纲避坑第一条，乱扣即大额失分。空行程验证进给路径与切入位置，配合中径预判再正式进刀，是螺纹加工的赛场纪律。"},{"type":"judge","q":"车削细长轴时应采用一夹一顶、双顶尖或跟刀架等辅助支撑，抑制弯曲变形与振动。","answer":true,"explain":"细长轴刚性差，不加辅助支撑易产生让刀与振纹。总纲把一夹一顶、双顶尖与辅助支撑列为装夹系统的标准内容，装夹方案要进检查单。"}];
+let score = 0, done = 0;
+const el = {};
+function $(id){return document.getElementById(id)}
+function render(){
+  const list = $('list');
+  QS.forEach(function(q, i){
+    const c = document.createElement('div'); c.className = 'card';
+    let h = '<div class="qnum">第 ' + (i+1) + ' 题 · ' + typeName(q.type) + '</div><div class="qtext">' + q.q + '</div>';
+    if (q.type === 'single' || q.type === 'judge') {
+      const opts = q.type === 'judge' ? ['正确', '错误'] : q.options;
+      h += opts.map(function(o, j){ return '<button class="opt" data-i="' + i + '" data-j="' + j + '">' + o + '</button>'; }).join('');
+    } else if (q.type === 'order') {
+      h += '<div class="seqbuild" id="build-' + i + '"></div><div class="seqpool" id="pool-' + i + '">'
+        + q.steps.map(function(s, j){ return '<span class="seqchip" data-i="' + i + '" data-j="' + j + '">' + s + '</span>'; }).join('')
+        + '</div><button class="btn ghost" data-check="' + i + '" style="margin-top:4px">确认顺序</button>';
+    }
+    h += '<div class="explain" id="ex-' + i + '">' + q.explain + '</div>';
+    c.innerHTML = h; list.appendChild(c);
+  });
+  list.addEventListener('click', onClick);
+}
+function typeName(t){ return t === 'single' ? '情景单选' : (t === 'judge' ? '判断' : '工序排序'); }
+function answered(i){ return QS[i]._done; }
+function onClick(e){
+  const t = e.target;
+  if (t.classList.contains('opt')) {
+    const i = +t.dataset.i, j = +t.dataset.j;
+    if (answered(i)) return;
+    QS[i]._done = true;
+    const btns = t.parentNode.querySelectorAll('.opt');
+    btns.forEach(function(b){ b.disabled = true; });
+    const right = (QS[i].type === 'judge') ? (j === 0 ? QS[i].answer : !QS[i].answer) : (j === QS[i].answer);
+    btns[right ? j : QS[i].answer].classList.add('right');
+    if (!right) t.classList.add('wrong'); else score++;
+    finish(i, right);
+  } else if (t.classList.contains('seqchip')) {
+    const i = +t.dataset.i;
+    if (answered(i)) return;
+    const pool = $('pool-' + i), build = $('build-' + i);
+    if (t.parentNode === pool) { build.appendChild(t); } else { pool.appendChild(t); }
+  } else if (t.dataset && t.dataset.check !== undefined) {
+    const i = +t.dataset.check;
+    if (answered(i)) return;
+    const build = $('build-' + i);
+    const picked = [].map.call(build.querySelectorAll('.seqchip'), function(x){ return +x.dataset.j; });
+    if (picked.length !== QS[i].steps.length) return;
+    QS[i]._done = true;
+    build.querySelectorAll('.seqchip').forEach(function(x){ x.style.pointerEvents = 'none'; });
+    const right = picked.join(',') === QS[i].answer.join(',');
+    build.style.borderColor = right ? 'var(--green)' : 'var(--red)';
+    if (right) score++;
+    finish(i, right);
+  }
+}
+function finish(i){
+  done++;
+  $('ex-' + i).style.display = 'block';
+  $('prog').textContent = '进度 ' + done + ' / ' + QS.length;
+  $('scoreChip').textContent = '得分 ' + score;
+  $('bar').style.width = (done * 100 / QS.length) + '%';
+  if (done === QS.length) {
+    const pct = score * 100 / QS.length;
+    const g = pct >= 90 ? '精通' : (pct >= 75 ? '熟练' : (pct >= 60 ? '合格' : '不合格'));
+    $('finalScore').textContent = score * 10 + ' 分';
+    $('finalGrade').textContent = '评级：' + g;
+    $('finalNote').textContent = pct >= 60 ? '可继续研读总纲薄弱部分，隔日重训巩固。' : '建议回到总纲对照自测清单补齐基础，再来挑战。';
+    $('result').style.display = 'block';
+    $('result').scrollIntoView({behavior: 'smooth'});
+  }
+}
+render();
+</script>
+</body>
+</html>
