@@ -27,7 +27,7 @@
 |  **离线学习中心** | 单文件 `study.html`：3200+ 篇资料全文检索、阅读进度记忆、扁平简约界面、完全离线 | [Releases 下载](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) |
 |  **安卓 App（411 MB · 唯一版本）** | 62 集视频课 + 教程 / 题库 / 资源库 / 实训室全部内置，安装即用、完全离线 | [Releases 下载](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) |
 |  **Windows 版（13 MB）** | 单文件 `CloudStudy.exe`，双击自动释放学习中心并用浏览器打开，免安装 | [Releases 下载](https://github.com/TaiMaBenJi/worldskills-cloud/releases/latest) |
-|  **全技能精通库（55 篇）** | 世界技能大赛六大领域约 50 个赛项的项目总纲：赛制、能力域、精通路线、训练体系、自测清单 | [`multiskill/`](multiskill/) |
+|  **全技能精通库（55 篇）** | 世界技能大赛六大领域约 50 个赛项：项目总纲 · 精通路线图与能力域图解 · 十题交互模拟训练 · 中文解说总纲课视频 | [`multiskill/`](multiskill/) |
 
 ##  四种使用方式
 
