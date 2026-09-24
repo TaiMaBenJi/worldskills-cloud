@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>商务软件解决方案 · 模拟训练</title>
+<style>
+:root{--bg:#f4f6fa;--text:#182338;--dim:#5b6b85;--dim2:#8a97ad;--line:#dfe6f0;--line2:#e9eef6;--blue:#2b5cd9;--blue-deep:#2450c0;--blue-tint:#edf2fd;--green:#0f9d6c;--red:#cf3830;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","HarmonyOS Sans SC","Source Han Sans SC","Noto Sans SC",sans-serif;font-size:16px;line-height:1.8;-webkit-font-smoothing:antialiased}
+.wrap{max-width:720px;margin:0 auto;padding:14px 14px 60px}
+.head{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px}
+.head h1{margin:0 0 4px;font-size:19px;font-weight:800}
+.head p{margin:0;color:var(--dim);font-size:13px}
+.meta{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.chip{font-size:12px;color:var(--blue);background:var(--blue-tint);border:1px solid rgba(43,92,217,.3);border-radius:6px;padding:2px 10px}
+.track{height:6px;background:var(--line2);border-radius:3px;overflow:hidden;margin-top:12px}
+.track i{display:block;height:100%;width:0;background:var(--blue);transition:width .3s}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(24,35,56,.04)}
+.qnum{font-size:12px;color:var(--dim2);letter-spacing:1px}
+.qtext{font-size:15.5px;font-weight:700;margin:4px 0 12px;line-height:1.7}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:8px;padding:11px 14px;margin:8px 0;color:var(--text);font-size:14px;cursor:pointer}
+.opt:hover{border-color:rgba(43,92,217,.5)}
+.opt.right{background:#eaf7f1;border-color:var(--green);font-weight:700}
+.opt.wrong{background:#fdeeed;border-color:var(--red)}
+.opt:disabled{cursor:default}
+.seqpool{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.seqchip{background:var(--blue-tint);border:1px solid rgba(43,92,217,.35);border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer;color:var(--blue-deep)}
+.seqchip.used{opacity:.35;pointer-events:none}
+.seqbuild{min-height:48px;border:1px dashed var(--line);border-radius:8px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.seqbuild .seqchip{cursor:pointer;background:#fff}
+.explain{display:none;margin-top:10px;background:var(--blue-tint);border-left:4px solid var(--blue);border-radius:0 8px 8px 0;padding:10px 14px;font-size:13px;color:#31519e;line-height:1.8}
+.btn{display:inline-block;background:var(--blue);border:none;border-radius:8px;color:#fff;font-size:14px;font-weight:700;padding:11px 20px;cursor:pointer;margin-top:12px}
+.btn:active{background:var(--blue-deep)}
+.btn.ghost{background:#fff;color:var(--blue);border:1px solid rgba(43,92,217,.4)}
+.result{display:none;text-align:center;padding:26px 16px}
+.result .score{font-size:44px;font-weight:800;color:var(--blue)}
+.result .grade{font-size:17px;font-weight:800;margin:6px 0}
+.result p{color:var(--dim);font-size:13px;margin:6px 0}
+.foot{color:var(--dim2);font-size:11.5px;text-align:center;margin-top:20px;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>商务软件解决方案 · 模拟训练</h1>
+    <p>十个情景训练任务，覆盖业务建模、数据库开发、表格自动化与文档交付四大能力域，满分一百分，六十分合格。做完每题请对照解析回读总纲对应部分。</p>
+    <div class="meta"><span class="chip" id="prog">进度 0 / 10</span><span class="chip" id="scoreChip">得分 0</span><span class="chip">满分 100 分</span></div>
+    <div class="track"><i id="bar"></i></div>
+  </div>
+  <div id="list"></div>
+  <div class="card result" id="result">
+    <div class="score" id="finalScore">0</div>
+    <div class="grade" id="finalGrade"></div>
+    <p id="finalNote"></p>
+    <button class="btn" onclick="location.reload()">重新训练</button>
+  </div>
+  <div class="foot">商务软件解决方案 · 世界技能大赛全技能精通库<br>训练成绩仅在本机浏览器内计算，不上传任何数据</div>
+</div>
+<script>
+const QS = [{"type":"single","q":"任务书用业务语言写成，一段题里混着计算规则、格式要求与例外情形。拿到题后第一步做什么最稳。","options":["凭经验直接开做，做完再回头看要求","把需求逐句拆成验收点清单，标出计算规则与例外情形再动手","只看加粗的重点，其余扫一眼","先做最擅长的模块，边做边猜其余要求"],"answer":1,"explain":"评分按验收点逐项给分，任务描述漏读半句就可能整块丢分。逐句拆解成可验收的功能点，做完即核对，是赛场策略的核心。"},{"type":"single","q":"一个查询的结果与预期差了几行。按检查习惯，最该先做的是哪个。","options":["用边界数据与空值逐个核对查询条件与连接关系","把查询删了凭感觉重写一遍","修改数据库里的原始数据凑结果","换个字段排序交上去"],"answer":0,"explain":"一个查询条件、一条边界数据都可能直接决定得分。排错先定位条件与连接关系，改数据凑结果属于造假，凭感觉重写是无假设乱试。"},{"type":"single","q":"客户给了多个来源、格式混乱的销售数据表，要合并成规范的分析底表。最合适的工具是什么。","options":["数据透视表","Power Query 清洗与整合","邮件合并","VBA 用户窗体"],"answer":1,"explain":"Power Query 的定位就是多源数据的清洗、合并与规范化，步骤可刷新可复用。数据透视负责汇总分析，邮件合并用于文档批量生成，分工不同。"},{"type":"single","q":"关于宏的开发方式，下列哪种做法符合赛场要求。","options":["全程用宏录制器生成，省时省力","编写可调试、含错误处理的宏，实现批量处理与窗体交互","把所有操作录成一个超长宏，一行不改","需求变了就重新录制，无所谓"],"answer":1,"explain":"总纲明确宏要写到能调试的程序级，含调试与容错。只会录制不会编写，需求稍变就推倒重来，这正是点名的弯路。"},{"type":"single","q":"距离交卷还有二十分钟，你的方案主体已完成。这段时间最值得做什么。","options":["回头逐验收点核对结果，抽查边界数据与空值","继续加做需求之外的花哨功能","从第一页重新做一遍","提前交卷走人"],"answer":0,"explain":"综合交付含结果核对，格式与核对类失分在冲刺阶段要压到零。加做需求之外的内容不加分，重做与早交都是白白放弃检查窗口。"},{"type":"order","q":"开发一个业务数据库方案，请把下列工作按正确顺序排列。","steps":["读业务描述，画实体关系图，梳理数据关系","设计表结构与关系，落实约束","开发查询、窗体与报表","用边界数据核对结果，输出交付说明"],"answer":[0,1,2,3],"explain":"从业务建模到表结构，再到查询窗体报表，最后核对交付，数据单向流动不回改。先读懂业务再动手，顺序颠倒会导致成片返工。"},{"type":"order","q":"制作一份多源数据的动态分析报表，请把下列步骤按正确顺序排列。","steps":["用 Power Query 清洗合并多源数据","用函数嵌套与数据透视完成汇总计算","按规范完成图表选型与格式布局","核对数据并检查打印与分页效果"],"answer":[0,1,2,3],"explain":"先有干净的底层数据，再做汇总计算，然后可视化排版，最后核对与打印检查。报表要能随源数据动态更新，核对是最后一道闸。"},{"type":"judge","q":"只要查询结果正确，对象命名随意、没有注释也不会影响评分。","answer":false,"explain":"验收点按可读性与可用性打分，表、查询、宏、模块的命名规范与注释是交付物质量的一部分，混乱命名直接影响判读。"},{"type":"judge","q":"阶段性另存与备份是防止误操作毁掉整场成果的必要习惯。","answer":true,"explain":"这个项目对细心程度要求极高，一次误操作可能毁掉前面全部成果，版本与备份是支撑层的保命项。"},{"type":"judge","q":"这个赛项练到日常办公水平就够用了，函数与宏无需练到开发级。","answer":false,"explain":"赛场深度远超日常办公：函数要写到组合嵌套级，宏要写到能调试的程序级，数据库要能支撑业务流转。满足于会用是点名失误。"}];
+let score = 0, done = 0;
+const el = {};
+function $(id){return document.getElementById(id)}
+function render(){
+  const list = $('list');
+  QS.forEach(function(q, i){
+    const c = document.createElement('div'); c.className = 'card';
+    let h = '<div class="qnum">第 ' + (i+1) + ' 题 · ' + typeName(q.type) + '</div><div class="qtext">' + q.q + '</div>';
+    if (q.type === 'single' || q.type === 'judge') {
+      const opts = q.type === 'judge' ? ['正确', '错误'] : q.options;
+      h += opts.map(function(o, j){ return '<button class="opt" data-i="' + i + '" data-j="' + j + '">' + o + '</button>'; }).join('');
+    } else if (q.type === 'order') {
+      h += '<div class="seqbuild" id="build-' + i + '"></div><div class="seqpool" id="pool-' + i + '">'
+        + q.steps.map(function(s, j){ return '<span class="seqchip" data-i="' + i + '" data-j="' + j + '">' + s + '</span>'; }).join('')
+        + '</div><button class="btn ghost" data-check="' + i + '" style="margin-top:4px">确认顺序</button>';
+    }
+    h += '<div class="explain" id="ex-' + i + '">' + q.explain + '</div>';
+    c.innerHTML = h; list.appendChild(c);
+  });
+  list.addEventListener('click', onClick);
+}
+function typeName(t){ return t === 'single' ? '情景单选' : (t === 'judge' ? '判断' : '工序排序'); }
+function answered(i){ return QS[i]._done; }
+function onClick(e){
+  const t = e.target;
+  if (t.classList.contains('opt')) {
+    const i = +t.dataset.i, j = +t.dataset.j;
+    if (answered(i)) return;
+    QS[i]._done = true;
+    const btns = t.parentNode.querySelectorAll('.opt');
+    btns.forEach(function(b){ b.disabled = true; });
+    const right = (QS[i].type === 'judge') ? (j === 0 ? QS[i].answer : !QS[i].answer) : (j === QS[i].answer);
+    btns[right ? j : QS[i].answer].classList.add('right');
+    if (!right) t.classList.add('wrong'); else score++;
+    finish(i, right);
+  } else if (t.classList.contains('seqchip')) {
+    const i = +t.dataset.i;
+    if (answered(i)) return;
+    const pool = $('pool-' + i), build = $('build-' + i);
+    if (t.parentNode === pool) { build.appendChild(t); } else { pool.appendChild(t); }
+  } else if (t.dataset && t.dataset.check !== undefined) {
+    const i = +t.dataset.check;
+    if (answered(i)) return;
+    const build = $('build-' + i);
+    const picked = [].map.call(build.querySelectorAll('.seqchip'), function(x){ return +x.dataset.j; });
+    if (picked.length !== QS[i].steps.length) return;
+    QS[i]._done = true;
+    build.querySelectorAll('.seqchip').forEach(function(x){ x.style.pointerEvents = 'none'; });
+    const right = picked.join(',') === QS[i].answer.join(',');
+    build.style.borderColor = right ? 'var(--green)' : 'var(--red)';
+    if (right) score++;
+    finish(i, right);
+  }
+}
+function finish(i){
+  done++;
+  $('ex-' + i).style.display = 'block';
+  $('prog').textContent = '进度 ' + done + ' / ' + QS.length;
+  $('scoreChip').textContent = '得分 ' + score;
+  $('bar').style.width = (done * 100 / QS.length) + '%';
+  if (done === QS.length) {
+    const pct = score * 100 / QS.length;
+    const g = pct >= 90 ? '精通' : (pct >= 75 ? '熟练' : (pct >= 60 ? '合格' : '不合格'));
+    $('finalScore').textContent = score * 10 + ' 分';
+    $('finalGrade').textContent = '评级：' + g;
+    $('finalNote').textContent = pct >= 60 ? '可继续研读总纲薄弱部分，隔日重训巩固。' : '建议回到总纲对照自测清单补齐基础，再来挑战。';
+    $('result').style.display = 'block';
+    $('result').scrollIntoView({behavior: 'smooth'});
+  }
+}
+render();
+</script>
+</body>
+</html>
