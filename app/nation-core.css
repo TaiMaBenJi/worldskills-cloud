@@ -1,8 +1,6 @@
 /* ================================================================
-   智慧云学习平台 · 国家平台级视觉系统
-   参考：国家中小学智慧教育平台（白卡片+色彩分区+扁平图标+大留白）
-        中国政府网（扁平简约+细分割线+蓝色下划线导航）
-        国家数字图书馆鸿蒙版（统一目录排版+沉浸阅读）
+   智慧云学习平台 · 视觉系统 v3
+   扁平简约 · 白卡片 · 分区导航 · 沉浸阅读
    ================================================================ */
 :root {
   --bg:#f4f6fa;
@@ -32,7 +30,7 @@ body{
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
 }
-/* 极光背景永久停用（国家平台风为纯色底） */
+/* 极光背景永久停用（本视觉为纯色底） */
 .aurora{display:none !important}
 
 /* ---------- 基础交互 ---------- */
@@ -60,8 +58,6 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 }
 .side .panel{border-radius:0;flex:1;display:flex;flex-direction:column;overflow:hidden;
   background:#ffffff;border:none;box-shadow:none;position:relative}
-/* 国家平台标识：顶部红线 */
-.side .panel::before{content:'';display:block;height:4px;background:var(--red);flex:0 0 4px}
 .brand{padding:16px 16px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line2)}
 .brand .logo{width:36px;height:36px;border-radius:9px;flex:0 0 36px;
   background:var(--blue);box-shadow:none;position:relative}
