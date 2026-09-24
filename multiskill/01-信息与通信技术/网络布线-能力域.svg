@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="560" viewBox="0 0 1280 560">
+  <rect width="1280" height="560" fill="#ffffff"/>
+  <rect x="0" y="0" width="1280" height="8" fill="#2b5cd9"/>
+  <text x="640" y="72" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="40" font-weight="bold" fill="#182338">网络布线 · 核心能力域</text>
+  <text x="640" y="112" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="22" fill="#8a97ad">总纲能力域归纳</text>
+  <!-- 第一行 -->
+  <rect x="80" y="150" width="350" height="150" rx="12" fill="#edf2fd" stroke="#dfe6f0" stroke-width="1.5"/>
+  <text x="105" y="200" font-family="Noto Sans CJK SC, sans-serif" font-size="30" font-weight="bold" fill="#2b5cd9">01</text>
+  <text x="105" y="245" font-family="Noto Sans CJK SC, sans-serif" font-size="24" font-weight="bold" fill="#182338">介质与线序</text>
+  <text x="105" y="280" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">双绞线 · 线序 · 波长</text>
+  <rect x="465" y="150" width="350" height="150" rx="12" fill="#edf2fd" stroke="#dfe6f0" stroke-width="1.5"/>
+  <text x="490" y="200" font-family="Noto Sans CJK SC, sans-serif" font-size="30" font-weight="bold" fill="#2b5cd9">02</text>
+  <text x="490" y="245" font-family="Noto Sans CJK SC, sans-serif" font-size="24" font-weight="bold" fill="#182338">铜缆端接</text>
+  <text x="490" y="280" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">模块 · 配线架 · 接头</text>
+  <rect x="850" y="150" width="350" height="150" rx="12" fill="#edf2fd" stroke="#dfe6f0" stroke-width="1.5"/>
+  <text x="875" y="200" font-family="Noto Sans CJK SC, sans-serif" font-size="30" font-weight="bold" fill="#2b5cd9">03</text>
+  <text x="875" y="245" font-family="Noto Sans CJK SC, sans-serif" font-size="24" font-weight="bold" fill="#182338">光纤熔接</text>
+  <text x="875" y="280" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">开剥 · 切割 · 热缩</text>
+  <!-- 第二行 -->
+  <rect x="80" y="330" width="350" height="150" rx="12" fill="#edf2fd" stroke="#dfe6f0" stroke-width="1.5"/>
+  <text x="105" y="380" font-family="Noto Sans CJK SC, sans-serif" font-size="30" font-weight="bold" fill="#2b5cd9">04</text>
+  <text x="105" y="425" font-family="Noto Sans CJK SC, sans-serif" font-size="24" font-weight="bold" fill="#182338">管线与桥架</text>
+  <text x="105" y="460" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">弯管 · 固定 · 量算</text>
+  <rect x="465" y="330" width="350" height="150" rx="12" fill="#edf2fd" stroke="#dfe6f0" stroke-width="1.5"/>
+  <text x="490" y="380" font-family="Noto Sans CJK SC, sans-serif" font-size="30" font-weight="bold" fill="#2b5cd9">05</text>
+  <text x="490" y="425" font-family="Noto Sans CJK SC, sans-serif" font-size="24" font-weight="bold" fill="#182338">测试与验收</text>
+  <text x="490" y="460" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">认证仪 · 光源 · OTDR</text>
+  <rect x="850" y="330" width="350" height="150" rx="12" fill="#edf2fd" stroke="#dfe6f0" stroke-width="1.5"/>
+  <text x="875" y="380" font-family="Noto Sans CJK SC, sans-serif" font-size="30" font-weight="bold" fill="#2b5cd9">06</text>
+  <text x="875" y="425" font-family="Noto Sans CJK SC, sans-serif" font-size="24" font-weight="bold" fill="#182338">标签与现场</text>
+  <text x="875" y="460" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">编号 · 安全 · 定置</text>
+  <text x="640" y="525" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#8a97ad">依据总纲第三部分绘制 · 赛项标准以世界技能组织官方文件为准</text>
+</svg>
