@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420">
+  <rect width="1280" height="420" fill="#ffffff"/>
+  <rect x="0" y="0" width="1280" height="8" fill="#2b5cd9"/>
+  <text x="640" y="72" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="40" font-weight="bold" fill="#182338">制冷与空调（Refrigeration and Air Conditioning） · 精通路线</text>
+  <text x="640" y="112" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="22" fill="#8a97ad">从零到赛场的四个阶段</text>
+  <!-- 阶段一 -->
+  <rect x="70" y="170" width="250" height="150" rx="12" fill="#edf2fd" stroke="#2b5cd9" stroke-width="2"/>
+  <text x="195" y="215" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="26" font-weight="bold" fill="#2b5cd9">入门</text>
+  <text x="195" y="255" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="20" fill="#5b6b85">约 1 至 2 个月</text>
+  <text x="195" y="290" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">管件加工件件合格</text>
+  <polygon points="330,245 360,230 360,260" fill="#2b5cd9"/>
+  <!-- 阶段二 -->
+  <rect x="368" y="170" width="250" height="150" rx="12" fill="#edf2fd" stroke="#2b5cd9" stroke-width="2"/>
+  <text x="493" y="215" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="26" font-weight="bold" fill="#2b5cd9">基础固化</text>
+  <text x="493" y="255" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="20" fill="#5b6b85">约 2 至 3 个月</text>
+  <text x="493" y="290" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">独立完成一台分体机。</text>
+  <polygon points="628,245 658,230 658,260" fill="#2b5cd9"/>
+  <!-- 阶段三 -->
+  <rect x="666" y="170" width="250" height="150" rx="12" fill="#edf2fd" stroke="#2b5cd9" stroke-width="2"/>
+  <text x="791" y="215" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="26" font-weight="bold" fill="#2b5cd9">进阶专项</text>
+  <text x="791" y="255" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="20" fill="#5b6b85">约 3 至 4 个月</text>
+  <text x="791" y="290" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">常见故障类别的平均。</text>
+  <polygon points="926,245 956,230 956,260" fill="#2b5cd9"/>
+  <!-- 阶段四 -->
+  <rect x="964" y="170" width="250" height="150" rx="12" fill="#edf2fd" stroke="#2b5cd9" stroke-width="2"/>
+  <text x="1089" y="215" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="26" font-weight="bold" fill="#2b5cd9">竞赛级打磨</text>
+  <text x="1089" y="255" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="20" fill="#5b6b85">约 3 个月，循环进行</text>
+  <text x="1089" y="290" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">模拟赛每个失分点都。</text>
+  <text x="640" y="382" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#8a97ad">依据总纲第四部分绘制 · 赛项标准以世界技能组织官方文件为准</text>
+</svg>
