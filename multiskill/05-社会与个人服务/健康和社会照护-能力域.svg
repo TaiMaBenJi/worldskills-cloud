@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="560" viewBox="0 0 1280 560">
+  <rect width="1280" height="560" fill="#ffffff"/>
+  <rect x="0" y="0" width="1280" height="8" fill="#2b5cd9"/>
+  <text x="640" y="72" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="40" font-weight="bold" fill="#182338">健康和社会照护（Health and Social Care） · 核心能力域</text>
+  <text x="640" y="112" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="22" fill="#8a97ad">总纲能力域归纳</text>
+  <!-- 第一行 -->
+  <rect x="80" y="150" width="350" height="150" rx="12" fill="#edf2fd" stroke="#dfe6f0" stroke-width="1.5"/>
+  <text x="105" y="200" font-family="Noto Sans CJK SC, sans-serif" font-size="30" font-weight="bold" fill="#2b5cd9">01</text>
+  <text x="105" y="245" font-family="Noto Sans CJK SC, sans-serif" font-size="24" font-weight="bold" fill="#182338">需求评估</text>
+  <text x="105" y="280" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">生理、心理</text>
+  <rect x="465" y="150" width="350" height="150" rx="12" fill="#edf2fd" stroke="#dfe6f0" stroke-width="1.5"/>
+  <text x="490" y="200" font-family="Noto Sans CJK SC, sans-serif" font-size="30" font-weight="bold" fill="#2b5cd9">02</text>
+  <text x="490" y="245" font-family="Noto Sans CJK SC, sans-serif" font-size="24" font-weight="bold" fill="#182338">沟通技巧</text>
+  <text x="490" y="280" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">开放式提问、积极倾听</text>
+  <rect x="850" y="150" width="350" height="150" rx="12" fill="#edf2fd" stroke="#dfe6f0" stroke-width="1.5"/>
+  <text x="875" y="200" font-family="Noto Sans CJK SC, sans-serif" font-size="30" font-weight="bold" fill="#2b5cd9">03</text>
+  <text x="875" y="245" font-family="Noto Sans CJK SC, sans-serif" font-size="24" font-weight="bold" fill="#182338">以人为中心。</text>
+  <text x="875" y="280" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">目标设定、个体偏好</text>
+  <!-- 第二行 -->
+  <rect x="80" y="330" width="350" height="150" rx="12" fill="#edf2fd" stroke="#dfe6f0" stroke-width="1.5"/>
+  <text x="105" y="380" font-family="Noto Sans CJK SC, sans-serif" font-size="30" font-weight="bold" fill="#2b5cd9">04</text>
+  <text x="105" y="425" font-family="Noto Sans CJK SC, sans-serif" font-size="24" font-weight="bold" fill="#182338">移动与转移</text>
+  <text x="105" y="460" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">轮椅、助行器</text>
+  <rect x="465" y="330" width="350" height="150" rx="12" fill="#edf2fd" stroke="#dfe6f0" stroke-width="1.5"/>
+  <text x="490" y="380" font-family="Noto Sans CJK SC, sans-serif" font-size="30" font-weight="bold" fill="#2b5cd9">05</text>
+  <text x="490" y="425" font-family="Noto Sans CJK SC, sans-serif" font-size="24" font-weight="bold" fill="#182338">日常生活支持</text>
+  <text x="490" y="460" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">进食饮水协助、个人。</text>
+  <rect x="850" y="330" width="350" height="150" rx="12" fill="#edf2fd" stroke="#dfe6f0" stroke-width="1.5"/>
+  <text x="875" y="380" font-family="Noto Sans CJK SC, sans-serif" font-size="30" font-weight="bold" fill="#2b5cd9">06</text>
+  <text x="875" y="425" font-family="Noto Sans CJK SC, sans-serif" font-size="24" font-weight="bold" fill="#182338">感染预防与。</text>
+  <text x="875" y="460" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">手卫生时机与方法、。</text>
+  <text x="640" y="525" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#8a97ad">依据总纲第三部分绘制 · 赛项标准以世界技能组织官方文件为准</text>
+</svg>
