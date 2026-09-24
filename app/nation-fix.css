@@ -1,5 +1,5 @@
 /* ================================================================
-   国家平台风 · 末层修正：把 app 注入样式的渐变/玻璃残留统一压平
+   视觉系统 v3 · 末层修正：把 app 注入样式的渐变/玻璃残留统一压平
    ================================================================ */
 /* ---- 自主学习引擎 learn.css ---- */
 .ln-chip.on{background:var(--blue-tint);border-color:rgba(43,92,217,.4)}
@@ -25,7 +25,7 @@
 .rk-certs{color:#8a6a00;background:#fdf7e8;border-color:rgba(176,125,16,.32)}
 /* ---- 资源库 resource.css ---- */
 .res-head{background:#ffffff}
-/* ---- 首页快捷入口 · 扁平色条（smartedu 式色彩分区） ---- */
+/* ---- 首页快捷入口 · 扁平色条（色彩分区） ---- */
 .home-card.qk-video{border-left:4px solid #d97706}
 .home-card.qk-res{border-left:4px solid var(--blue)}
 .home-card.qk-b7{border-left:4px solid #7c5cd9}
