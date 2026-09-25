@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420">
+  <rect width="1280" height="420" fill="#ffffff"/>
+  <rect x="0" y="0" width="1280" height="8" fill="#2b5cd9"/>
+  <text x="640" y="72" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="40" font-weight="bold" fill="#182338">TITLE_TEXT</text>
+  <text x="640" y="112" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="22" fill="#8a97ad">SUB_TEXT</text>
+  <!-- 阶段一 -->
+  <rect x="70" y="170" width="250" height="150" rx="12" fill="#edf2fd" stroke="#2b5cd9" stroke-width="2"/>
+  <text x="195" y="215" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="26" font-weight="bold" fill="#2b5cd9">S1_NAME</text>
+  <text x="195" y="255" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="20" fill="#5b6b85">S1_TIME</text>
+  <text x="195" y="290" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">S1_GOAL</text>
+  <polygon points="330,245 360,230 360,260" fill="#2b5cd9"/>
+  <!-- 阶段二 -->
+  <rect x="368" y="170" width="250" height="150" rx="12" fill="#edf2fd" stroke="#2b5cd9" stroke-width="2"/>
+  <text x="493" y="215" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="26" font-weight="bold" fill="#2b5cd9">S2_NAME</text>
+  <text x="493" y="255" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="20" fill="#5b6b85">S2_TIME</text>
+  <text x="493" y="290" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">S2_GOAL</text>
+  <polygon points="628,245 658,230 658,260" fill="#2b5cd9"/>
+  <!-- 阶段三 -->
+  <rect x="666" y="170" width="250" height="150" rx="12" fill="#edf2fd" stroke="#2b5cd9" stroke-width="2"/>
+  <text x="791" y="215" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="26" font-weight="bold" fill="#2b5cd9">S3_NAME</text>
+  <text x="791" y="255" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="20" fill="#5b6b85">S3_TIME</text>
+  <text x="791" y="290" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">S3_GOAL</text>
+  <polygon points="926,245 956,230 956,260" fill="#2b5cd9"/>
+  <!-- 阶段四 -->
+  <rect x="964" y="170" width="250" height="150" rx="12" fill="#edf2fd" stroke="#2b5cd9" stroke-width="2"/>
+  <text x="1089" y="215" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="26" font-weight="bold" fill="#2b5cd9">S4_NAME</text>
+  <text x="1089" y="255" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="20" fill="#5b6b85">S4_TIME</text>
+  <text x="1089" y="290" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">S4_GOAL</text>
+  <text x="640" y="382" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#8a97ad">FOOT_TEXT</text>
+</svg>
