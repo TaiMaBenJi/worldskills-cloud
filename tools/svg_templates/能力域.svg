@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="560" viewBox="0 0 1280 560">
+  <rect width="1280" height="560" fill="#ffffff"/>
+  <rect x="0" y="0" width="1280" height="8" fill="#2b5cd9"/>
+  <text x="640" y="72" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="40" font-weight="bold" fill="#182338">TITLE_TEXT</text>
+  <text x="640" y="112" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="22" fill="#8a97ad">SUB_TEXT</text>
+  <!-- 第一行 -->
+  <rect x="80" y="150" width="350" height="150" rx="12" fill="#edf2fd" stroke="#dfe6f0" stroke-width="1.5"/>
+  <text x="105" y="200" font-family="Noto Sans CJK SC, sans-serif" font-size="30" font-weight="bold" fill="#2b5cd9">D1_NUM</text>
+  <text x="105" y="245" font-family="Noto Sans CJK SC, sans-serif" font-size="24" font-weight="bold" fill="#182338">D1_NAME</text>
+  <text x="105" y="280" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">D1_DESC</text>
+  <rect x="465" y="150" width="350" height="150" rx="12" fill="#edf2fd" stroke="#dfe6f0" stroke-width="1.5"/>
+  <text x="490" y="200" font-family="Noto Sans CJK SC, sans-serif" font-size="30" font-weight="bold" fill="#2b5cd9">D2_NUM</text>
+  <text x="490" y="245" font-family="Noto Sans CJK SC, sans-serif" font-size="24" font-weight="bold" fill="#182338">D2_NAME</text>
+  <text x="490" y="280" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">D2_DESC</text>
+  <rect x="850" y="150" width="350" height="150" rx="12" fill="#edf2fd" stroke="#dfe6f0" stroke-width="1.5"/>
+  <text x="875" y="200" font-family="Noto Sans CJK SC, sans-serif" font-size="30" font-weight="bold" fill="#2b5cd9">D3_NUM</text>
+  <text x="875" y="245" font-family="Noto Sans CJK SC, sans-serif" font-size="24" font-weight="bold" fill="#182338">D3_NAME</text>
+  <text x="875" y="280" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">D3_DESC</text>
+  <!-- 第二行 -->
+  <rect x="80" y="330" width="350" height="150" rx="12" fill="#edf2fd" stroke="#dfe6f0" stroke-width="1.5"/>
+  <text x="105" y="380" font-family="Noto Sans CJK SC, sans-serif" font-size="30" font-weight="bold" fill="#2b5cd9">D4_NUM</text>
+  <text x="105" y="425" font-family="Noto Sans CJK SC, sans-serif" font-size="24" font-weight="bold" fill="#182338">D4_NAME</text>
+  <text x="105" y="460" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">D4_DESC</text>
+  <rect x="465" y="330" width="350" height="150" rx="12" fill="#edf2fd" stroke="#dfe6f0" stroke-width="1.5"/>
+  <text x="490" y="380" font-family="Noto Sans CJK SC, sans-serif" font-size="30" font-weight="bold" fill="#2b5cd9">D5_NUM</text>
+  <text x="490" y="425" font-family="Noto Sans CJK SC, sans-serif" font-size="24" font-weight="bold" fill="#182338">D5_NAME</text>
+  <text x="490" y="460" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">D5_DESC</text>
+  <rect x="850" y="330" width="350" height="150" rx="12" fill="#edf2fd" stroke="#dfe6f0" stroke-width="1.5"/>
+  <text x="875" y="380" font-family="Noto Sans CJK SC, sans-serif" font-size="30" font-weight="bold" fill="#2b5cd9">D6_NUM</text>
+  <text x="875" y="425" font-family="Noto Sans CJK SC, sans-serif" font-size="24" font-weight="bold" fill="#182338">D6_NAME</text>
+  <text x="875" y="460" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#5b6b85">D6_DESC</text>
+  <text x="640" y="525" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#8a97ad">FOOT_TEXT</text>
+</svg>
